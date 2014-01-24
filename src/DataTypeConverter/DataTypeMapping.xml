@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataTypes>
+	<Language name="CSharp" selected="true">
+		<SqlType name="int">int</SqlType>
+		<SqlType name="bigint">int</SqlType>
+		<SqlType name="smallint">int</SqlType>
+		<SqlType name="tinyint">int</SqlType>
+		<SqlType name="numeric">int</SqlType>
+		<SqlType name="float">double</SqlType>
+		<SqlType name="real">double</SqlType>
+		<SqlType name="char">string</SqlType>
+		<SqlType name="varchar">string</SqlType>
+		<SqlType name="text">string</SqlType>
+		<SqlType name="nchar">string</SqlType>
+		<SqlType name="nvarchar">string</SqlType>
+		<SqlType name="ntext">string</SqlType>
+		<SqlType name="bit">bool</SqlType>
+		<SqlType name="datetime">DateTime</SqlType>
+		<SqlType name="image">Image</SqlType>
+	</Language>
+</DataTypes>

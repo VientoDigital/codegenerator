@@ -1,0 +1,41 @@
+Divil.co.uk Software License Agreement
+Copyright (c) 2004 by divil.co.uk and its owners.
+
+Product: SandDock
+License Type: Free Software
+Redistributables: sanddock.dll
+
+END-USER LICENSE AGREEMENT FOR DIVIL.CO.UK SOFTWARE
+---------------------------------------------------
+
+IMPORTANT - This license ("EULA") is a legal agreement between you (an individual software developer) and divil.co.uk, its owners and contributors ("DIVIL.CO.UK") for the software product accompanying this EULA. The software product includes any associated media, documentation, source code, binaries and redistributables ("SOFTWARE"). By installing, copying or possessing this product you agree to be bound by the terms of this EULA. If you do not agree to any of the terms in this license document you must destroy all copies of the SOFTWARE in your possession.
+
+The SOFTWARE is not sold, it is licensed. One license is required for every developer using the SOFTWARE on one computer at a time, except in the case of a site license where every developer working at the specified physical location of the company is covered. In this case every developer is bound by the same terms. The SOFTWARE is runtime royalty-free.
+
+The SOFTWARE is proprietary to DIVIL.CO.UK and ownership and copyright of the product is retained. Use of the product by anyone not covered by this license results in the immediate termination of the license along with your right to use the SOFTWARE, without notice.
+
+Neither the name of the the copyright holder(s) nor the names of any contributors may be used to endorse or promote products derived from or using this software without specific prior written permission. Also DIVIL.CO.UK will not be held responsible for support requests for products developed using the SOFTWARE.
+
+RESTRICTIONS
+------------
+
+1. You agree not to compete with DIVIL.CO.UK by rebranding, repackaging, renaming or otherwise directly extending the SOFTWARE. Applications developed using the SOFTWARE must not be used for a similar purpose as the SOFTWARE itself. The SOFTWARE must only be used to add value to existing applications.
+
+2. This license is not transferable. You may not sell, rent, sub-license or otherwise make available this license to any third party without prior written consent from DIVIL.CO.UK. In the case where consent is given, the third party must agree to abide by the terms of this license agreement.
+
+3. The only distributable portions of the SOFTWARE are those files marked redistributable at the top of this document. No other portion of the software may be distributed except for storage purposes. When stored the SOFTWARE must be stored as a whole, with all associated files and media. The exception to this is when you are distributing applications with source code. In this instance this license must accompany the redistributables listed above.
+
+4. You agree not to modify, decompile, disassemble, reverse engineer or otherwise deface any part of the SOFTWARE.
+
+5. You agree to display the following text in the About dialog of your application. If your application does not have an About dialog the text must be displayed prominently elsewhere.
+
+"SandDock Copyright (c) 2004 by Tim Dawson, http://www.divil.co.uk/net/"
+
+6. Applications developed using the SOFTWARE must be free of charge and publicly displayed and downloadable over the internet.
+
+LIMITED WARRANTY
+----------------
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+This license is subject to change without notice in future updates to the SOFTWARE.

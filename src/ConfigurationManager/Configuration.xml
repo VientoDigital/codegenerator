@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="http://icodegenerator.net/Configuration.xsd">
+	<StartTag>{</StartTag>
+	<EndTag>}</EndTag>
+	<DataTypes>
+		<SqlType>
+			<name>int</name>
+			<value>int</value>
+		</SqlType>
+	</DataTypes>
+</Configuration>

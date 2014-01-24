@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<project name="iCodeGenerator" default="notest" xmlns="http://nant.sf.net/schemas/nant.xsd">
+	<property name="build.dir" value="build" />
+
+	<!-- User targets -->
+	<target name="clean" description="Delete Automated Build artifacts">
+		<delete dir="${build.dir}" if="${directory::exists(build.dir)}"/>
+	</target>
+	
+	<target name="compile" description="Compiles using the AutomatedDebug Configuration">
+		<solution solutionfile="src\iCodeGenerator.sln" configuration="AutomatedDebug" />
+	</target>
+	
+	<target name="test" depends="compile, run-unit-tests" 
+		description="Compile and Run Tests" />
+		
+	<target name="deploy" depends="clean, compile, dist" description="Compiles and produces distributions" />
+		
+	<target name="full" depends="clean, test, dist"	description="Compiles, tests, and produces distributions" />
+
+	<!-- Internal targets -->
+	<target name="run-unit-tests">
+		<copy file="src\DataTypeConverter\DataTypeMapping.xml" tofile="${build.dir}\Debug\UnitTests\DataTypeMapping.xml" />
+		<mkdir dir="${build.dir}\test-reports" />
+		<exec program="regsvr32" workingdir="tools\NCover" commandline="/s CoverLib.dll" />
+		<!-- This runs NUnit through NCover.org version 1.3, giving coverage results. 
+			If you don't want to use NCover, delete this 'exec' instance, and use the plain NUnit one below -->
+		<exec 
+			program="tools\NCover\NCover.Console.exe" 
+			workingdir="${build.dir}\Debug\UnitTests">
+			<arg value="/w" />
+			<arg value="." />
+			<arg value="/o" />
+			<arg value="..\..\test-reports\Coverage.xml" />
+			<arg value="/c" />
+			<arg value="&quot;..\..\..\tools\nunit\nunit-console.exe&quot;" />
+			<arg value="&quot;iCodeGenerator.UnitTests.dll /xml:..\..\test-reports\UnitTests.xml /nologo&quot;" />
+		</exec>
+<!--
+		<exec program="nunit-console.exe" basedir="tools\nunit" workingdir="${build.dir}\Debug\UnitTests">
+			<arg value="iCodeGenerator.UnitTests.dll" />
+			<arg value="/xml:..\..\test-reports\UnitTests.xml" />
+		</exec>
+-->
+	</target>
+	
+
+	<target name="dist">
+		<copy file="src\DataTypeConverter\DataTypeMapping.xml" tofile="${build.dir}\Debug\iCodeGeneratorConsole\DataTypeMapping.xml" />			
+		<copy todir="${build.dir}\dist\Console">
+			<fileset basedir="${build.dir}\Debug\iCodeGeneratorConsole">
+				<include name="**\*"/>
+				<exclude name="**\*.pdb" />
+			</fileset>
+		</copy>		
+		<copy file="src\DataTypeConverter\DataTypeMapping.xml" tofile="${build.dir}\Debug\iCodeGeneratorGui\DataTypeMapping.xml" />	
+		<copy todir="${build.dir}\dist\Windows">
+			<fileset basedir="${build.dir}\Debug\iCodeGeneratorGui">
+				<include name="**\*"/>
+				<exclude name="**\*.pdb" />
+			</fileset>
+		</copy>
+		<zip zipfile="${build.dir}\iCodeGenerator.zip">
+			<fileset basedir="${build.dir}\dist">
+				<include name="**\*" />
+			</fileset>
+		</zip>
+	</target>
+	
+</project>
+
