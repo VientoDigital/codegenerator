@@ -21,7 +21,7 @@ namespace iCodeGenerator.GenericDataAccess
 													 };
 		private string[] _ConnectionStringFormat = new string [] {
 			@"SERVER=<SERVER>;UID=<USERNAME>;PWD=<PASSWORD>;",
-			@"Location=<SERVER>;User ID=<USERNAME>;Password=<PASSWORD>;",
+			@"SERVER=<SERVER>;UID=<USERNAME>;PWD=<PASSWORD>;",
 			@"",
 			@"Server=<SERVER>;Port=<PORT>;User Id=<USERNAME>;Password=<PASSWORD>;",
 			@"Provider=OraOLEDB.Oracle;Password=<PASSWORD>;Persist Security Info=True;User ID=<USERNAME>;Data Source=<DATASOURCE>"

@@ -11,25 +11,38 @@ using iCodeGenerator.DatabaseNavigator;
 using iCodeGenerator.DatabaseStructure;
 using iCodeGenerator.DataTypeConverter;
 using iCodeGenerator.Generator;
+using iCodeGenerator.Updater;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
     public partial class MainApp :Form
     {
-        
         public MainApp()
         {
             InitializeComponent();
             InitializeControls();
+            CheckForUpdates();
         }
 
+        private void CheckForUpdates()
+        {
+            if (UpdateChecker.IsNewUpdate)
+            {
+                aboutICodegeneratorToolStripMenuItem.BackColor = Color.LightCoral;
+                aboutICodegeneratorToolStripMenuItem.ForeColor = Color.White;
+            }
+                
+        }
+
+        #region Forms
         DatabaseNavigationForm _dnf;
         PropertiesForm _pf;
         CustomValuesForm _cvf;
         SnippetsForm _sf;
         DocumentForm _df;
         ResultForm _rf;
+        #endregion
 
         private void InitializeControls()
         {
@@ -213,7 +226,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void aboutICodegeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var uw = new UpdatesWindow();
+            var uw = new UpdatesWindow();           
             uw.ShowDialog();
         }
 
@@ -352,9 +365,5 @@ namespace iCodeGenerator.iCodeGeneratorGui
             _TemplateFile = null;
             _df.ContentText = string.Empty;
         }
-
-       
-
-        
     }
 }

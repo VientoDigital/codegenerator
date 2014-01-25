@@ -1,6 +1,8 @@
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
+using iCodeGenerator.Updater;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
@@ -22,10 +24,8 @@ namespace iCodeGenerator.iCodeGeneratorGui
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+		    webBrowser1.Url = new Uri(string.Format("http://icodegenerator.net/?v={0}#.download", UpdateChecker.Version));
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(794, 572);
             this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.Url = new System.Uri("http://icodegenerator.net/version/2.0", System.UriKind.Absolute);
+            this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
             // 
             // UpdatesWindow
             // 

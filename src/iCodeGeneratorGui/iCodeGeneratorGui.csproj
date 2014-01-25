@@ -322,6 +322,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy $(ProjectDir)*.ico $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)*.ico $(TargetDir)
+copy $(ProjectDir)DataTypeMapping.xml $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>
