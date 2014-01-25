@@ -27,10 +27,14 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void CheckForUpdates()
         {
+            aboutICodegeneratorToolStripMenuItem.Text = aboutICodegeneratorToolStripMenuItem.Text + @" "+
+                                                        UpdateChecker.Version;
             if (UpdateChecker.IsNewUpdate)
             {
                 aboutICodegeneratorToolStripMenuItem.BackColor = Color.LightCoral;
                 aboutICodegeneratorToolStripMenuItem.ForeColor = Color.White;
+                aboutICodegeneratorToolStripMenuItem.Text = @" Download iCodegenerator " + @" (New Version " + UpdateChecker.Software.Version + @")";
+                
             }
                 
         }
@@ -226,13 +230,17 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void aboutICodegeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             var uw = new UpdatesWindow();           
             uw.ShowDialog();
+            */
+            var sInfo = new ProcessStartInfo("http://www.icodegenerator.net/");
+            Process.Start(sInfo);
         }
 
         private void aboutVientoDigitalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo("http://www.vientodigital.com/");
+            var sInfo = new ProcessStartInfo("http://www.vientodigital.com/");
             Process.Start(sInfo);
         }
 
