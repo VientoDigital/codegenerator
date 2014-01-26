@@ -16,7 +16,7 @@ namespace iCodeGenerator.Updater
 	/// </summary>
 	public class UpdateChecker
 	{				
-	    public static string Version = "2.0";
+	    public static string Version = "2.1";
 	    private const string Url = "http://icodegenerator.net/version";
 	    private static Software _software;
      

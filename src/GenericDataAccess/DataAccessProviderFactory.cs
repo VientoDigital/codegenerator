@@ -30,7 +30,7 @@ namespace iCodeGenerator.GenericDataAccess
 		}
 		#endregion
 
-		#region Methods		
+		#region Methods
 		/// <summary>
 		/// Creates a Connection
 		/// SqlClient: "SERVER=(local);DATABASE=;UID=sa;PWD=;
