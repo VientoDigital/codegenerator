@@ -32,8 +32,8 @@ namespace iCodeGenerator.Generator
 		{
 			var directoryInfo = new DirectoryInfo(inputDir);
 			var client = new Client();
-			var originalSd = client.StartDelimiter;
-			var originalEd = client.EndingDelimiter;
+		    var originalSd = client.StartDelimiter;
+		    var originalEd = client.EndingDelimiter;
 			if(_CustomValue != null)
 			{
 				client.CustomValues = _CustomValue;	
