@@ -42,7 +42,7 @@ namespace iCodeGenerator.DatabaseStructure
 				column.Length = 0;
 			}
 			
-			column.Nullable = (row["Null"].ToString() != null && row["Null"].ToString().Length == 0) ?  false: true;			
+			column.Nullable = (row["Null"].ToString() != null && row["Null"].ToString().Length == 0);			
 			column.Default = row["Default"].ToString();
 			return column;
 		}

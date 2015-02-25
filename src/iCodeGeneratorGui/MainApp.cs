@@ -107,7 +107,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
         {
             _pf.SelectedObject = args.Database;
         }
-
+        
         private void DnfTableSelected(object sender, TableEventArgs args)
         {
 			_selectedTable = args.Table;
