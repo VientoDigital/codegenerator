@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
@@ -7,7 +7,7 @@
     <ProjectGuid>{0BA9AB83-7E8B-4E80-8A79-6F450AFD5336}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>icode64.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icode64.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>iCodeGeneratorGui</AssemblyName>
@@ -27,11 +27,11 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <ManifestCertificateThumbprint>7A00BC547B4D7131B665454A7BE4970D09D748BF</ManifestCertificateThumbprint>
     <ManifestKeyFile>iCodeGeneratorGui_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <PublishUrl>C:\Projects\builds\icodegenerator\icodegenerator-20131224-0945\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -71,6 +71,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -94,6 +95,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AutomatedDebug|AnyCPU' ">
     <OutputPath>..\..\build\Debug\iCodeGeneratorGui\</OutputPath>
@@ -117,8 +119,15 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ComponentFactory.Krypton.Design">
+      <HintPath>..\..\lib\Krypton\ComponentFactory.Krypton.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Toolkit">
+      <HintPath>..\..\lib\Krypton\ComponentFactory.Krypton.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -172,44 +181,44 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.cs">
+    <Compile Include="Forms\AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AssemblyInfo.cs">
+    <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FolderEventArgs.cs" />
-    <Compile Include="CustomValuesForm.cs">
+    <Compile Include="DockContent\CustomValuesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomValuesForm.Designer.cs">
+    <Compile Include="DockContent\CustomValuesForm.Designer.cs">
       <DependentUpon>CustomValuesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseNavigationForm.cs">
+    <Compile Include="DockContent\DatabaseNavigationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseNavigationForm.Designer.cs">
+    <Compile Include="DockContent\DatabaseNavigationForm.Designer.cs">
       <DependentUpon>DatabaseNavigationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DirectorySelectionWindow.cs">
+    <Compile Include="Forms\DirectorySelectionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DocumentForm.cs">
+    <Compile Include="DockContent\DocumentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DocumentForm.Designer.cs">
+    <Compile Include="DockContent\DocumentForm.Designer.cs">
       <DependentUpon>DocumentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainApp.cs">
+    <Compile Include="Forms\MainApp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainApp.Designer.cs">
+    <Compile Include="Forms\MainApp.Designer.cs">
       <DependentUpon>MainApp.cs</DependentUpon>
     </Compile>
-    <Compile Include="PropertiesForm.cs">
+    <Compile Include="DockContent\PropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PropertiesForm.Designer.cs">
+    <Compile Include="DockContent\PropertiesForm.Designer.cs">
       <DependentUpon>PropertiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -217,68 +226,90 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResultForm.cs">
+    <Compile Include="DockContent\ResultForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ResultForm.Designer.cs">
+    <Compile Include="DockContent\ResultForm.Designer.cs">
       <DependentUpon>ResultForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SnippetEventArgs.cs" />
-    <Compile Include="SnippetsForm.cs">
+    <Compile Include="DockContent\SnippetsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SnippetsForm.Designer.cs">
+    <Compile Include="DockContent\SnippetsForm.Designer.cs">
       <DependentUpon>SnippetsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SnippetsHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UpdatesWindow.cs">
+    <Compile Include="Forms\UpdatesWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Content Include="icustom.ico" />
-    <Content Include="idb.ico" />
-    <Content Include="igen.ico" />
-    <Content Include="iresult.ico" />
-    <Content Include="isnippet.ico" />
-    <Content Include="itemplate.ico" />
-    <EmbeddedResource Include="AboutWindow.resx">
+    <Content Include="Resources\icustom.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\idb.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\igen.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\iresult.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\isnippet.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\itemplate.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Forms\AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomValuesForm.resx">
+    <EmbeddedResource Include="DockContent\CustomValuesForm.resx">
       <DependentUpon>CustomValuesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseNavigationForm.resx">
+    <EmbeddedResource Include="DockContent\DatabaseNavigationForm.resx">
       <DependentUpon>DatabaseNavigationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DirectorySelectionWindow.resx">
+    <EmbeddedResource Include="Forms\DirectorySelectionWindow.resx">
       <DependentUpon>DirectorySelectionWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DocumentForm.resx">
+    <EmbeddedResource Include="DockContent\DocumentForm.resx">
       <DependentUpon>DocumentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainApp.resx">
+    <EmbeddedResource Include="Forms\MainApp.resx">
       <DependentUpon>MainApp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertiesForm.resx">
+    <EmbeddedResource Include="DockContent\PropertiesForm.resx">
       <DependentUpon>PropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ResultForm.resx">
+    <EmbeddedResource Include="DockContent\ResultForm.resx">
       <DependentUpon>ResultForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdatesWindow.resx">
+    <EmbeddedResource Include="Forms\UpdatesWindow.resx">
       <DependentUpon>UpdatesWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <Content Include="App.ico" />
+    <Content Include="Resources\App.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="DataTypeMapping.xml" />
-    <Content Include="icode.ico" />
-    <Content Include="icode64.ico" />
-    <Content Include="iCodeLogo.ico" />
-    <Content Include="iCodeLogo16.ico" />
+    <Content Include="Resources\icode.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icode64.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\iCodeLogo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\iCodeLogo16.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

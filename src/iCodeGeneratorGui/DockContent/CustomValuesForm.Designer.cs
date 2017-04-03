@@ -1,4 +1,6 @@
-﻿namespace iCodeGenerator.iCodeGeneratorGui
+﻿using ComponentFactory.Krypton.Toolkit;
+
+namespace iCodeGenerator.iCodeGeneratorGui
 {
     partial class CustomValuesForm
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gridCustomValues = new System.Windows.Forms.DataGridView();
+            this.gridCustomValues = new KryptonDataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.gridCustomValues)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,6 +60,6 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView gridCustomValues;
+        private KryptonDataGridView gridCustomValues;
     }
 }

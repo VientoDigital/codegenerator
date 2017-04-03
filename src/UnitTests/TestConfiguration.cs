@@ -5,41 +5,41 @@ using NUnit.Framework;
 
 namespace iCodeGenerator.UnitTests
 {
-	/// <summary>
-	/// Summary description for TestConfiguration.
-	/// </summary>
-	[TestFixture]	
-	public class TestConfiguration
-	{
-		const string configFile = @"C:\iCode.xml";
+    /// <summary>
+    /// Summary description for TestConfiguration.
+    /// </summary>
+    [TestFixture]
+    public class TestConfiguration
+    {
+        private const string configFile = @"C:\iCode.xml";
 
-		[Test]
-		public void TestOpen()
-		{
-			Configuration config = Configuration.Instance;
-			Configuration config2 = Configuration.Instance;
-			config.Open(configFile);
-			Console.WriteLine(config.StartTag);
-			Console.WriteLine(config.EndTag);
+        [Test]
+        public void TestOpen()
+        {
+            Configuration config = Configuration.Instance;
+            Configuration config2 = Configuration.Instance;
+            config.Open(configFile);
+            Console.WriteLine(config.StartTag);
+            Console.WriteLine(config.EndTag);
 
-			Console.WriteLine(config2.StartTag);
-			Console.WriteLine(config2.EndTag);
-		}
+            Console.WriteLine(config2.StartTag);
+            Console.WriteLine(config2.EndTag);
+        }
 
-		[Test]
-		public void TestSave()
-		{
-			Configuration config = Configuration.Instance;	
-			if(File.Exists(configFile))
-				config.Open(configFile);
-			config.StartTag = "<";
-			config.EndTag = ">";
-			foreach(string key in config.DataTypes.Keys)
-			{
-				Console.WriteLine(config.DataTypes[key]);
-			}
-			config.Save(configFile);
-			Assert.IsTrue(File.Exists(configFile));
-		}
-	}
+        [Test]
+        public void TestSave()
+        {
+            Configuration config = Configuration.Instance;
+            if (File.Exists(configFile))
+                config.Open(configFile);
+            config.StartTag = "<";
+            config.EndTag = ">";
+            foreach (string key in config.DataTypes.Keys)
+            {
+                Console.WriteLine(config.DataTypes[key]);
+            }
+            config.Save(configFile);
+            Assert.IsTrue(File.Exists(configFile));
+        }
+    }
 }

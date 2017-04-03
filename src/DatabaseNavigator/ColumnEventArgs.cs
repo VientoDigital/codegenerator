@@ -3,19 +3,18 @@ using iCodeGenerator.DatabaseStructure;
 
 namespace iCodeGenerator.DatabaseNavigator
 {
-	public class ColumnEventArgs : EventArgs
-	{
+    public class ColumnEventArgs : EventArgs
+    {
+        private Column _column;
 
-		private Column _column;
+        public Column Column
+        {
+            get { return _column; }
+        }
 
-		public Column Column
-		{
-			get { return _column; }
-		}
-
-		public ColumnEventArgs(Column column)
-		{
-			_column = column;
-		}
-	}
+        public ColumnEventArgs(Column column)
+        {
+            _column = column;
+        }
+    }
 }

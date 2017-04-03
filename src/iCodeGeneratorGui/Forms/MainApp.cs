@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
 using iCodeGenerator.DatabaseNavigator;
 using iCodeGenerator.DatabaseStructure;
 using iCodeGenerator.DataTypeConverter;
@@ -16,7 +13,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
-    public partial class MainApp :Form
+    public partial class MainApp : KryptonForm
     {
         public MainApp()
         {
@@ -27,33 +24,32 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void CheckForUpdates()
         {
-            aboutICodegeneratorToolStripMenuItem.Text = aboutICodegeneratorToolStripMenuItem.Text + @" "+
-                                                        UpdateChecker.Version;
+            aboutICodegeneratorToolStripMenuItem.Text = aboutICodegeneratorToolStripMenuItem.Text + @" " + UpdateChecker.Version;
             if (UpdateChecker.IsNewUpdate)
             {
                 aboutICodegeneratorToolStripMenuItem.BackColor = Color.LightCoral;
                 aboutICodegeneratorToolStripMenuItem.ForeColor = Color.White;
                 aboutICodegeneratorToolStripMenuItem.Text = @" Download iCodegenerator " + @" (New Version " + UpdateChecker.Software.Version + @")";
-                
             }
-                
         }
 
         #region Forms
-        DatabaseNavigationForm _dnf;
-        PropertiesForm _pf;
-        CustomValuesForm _cvf;
-        SnippetsForm _sf;
-        DocumentForm _df;
-        ResultForm _rf;
-        #endregion
+
+        private DatabaseNavigationForm _dnf;
+        private PropertiesForm _pf;
+        private CustomValuesForm _cvf;
+        private SnippetsForm _sf;
+        private DocumentForm _df;
+        private ResultForm _rf;
+
+        #endregion Forms
 
         private void InitializeControls()
         {
             _dnf = new DatabaseNavigationForm();
             _dnf.Text = "Database Navigation";
             _dnf.Show(dockPanel, DockState.DockLeft);
-            _dnf.Icon = Icon.ExtractAssociatedIcon(@"idb.ico");
+            _dnf.Icon = Icon.ExtractAssociatedIcon(@"Resources\idb.ico");
             _dnf.TableSelected += DnfTableSelected;
             _dnf.DatabaseSelected += DnfDatabaseSelected;
             _dnf.ColumnSelected += DnfColumnSelected;
@@ -63,80 +59,81 @@ namespace iCodeGenerator.iCodeGeneratorGui
             _sf.Text = "Snippets";
             _sf.SnippetSelected += SfSnippetSelected;
             _sf.Show(dockPanel, DockState.DockLeftAutoHide);
-            _sf.Icon = Icon.ExtractAssociatedIcon(@"isnippet.ico");
+            _sf.Icon = Icon.ExtractAssociatedIcon(@"Resources\isnippet.ico");
             _sf.HideOnClose = true;
 
             _df = new DocumentForm();
             _df.Text = "Template";
             _df.Show(dockPanel, DockState.Document);
-            _df.Icon = Icon.ExtractAssociatedIcon(@"itemplate.ico");
+            _df.Icon = Icon.ExtractAssociatedIcon(@"Resources\itemplate.ico");
             _df.HideOnClose = true;
 
             _rf = new ResultForm();
             _rf.Text = "Results";
             _rf.Show(dockPanel, DockState.Document);
-            _rf.Icon = Icon.ExtractAssociatedIcon(@"iresult.ico");
+            _rf.Icon = Icon.ExtractAssociatedIcon(@"Resources\iresult.ico");
             _rf.HideOnClose = true;
 
             _pf = new PropertiesForm();
             _pf.Text = "Properties";
             _pf.Show(dockPanel, DockState.DockRight);
-            _pf.Icon = Icon.ExtractAssociatedIcon(@"igen.ico");
+            _pf.Icon = Icon.ExtractAssociatedIcon(@"Resources\igen.ico");
             _pf.HideOnClose = true;
 
             _cvf = new CustomValuesForm();
             _cvf.Text = "Custom Values";
             _cvf.Show(dockPanel, DockState.DockRight);
-            _cvf.Icon = Icon.ExtractAssociatedIcon(@"icustom.ico");
+            _cvf.Icon = Icon.ExtractAssociatedIcon(@"Resources\icustom.ico");
             _cvf.HideOnClose = true;
         }
 
-        void SfSnippetSelected(object sender, SnippetEventArgs args)
+        private void SfSnippetSelected(object sender, SnippetEventArgs args)
         {
-            _df.ContentText = _df.ContentText.Insert(_df.SelectionStart,new SnippetsHelper().Snippets[args.Snippet].ToString());
+            _df.ContentText = _df.ContentText.Insert(_df.SelectionStart, new SnippetsHelper().Snippets[args.Snippet].ToString());
         }
 
-		private static Table _selectedTable;
+        private static Table _selectedTable;
+
         private void DnfColumnSelected(object sender, ColumnEventArgs args)
         {
-			_selectedTable = args.Column.ParentTable;
-			_pf.SelectedObject = args.Column;
+            _selectedTable = args.Column.ParentTable;
+            _pf.SelectedObject = args.Column;
         }
 
         private void DnfDatabaseSelected(object sender, DatabaseEventArgs args)
         {
             _pf.SelectedObject = args.Database;
         }
-        
+
         private void DnfTableSelected(object sender, TableEventArgs args)
         {
-			_selectedTable = args.Table;
-			_pf.SelectedObject = args.Table;
+            _selectedTable = args.Table;
+            _pf.SelectedObject = args.Table;
         }
 
         private void GenerateCode()
-		{
-			try
-			{
-				if (_selectedTable == null) return;
-				var cgenerator = new Client {CustomValues = _cvf.CustomValues};
-			    _rf.ContentText = cgenerator.Parse(_selectedTable, _df.ContentText);
-			}
-			catch (DataTypeManagerException ex)
-			{
-				MessageBox.Show(this, ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-		}
+        {
+            try
+            {
+                if (_selectedTable == null) return;
+                var cgenerator = new Client { CustomValues = _cvf.CustomValues };
+                _rf.ContentText = cgenerator.Parse(_selectedTable, _df.ContentText);
+            }
+            catch (DataTypeManagerException ex)
+            {
+                MessageBox.Show(this, ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
         [STAThread]
-		public static void Main()
-		{
-			Application.Run(new MainApp());
-		}
+        public static void Main()
+        {
+            Application.Run(new MainApp());
+        }
 
         private void DatabaseConnectClick(object sender, EventArgs e)
         {
-		    _dnf.Connect();	
+            _dnf.Connect();
         }
 
         private void DatabaseDisconnectClick(object sender, EventArgs e)
@@ -146,7 +143,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void EditConfigDatabaseClick(object sender, EventArgs e)
         {
-			_dnf.ShowEditConnectionString();
+            _dnf.ShowEditConnectionString();
         }
 
         private void GenerateCodeClick(object sender, EventArgs e)
@@ -159,68 +156,68 @@ namespace iCodeGenerator.iCodeGeneratorGui
             GenerateFiles();
         }
 
-		DirectorySelectionWindow _selectionWindow;
-		private void SelectTemplatesDirectory()
-		{
-		    if (_selectionWindow == null)
-		    {
-    		    _selectionWindow = new DirectorySelectionWindow();
+        private DirectorySelectionWindow _selectionWindow;
+
+        private void SelectTemplatesDirectory()
+        {
+            if (_selectionWindow == null)
+            {
+                _selectionWindow = new DirectorySelectionWindow();
                 _selectionWindow.InputFolderSelected += SelectionWindowInputFolderSelected;
                 _selectionWindow.OutputFolderSelected += SelectionWindowOutputFolderSelected;
-		    }
-			_selectionWindow.ShowDialog(this);
-		}
+            }
+            _selectionWindow.ShowDialog(this);
+        }
 
-        static void SelectionWindowOutputFolderSelected(object sender, FolderEventArgs args)
+        private static void SelectionWindowOutputFolderSelected(object sender, FolderEventArgs args)
         {
             _OutputTemplateFolder = args.FolderName;
         }
 
-        static void SelectionWindowInputFolderSelected(object sender, FolderEventArgs args)
+        private static void SelectionWindowInputFolderSelected(object sender, FolderEventArgs args)
         {
             _InputTemplateFolder = args.FolderName;
         }
 
-		private static string _InputTemplateFolder = String.Empty;
-		private static string _OutputTemplateFolder = String.Empty;
+        private static string _InputTemplateFolder = String.Empty;
+        private static string _OutputTemplateFolder = String.Empty;
 
-		private void GenerateFiles()
-		{
-			if (_selectedTable == null) return;
-			if (IsValidFolder(_InputTemplateFolder) && IsValidFolder(_OutputTemplateFolder))
-			{
-				try
-				{
-					var generator = new FileGenerator();
-					generator.OnComplete += FileGeneratorCompleted;
-				    generator.CustomValue = _cvf.CustomValues;
-					generator.Generate(_selectedTable, _InputTemplateFolder, _OutputTemplateFolder);
-				}
-				catch (Exception e)
-				{
-					MessageBox.Show(e.Message);
-           
-				}
-			}
-			else
-			{
-				SelectTemplatesDirectory();
-			}
-		}
+        private void GenerateFiles()
+        {
+            if (_selectedTable == null) return;
+            if (IsValidFolder(_InputTemplateFolder) && IsValidFolder(_OutputTemplateFolder))
+            {
+                try
+                {
+                    var generator = new FileGenerator();
+                    generator.OnComplete += FileGeneratorCompleted;
+                    generator.CustomValue = _cvf.CustomValues;
+                    generator.Generate(_selectedTable, _InputTemplateFolder, _OutputTemplateFolder);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+            else
+            {
+                SelectTemplatesDirectory();
+            }
+        }
 
         private void FileGeneratorCompleted(object sender, EventArgs e)
-		{
-			//MessageBox.Show("File Generation Completed");
+        {
+            //MessageBox.Show("File Generation Completed");
             if (IsValidFolder(_OutputTemplateFolder))
-			{
-				Process.Start(_OutputTemplateFolder);
-			}
-		}
+            {
+                Process.Start(_OutputTemplateFolder);
+            }
+        }
 
-		private bool IsValidFolder(string folder)
-		{
-			return folder.Length > 0 && Directory.Exists(folder);
-		}
+        private bool IsValidFolder(string folder)
+        {
+            return folder.Length > 0 && Directory.Exists(folder);
+        }
 
         private void documentationToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -231,7 +228,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
         private void aboutICodegeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             /*
-            var uw = new UpdatesWindow();           
+            var uw = new UpdatesWindow();
             uw.ShowDialog();
             */
             var sInfo = new ProcessStartInfo("http://www.icodegenerator.net/");
@@ -246,15 +243,15 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void databaseNavigationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(_dnf.IsHidden)
+            if (_dnf.IsHidden)
                 _dnf.Show();
-            else 
+            else
                 _dnf.Hide();
         }
 
         private void snippetsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(_sf.IsHidden)
+            if (_sf.IsHidden)
                 _sf.Show();
             else
                 _sf.Hide();
@@ -262,11 +259,10 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void templateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(_df.IsHidden)
+            if (_df.IsHidden)
                 _df.Show();
             else
                 _df.Hide();
-            
         }
 
         private void resultsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -279,7 +275,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(_pf.IsHidden)
+            if (_pf.IsHidden)
                 _pf.Show();
             else
                 _pf.Hide();
@@ -287,7 +283,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void customValuesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(_cvf.IsHidden)
+            if (_cvf.IsHidden)
                 _cvf.Show();
             else
                 _cvf.Hide();
@@ -299,6 +295,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
         }
 
         private static string _TemplateFile;
+
         private void openTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
@@ -329,7 +326,6 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void saveTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             if (_TemplateFile != null)
                 SaveFile(_TemplateFile, _df.ContentText);
             else
