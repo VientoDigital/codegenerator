@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Data;
 using System.IO;
-using WeifenLuo.WinFormsUI.Docking;
+using System.Windows.Forms;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
-    public partial class CustomValuesForm : DockContent
+    public partial class CustomValuesForm : UserControl
     {
         public CustomValuesForm()
         {

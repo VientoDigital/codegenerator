@@ -1,9 +1,9 @@
-﻿using iCodeGenerator.DatabaseNavigator;
-using WeifenLuo.WinFormsUI.Docking;
+﻿using System.Windows.Forms;
+using iCodeGenerator.DatabaseNavigator;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
-    public partial class DatabaseNavigationForm : DockContent
+    public partial class DatabaseNavigationForm : UserControl
     {
         public DatabaseNavigationForm()
         {
@@ -29,30 +29,21 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         protected virtual void OnDatabaseSelected(DatabaseEventArgs args)
         {
-            if (DatabaseSelected != null)
-            {
-                DatabaseSelected(this, args);
-            }
+            DatabaseSelected?.Invoke(this, args);
         }
 
         public event NavigatorControl.ColumnEventHandler ColumnSelected;
 
         protected virtual void OnColumnSelected(ColumnEventArgs args)
         {
-            if (ColumnSelected != null)
-            {
-                ColumnSelected(this, args);
-            }
+            ColumnSelected?.Invoke(this, args);
         }
 
         public event NavigatorControl.TableEventHandler TableSelected;
 
         protected virtual void OnTableSelected(TableEventArgs args)
         {
-            if (TableSelected != null)
-            {
-                TableSelected(this, args);
-            }
+            TableSelected?.Invoke(this, args);
         }
 
         private void navigatorControl_ColumnSelect(object sender, ColumnEventArgs args)

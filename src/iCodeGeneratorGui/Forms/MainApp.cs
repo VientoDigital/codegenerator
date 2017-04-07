@@ -3,13 +3,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using ComponentFactory.Krypton.Docking;
+using ComponentFactory.Krypton.Navigator;
 using ComponentFactory.Krypton.Toolkit;
 using iCodeGenerator.DatabaseNavigator;
 using iCodeGenerator.DatabaseStructure;
 using iCodeGenerator.DataTypeConverter;
 using iCodeGenerator.Generator;
 using iCodeGenerator.Updater;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
@@ -35,61 +36,99 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         #region Forms
 
-        private DatabaseNavigationForm _dnf;
-        private PropertiesForm _pf;
-        private CustomValuesForm _cvf;
-        private SnippetsForm _sf;
-        private DocumentForm _df;
-        private ResultForm _rf;
+        private DatabaseNavigationForm databaseNavigationForm;
+        private PropertiesForm propertiesForm;
+        private CustomValuesForm customValuesForm;
+        private SnippetsForm snippetsForm;
+        private DocumentForm documentForm;
+        private ResultForm resultForm;
+
+        private KryptonPage templatePage;
+        private KryptonPage resultPage;
 
         #endregion Forms
 
+        private KryptonPage NewPage(string name, Control content, Image icon = null)
+        {
+            // Create new page with title and image
+            var page = new KryptonPage
+            {
+                Text = name,
+                TextTitle = name,
+                TextDescription = name
+            };
+
+            if (icon != null)
+            {
+                page.ImageSmall = icon;
+            }
+
+            page.ClearFlags(KryptonPageFlags.DockingAllowClose);
+
+            // Add the control for display inside the page
+            content.Dock = DockStyle.Fill;
+            page.Controls.Add(content);
+
+            return page;
+        }
+
+        private KryptonPage NewDocument(string name, Control content, Image icon = null)
+        {
+            var page = NewPage(name, content, icon);
+
+            page.ClearFlags(KryptonPageFlags.DockingAllowClose);
+
+            return page;
+        }
+
         private void InitializeControls()
         {
-            _dnf = new DatabaseNavigationForm();
-            _dnf.Text = "Database Navigation";
-            _dnf.Show(dockPanel, DockState.DockLeft);
-            _dnf.Icon = Icon.ExtractAssociatedIcon(@"Resources\idb.ico");
-            _dnf.TableSelected += DnfTableSelected;
-            _dnf.DatabaseSelected += DnfDatabaseSelected;
-            _dnf.ColumnSelected += DnfColumnSelected;
-            _dnf.HideOnClose = true;
+            // Setup docking functionality
+            KryptonDockingWorkspace w = kryptonDockingManager.ManageWorkspace(kryptonDockableWorkspace);
+            kryptonDockingManager.ManageControl(kryptonPanel, w);
+            kryptonDockingManager.ManageFloating(this);
 
-            _sf = new SnippetsForm();
-            _sf.Text = "Snippets";
-            _sf.SnippetSelected += SfSnippetSelected;
-            _sf.Show(dockPanel, DockState.DockLeftAutoHide);
-            _sf.Icon = Icon.ExtractAssociatedIcon(@"Resources\isnippet.ico");
-            _sf.HideOnClose = true;
+            // Add initial docking pages
+            databaseNavigationForm = new DatabaseNavigationForm { Text = "Database Navigation" };
+            databaseNavigationForm.TableSelected += DnfTableSelected;
+            databaseNavigationForm.DatabaseSelected += DnfDatabaseSelected;
+            databaseNavigationForm.ColumnSelected += DnfColumnSelected;
 
-            _df = new DocumentForm();
-            _df.Text = "Template";
-            _df.Show(dockPanel, DockState.Document);
-            _df.Icon = Icon.ExtractAssociatedIcon(@"Resources\itemplate.ico");
-            _df.HideOnClose = true;
+            snippetsForm = new SnippetsForm { Text = "Snippets" };
+            snippetsForm.SnippetSelected += SfSnippetSelected;
 
-            _rf = new ResultForm();
-            _rf.Text = "Results";
-            _rf.Show(dockPanel, DockState.Document);
-            _rf.Icon = Icon.ExtractAssociatedIcon(@"Resources\iresult.ico");
-            _rf.HideOnClose = true;
+            documentForm = new DocumentForm { Text = "Template" };
+            resultForm = new ResultForm { Text = "Results" };
+            propertiesForm = new PropertiesForm { Text = "Properties" };
+            customValuesForm = new CustomValuesForm { Text = "Custom Values" };
 
-            _pf = new PropertiesForm();
-            _pf.Text = "Properties";
-            _pf.Show(dockPanel, DockState.DockRight);
-            _pf.Icon = Icon.ExtractAssociatedIcon(@"Resources\igen.ico");
-            _pf.HideOnClose = true;
+            templatePage = NewDocument("Template", documentForm, icon: IconToBitMap("itemplate.ico"));
+            resultPage = NewDocument("Results", resultForm, icon: IconToBitMap("iresult.ico"));
 
-            _cvf = new CustomValuesForm();
-            _cvf.Text = "Custom Values";
-            _cvf.Show(dockPanel, DockState.DockRight);
-            _cvf.Icon = Icon.ExtractAssociatedIcon(@"Resources\icustom.ico");
-            _cvf.HideOnClose = true;
+            kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { templatePage, resultPage });
+            kryptonDockingManager.AddAutoHiddenGroup("Control", DockingEdge.Left, new KryptonPage[]
+            {
+                NewPage("Snippets", snippetsForm, icon: IconToBitMap("isnippet.ico"))
+            });
+            kryptonDockingManager.AddDockspace("Control", DockingEdge.Left, new KryptonPage[]
+            {
+                NewPage("Database Navigation", databaseNavigationForm, icon: IconToBitMap("idb.ico"))
+            });
+            kryptonDockingManager.AddDockspace("Control", DockingEdge.Right, new KryptonPage[]
+            {
+                NewPage("Properties", propertiesForm, icon: IconToBitMap("igen.ico")),
+                NewPage("Custom Values", customValuesForm, icon: IconToBitMap("icustom.ico"))
+            });
+        }
+
+        private Bitmap IconToBitMap(string iconName)
+        {
+            return new Bitmap(Icon.ExtractAssociatedIcon(@"Resources\" + iconName).ToBitmap(), new Size(16, 16));
         }
 
         private void SfSnippetSelected(object sender, SnippetEventArgs args)
         {
-            _df.ContentText = _df.ContentText.Insert(_df.SelectionStart, new SnippetsHelper().Snippets[args.Snippet].ToString());
+            documentForm.ContentText = documentForm.ContentText.Insert(documentForm.SelectionStart, new SnippetsHelper().Snippets[args.Snippet].ToString());
         }
 
         private static Table _selectedTable;
@@ -97,18 +136,18 @@ namespace iCodeGenerator.iCodeGeneratorGui
         private void DnfColumnSelected(object sender, ColumnEventArgs args)
         {
             _selectedTable = args.Column.ParentTable;
-            _pf.SelectedObject = args.Column;
+            propertiesForm.SelectedObject = args.Column;
         }
 
         private void DnfDatabaseSelected(object sender, DatabaseEventArgs args)
         {
-            _pf.SelectedObject = args.Database;
+            propertiesForm.SelectedObject = args.Database;
         }
 
         private void DnfTableSelected(object sender, TableEventArgs args)
         {
             _selectedTable = args.Table;
-            _pf.SelectedObject = args.Table;
+            propertiesForm.SelectedObject = args.Table;
         }
 
         private void GenerateCode()
@@ -116,8 +155,8 @@ namespace iCodeGenerator.iCodeGeneratorGui
             try
             {
                 if (_selectedTable == null) return;
-                var cgenerator = new Client { CustomValues = _cvf.CustomValues };
-                _rf.ContentText = cgenerator.Parse(_selectedTable, _df.ContentText);
+                var cgenerator = new Client { CustomValues = customValuesForm.CustomValues };
+                resultForm.ContentText = cgenerator.Parse(_selectedTable, documentForm.ContentText);
             }
             catch (DataTypeManagerException ex)
             {
@@ -133,17 +172,17 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void DatabaseConnectClick(object sender, EventArgs e)
         {
-            _dnf.Connect();
+            databaseNavigationForm.Connect();
         }
 
         private void DatabaseDisconnectClick(object sender, EventArgs e)
         {
-            _dnf.Disconnect();
+            databaseNavigationForm.Disconnect();
         }
 
         private void EditConfigDatabaseClick(object sender, EventArgs e)
         {
-            _dnf.ShowEditConnectionString();
+            databaseNavigationForm.ShowEditConnectionString();
         }
 
         private void GenerateCodeClick(object sender, EventArgs e)
@@ -191,7 +230,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
                 {
                     var generator = new FileGenerator();
                     generator.OnComplete += FileGeneratorCompleted;
-                    generator.CustomValue = _cvf.CustomValues;
+                    generator.CustomValue = customValuesForm.CustomValues;
                     generator.Generate(_selectedTable, _InputTemplateFolder, _OutputTemplateFolder);
                 }
                 catch (Exception e)
@@ -241,52 +280,56 @@ namespace iCodeGenerator.iCodeGeneratorGui
             Process.Start(sInfo);
         }
 
-        private void databaseNavigationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_dnf.IsHidden)
-                _dnf.Show();
-            else
-                _dnf.Hide();
-        }
-
-        private void snippetsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_sf.IsHidden)
-                _sf.Show();
-            else
-                _sf.Hide();
-        }
-
         private void templateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_df.IsHidden)
-                _df.Show();
+            if (templatePage.IsDisposed)
+            {
+                if (documentForm.IsDisposed)
+                {
+                    documentForm = new DocumentForm { Text = "Template" };
+                }
+                templatePage = NewDocument("Template", documentForm, icon: IconToBitMap("itemplate.ico"));
+                kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { templatePage });
+                kryptonDockingManager.HidePage(templatePage);
+                kryptonDockingManager.ShowPage(templatePage);
+            }
             else
-                _df.Hide();
+            {
+                if (!kryptonDockingManager.IsPageShowing(templatePage))
+                {
+                    kryptonDockingManager.ShowPage(templatePage);
+                }
+                else
+                {
+                    kryptonDockingManager.HidePage(templatePage);
+                }
+            }
         }
 
         private void resultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_rf.IsHidden)
-                _rf.Show();
+            if (resultPage.IsDisposed)
+            {
+                if (resultForm.IsDisposed)
+                {
+                    resultForm = new ResultForm { Text = "Results" };
+                }
+                resultPage = NewDocument("Results", resultForm, icon: IconToBitMap("iresult.ico"));
+                kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { resultPage });
+                kryptonDockingManager.HidePage(resultPage);
+                kryptonDockingManager.ShowPage(resultPage);
+            }
             else
-                _rf.Hide();
-        }
-
-        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_pf.IsHidden)
-                _pf.Show();
-            else
-                _pf.Hide();
-        }
-
-        private void customValuesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_cvf.IsHidden)
-                _cvf.Show();
-            else
-                _cvf.Hide();
+            {
+                if (!kryptonDockingManager.IsPageShowing(resultPage))
+                {
+                    kryptonDockingManager.ShowPage(resultPage);
+                }
+                else
+                {
+                    kryptonDockingManager.HidePage(resultPage);
+                }
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -313,7 +356,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
                         using (sr = new StreamReader(s))
                         {
                             var line = sr.ReadToEnd();
-                            _df.ContentText = line;
+                            documentForm.ContentText = line;
                         }
                     }
                 }
@@ -327,14 +370,14 @@ namespace iCodeGenerator.iCodeGeneratorGui
         private void saveTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_TemplateFile != null)
-                SaveFile(_TemplateFile, _df.ContentText);
+                SaveFile(_TemplateFile, documentForm.ContentText);
             else
-                _TemplateFile = SaveAsFile(_TemplateFile, _df.ContentText);
+                _TemplateFile = SaveAsFile(_TemplateFile, documentForm.ContentText);
         }
 
         private void saveAsTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _TemplateFile = SaveAsFile(null, _df.ContentText);
+            _TemplateFile = SaveAsFile(null, documentForm.ContentText);
         }
 
         private string SaveAsFile(string filename, string contentText)
@@ -361,13 +404,13 @@ namespace iCodeGenerator.iCodeGeneratorGui
 
         private void saveResultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveAsFile(null, _rf.ContentText);
+            SaveAsFile(null, resultForm.ContentText);
         }
 
         private void newTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _TemplateFile = null;
-            _df.ContentText = string.Empty;
+            documentForm.ContentText = string.Empty;
         }
     }
 }

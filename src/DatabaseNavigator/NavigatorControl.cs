@@ -309,7 +309,7 @@ namespace iCodeGenerator.DatabaseNavigator
             this.uiNavigatorTreeView.Size = new System.Drawing.Size(150, 150);
             this.uiNavigatorTreeView.TabIndex = 0;
             this.uiNavigatorTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.uiNavigatorTreeView_KeyUp);
-            this.uiNavigatorTreeView.DoubleClick += new System.EventHandler(this.uiNavigatorTreeView_DoubleClick);
+            this.uiNavigatorTreeView.Controls[0].DoubleClick += new System.EventHandler(this.uiNavigatorTreeView_DoubleClick);
             this.uiNavigatorTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.uiNavigatorTreeView_AfterSelect);
             //
             // uiNavigatorImageList

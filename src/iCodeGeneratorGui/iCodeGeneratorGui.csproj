@@ -125,9 +125,14 @@
     <Reference Include="ComponentFactory.Krypton.Design">
       <HintPath>..\..\lib\Krypton\ComponentFactory.Krypton.Design.dll</HintPath>
     </Reference>
+    <Reference Include="ComponentFactory.Krypton.Docking">
+      <HintPath>..\..\..\..\_Lib\ComponentFactory.Krypton\ComponentFactory.Krypton.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Navigator, Version=4.5.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e" />
     <Reference Include="ComponentFactory.Krypton.Toolkit">
       <HintPath>..\..\lib\Krypton\ComponentFactory.Krypton.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="ComponentFactory.Krypton.Workspace, Version=4.5.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -145,10 +150,6 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
-    </Reference>
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.9.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
     <ProjectReference Include="..\DatabaseNavigator\DatabaseNavigator.csproj">
       <Name>DatabaseNavigator</Name>
@@ -189,13 +190,13 @@
     </Compile>
     <Compile Include="FolderEventArgs.cs" />
     <Compile Include="DockContent\CustomValuesForm.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DockContent\CustomValuesForm.Designer.cs">
       <DependentUpon>CustomValuesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DockContent\DatabaseNavigationForm.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DockContent\DatabaseNavigationForm.Designer.cs">
       <DependentUpon>DatabaseNavigationForm.cs</DependentUpon>
@@ -204,7 +205,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DockContent\DocumentForm.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DockContent\DocumentForm.Designer.cs">
       <DependentUpon>DocumentForm.cs</DependentUpon>
@@ -216,7 +217,7 @@
       <DependentUpon>MainApp.cs</DependentUpon>
     </Compile>
     <Compile Include="DockContent\PropertiesForm.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DockContent\PropertiesForm.Designer.cs">
       <DependentUpon>PropertiesForm.cs</DependentUpon>
@@ -227,14 +228,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="DockContent\ResultForm.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DockContent\ResultForm.Designer.cs">
       <DependentUpon>ResultForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SnippetEventArgs.cs" />
     <Compile Include="DockContent\SnippetsForm.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DockContent\SnippetsForm.Designer.cs">
       <DependentUpon>SnippetsForm.cs</DependentUpon>

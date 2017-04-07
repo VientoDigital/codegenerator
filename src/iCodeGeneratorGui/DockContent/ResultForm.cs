@@ -1,8 +1,8 @@
-﻿using WeifenLuo.WinFormsUI.Docking;
+﻿using System.Windows.Forms;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
-    public partial class ResultForm : DockContent
+    public partial class ResultForm : UserControl
     {
         public ResultForm()
         {

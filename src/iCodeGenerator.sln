@@ -30,9 +30,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationManager", "ConfigurationManager\ConfigurationManager.csproj", "{602DADFC-CA31-40A3-A07A-620808DD83BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{C7917F46-9FA1-4D24-8079-748B29ADF120}"
-	ProjectSection(SolutionItems) = preProject
-		..\lib\WeifenLuo.WinFormsUI.Docking.dll = ..\lib\WeifenLuo.WinFormsUI.Docking.dll
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "getopt", "getopt", "{423A980A-21E2-4BE5-AC70-0679018C5D82}"
 	ProjectSection(SolutionItems) = preProject

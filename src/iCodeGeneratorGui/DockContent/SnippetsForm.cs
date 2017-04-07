@@ -2,11 +2,10 @@
 using System.Drawing;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
-    public partial class SnippetsForm : DockContent
+    public partial class SnippetsForm : UserControl
     {
         public SnippetsForm()
         {
