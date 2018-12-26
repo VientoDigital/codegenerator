@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
+﻿using System.Windows.Forms;
 
 namespace iCodeGenerator.iCodeGeneratorGui
 {
-    public partial class DocumentForm : DockContent
+    public partial class DocumentForm : UserControl
     {
         public DocumentForm()
         {

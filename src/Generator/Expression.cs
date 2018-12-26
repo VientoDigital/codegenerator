@@ -1,55 +1,81 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
+using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
-using iCodeGenerator.DatabaseStructure;
 
 namespace iCodeGenerator.Generator
 {
-	public abstract class Expression
-	{
-		public abstract void Interpret(Context context);
-		public virtual void AddExpression(Expression expression)
-		{
-			throw new NotImplementedException();
-		}
-		public virtual void RemoveExpression(Expression expression)
-		{
-			throw new NotImplementedException();
-		}
-		private object _parameter;
-		
-		internal object Parameter
-		{
-			set { _parameter = value; }
-			get { return _parameter; }
-		}
+    public abstract class Expression
+    {
+        public abstract void Interpret(Context context);
 
-        public static string CaseConvertion(string naming, string replacement, string name)
+        public virtual void AddExpression(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void RemoveExpression(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        private object _parameter;
+
+        internal object Parameter
+        {
+            set { _parameter = value; }
+            get { return _parameter; }
+        }
+
+        public static string CaseConversion(string naming, string replacement, string name)
         {
             switch (naming)
             {
                 case "CAMEL":
                     replacement = CamelReplacement(name);
                     break;
+
                 case "PASCAL":
                     replacement = PascalReplacement(name);
                     break;
+
                 case "LOWER":
                     replacement = LowerReplacement(name);
                     break;
+
                 case "UPPER":
                     replacement = UpperReplacement(name);
                     break;
+
                 case "UNDERSCORE":
                     replacement = UnderscoreReplacement(replacement);
                     break;
+
                 case "HUMAN":
                     replacement = HumanReplacement(replacement);
                     break;
+
+                case "HYPHEN":
+                    replacement = HyphenReplacement(replacement);
+                    break;
+
+                case "HYPHEN_LOWER":
+                    replacement = LowerReplacement(HyphenReplacement(replacement));
+                    break;
+
+                case "HYPHEN_UPPER":
+                    replacement = UpperReplacement(HyphenReplacement(replacement));
+                    break;
+
                 default:
                     break;
             }
             return replacement;
+        }
+
+        private static string HyphenReplacement(string replacement)
+        {
+            return SeparatorReplacement(replacement, "-", true);
         }
 
         private static string UnderscoreReplacement(string replacement)
@@ -86,12 +112,12 @@ namespace iCodeGenerator.Generator
             return name.ToUpper();
         }
 
-	    private static string LowerReplacement(string name)
+        private static string LowerReplacement(string name)
         {
-	        return name.ToLower();
+            return name.ToLower();
         }
 
-	    private static string PascalReplacement(string name)
+        private static string PascalReplacement(string name)
         {
             var replacement = name.Replace("_", String.Empty);
             replacement = replacement.Substring(0, 1).ToUpper() + replacement.Substring(1);
@@ -104,5 +130,5 @@ namespace iCodeGenerator.Generator
             replacement = replacement.Substring(0, 1).ToLower() + replacement.Substring(1);
             return replacement;
         }
-	}
+    }
 }

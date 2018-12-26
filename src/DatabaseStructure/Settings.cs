@@ -1,14 +1,15 @@
 using System;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
 using iCodeGenerator.GenericDataAccess;
 
 namespace iCodeGenerator.DatabaseStructure
 {
-	[Serializable]
-	public class Settings
-	{
-		private readonly static string _location = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "Settings.xml";
+    [Serializable]
+    public class Settings
+    {
+        private readonly static string _location = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "Settings.xml";
+
         public static string Location
         {
             get
@@ -17,94 +18,95 @@ namespace iCodeGenerator.DatabaseStructure
             }
         }
 
+        public static bool IsNew()
+        {
+            return !System.IO.File.Exists(Location);
+        }
 
-		public static bool IsNew()
-		{
-			return !System.IO.File.Exists(Location);
-		}
-		public static void Deserialize()
-		{
-			XmlSerializer xs = new XmlSerializer(typeof(Settings));			
-			
-			if(!IsNew())
-			{
-				FileStream fs = null;
+        public static void Deserialize()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(Settings));
 
-				try
-				{	
-					fs = System.IO.File.Open(Location, FileMode.Open, FileAccess.Read);
+            if (!IsNew())
+            {
+                FileStream fs = null;
 
-					instance = (Settings)xs.Deserialize(fs);
-				}
-				catch
-				{
-					Settings.Serialize();
-				}
-				finally
-				{
-					fs.Close();
-				}
-			}
-		}
+                try
+                {
+                    fs = System.IO.File.Open(Location, FileMode.Open, FileAccess.Read);
 
-		public static void Serialize()
-		{
-			FileStream fs = null;
-			XmlSerializer xs = new XmlSerializer(instance.GetType());
-			fs = System.IO.File.Open(Location, FileMode.Create, FileAccess.Write, FileShare.None);
-			try
-			{
-				xs.Serialize(fs, instance);
-			}
-			catch
-			{
-			}
-			finally
-			{
-				fs.Close();
-			}
-		}
-		static Settings()
-		{
-		}
+                    instance = (Settings)xs.Deserialize(fs);
+                }
+                catch
+                {
+                    Settings.Serialize();
+                }
+                finally
+                {
+                    fs.Close();
+                }
+            }
+        }
 
-		private static Settings instance = new Settings();
-		private string _connectionString = "";
-		private DataProviderType _providerType = DataProviderType.MySql;
+        public static void Serialize()
+        {
+            FileStream fs = null;
+            XmlSerializer xs = new XmlSerializer(instance.GetType());
+            fs = System.IO.File.Open(Location, FileMode.Create, FileAccess.Write, FileShare.None);
+            try
+            {
+                xs.Serialize(fs, instance);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                fs.Close();
+            }
+        }
 
-		public static Settings Instance
-		{
-			get { return instance; }
-		}
+        static Settings()
+        {
+        }
 
-		public string DataTypeMappingFile
-		{
-			get
-			{
-				return Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "DataTypeMapping.xml";
-			}
-		}
+        private static Settings instance = new Settings();
+        private string _connectionString = "";
+        private DataProviderType _providerType = DataProviderType.MySql;
 
-		public string ConnectionString
-		{
-			get
-			{
-				//_connectionString = @"SERVER=(local)\NetSDK;DATABASE=;UID=sa;PWD=;";
-				//_connectionString = @"Data Source=vdominguez;Password=victor;User ID=vdominguez;Location=32.76.173.49;";
-				if(_connectionString.Length==0)
-				{
-					//_connectionString = @"Data Source=vdominguez;Password=victor;User ID=vdominguez;Location=32.76.173.49;";
-					_connectionString = @"Data Source=test;Password=;User ID=root;Location=localhost;";
-				}				
-				return _connectionString;
-			}
-			set{ _connectionString = value; }
-		}
+        public static Settings Instance
+        {
+            get { return instance; }
+        }
 
-		public DataProviderType ProviderType
-		{			
-			get { return _providerType; }
-			set { _providerType = value;}
-		}
-	}
+        public string DataTypeMappingFile
+        {
+            get
+            {
+                return Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "DataTypeMapping.xml";
+            }
+        }
+
+        public string ConnectionString
+        {
+            get
+            {
+                //_connectionString = @"SERVER=(local)\NetSDK;DATABASE=;UID=sa;PWD=;";
+                //_connectionString = @"Data Source=vdominguez;Password=victor;User ID=vdominguez;Location=32.76.173.49;";
+                if (_connectionString.Length == 0)
+                {
+                    //_connectionString = @"Data Source=vdominguez;Password=victor;User ID=vdominguez;Location=32.76.173.49;";
+                    _connectionString = @"Data Source=test;Password=;User ID=root;Location=localhost;";
+                }
+                return _connectionString;
+            }
+            set { _connectionString = value; }
+        }
+
+        public DataProviderType ProviderType
+        {
+            get { return _providerType; }
+            set { _providerType = value; }
+        }
+    }
 }

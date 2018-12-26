@@ -3,30 +3,33 @@ using iCodeGenerator.GenericDataAccess;
 
 namespace iCodeGenerator.DatabaseStructure
 {
-	public class TableStrategyPostgres : TableStrategy
-	{
-		protected override DataSet TableSchema(DataAccessProviderFactory dataProvider, IDbConnection connection)
-		{
-			var ds = new DataSet();
-			var sqlString = dataProvider.CreateCommand("SELECT tablename FROM pg_tables WHERE schemaname = 'public'",connection);
-			sqlString.CommandType = CommandType.Text;
-			var da = dataProvider.CreateDataAdapter();
-			da.SelectCommand = sqlString;
-			da.Fill(ds);
-			return ds;
-		}
+    public class TableStrategyPostgres : TableStrategy
+    {
+        protected override DataSet TableSchema(DataAccessProviderFactory dataProvider, IDbConnection connection)
+        {
+            var set = new DataSet();
+            var command = dataProvider.CreateCommand("SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;", connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
+        }
 
-		protected override DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
-		{
-			return new DataSet();
-		}
-		protected override Table CreateTable(Database database, DataRow row)
-		{
-			var table = new Table();
-			table.ParentDatabase = database;
-			table.Name = row["tablename"].ToString();
-		    table.Schema = string.Empty;
-			return table;
-		}
-	}
+        protected override DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        {
+            return new DataSet();
+        }
+
+        protected override Table CreateTable(Database database, DataRow row)
+        {
+            var table = new Table
+            {
+                ParentDatabase = database,
+                Name = row["tablename"].ToString(),
+                Schema = string.Empty
+            };
+            return table;
+        }
+    }
 }

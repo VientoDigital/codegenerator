@@ -3,24 +3,26 @@ using iCodeGenerator.GenericDataAccess;
 
 namespace iCodeGenerator.DatabaseStructure
 {
-	public class DatabaseStrategyPostgres : DatabaseStrategy
-	{
-		protected override Database CreateDatabase(DataRow row, DatabaseCollection databases)
-		{
-			Database db = new iCodeGenerator.DatabaseStructure.Database();
-			db.Name = row["datname"].ToString();
-			return db;
-		}
+    public class DatabaseStrategyPostgres : DatabaseStrategy
+    {
+        protected override Database CreateDatabase(DataRow row, DatabaseCollection databases)
+        {
+            var database = new Database
+            {
+                Name = row["datname"].ToString()
+            };
+            return database;
+        }
 
-		protected override DataSet DatabaseSchema(DataAccessProviderFactory dataProviderFactory, IDbConnection connection)
-		{
-			DataSet ds = new DataSet();
-			IDbCommand sqlString = dataProviderFactory.CreateCommand("SELECT datname FROM pg_database",connection);
-			sqlString.CommandType = CommandType.Text;
-			IDbDataAdapter da = dataProviderFactory.CreateDataAdapter();
-			da.SelectCommand = sqlString;
-			da.Fill(ds);
-			return ds;
-		}
-	}
+        protected override DataSet DatabaseSchema(DataAccessProviderFactory dataProviderFactory, IDbConnection connection)
+        {
+            var set = new DataSet();
+            var command = dataProviderFactory.CreateCommand("SELECT datname FROM pg_database ORDER BY datname;", connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataProviderFactory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
+        }
+    }
 }

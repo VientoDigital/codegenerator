@@ -3,48 +3,45 @@ using System.Collections;
 
 namespace iCodeGenerator.DatabaseStructure
 {
-	public class ColumnCollection : CollectionBase
-	{
-		public ColumnCollection()
-		{
-		}
-		
-		public Column this[int index]
-		{
-			get{ return (Column) List[index]; }
-			set{ List[index] = value; }
-		}
+    public class ColumnCollection : CollectionBase
+    {
+        public ColumnCollection()
+        {
+        }
 
-		public void Add(Column column)
-		{
-			List.Add(column);
-		}
+        public Column this[int index]
+        {
+            get { return (Column)List[index]; }
+            set { List[index] = value; }
+        }
 
-		public int IndexOf(Column column)
-		{
-			return List.IndexOf(column);
-		}
+        public void Add(Column column)
+        {
+            List.Add(column);
+        }
 
-		public void Remove(Column column)
-		{
-			List.Remove(column);
-		}
+        public int IndexOf(Column column)
+        {
+            return List.IndexOf(column);
+        }
 
-		public bool Contains(Column column)
-		{
-			return List.Contains(column);
-		}
+        public void Remove(Column column)
+        {
+            List.Remove(column);
+        }
 
-		protected override void OnValidate(object value)
-		{
-			base.OnValidate (value);
-			if( value.GetType() != typeof(Column))
-			{
-				throw new ArgumentException( "value must be of type "+ typeof(Column).FullName);
-			}
+        public bool Contains(Column column)
+        {
+            return List.Contains(column);
+        }
 
-		}
-
-		
-	}
+        protected override void OnValidate(object value)
+        {
+            base.OnValidate(value);
+            if (value.GetType() != typeof(Column))
+            {
+                throw new ArgumentException("value must be of type " + typeof(Column).FullName);
+            }
+        }
+    }
 }
