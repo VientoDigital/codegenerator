@@ -18,12 +18,12 @@ namespace iCodeGenerator.UnitTests
             Server.ConnectionString = @"SERVER=(local);DATABASE=;UID=sa;PWD=m14m14;";
             Server.ProviderType = DataProviderType.SqlClient;
             Server server = new Server();
-            Client c = new Client();
-            string sd = c.StartDelimiter;
-            string ed = c.EndingDelimiter;
-            c.StartDelimiter = String.Empty;
-            c.EndingDelimiter = String.Empty;
-            Console.WriteLine(c.Parse(server.Databases[0].Tables[0], "DATABASE.NAME_TABLE.NAMEForm.aspx"));
+            Client client = new Client();
+            _ = client.StartDelimiter;
+            _ = client.EndingDelimiter;
+            client.StartDelimiter = string.Empty;
+            client.EndingDelimiter = string.Empty;
+            Console.WriteLine(client.Parse(server.Databases[0].Tables[0], "DATABASE.NAME_TABLE.NAMEForm.aspx"));
         }
     }
 }

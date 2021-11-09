@@ -7,23 +7,21 @@ namespace iCodeGenerator.DatabaseStructure
     {
         protected override Database CreateDatabase(DataRow row, DatabaseCollection databases)
         {
-            Database db = new Database();
-            db.Name = row["DATABASE_NAME"].ToString();
-            return db;
+            return new Database
+            {
+                Name = row["DATABASE_NAME"].ToString()
+            };
         }
 
         protected override DataSet DatabaseSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            IDbCommand sqlSp = dataAccessProvider.CreateCommand("SELECT name AS DATABASE_NAME, 0 AS DATABASE_SIZE, NULL AS REMARKS FROM master.dbo.sysdatabases WHERE HAS_DBACCESS(name) = 1  ORDER BY name", connection);
-            sqlSp.CommandType = CommandType.Text;
-
-            //			IDbCommand sqlSp = dataAccessProvider.CreateCommand("sp_databases", connection);
-            //			sqlSp.CommandType = CommandType.StoredProcedure;
-            IDbDataAdapter da = dataAccessProvider.CreateDataAdapter();
-            da.SelectCommand = sqlSp;
-            da.Fill(ds);
-            return ds;
+            var set = new DataSet();
+            var command = dataAccessProvider.CreateCommand("SELECT name AS DATABASE_NAME, 0 AS DATABASE_SIZE, NULL AS REMARKS FROM master.dbo.sysdatabases WHERE HAS_DBACCESS(name) = 1  ORDER BY name", connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataAccessProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
     }
 }

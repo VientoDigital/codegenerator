@@ -6,15 +6,16 @@ namespace iCodeGenerator.Generator
 {
     public class Client
     {
-        private readonly Context _Context;
-        private Table _Table;
-        private IDictionary _CustomValues;
+        private readonly Context context;
 
-        public string StartDelimiter
+        public Client()
         {
-            get { return Context.StartDelimeter; }
-            set { Context.StartDelimeter = value; }
+            context = new Context();
         }
+
+        public event EventHandler OnComplete;
+
+        public IDictionary CustomValues { get; set; }
 
         public string EndingDelimiter
         {
@@ -22,54 +23,43 @@ namespace iCodeGenerator.Generator
             set { Context.EndingDelimiter = value; }
         }
 
-        public IDictionary CustomValues
-        {
-            get { return _CustomValues; }
-            set { _CustomValues = value; }
-        }
-
-        public Table Table
-        {
-            get { return _Table; }
-            set { _Table = value; }
-        }
-
         public string Input
         {
-            set { _Context.Input = value; }
+            set { context.Input = value; }
         }
 
-        public Client()
+        public string StartDelimiter
         {
-            _Context = new Context();
+            get { return Context.StartDelimeter; }
+            set { Context.StartDelimeter = value; }
         }
 
-        public event EventHandler OnComplete;
+        public Table Table { get; set; }
+
+        public string Parse()
+        {
+            string result = Intrepret();
+            CompleteNotifier(new EventArgs());
+            return result;
+        }
+
+        public string Parse(Table table, string inputString)
+        {
+            Table = table;
+            context.Input = inputString;
+            string result = Intrepret();
+            CompleteNotifier(new EventArgs());
+            return result;
+        }
 
         protected void CompleteNotifier(EventArgs e)
         {
             OnComplete?.Invoke(this, e);
         }
 
-        public string Parse()
-        {
-            var s = Intrepret();
-            CompleteNotifier(new EventArgs());
-            return s;
-        }
-
-        public string Parse(Table table, string inputString)
-        {
-            _Table = table;
-            _Context.Input = inputString;
-            string s = Intrepret();
-            CompleteNotifier(new EventArgs());
-            return s;
-        }
-
         private string Intrepret()
         {
-            var parser = new Parser(_Table);
+            var parser = new Parser(Table);
             var columnsExpression = new ColumnsExpression();
             columnsExpression.AddExpression(new ColumnIfTypeExpression());
             columnsExpression.AddExpression(new ColumnNameExpression());
@@ -85,15 +75,17 @@ namespace iCodeGenerator.Generator
             parser.AddExpression(new TableNameReplaceExpression());
             parser.AddExpression(new TableSchemaExpression());
             parser.AddExpression(new DatabaseNameExpression());
-            if (_CustomValues != null)
+
+            if (CustomValues != null)
             {
-                foreach (DictionaryEntry entry in _CustomValues)
+                foreach (DictionaryEntry entry in CustomValues)
                 {
                     parser.AddExpression(new LiteralExpression(entry.Key.ToString(), entry.Value.ToString()));
                 }
             }
-            parser.Interpret(_Context);
-            return _Context.Output;
+
+            parser.Interpret(context);
+            return context.Output;
         }
     }
 }

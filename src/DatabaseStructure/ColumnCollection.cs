@@ -15,25 +15,13 @@ namespace iCodeGenerator.DatabaseStructure
             set { List[index] = value; }
         }
 
-        public void Add(Column column)
-        {
-            List.Add(column);
-        }
+        public void Add(Column column) => List.Add(column);
 
-        public int IndexOf(Column column)
-        {
-            return List.IndexOf(column);
-        }
+        public int IndexOf(Column column) => List.IndexOf(column);
 
-        public void Remove(Column column)
-        {
-            List.Remove(column);
-        }
+        public void Remove(Column column) => List.Remove(column);
 
-        public bool Contains(Column column)
-        {
-            return List.Contains(column);
-        }
+        public bool Contains(Column column) => List.Contains(column);
 
         protected override void OnValidate(object value)
         {

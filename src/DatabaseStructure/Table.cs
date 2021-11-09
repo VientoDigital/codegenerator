@@ -5,75 +5,65 @@ namespace iCodeGenerator.DatabaseStructure
 {
     public class Table
     {
-        private readonly ColumnStrategy _strategy;
-        private bool _Reload;
-        private ColumnCollection _Columns;
-        private KeyCollection _Keys;
-
-        public void Reload()
-        {
-            _Reload = true;
-        }
+        private readonly ColumnStrategy strategy;
+        private ColumnCollection columns;
+        private KeyCollection keys;
+        private bool reload;
 
         public Table()
         {
             switch (Server.ProviderType)
             {
-                case DataProviderType.SqlClient:
-                    _strategy = new ColumnStrategySQLServer();
-                    break;
-
-                case DataProviderType.MySql:
-                    _strategy = new ColumnStrategyMySQL();
-                    break;
-
-                case DataProviderType.PostgresSql:
-                    _strategy = new ColumnStrategyPostgres();
-                    break;
-
-                case DataProviderType.Oracle:
-                    _strategy = new ColumnStrategyOracle();
-                    break;
+                case DataProviderType.SqlClient: strategy = new ColumnStrategySQLServer(); break;
+                case DataProviderType.MySql: strategy = new ColumnStrategyMySQL(); break;
+                case DataProviderType.PostgresSql: strategy = new ColumnStrategyPostgres(); break;
+                case DataProviderType.Oracle: strategy = new ColumnStrategyOracle(); break;
             }
         }
 
-        [CategoryAttribute("Table"), ReadOnlyAttribute(true)]
-        public string Schema { get; set; }
-
-        [CategoryAttribute("Table"), ReadOnlyAttribute(true)]
-        public string Name { get; set; }
-
-        [BrowsableAttribute(false), DefaultValueAttribute(false)]
-        public Database ParentDatabase { get; set; }
-
-        [BrowsableAttribute(false),
-        DefaultValueAttribute(false)]
+        [Browsable(false), DefaultValue(false)]
         public ColumnCollection Columns
         {
             get
             {
-                if (_Reload || _Columns == null)
+                if (reload || columns == null)
                 {
-                    if (_Columns != null) _Columns.Clear();
-                    _Columns = _strategy.GetColumns(this);
+                    if (columns != null)
+                    {
+                        columns.Clear();
+                    }
+                    columns = strategy.GetColumns(this);
                 }
-                return _Columns;
+                return columns;
             }
         }
 
-        [BrowsableAttribute(false),
-        DefaultValueAttribute(false)]
+        [Browsable(false), DefaultValue(false)]
         public KeyCollection Keys
         {
             get
             {
-                if (_Reload || _Keys == null)
+                if (reload || keys == null)
                 {
-                    if (_Keys != null) _Keys.Clear();
-                    _Keys = _strategy.GetKeys(this);
+                    if (keys != null)
+                    {
+                        keys.Clear();
+                    }
+                    keys = strategy.GetKeys(this);
                 }
-                return _Keys;
+                return keys;
             }
         }
+
+        [Category("Table"), ReadOnly(true)]
+        public string Name { get; set; }
+
+        [Browsable(false), DefaultValue(false)]
+        public Database ParentDatabase { get; set; }
+
+        [Category("Table"), ReadOnly(true)]
+        public string Schema { get; set; }
+
+        public void Reload() => reload = true;
     }
 }

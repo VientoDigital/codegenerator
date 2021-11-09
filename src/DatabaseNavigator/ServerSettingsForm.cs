@@ -193,8 +193,8 @@ namespace iCodeGenerator.DatabaseNavigator
         {
             if (uiProviderTypeSelection.SelectedIndex >= 0)
             {
-                DataAccessProviderFactory dataAccessProvider = new DataAccessProviderFactory(((DataAccessProviderInfo)uiProviderTypeSelection.SelectedItem).ProviderType);
-                IDbConnection connection = dataAccessProvider.CreateConnection(uiConnectionStringComboList.Text.Trim());
+                var dataAccessProviderFactory = new DataAccessProviderFactory(((DataAccessProviderInfo)uiProviderTypeSelection.SelectedItem).ProviderType);
+                IDbConnection connection = dataAccessProviderFactory.CreateConnection(uiConnectionStringComboList.Text.Trim());
                 try
                 {
                     connection.Open();

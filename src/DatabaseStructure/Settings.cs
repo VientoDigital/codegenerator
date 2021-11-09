@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using System.Xml.Serialization;
 using iCodeGenerator.GenericDataAccess;
 
@@ -8,84 +9,17 @@ namespace iCodeGenerator.DatabaseStructure
     [Serializable]
     public class Settings
     {
-        private readonly static string _location = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "Settings.xml";
+        private static readonly string location = Path.GetFullPath(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "Settings.xml";
 
-        public static string Location
-        {
-            get
-            {
-                return _location;
-            }
-        }
-
-        public static bool IsNew()
-        {
-            return !System.IO.File.Exists(Location);
-        }
-
-        public static void Deserialize()
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(Settings));
-
-            if (!IsNew())
-            {
-                FileStream fs = null;
-
-                try
-                {
-                    fs = System.IO.File.Open(Location, FileMode.Open, FileAccess.Read);
-
-                    instance = (Settings)xs.Deserialize(fs);
-                }
-                catch
-                {
-                    Settings.Serialize();
-                }
-                finally
-                {
-                    fs.Close();
-                }
-            }
-        }
-
-        public static void Serialize()
-        {
-            FileStream fs = null;
-            XmlSerializer xs = new XmlSerializer(instance.GetType());
-            fs = System.IO.File.Open(Location, FileMode.Create, FileAccess.Write, FileShare.None);
-            try
-            {
-                xs.Serialize(fs, instance);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                fs.Close();
-            }
-        }
+        private static Settings instance = new Settings();
+        private string connectionString = string.Empty;
 
         static Settings()
         {
         }
 
-        private static Settings instance = new Settings();
-        private string _connectionString = "";
-        private DataProviderType _providerType = DataProviderType.MySql;
-
-        public static Settings Instance
-        {
-            get { return instance; }
-        }
-
-        public string DataTypeMappingFile
-        {
-            get
-            {
-                return Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "DataTypeMapping.xml";
-            }
-        }
+        public static Settings Instance => instance;
+        public static string Location => location;
 
         public string ConnectionString
         {
@@ -93,20 +27,61 @@ namespace iCodeGenerator.DatabaseStructure
             {
                 //_connectionString = @"SERVER=(local)\NetSDK;DATABASE=;UID=sa;PWD=;";
                 //_connectionString = @"Data Source=vdominguez;Password=victor;User ID=vdominguez;Location=32.76.173.49;";
-                if (_connectionString.Length == 0)
+                if (connectionString.Length == 0)
                 {
                     //_connectionString = @"Data Source=vdominguez;Password=victor;User ID=vdominguez;Location=32.76.173.49;";
-                    _connectionString = @"Data Source=test;Password=;User ID=root;Location=localhost;";
+                    connectionString = @"Data Source=test;Password=;User ID=root;Location=localhost;";
                 }
-                return _connectionString;
+                return connectionString;
             }
-            set { _connectionString = value; }
+            set { connectionString = value; }
         }
 
-        public DataProviderType ProviderType
+        public string DataTypeMappingFile => Path.GetFullPath(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "DataTypeMapping.xml";
+
+        public DataProviderType ProviderType { get; set; } = DataProviderType.MySql;
+
+        public static void Deserialize()
         {
-            get { return _providerType; }
-            set { _providerType = value; }
+            var xmlSerializer = new XmlSerializer(typeof(Settings));
+
+            if (!IsNew())
+            {
+                FileStream fileStream = null;
+
+                try
+                {
+                    fileStream = File.Open(Location, FileMode.Open, FileAccess.Read);
+                    instance = (Settings)xmlSerializer.Deserialize(fileStream);
+                }
+                catch
+                {
+                    Serialize();
+                }
+                finally
+                {
+                    fileStream.Close();
+                }
+            }
+        }
+
+        public static bool IsNew() => !File.Exists(Location);
+
+        public static void Serialize()
+        {
+            var xmlSerializer = new XmlSerializer(instance.GetType());
+            var fileStream = File.Open(Location, FileMode.Create, FileAccess.Write, FileShare.None);
+            try
+            {
+                xmlSerializer.Serialize(fileStream, instance);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                fileStream.Close();
+            }
         }
     }
 }

@@ -11,23 +11,9 @@ namespace iCodeGenerator.Generator
     /// </summary>
     public class FileGenerator
     {
-        private IDictionary _CustomValue;
-
-        public IDictionary CustomValue
-        {
-            get { return _CustomValue; }
-            set { _CustomValue = value; }
-        }
-
         public event EventHandler OnComplete;
 
-        protected void CompleteNotifier(EventArgs e)
-        {
-            if (OnComplete != null)
-            {
-                OnComplete(this, e);
-            }
-        }
+        public IDictionary CustomValues { get; set; }
 
         public void Generate(Table table, string inputDir, string outputDir)
         {
@@ -35,27 +21,27 @@ namespace iCodeGenerator.Generator
             var client = new Client();
             //var originalSd = client.StartDelimiter;
             //var originalEd = client.EndingDelimiter;
-            if (_CustomValue != null)
+            if (CustomValues != null)
             {
-                client.CustomValues = _CustomValue;
+                client.CustomValues = CustomValues;
             }
             foreach (var fileInfo in directoryInfo.GetFiles())
             {
                 client.StartDelimiter = "{";//originalSd;
                 client.EndingDelimiter = "}";//originalEd;
-                var sr = File.OpenText(fileInfo.FullName);
-                var fileContent = sr.ReadToEnd();
-                sr.Close();
-                var codeGenerated = client.Parse(table, fileContent);
-                client.StartDelimiter = String.Empty;
-                client.EndingDelimiter = String.Empty;
-                var filename = client.Parse(table, fileInfo.Name);
+                var streamReader = File.OpenText(fileInfo.FullName);
+                var fileContent = streamReader.ReadToEnd();
+                streamReader.Close();
+                string codeGenerated = client.Parse(table, fileContent);
+                client.StartDelimiter = string.Empty;
+                client.EndingDelimiter = string.Empty;
+                var fileName = client.Parse(table, fileInfo.Name);
                 try
                 {
-                    var sw = new StreamWriter(outputDir + Path.DirectorySeparatorChar + filename);
-                    sw.Write(codeGenerated);
-                    sw.Flush();
-                    sw.Close();
+                    var streamWriter = new StreamWriter(outputDir + Path.DirectorySeparatorChar + fileName);
+                    streamWriter.Write(codeGenerated);
+                    streamWriter.Flush();
+                    streamWriter.Close();
                 }
                 catch (Exception e)
                 {
@@ -63,6 +49,14 @@ namespace iCodeGenerator.Generator
                 }
             }
             CompleteNotifier(new EventArgs());
+        }
+
+        protected void CompleteNotifier(EventArgs e)
+        {
+            if (OnComplete != null)
+            {
+                OnComplete(this, e);
+            }
         }
     }
 }

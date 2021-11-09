@@ -5,16 +5,11 @@ namespace iCodeGenerator.DatabaseNavigator
 {
     public class TableEventArgs : EventArgs
     {
-        private Table _table;
-
-        public Table Table
-        {
-            get { return _table; }
-        }
+        public Table Table { get; }
 
         public TableEventArgs(Table table)
         {
-            _table = table;
+            Table = table;
         }
     }
 }

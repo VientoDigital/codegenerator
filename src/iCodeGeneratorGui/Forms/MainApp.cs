@@ -230,7 +230,7 @@ namespace iCodeGenerator.iCodeGeneratorGui
                 {
                     var generator = new FileGenerator();
                     generator.OnComplete += FileGeneratorCompleted;
-                    generator.CustomValue = customValuesForm.CustomValues;
+                    generator.CustomValues = customValuesForm.CustomValues;
                     generator.Generate(_selectedTable, _InputTemplateFolder, _OutputTemplateFolder);
                 }
                 catch (Exception e)

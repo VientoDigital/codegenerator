@@ -6,79 +6,71 @@ namespace iCodeGenerator.GenericDataAccess
 {
     public class ConnectionStringManager
     {
-        private string _Filename = AppDomain.CurrentDomain.BaseDirectory + "ConnectionStrings.txt";
-
-        private static ConnectionStringManager manager = new ConnectionStringManager();
-
-        public static ConnectionStringManager Instance
-        {
-            get { return manager; }
-        }
-
-        public string Filename
-        {
-            get { return _Filename; }
-            set { _Filename = value; }
-        }
+        private static readonly ConnectionStringManager manager = new ConnectionStringManager();
 
         private ConnectionStringManager()
         {
         }
 
-        public string[] GetConnectionStrings()
-        {
-            ArrayList connections = new ArrayList();
+        public static ConnectionStringManager Instance => manager;
 
-            if (File.Exists(_Filename))
-            {
-                StreamReader sr = File.OpenText(_Filename);
-                while (sr.Peek() != -1)
-                    connections.Add(sr.ReadLine());
-                sr.Close();
-            }
-            else
-            {
-                File.CreateText(_Filename);
-            }
-            return (string[])connections.ToArray(typeof(string));
-        }
+        public string FileName { get; set; } = AppDomain.CurrentDomain.BaseDirectory + "ConnectionStrings.txt";
 
         public void Add(string connectionString)
         {
-            StreamWriter sw = null;
             string[] strings = GetConnectionStrings();
+
+            StreamWriter streamWriter;
             if (strings.Length == 0 || strings[0].Trim().Length == 0)
             {
-                sw = File.CreateText(_Filename);
+                streamWriter = File.CreateText(FileName);
             }
             else
             {
-                sw = File.AppendText(_Filename);
+                streamWriter = File.AppendText(FileName);
             }
-            sw.WriteLine(connectionString);
-            sw.Flush();
-            sw.Close();
+
+            streamWriter.WriteLine(connectionString);
+            streamWriter.Flush();
+            streamWriter.Close();
         }
 
         public void Clear()
         {
-            StreamWriter sw = File.CreateText(_Filename);
-            sw.WriteLine();
-            sw.Flush();
-            sw.Close();
+            var streamWriter = File.CreateText(FileName);
+            streamWriter.WriteLine();
+            streamWriter.Flush();
+            streamWriter.Close();
         }
 
         public string Creator(DataProviderType providerType, string server, string username, string password, string database)
         {
             switch (providerType)
             {
-                case DataProviderType.SqlClient:
-                    return "SERVER=" + server + ";DATABASE=" + database + ";UID=" + username + ";PWD=" + password + ";";
-                case DataProviderType.MySql:
-                    return @"Data Source=" + database + ";Password=" + password + ";User ID=" + username + ";Location=" + server + ";";
-                default:
-                    return "Data Source=" + server + ";Initial Catalog=" + database + ";User Id=" + username + ";Password=" + password + ";";
+                case DataProviderType.SqlClient: return "SERVER=" + server + ";DATABASE=" + database + ";UID=" + username + ";PWD=" + password + ";";
+                case DataProviderType.MySql: return @"Data Source=" + database + ";Password=" + password + ";User ID=" + username + ";Location=" + server + ";";
+                default: return "Data Source=" + server + ";Initial Catalog=" + database + ";User Id=" + username + ";Password=" + password + ";";
             }
+        }
+
+        public string[] GetConnectionStrings()
+        {
+            var connections = new ArrayList();
+
+            if (File.Exists(FileName))
+            {
+                var streamReader = File.OpenText(FileName);
+                while (streamReader.Peek() != -1)
+                {
+                    connections.Add(streamReader.ReadLine());
+                }
+                streamReader.Close();
+            }
+            else
+            {
+                File.CreateText(FileName);
+            }
+            return (string[])connections.ToArray(typeof(string));
         }
     }
 }

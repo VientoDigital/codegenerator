@@ -5,36 +5,49 @@ namespace iCodeGenerator.GenericDataAccess
 {
     public class DataAccessProviderFactory
     {
-        #region Attributtes
+        private DataAccessProviderTypeFactory dataAccessProviderTypeFactory;
 
-        private DataAccessProviderTypeFactory _typeAccessProvider;
+        public DataAccessProviderFactory(DataProviderType providerType)
+        {
+            dataAccessProviderTypeFactory = new DataAccessProviderTypeFactory(providerType);
+        }
 
-        #endregion Attributtes
+        public DataAccessProviderFactory(DataAccessProviderTypeFactory dataAccessProviderTypeFactory)
+        {
+            this.dataAccessProviderTypeFactory = dataAccessProviderTypeFactory;
+        }
 
-        #region Constructors
+        public DataAccessProviderFactory(string providerTypeName)
+        {
+            dataAccessProviderTypeFactory = new DataAccessProviderTypeFactory(providerTypeName);
+        }
 
         private DataAccessProviderFactory()
         {
         }
 
-        public DataAccessProviderFactory(DataProviderType providerType)
+        public IDbCommand CreateCommand()
         {
-            _typeAccessProvider = new DataAccessProviderTypeFactory(providerType);
+            return (IDbCommand)Activator.CreateInstance(dataAccessProviderTypeFactory.CommandType);
         }
 
-        public DataAccessProviderFactory(DataAccessProviderTypeFactory typeProvider)
+        public IDbCommand CreateCommand(string cmdText)
         {
-            _typeAccessProvider = typeProvider;
+            object[] args = { cmdText };
+            return (IDbCommand)Activator.CreateInstance(dataAccessProviderTypeFactory.CommandType, args);
         }
 
-        public DataAccessProviderFactory(string providerTypeName)
+        public IDbCommand CreateCommand(string cmdText, IDbConnection connection)
         {
-            _typeAccessProvider = new DataAccessProviderTypeFactory(providerTypeName);
+            object[] args = { cmdText, connection };
+            return (IDbCommand)Activator.CreateInstance(dataAccessProviderTypeFactory.CommandType, args);
         }
 
-        #endregion Constructors
-
-        #region Methods
+        public IDbCommand CreateCommand(string cmdText, IDbConnection connection, IDbTransaction transaction)
+        {
+            object[] args = { cmdText, connection, transaction };
+            return (IDbCommand)Activator.CreateInstance(dataAccessProviderTypeFactory.CommandType, args);
+        }
 
         /// <summary>
         /// Creates a Connection
@@ -43,136 +56,90 @@ namespace iCodeGenerator.GenericDataAccess
         /// <returns></returns>
         public IDbConnection CreateConnection()
         {
-            return (IDbConnection)Activator.CreateInstance(_typeAccessProvider.ConnectionType);
+            return (IDbConnection)Activator.CreateInstance(dataAccessProviderTypeFactory.ConnectionType);
         }
 
         public IDbConnection CreateConnection(string connectionString)
         {
-            IDbConnection conn = null;
-            Object[] args = { connectionString };
-            conn = (IDbConnection)Activator.CreateInstance(_typeAccessProvider.ConnectionType, args);
+            object[] args = { connectionString };
+            IDbConnection conn = (IDbConnection)Activator.CreateInstance(dataAccessProviderTypeFactory.ConnectionType, args);
             return conn;
-        }
-
-        public IDbCommand CreateCommand()
-        {
-            IDbCommand command = null;
-            command = (IDbCommand)Activator.CreateInstance(_typeAccessProvider.CommandType);
-            return command;
-        }
-
-        public IDbCommand CreateCommand(string cmdText)
-        {
-            IDbCommand command = null;
-            Object[] args = { cmdText };
-            command = (IDbCommand)Activator.CreateInstance(_typeAccessProvider.CommandType, args);
-            return command;
-        }
-
-        public IDbCommand CreateCommand(string cmdText, IDbConnection connection)
-        {
-            IDbCommand command = null;
-            Object[] args = { cmdText, connection };
-            command = (IDbCommand)Activator.CreateInstance(_typeAccessProvider.CommandType, args);
-            return command;
-        }
-
-        public IDbCommand CreateCommand(string cmdText, IDbConnection connection, IDbTransaction transaction)
-        {
-            IDbCommand command = null;
-            Object[] args = { cmdText, connection, transaction };
-            command = (IDbCommand)Activator.CreateInstance(_typeAccessProvider.CommandType, args);
-            return command;
         }
 
         public IDbDataAdapter CreateDataAdapter()
         {
-            IDbDataAdapter dataAdapter = null;
-            dataAdapter = (IDbDataAdapter)Activator.CreateInstance(_typeAccessProvider.DataAdapterType);
-            return dataAdapter;
+            return (IDbDataAdapter)Activator.CreateInstance(dataAccessProviderTypeFactory.DataAdapterType);
         }
 
         public IDbDataAdapter CreateDataAdapter(IDbCommand selectCommand)
         {
-            IDbDataAdapter dataAdapter = null;
-            Object[] args = { selectCommand };
-            dataAdapter = (IDbDataAdapter)Activator.CreateInstance(_typeAccessProvider.DataAdapterType, args);
-            return dataAdapter;
+            object[] args = { selectCommand };
+            return (IDbDataAdapter)Activator.CreateInstance(dataAccessProviderTypeFactory.DataAdapterType, args);
         }
 
         public IDbDataAdapter CreateDataAdapter(string selectCommandText, string selectConnectionString)
         {
-            IDbDataAdapter dataAdapter = null;
-            Object[] args = { selectCommandText, selectConnectionString };
-            dataAdapter = (IDbDataAdapter)Activator.CreateInstance(_typeAccessProvider.DataAdapterType, args);
-            return dataAdapter;
+            object[] args = { selectCommandText, selectConnectionString };
+            return (IDbDataAdapter)Activator.CreateInstance(dataAccessProviderTypeFactory.DataAdapterType, args);
         }
 
         public IDbDataAdapter CreateDataAdapter(string selectCommandText, IDbConnection connection)
         {
-            IDbDataAdapter dataAdapter = null;
-            Object[] args = { selectCommandText, connection };
-            dataAdapter = (IDbDataAdapter)Activator.CreateInstance(_typeAccessProvider.DataAdapterType, args);
-            return dataAdapter;
+            object[] args = { selectCommandText, connection };
+            return (IDbDataAdapter)Activator.CreateInstance(dataAccessProviderTypeFactory.DataAdapterType, args);
         }
 
         public IDbDataParameter CreateParameter()
         {
-            IDbDataParameter parameter = null;
-            parameter = (IDbDataParameter)Activator.CreateInstance(_typeAccessProvider.ParameterType);
-            return parameter;
+            return (IDbDataParameter)Activator.CreateInstance(dataAccessProviderTypeFactory.ParameterType);
         }
 
         public IDbDataParameter CreateParameter(string parameterName, object value)
         {
-            IDbDataParameter param = null;
             object[] args = { parameterName, value };
-            param = (IDbDataParameter)Activator.CreateInstance(_typeAccessProvider.ParameterType, args);
-            return param;
+            return (IDbDataParameter)Activator.CreateInstance(dataAccessProviderTypeFactory.ParameterType, args);
         }
 
         public IDbDataParameter CreateParameter(string parameterName, DbType dataType)
         {
-            IDbDataParameter param = CreateParameter();
+            var parameter = CreateParameter();
 
-            if (param != null)
+            if (parameter != null)
             {
-                param.ParameterName = parameterName;
-                param.DbType = dataType;
+                parameter.ParameterName = parameterName;
+                parameter.DbType = dataType;
             }
 
-            return param;
+            return parameter;
         }
 
         public IDbDataParameter CreateParameter(string parameterName, DbType dataType, int size)
         {
-            IDbDataParameter param = CreateParameter();
+            var parameter = CreateParameter();
 
-            if (param != null)
+            if (parameter != null)
             {
-                param.ParameterName = parameterName;
-                param.DbType = dataType;
-                param.Size = size;
+                parameter.ParameterName = parameterName;
+                parameter.DbType = dataType;
+                parameter.Size = size;
             }
 
-            return param;
+            return parameter;
         }
 
         public IDbDataParameter CreateParameter(string parameterName, DbType dataType, int size, string sourceColumn)
         {
-            IDbDataParameter param = CreateParameter();
+            var parameter = CreateParameter();
 
-            if (param != null)
+            if (parameter != null)
             {
-                param.ParameterName = parameterName;
-                param.DbType = dataType;
-                param.Size = size;
-                param.SourceColumn = sourceColumn;
+                parameter.ParameterName = parameterName;
+                parameter.DbType = dataType;
+                parameter.Size = size;
+                parameter.SourceColumn = sourceColumn;
             }
 
-            return param;
+            return parameter;
         }
-
-        #endregion Methods
     }
 }

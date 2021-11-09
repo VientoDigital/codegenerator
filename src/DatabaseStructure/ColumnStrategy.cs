@@ -5,45 +5,39 @@ namespace iCodeGenerator.DatabaseStructure
 {
     public abstract class ColumnStrategy
     {
-        private IDbConnection _connection;
-        private DataAccessProviderFactory _dataAccessProvider;
-        private ColumnCollection _columns;
-        private KeyCollection _keys;
+        private IDbConnection connection;
+        private DataAccessProviderFactory dataAccessProviderFactory;
+        private ColumnCollection columns;
+        private KeyCollection keys;
 
         protected ColumnStrategy()
         {
-            _dataAccessProvider = new DataAccessProviderFactory(Server.ProviderType);
-            _connection = _dataAccessProvider.CreateConnection(Server.ConnectionString);
-            _columns = new ColumnCollection();
-            _keys = new KeyCollection();
+            dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
+            connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
+            columns = new ColumnCollection();
+            keys = new KeyCollection();
         }
 
-        protected ColumnCollection _Columns
-        {
-            get { return _columns; }
-        }
+        protected ColumnCollection Columns => columns;
 
-        protected KeyCollection _Keys
-        {
-            get { return _keys; }
-        }
+        protected KeyCollection Keys => keys;
 
         public ColumnCollection GetColumns(Table table)
         {
-            if (_connection.State == ConnectionState.Closed)
+            if (connection.State == ConnectionState.Closed)
             {
-                _connection.Open();
+                connection.Open();
             }
 
             if (Server.ProviderType != DataProviderType.Oracle)
             {
-                _connection.ChangeDatabase(table.ParentDatabase.Name);
+                connection.ChangeDatabase(table.ParentDatabase.Name);
             }
 
-            DataSet ds = ColumnSchema(table, _dataAccessProvider, _connection);
-            foreach (DataRow row in ds.Tables[0].Rows)
+            var set = ColumnSchema(table, dataAccessProviderFactory, connection);
+            foreach (DataRow row in set.Tables[0].Rows)
             {
-                Column column = CreateColumn(row);
+                var column = CreateColumn(row);
                 column.SetParentTable(table);
                 foreach (Key key in table.Keys)
                 {
@@ -56,10 +50,10 @@ namespace iCodeGenerator.DatabaseStructure
                         }
                     }
                 }
-                _Columns.Add(column);
+                Columns.Add(column);
             }
-            _connection.Close();
-            return _Columns;
+            connection.Close();
+            return Columns;
         }
 
         protected abstract DataSet ColumnSchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection);
@@ -68,22 +62,22 @@ namespace iCodeGenerator.DatabaseStructure
 
         public KeyCollection GetKeys(Table table)
         {
-            if (_connection.State == ConnectionState.Closed)
+            if (connection.State == ConnectionState.Closed)
             {
-                _connection.Open();
+                connection.Open();
             }
             if (Server.ProviderType != DataProviderType.Oracle)
             {
-                _connection.ChangeDatabase(table.ParentDatabase.Name);
+                connection.ChangeDatabase(table.ParentDatabase.Name);
             }
-            DataSet ds = KeySchema(table, _dataAccessProvider, _connection);
-            foreach (DataRow row in ds.Tables[0].Rows)
+            DataSet set = KeySchema(table, dataAccessProviderFactory, connection);
+            foreach (DataRow row in set.Tables[0].Rows)
             {
-                Key key = CreateKey(row);
-                _Keys.Add(key);
+                var key = CreateKey(row);
+                Keys.Add(key);
             }
-            _connection.Close();
-            return _Keys;
+            connection.Close();
+            return Keys;
         }
 
         protected abstract DataSet KeySchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection);

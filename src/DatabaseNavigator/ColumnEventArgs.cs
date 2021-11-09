@@ -5,16 +5,11 @@ namespace iCodeGenerator.DatabaseNavigator
 {
     public class ColumnEventArgs : EventArgs
     {
-        private Column _column;
-
-        public Column Column
-        {
-            get { return _column; }
-        }
+        public Column Column { get; }
 
         public ColumnEventArgs(Column column)
         {
-            _column = column;
+            Column = column;
         }
     }
 }

@@ -10,6 +10,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
@@ -20,98 +21,24 @@ namespace iCodeGenerator.ConfigurationManager
         public const string SchemaVersion = "http://icodegenerator.net/Configuration.xsd";
     }
 
-    [Serializable]
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public class SqlTypeCollection : ArrayList
-    {
-        public SqlType Add(SqlType obj)
-        {
-            base.Add(obj);
-            return obj;
-        }
-
-        public SqlType Add()
-        {
-            return Add(new SqlType());
-        }
-
-        public void Insert(int index, SqlType obj)
-        {
-            base.Insert(index, obj);
-        }
-
-        public void Remove(SqlType obj)
-        {
-            base.Remove(obj);
-        }
-
-        new public SqlType this[int index]
-        {
-            get { return (SqlType)base[index]; }
-            set { base[index] = value; }
-        }
-    }
-
-    [Serializable]
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public class DataTypesCollection : ArrayList
-    {
-        public DataTypes Add(DataTypes obj)
-        {
-            base.Add(obj);
-            return obj;
-        }
-
-        public DataTypes Add()
-        {
-            return Add(new DataTypes());
-        }
-
-        public void Insert(int index, DataTypes obj)
-        {
-            base.Insert(index, obj);
-        }
-
-        public void Remove(DataTypes obj)
-        {
-            base.Remove(obj);
-        }
-
-        new public DataTypes this[int index]
-        {
-            get { return (DataTypes)base[index]; }
-            set { base[index] = value; }
-        }
-    }
-
     [XmlRoot(ElementName = "Configuration", Namespace = Declarations.SchemaVersion, IsNullable = false), Serializable]
     public class ConfigFile
     {
-        [XmlElement(ElementName = "StartTag", IsNullable = false, Form = XmlSchemaForm.Qualified, DataType = "string", Namespace = Declarations.SchemaVersion)]
+        [XmlElement(Type = typeof(DataTypes), ElementName = "DataTypes", IsNullable = false, Form = XmlSchemaForm.Qualified, Namespace = Declarations.SchemaVersion)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public string __StartTag;
-
-        [XmlIgnore]
-        public string StartTag
-        {
-            get { return __StartTag; }
-            set { __StartTag = value; }
-        }
+        public DataTypesCollection __DataTypesCollection;
 
         [XmlElement(ElementName = "EndTag", IsNullable = false, Form = XmlSchemaForm.Qualified, DataType = "string", Namespace = Declarations.SchemaVersion)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public string __EndTag;
 
-        [XmlIgnore]
-        public string EndTag
-        {
-            get { return __EndTag; }
-            set { __EndTag = value; }
-        }
-
-        [XmlElement(Type = typeof(DataTypes), ElementName = "DataTypes", IsNullable = false, Form = XmlSchemaForm.Qualified, Namespace = Declarations.SchemaVersion)]
+        [XmlElement(ElementName = "StartTag", IsNullable = false, Form = XmlSchemaForm.Qualified, DataType = "string", Namespace = Declarations.SchemaVersion)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public DataTypesCollection __DataTypesCollection;
+        public string __StartTag;
+
+        public ConfigFile()
+        {
+        }
 
         [XmlIgnore]
         public DataTypesCollection DataTypesCollection
@@ -124,29 +51,30 @@ namespace iCodeGenerator.ConfigurationManager
             set { __DataTypesCollection = value; }
         }
 
-        public ConfigFile()
+        [XmlIgnore]
+        public string EndTag
         {
+            get { return __EndTag; }
+            set { __EndTag = value; }
+        }
+
+        [XmlIgnore]
+        public string StartTag
+        {
+            get { return __StartTag; }
+            set { __StartTag = value; }
         }
     }
 
     [XmlType(TypeName = "DataTypes", Namespace = Declarations.SchemaVersion), Serializable]
     public class DataTypes
     {
-        [System.Runtime.InteropServices.DispIdAttribute(-4)]
-        public IEnumerator GetEnumerator()
-        {
-            return SqlTypeCollection.GetEnumerator();
-        }
+        [XmlElement(Type = typeof(SqlType), ElementName = "SqlType", IsNullable = false, Form = XmlSchemaForm.Qualified, Namespace = Declarations.SchemaVersion)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public SqlTypeCollection __SqlTypeCollection;
 
-        public SqlType Add(SqlType obj)
+        public DataTypes()
         {
-            return SqlTypeCollection.Add(obj);
-        }
-
-        [XmlIgnore]
-        public SqlType this[int index]
-        {
-            get { return (SqlType)SqlTypeCollection[index]; }
         }
 
         [XmlIgnore]
@@ -155,9 +83,37 @@ namespace iCodeGenerator.ConfigurationManager
             get { return SqlTypeCollection.Count; }
         }
 
+        [XmlIgnore]
+        public SqlTypeCollection SqlTypeCollection
+        {
+            get
+            {
+                if (__SqlTypeCollection == null) __SqlTypeCollection = new SqlTypeCollection();
+                return __SqlTypeCollection;
+            }
+            set { __SqlTypeCollection = value; }
+        }
+
+        [XmlIgnore]
+        public SqlType this[int index]
+        {
+            get { return SqlTypeCollection[index]; }
+        }
+
+        public SqlType Add(SqlType obj)
+        {
+            return SqlTypeCollection.Add(obj);
+        }
+
         public void Clear()
         {
             SqlTypeCollection.Clear();
+        }
+
+        [DispId(-4)]
+        public IEnumerator GetEnumerator()
+        {
+            return SqlTypeCollection.GetEnumerator();
         }
 
         public SqlType Remove(int index)
@@ -171,25 +127,29 @@ namespace iCodeGenerator.ConfigurationManager
         {
             SqlTypeCollection.Remove(obj);
         }
+    }
 
-        [XmlElement(Type = typeof(SqlType), ElementName = "SqlType", IsNullable = false, Form = XmlSchemaForm.Qualified, Namespace = Declarations.SchemaVersion)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public SqlTypeCollection __SqlTypeCollection;
-
-        [XmlIgnore]
-        public SqlTypeCollection SqlTypeCollection
+    [Serializable]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public class DataTypesCollection : ArrayList
+    {
+        public new DataTypes this[int index]
         {
-            get
-            {
-                if (__SqlTypeCollection == null) __SqlTypeCollection = new SqlTypeCollection();
-                return __SqlTypeCollection;
-            }
-            set { __SqlTypeCollection = value; }
+            get { return (DataTypes)base[index]; }
+            set { base[index] = value; }
         }
 
-        public DataTypes()
+        public DataTypes Add(DataTypes obj)
         {
+            base.Add(obj);
+            return obj;
         }
+
+        public DataTypes Add() => Add(new DataTypes());
+
+        public void Insert(int index, DataTypes obj) => base.Insert(index, obj);
+
+        public void Remove(DataTypes obj) => base.Remove(obj);
     }
 
     [XmlType(TypeName = "SqlType", Namespace = Declarations.SchemaVersion), Serializable]
@@ -199,16 +159,13 @@ namespace iCodeGenerator.ConfigurationManager
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public string __name;
 
-        [XmlIgnore]
-        public string name
-        {
-            get { return __name; }
-            set { __name = value; }
-        }
-
         [XmlElement(ElementName = "value", IsNullable = false, Form = XmlSchemaForm.Qualified, DataType = "string", Namespace = Declarations.SchemaVersion)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public string __value;
+
+        public SqlType()
+        {
+        }
 
         [XmlIgnore]
         public string @value
@@ -217,8 +174,34 @@ namespace iCodeGenerator.ConfigurationManager
             set { __value = value; }
         }
 
-        public SqlType()
+        [XmlIgnore]
+        public string name
         {
+            get { return __name; }
+            set { __name = value; }
         }
+    }
+
+    [Serializable]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public class SqlTypeCollection : ArrayList
+    {
+        public new SqlType this[int index]
+        {
+            get { return (SqlType)base[index]; }
+            set { base[index] = value; }
+        }
+
+        public SqlType Add(SqlType obj)
+        {
+            base.Add(obj);
+            return obj;
+        }
+
+        public SqlType Add() => Add(new SqlType());
+
+        public void Insert(int index, SqlType obj) => base.Insert(index, obj);
+
+        public void Remove(SqlType obj) => base.Remove(obj);
     }
 }

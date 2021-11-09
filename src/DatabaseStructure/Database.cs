@@ -5,74 +5,53 @@ namespace iCodeGenerator.DatabaseStructure
 {
     public class Database
     {
-        private string _name;
-        private TableStrategy _strategy;
-        private bool _reload;
-        private TableCollection _tables;
-
-        private TableCollection _views;
+        private readonly TableStrategy strategy;
+        private bool reload;
+        private TableCollection tables;
+        private TableCollection views;
 
         public Database()
         {
-            if (Server.ProviderType == DataProviderType.SqlClient)
+            switch (Server.ProviderType)
             {
-                _strategy = new TableStrategySQLServer();
-            }
-            else if (Server.ProviderType == DataProviderType.MySql)
-            {
-                _strategy = new TableStrategyMySQL();
-            }
-            else if (Server.ProviderType == DataProviderType.PostgresSql)
-            {
-                _strategy = new TableStrategyPostgres();
-            }
-            else if (Server.ProviderType == DataProviderType.Oracle)
-            {
-                _strategy = new TableStrategyOracle();
+                case DataProviderType.SqlClient: strategy = new TableStrategySQLServer(); break;
+                case DataProviderType.MySql: strategy = new TableStrategyMySQL(); break;
+                case DataProviderType.PostgresSql: strategy = new TableStrategyPostgres(); break;
+                case DataProviderType.Oracle: strategy = new TableStrategyOracle(); break;
             }
         }
 
-        public void Reload()
-        {
-            _reload = true;
-        }
+        [Category("Database"), ReadOnly(true)]
+        public string Name { get; set; }
 
-        [CategoryAttribute("Database"),
-        ReadOnlyAttribute(true)]
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        [BrowsableAttribute(false),
-        DefaultValueAttribute(false)]
+        [Browsable(false), DefaultValue(false)]
         public TableCollection Tables
         {
             get
             {
-                if (_reload || _tables == null)
+                if (reload || tables == null)
                 {
-                    _tables = _strategy.GetTables(this);
-                    _reload = false;
+                    tables = strategy.GetTables(this);
+                    reload = false;
                 }
-                return _tables;
+                return tables;
             }
         }
 
-        [BrowsableAttribute(false),
-        DefaultValueAttribute(false)]
+        [Browsable(false), DefaultValue(false)]
         public TableCollection Views
         {
             get
             {
-                if (_reload || _views == null)
+                if (reload || views == null)
                 {
-                    _views = _strategy.GetViews(this);
-                    _reload = false;
+                    views = strategy.GetViews(this);
+                    reload = false;
                 }
-                return _views;
+                return views;
             }
         }
+
+        public void Reload() => reload = true;
     }
 }

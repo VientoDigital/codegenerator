@@ -5,6 +5,11 @@ namespace iCodeGenerator.Generator
 {
     public class TableNameReplaceExpression : Expression
     {
+        private static string InputPattern
+        {
+            get { return string.Concat(Context.StartDelimeter, @"TABLE.NAME.REPLACE\((?<oldValue>(.*)),(?<newValue>(.*))\)", Context.EndingDelimiter); }
+        }
+
         public override void Interpret(Context context)
         {
             var table = (Table)Parameter;
@@ -26,11 +31,6 @@ namespace iCodeGenerator.Generator
 
             context.Output = inputString;
             context.Input = context.Output;
-        }
-
-        private static string InputPattern
-        {
-            get { return string.Concat(Context.StartDelimeter, @"TABLE.NAME.REPLACE\((?<oldValue>(.*)),(?<newValue>(.*))\)", Context.EndingDelimiter); }
         }
     }
 }

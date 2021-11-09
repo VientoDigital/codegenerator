@@ -8,8 +8,8 @@ namespace iCodeGenerator.DatabaseStructure
     {
         protected override DataSet ColumnSchema(Table table, DataAccessProviderFactory dataProvider, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            String schemaQuery = "SELECT atc.OWNER, " +
+            var set = new DataSet();
+            string schemaQuery = "SELECT atc.OWNER, " +
                 "atc.TABLE_NAME, " +
                 "atc.COLUMN_NAME, " +
                 "atc.DATA_TYPE, " +
@@ -34,21 +34,23 @@ namespace iCodeGenerator.DatabaseStructure
                 "AND atc.TABLE_NAME = '" + table.Name + "' " +
                 "ORDER BY TABLE_NAME asc";
 
-            IDbCommand sqlCommand = dataProvider.CreateCommand(schemaQuery, connection);
+            var command = dataProvider.CreateCommand(schemaQuery, connection);
 
-            sqlCommand.CommandType = CommandType.Text;
-            IDbDataAdapter da = dataProvider.CreateDataAdapter();
-            da.SelectCommand = sqlCommand;
-            da.Fill(ds);
-            return ds;
+            command.CommandType = CommandType.Text;
+            var adapter = dataProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
 
         protected override Column CreateColumn(DataRow row)
         {
-            Column column = new Column();
-            column.Name = row["COLUMN_NAME"].ToString();
-            column.Type = row["DATA_TYPE"].ToString();
-            column.Length = Convert.ToInt16(row["DATA_LENGTH"].ToString());
+            var column = new Column
+            {
+                Name = row["COLUMN_NAME"].ToString(),
+                Type = row["DATA_TYPE"].ToString(),
+                Length = Convert.ToInt16(row["DATA_LENGTH"].ToString())
+            };
 
             if (row["NULLABLE"].ToString() == "Y")
             {
@@ -59,14 +61,14 @@ namespace iCodeGenerator.DatabaseStructure
                 column.Nullable = false;
             }
 
-            column.Default = "";
+            column.Default = string.Empty;
             return column;
         }
 
         protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataProvider, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            String schemaQuery = "SELECT acc.COLUMN_NAME, " +
+            var set = new DataSet();
+            string schemaQuery = "SELECT acc.COLUMN_NAME, " +
             "ac.CONSTRAINT_NAME, " +
             "ac.CONSTRAINT_TYPE " +
             "FROM ALL_CONS_COLUMNS acc " +
@@ -76,19 +78,22 @@ namespace iCodeGenerator.DatabaseStructure
             "AND ac.CONSTRAINT_NAME = acc.CONSTRAINT_NAME " +
             "where acc.owner = '" + table.ParentDatabase.Name + "' " +
             "and acc.Table_NAME = '" + table.Name + "'";
-            IDbCommand sqlCommand = dataProvider.CreateCommand(schemaQuery, connection);
-            sqlCommand.CommandType = CommandType.Text;
-            IDbDataAdapter da = dataProvider.CreateDataAdapter();
-            da.SelectCommand = sqlCommand;
-            da.Fill(ds);
-            return ds;
+            var command = dataProvider.CreateCommand(schemaQuery, connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
 
         protected override Key CreateKey(DataRow row)
         {
-            Key key = new Key();
-            key.Name = row["CONSTRAINT_NAME"].ToString();
-            key.ColumnName = row["COLUMN_NAME"].ToString();
+            var key = new Key
+            {
+                Name = row["CONSTRAINT_NAME"].ToString(),
+                ColumnName = row["COLUMN_NAME"].ToString()
+            };
+
             if (row["CONSTRAINT_TYPE"].ToString() == "P")
             {
                 key.IsPrimary = true;

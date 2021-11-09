@@ -5,16 +5,11 @@ namespace iCodeGenerator.DatabaseNavigator
 {
     public class DatabaseEventArgs : EventArgs
     {
-        private Database _database;
-
-        public Database Database
-        {
-            get { return _database; }
-        }
+        public Database Database { get; }
 
         public DatabaseEventArgs(Database database)
         {
-            _database = database;
+            Database = database;
         }
     }
 }

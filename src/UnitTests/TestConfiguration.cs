@@ -21,7 +21,6 @@ namespace iCodeGenerator.UnitTests
             config.Open(configFile);
             Console.WriteLine(config.StartTag);
             Console.WriteLine(config.EndTag);
-
             Console.WriteLine(config2.StartTag);
             Console.WriteLine(config2.EndTag);
         }
@@ -31,13 +30,17 @@ namespace iCodeGenerator.UnitTests
         {
             Configuration config = Configuration.Instance;
             if (File.Exists(configFile))
+            {
                 config.Open(configFile);
+            }
+
             config.StartTag = "<";
             config.EndTag = ">";
             foreach (string key in config.DataTypes.Keys)
             {
                 Console.WriteLine(config.DataTypes[key]);
             }
+
             config.Save(configFile);
             Assert.IsTrue(File.Exists(configFile));
         }

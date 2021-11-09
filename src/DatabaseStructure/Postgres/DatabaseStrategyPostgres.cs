@@ -7,11 +7,10 @@ namespace iCodeGenerator.DatabaseStructure
     {
         protected override Database CreateDatabase(DataRow row, DatabaseCollection databases)
         {
-            var database = new Database
+            return new Database
             {
                 Name = row["datname"].ToString()
             };
-            return database;
         }
 
         protected override DataSet DatabaseSchema(DataAccessProviderFactory dataProviderFactory, IDbConnection connection)

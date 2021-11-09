@@ -7,20 +7,21 @@ namespace iCodeGenerator.DatabaseStructure
     {
         protected override Database CreateDatabase(DataRow row, DatabaseCollection databases)
         {
-            Database db = new Database();
-            db.Name = row["DATABASE"].ToString();
-            return db;
+            return new Database
+            {
+                Name = row["DATABASE"].ToString()
+            };
         }
 
         protected override DataSet DatabaseSchema(DataAccessProviderFactory dataAccessProviderFactory, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            IDbCommand sqlString = dataAccessProviderFactory.CreateCommand("show databases", connection);
-            sqlString.CommandType = CommandType.Text;
-            IDbDataAdapter da = dataAccessProviderFactory.CreateDataAdapter();
-            da.SelectCommand = sqlString;
-            da.Fill(ds);
-            return ds;
+            var set = new DataSet();
+            var command = dataAccessProviderFactory.CreateCommand("show databases", connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataAccessProviderFactory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
     }
 }

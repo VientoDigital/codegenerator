@@ -10,70 +10,40 @@ namespace iCodeGenerator.ConfigurationManager
     public class Configuration
     {
         private const string iCodeConfigFile = @"C:\iCodeConfig.xml";
-        private static Configuration _Instance = new Configuration();
-        private static ConfigFile _ConfigFile = new ConfigFile();
-        private Hashtable _DataTypes = new Hashtable();
-
-        public static Configuration Instance
-        {
-            get { return _Instance; }
-            set { _Instance = value; }
-        }
+        private static ConfigFile configFile = new ConfigFile();
+        private Hashtable cataTypes = new Hashtable();
 
         protected Configuration()
         {
         }
 
-        public void Save(string filename)
+        public static Configuration Instance { get; set; } = new Configuration();
+
+        public IDictionary DataTypes
         {
-            AssignDataTypes();
-            XmlSerializer serializer = new XmlSerializer(typeof(ConfigFile));
-            TextWriter writer = new StreamWriter(filename);
-            serializer.Serialize(writer, _ConfigFile);
-            writer.Close();
+            get { return cataTypes; }
+            set { cataTypes = (Hashtable)value; }
+        }
+
+        public string EndTag
+        {
+            get { return configFile.EndTag; }
+            set { configFile.EndTag = value; }
+        }
+
+        public string StartTag
+        {
+            get { return configFile.StartTag; }
+            set { configFile.StartTag = value; }
         }
 
         public void Open(string filename)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(ConfigFile));
+            var serializer = new XmlSerializer(typeof(ConfigFile));
             TextReader reader = new StreamReader(filename);
-            _ConfigFile = (ConfigFile)serializer.Deserialize(reader);
+            configFile = (ConfigFile)serializer.Deserialize(reader);
             reader.Close();
             LoadDataTypes();
-        }
-
-        private DataTypes AssignDataTypes()
-        {
-            DataTypes dts = GetConfigDataTypes();
-            dts.Clear();
-            foreach (string key in _DataTypes.Keys)
-            {
-                SqlType type = new SqlType();
-                type.name = key;
-                type.value = _DataTypes[key].ToString();
-                dts.Add(type);
-            }
-            return dts;
-        }
-
-        private void LoadDataTypes()
-        {
-            DataTypes dts = GetConfigDataTypes();
-            foreach (SqlType sqlt in dts.SqlTypeCollection)
-            {
-                if (!_DataTypes.ContainsKey(sqlt.name))
-                    _DataTypes.Add(sqlt.name, sqlt.value);
-            }
-        }
-
-        private static DataTypes GetConfigDataTypes()
-        {
-            DataTypes dts;
-            if (_ConfigFile.DataTypesCollection.Count == 1)
-                dts = _ConfigFile.DataTypesCollection[0];
-            else
-                dts = new DataTypes();
-            return dts;
         }
 
         public void Open()
@@ -81,27 +51,59 @@ namespace iCodeGenerator.ConfigurationManager
             Open(iCodeConfigFile);
         }
 
+        public void Save(string filename)
+        {
+            AssignDataTypes();
+            var serializer = new XmlSerializer(typeof(ConfigFile));
+            TextWriter writer = new StreamWriter(filename);
+            serializer.Serialize(writer, configFile);
+            writer.Close();
+        }
+
         public void Save()
         {
             Save(iCodeConfigFile);
         }
 
-        public string StartTag
+        private static DataTypes GetConfigDataTypes()
         {
-            get { return _ConfigFile.StartTag; }
-            set { _ConfigFile.StartTag = value; }
+            DataTypes dataTypes;
+            if (configFile.DataTypesCollection.Count == 1)
+            {
+                dataTypes = configFile.DataTypesCollection[0];
+            }
+            else
+            {
+                dataTypes = new DataTypes();
+            }
+            return dataTypes;
         }
 
-        public string EndTag
+        private DataTypes AssignDataTypes()
         {
-            get { return _ConfigFile.EndTag; }
-            set { _ConfigFile.EndTag = value; }
+            var dataTypes = GetConfigDataTypes();
+            dataTypes.Clear();
+            foreach (string key in cataTypes.Keys)
+            {
+                dataTypes.Add(new SqlType
+                {
+                    name = key,
+                    value = cataTypes[key].ToString()
+                });
+            }
+            return dataTypes;
         }
 
-        public IDictionary DataTypes
+        private void LoadDataTypes()
         {
-            get { return _DataTypes; }
-            set { _DataTypes = (Hashtable)value; }
+            var dataTypes = GetConfigDataTypes();
+            foreach (SqlType sqlType in dataTypes.SqlTypeCollection)
+            {
+                if (!cataTypes.ContainsKey(sqlType.name))
+                {
+                    cataTypes.Add(sqlType.name, sqlType.value);
+                }
+            }
         }
     }
 }

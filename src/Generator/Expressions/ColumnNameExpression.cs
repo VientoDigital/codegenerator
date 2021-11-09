@@ -13,6 +13,7 @@ namespace iCodeGenerator.Generator
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
             var inputString = context.Input;
             var matches = regex.Matches(inputString);
+
             foreach (Match match in matches)
             {
                 var matchString = match.Value;
@@ -21,6 +22,7 @@ namespace iCodeGenerator.Generator
                 replacement = CaseConversion(naming, replacement, column.Name);
                 inputString = Regex.Replace(inputString, matchString, replacement);
             }
+
             context.Output = inputString;
             context.Input = context.Output;
         }

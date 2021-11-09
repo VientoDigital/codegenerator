@@ -9,10 +9,10 @@ namespace iCodeGenerator.iCodeGeneratorConsole
     /// </summary>
     public class MainConsole
     {
-        private string inputFolder = String.Empty;
-        private string outputFolder = String.Empty;
-        private string connectionString = String.Empty;
-        private string providerType = String.Empty;
+        private string inputFolder = string.Empty;
+        private string outputFolder = string.Empty;
+        private string connectionString = string.Empty;
+        private string providerType = string.Empty;
         private bool verbose = false;
         private bool errors = false;
 
@@ -41,37 +41,20 @@ namespace iCodeGenerator.iCodeGeneratorConsole
 
         private void GetInputValues(string[] args)
         {
-            GetOpt opt = new GetOpt(args, "vi:o:c:t:");
-            Arg arg = opt.NextArg();
+            var options = new GetOpt(args, "vi:o:c:t:");
+            var arg = options.NextArg();
             while (arg != null)
             {
                 switch (arg.Flag)
                 {
-                    case "-v":
-                        verbose = true;
-                        break;
-
-                    case "-i":
-                        inputFolder = GetFolderPath(arg, "Invalid input folder path.");
-                        break;
-
-                    case "-o":
-                        outputFolder = GetFolderPath(arg, "Invalid output folder path");
-                        break;
-
-                    case "-c":
-                        connectionString = arg.Parameter.Trim();
-                        break;
-
-                    case "-t":
-                        providerType = arg.Parameter.Trim();
-                        break;
-
-                    default:
-                        PrintUsage();
-                        return;
+                    case "-v": verbose = true; break;
+                    case "-i": inputFolder = GetFolderPath(arg, "Invalid input folder path."); break;
+                    case "-o": outputFolder = GetFolderPath(arg, "Invalid output folder path"); break;
+                    case "-c": connectionString = arg.Parameter.Trim(); break;
+                    case "-t": providerType = arg.Parameter.Trim(); break;
+                    default: PrintUsage(); return;
                 }
-                arg = opt.NextArg();
+                arg = options.NextArg();
             }
         }
 
@@ -85,7 +68,7 @@ namespace iCodeGenerator.iCodeGeneratorConsole
             {
                 Console.Error.WriteLine(message);
                 errors = true;
-                return String.Empty;
+                return string.Empty;
             }
         }
 

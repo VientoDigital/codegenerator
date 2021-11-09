@@ -31,7 +31,7 @@ namespace iCodeGenerator.DatabaseNavigator
         */
         private ImageList uiNavigatorImageList;
 
-        private TreeNode _rootNode;
+        private TreeNode rootNode;
 
         #endregion Attributes
 
@@ -58,11 +58,11 @@ namespace iCodeGenerator.DatabaseNavigator
 
         private void InitializeTree()
         {
-            _rootNode = new TreeNode("Server");
-            _rootNode.Tag = new Server();
-            _rootNode.ImageIndex = (int)NavigatorIcon.ServerOff;
-            _rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOff;
-            uiNavigatorTreeView.Nodes.Add(_rootNode);
+            rootNode = new TreeNode("Server");
+            rootNode.Tag = new Server();
+            rootNode.ImageIndex = (int)NavigatorIcon.ServerOff;
+            rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOff;
+            uiNavigatorTreeView.Nodes.Add(rootNode);
         }
 
         private void InitializeMenu()
@@ -110,19 +110,19 @@ namespace iCodeGenerator.DatabaseNavigator
         {
             try
             {
-                _rootNode.Nodes.Clear();
+                rootNode.Nodes.Clear();
                 Server server = new Server();
-                _rootNode.Text = ConnectionString;
+                rootNode.Text = ConnectionString;
                 foreach (Database database in server.Databases)
                 {
-                    TreeNode databaseNode = new TreeNode(database.Name);
+                    var databaseNode = new TreeNode(database.Name);
                     databaseNode.Tag = database;
                     databaseNode.ImageIndex = (int)NavigatorIcon.DatabaseOff;
                     databaseNode.SelectedImageIndex = (int)NavigatorIcon.DatabaseOff;
-                    _rootNode.Nodes.Add(databaseNode);
+                    rootNode.Nodes.Add(databaseNode);
                 }
-                _rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOn;
-                _rootNode.ImageIndex = (int)NavigatorIcon.ServerOn;
+                rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOn;
+                rootNode.ImageIndex = (int)NavigatorIcon.ServerOn;
             }
             catch (Exception)
             {
@@ -137,10 +137,10 @@ namespace iCodeGenerator.DatabaseNavigator
 
         public void Disconnect()
         {
-            _rootNode.Nodes.Clear();
-            _rootNode.Text = "Server";
-            _rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOff;
-            _rootNode.ImageIndex = (int)NavigatorIcon.ServerOff;
+            rootNode.Nodes.Clear();
+            rootNode.Text = "Server";
+            rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOff;
+            rootNode.ImageIndex = (int)NavigatorIcon.ServerOff;
         }
 
         private void serverEdit_Activate(object sender, EventArgs e)
@@ -150,7 +150,7 @@ namespace iCodeGenerator.DatabaseNavigator
 
         public void ShowEditConnectionStringDialog()
         {
-            ServerSettingsForm editForm = new ServerSettingsForm();
+            var editForm = new ServerSettingsForm();
             if (editForm.ShowDialog(this) == DialogResult.OK)
             {
                 Connect();
@@ -161,9 +161,9 @@ namespace iCodeGenerator.DatabaseNavigator
         private void SetDatabaseMenu()
         {
             var contextMenu = new ContextMenu();
-            var miOpen = new MenuItem("Open");
-            miOpen.Click += databaseOpen_Activate;
-            contextMenu.MenuItems.Add(miOpen);
+            var openMenuItem = new MenuItem("Open");
+            openMenuItem.Click += databaseOpen_Activate;
+            contextMenu.MenuItems.Add(openMenuItem);
             ContextMenu = contextMenu;
         }
 
@@ -174,14 +174,14 @@ namespace iCodeGenerator.DatabaseNavigator
 
         private void OpenSelectedDatabase()
         {
-            TreeNode databaseNode = uiNavigatorTreeView.SelectedNode;
+            var databaseNode = uiNavigatorTreeView.SelectedNode;
             databaseNode.Nodes.Clear();
 
             /* Changed by Ferhat */
             // Fill tree with tables
             foreach (Table table in ((Database)databaseNode.Tag).Tables)
             {
-                TreeNode tableNode = new TreeNode(table.Name);
+                var tableNode = new TreeNode(table.Name);
                 tableNode.Tag = table;
                 tableNode.ImageIndex = (int)NavigatorIcon.Table;
                 tableNode.SelectedImageIndex = (int)NavigatorIcon.Table;
@@ -192,7 +192,7 @@ namespace iCodeGenerator.DatabaseNavigator
             databaseNode = uiNavigatorTreeView.SelectedNode;
             foreach (Table table in ((Database)databaseNode.Tag).Views)
             {
-                TreeNode tableNode = new TreeNode(table.Name);
+                var tableNode = new TreeNode(table.Name);
                 tableNode.Tag = table;
                 tableNode.ImageIndex = (int)NavigatorIcon.Table;
                 tableNode.SelectedImageIndex = (int)NavigatorIcon.Table;
@@ -220,11 +220,11 @@ namespace iCodeGenerator.DatabaseNavigator
 
         private void OpenSelectedTable()
         {
-            TreeNode tableNode = uiNavigatorTreeView.SelectedNode;
+            var tableNode = uiNavigatorTreeView.SelectedNode;
             tableNode.Nodes.Clear();
             foreach (Column column in ((Table)tableNode.Tag).Columns)
             {
-                TreeNode columnNode = new TreeNode(column.Name);
+                var columnNode = new TreeNode(column.Name);
                 columnNode.Tag = column;
                 columnNode.ImageIndex = (int)NavigatorIcon.Column;
                 columnNode.SelectedImageIndex = (int)NavigatorIcon.Column;
@@ -253,8 +253,8 @@ namespace iCodeGenerator.DatabaseNavigator
 
         private void columnRemove_Activate(object sender, EventArgs e)
         {
-            TreeNode node = uiNavigatorTreeView.SelectedNode;
-            Column column = node.Tag as Column;
+            var node = uiNavigatorTreeView.SelectedNode;
+            var column = node.Tag as Column;
             column.ParentTable.Columns.Remove(column);
             node.Remove();
         }

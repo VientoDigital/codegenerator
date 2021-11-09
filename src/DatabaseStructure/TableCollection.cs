@@ -11,25 +11,13 @@ namespace iCodeGenerator.DatabaseStructure
             set { List[index] = value; }
         }
 
-        public void Add(Table table)
-        {
-            List.Add(table);
-        }
+        public void Add(Table table) => List.Add(table);
 
-        public int IndexOf(Table table)
-        {
-            return List.IndexOf(table);
-        }
+        public bool Contains(Table table) => List.Contains(table);
 
-        public void Remove(Table table)
-        {
-            List.Remove(table);
-        }
+        public int IndexOf(Table table) => List.IndexOf(table);
 
-        public bool Contains(Table table)
-        {
-            return List.Contains(table);
-        }
+        public void Remove(Table table) => List.Remove(table);
 
         protected override void OnValidate(object value)
         {

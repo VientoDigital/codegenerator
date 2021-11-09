@@ -4,83 +4,39 @@ namespace iCodeGenerator.DatabaseStructure
 {
     public class Server
     {
-        #region Attributes
+        private readonly DatabaseStrategy strategy;
+        private DatabaseCollection databases;
+        private bool reload;
 
-        private DatabaseStrategy _strategy;
-        private bool _reload;
-        private DatabaseCollection _databases;
-        private static DataProviderType _providerType;
-        private static string _connectionString;
-
-        #endregion Attributes
-
-        #region Properties
-
-        public static DataProviderType ProviderType
+        public Server()
         {
-            get { return _providerType; }
-            set { _providerType = value; }
+            switch (ProviderType)
+            {
+                case DataProviderType.SqlClient: strategy = new DatabaseStrategySQLServer(); break;
+                case DataProviderType.MySql: strategy = new DatabaseStrategyMySQL(); break;
+                case DataProviderType.PostgresSql: strategy = new DatabaseStrategyPostgres(); break;
+                case DataProviderType.Oracle: strategy = new DatabaseStrategyOracle(); break;
+            }
         }
+
+        public static string ConnectionString { get; set; }
+
+        public static DataProviderType ProviderType { get; set; }
 
         public DatabaseCollection Databases
         {
             get
             {
-                if (_reload || _databases == null)
+                if (reload || databases == null)
                 {
-                    _databases = _strategy.GetDatabases();
+                    databases = strategy.GetDatabases();
                 }
-                return _databases;
+                return databases;
             }
         }
 
-        public Database SelectedDatabase
-        {
-            get
-            {
-                return _strategy.SelectedDatabase;
-            }
-        }
+        public Database SelectedDatabase => strategy.SelectedDatabase;
 
-        public static string ConnectionString
-        {
-            get { return _connectionString; }
-            set { _connectionString = value; }
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        public void Reload()
-        {
-            _reload = true;
-        }
-
-        #endregion Methods
-
-        #region Constructor
-
-        public Server()
-        {
-            if (_providerType == DataProviderType.SqlClient)
-            {
-                _strategy = new DatabaseStrategySQLServer();
-            }
-            else if (_providerType == DataProviderType.MySql)
-            {
-                _strategy = new DatabaseStrategyMySQL();
-            }
-            else if (_providerType == DataProviderType.PostgresSql)
-            {
-                _strategy = new DatabaseStrategyPostgres();
-            }
-            else if (_providerType == DataProviderType.Oracle)
-            {
-                _strategy = new DatabaseStrategyOracle();
-            }
-        }
-
-        #endregion Constructor
+        public void Reload() => reload = true;
     }
 }

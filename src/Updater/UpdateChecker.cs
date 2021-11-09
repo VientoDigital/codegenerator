@@ -7,6 +7,7 @@ namespace iCodeGenerator.Updater
     public class Software
     {
         public string Name { get; set; }
+
         public string Version { get; set; }
     }
 
@@ -17,15 +18,9 @@ namespace iCodeGenerator.Updater
     {
         public static string Version = "2.1";
         private const string Url = "http://icodegenerator.net/version";
-        private static Software _software;
+        private static Software software;
 
-        public static bool IsNewUpdate
-        {
-            get
-            {
-                return CheckUpdates();
-            }
-        }
+        public static bool IsNewUpdate => CheckUpdates();
 
         public static Software Software
         {
@@ -33,13 +28,15 @@ namespace iCodeGenerator.Updater
             {
                 try
                 {
-                    if (_software != null)
-                        return _software;
+                    if (software != null)
+                    {
+                        return software;
+                    }
                     var request = (HttpWebRequest)WebRequest.Create(Url);
                     var response = (HttpWebResponse)request.GetResponse();
                     var content = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                    _software = JsonConvert.DeserializeObject<Software>(content);
-                    return _software;
+                    software = JsonConvert.DeserializeObject<Software>(content);
+                    return software;
                 }
                 catch
                 {

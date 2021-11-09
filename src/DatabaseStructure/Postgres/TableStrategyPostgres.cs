@@ -23,13 +23,12 @@ namespace iCodeGenerator.DatabaseStructure
 
         protected override Table CreateTable(Database database, DataRow row)
         {
-            var table = new Table
+            return new Table
             {
                 ParentDatabase = database,
                 Name = row["tablename"].ToString(),
                 Schema = string.Empty
             };
-            return table;
         }
     }
 }

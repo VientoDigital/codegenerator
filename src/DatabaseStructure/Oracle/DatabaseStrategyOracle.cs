@@ -7,20 +7,21 @@ namespace iCodeGenerator.DatabaseStructure
     {
         protected override Database CreateDatabase(DataRow row, DatabaseCollection databases)
         {
-            Database db = new iCodeGenerator.DatabaseStructure.Database();
-            db.Name = row["USERNAME"].ToString();
-            return db;
+            return new Database
+            {
+                Name = row["USERNAME"].ToString()
+            };
         }
 
         protected override DataSet DatabaseSchema(DataAccessProviderFactory dataProviderFactory, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            IDbCommand sqlString = dataProviderFactory.CreateCommand("SELECT DISTINCT USERNAME FROM ALL_USERS", connection);
-            sqlString.CommandType = CommandType.Text;
-            IDbDataAdapter da = dataProviderFactory.CreateDataAdapter();
-            da.SelectCommand = sqlString;
-            da.Fill(ds);
-            return ds;
+            var set = new DataSet();
+            var command = dataProviderFactory.CreateCommand("SELECT DISTINCT USERNAME FROM ALL_USERS", connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataProviderFactory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
     }
 }

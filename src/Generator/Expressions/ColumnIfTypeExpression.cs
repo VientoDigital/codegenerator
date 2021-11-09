@@ -5,18 +5,37 @@ namespace iCodeGenerator.Generator
 {
     public class ColumnIfTypeExpression : Expression
     {
+        private static string InputPattern
+        {
+            get
+            {
+                return @"\s*" +
+                    Context.StartDelimeter +
+                    @"IF COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+'(?<typeValue>[a-zA-Z0-9_)(|]+)'" +
+                    Context.EndingDelimiter +
+                    //Content between IF tags
+                    "(?<content>.+?)" +
+                    Context.StartDelimeter +
+                    "/IF" +
+                    Context.EndingDelimiter +
+                    @"(?<end>\s*)";
+            }
+        }
+
         public override void Interpret(Context context)
         {
-            Column column = (Column)Parameter;
-            Regex regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var column = (Column)Parameter;
+            var regex = new Regex(InputPattern, RegexOptions.Singleline);
             string inputString = context.Input;
-            MatchCollection matches = regex.Matches(inputString);
+            var matches = regex.Matches(inputString);
+
             foreach (Match match in matches)
             {
                 if (match.Length == 0)
                 {
                     continue;
                 }
+
                 bool isEqual = (match.Groups["equality"].ToString().IndexOf("EQ") != -1);
                 bool isNotEqual = (match.Groups["equality"].ToString().IndexOf("NE") != -1);
                 string contentString = match.Groups["content"].ToString();
@@ -45,7 +64,7 @@ namespace iCodeGenerator.Generator
                 }
                 if (!isAMatch)
                 {
-                    ReplaceContent(match.Value, "", ref inputString);
+                    ReplaceContent(match.Value, string.Empty, ref inputString);
                 }
             }
             context.Output = inputString;
@@ -55,23 +74,6 @@ namespace iCodeGenerator.Generator
         private static void ReplaceContent(string matchString, string replacementString, ref string inputString)
         {
             inputString = Regex.Replace(inputString, Regex.Escape(matchString), replacementString);
-        }
-
-        private static string InputPattern
-        {
-            get
-            {
-                return @"\s*" +
-                    Context.StartDelimeter +
-                    @"IF COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+'(?<typeValue>[a-zA-Z0-9_)(|]+)'" +
-                    Context.EndingDelimiter +
-                    //Content between IF tags
-                    "(?<content>.+?)" +
-                    Context.StartDelimeter +
-                    "/IF" +
-                    Context.EndingDelimiter +
-                    @"(?<end>\s*)";
-            }
         }
     }
 }

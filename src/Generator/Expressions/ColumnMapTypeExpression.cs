@@ -9,10 +9,7 @@ namespace iCodeGenerator.Generator
     {
         private static DataTypeManager manager = null;
 
-        protected IDictionary Mappings
-        {
-            get { return manager.SelectedLanguage.Mappings; }
-        }
+        protected IDictionary Mappings => manager.SelectedLanguage.Mappings;
 
         public ColumnMapTypeExpression() : base()
         {
@@ -24,9 +21,10 @@ namespace iCodeGenerator.Generator
 
         public override void Interpret(Context context)
         {
-            Column column = (Column)Parameter;
-            string strValue = "";
+            var column = (Column)Parameter;
             IDictionary mappings = Mappings;
+            string strValue;
+
             if (mappings.Contains(column.Type.ToLower()))
             {
                 strValue = mappings[column.Type.ToLower()].ToString();

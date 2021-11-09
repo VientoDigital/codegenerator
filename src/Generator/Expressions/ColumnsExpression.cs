@@ -6,25 +6,46 @@ namespace iCodeGenerator.Generator
 {
     public class ColumnsExpression : Expression
     {
-        private const string PRIMARY = "PRIMARY";
         private const string NOPRIMARY = "NOPRIMARY";
-        private ArrayList _expressions;
+        private const string PRIMARY = "PRIMARY";
+        private ArrayList expressions;
 
         public ColumnsExpression()
         {
-            _expressions = new ArrayList();
+            expressions = new ArrayList();
+        }
+
+        private static string InputPattern
+        {
+            get
+            {
+                return Context.StartDelimeter +
+                    @"TABLE.COLUMNS(?<selection> (ALL|PRIMARY|NOPRIMARY))?" +
+                    Context.EndingDelimiter +
+                    "(?<column>.+?)" +
+                    Context.StartDelimeter +
+                    "/TABLE.COLUMNS" +
+                    Context.EndingDelimiter;
+            }
+        }
+
+        public override void AddExpression(Expression expression)
+        {
+            expressions.Add(expression);
         }
 
         public override void Interpret(Context context)
         {
-            Regex regex = new Regex(InputPattern, RegexOptions.Singleline);
-            MatchCollection matches = regex.Matches(context.Input);
+            var regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var matches = regex.Matches(context.Input);
+
             foreach (Match match in matches)
             {
-                string columnOutput = "";
+                string columnOutput = string.Empty;
                 string columnInput = match.Groups["column"].Value;
-                ColumnCollection columns = ((Table)Parameter).Columns;
-                ColumnCollection filteredColumns = new ColumnCollection();
+                var columns = ((Table)Parameter).Columns;
+                var filteredColumns = new ColumnCollection();
+
                 foreach (Column column in columns)
                 {
                     if (IsValidColumn(column, match.Groups["selection"].Value.Trim()))
@@ -32,16 +53,23 @@ namespace iCodeGenerator.Generator
                         filteredColumns.Add(column);
                     }
                 }
+
                 foreach (Column column in filteredColumns)
                 {
                     string columnTemporaryText = columnInput;
                     RunExpressionsReplace(column, filteredColumns, ref columnTemporaryText);
                     columnOutput += columnTemporaryText;
                 }
+
                 string escapedString = Regex.Escape(match.Value);
                 context.Output = Regex.Replace(context.Input, escapedString, columnOutput);
                 context.Input = context.Output;
             }
+        }
+
+        public override void RemoveExpression(Expression expression)
+        {
+            expressions.Remove(expression);
         }
 
         private bool IsValidColumn(Column column, string selectionString)
@@ -60,41 +88,20 @@ namespace iCodeGenerator.Generator
             return true;
         }
 
-        private static string InputPattern
-        {
-            get
-            {
-                return Context.StartDelimeter +
-                    @"TABLE.COLUMNS(?<selection> (ALL|PRIMARY|NOPRIMARY))?" +
-                    Context.EndingDelimiter +
-                    "(?<column>.+?)" +
-                    Context.StartDelimeter +
-                    "/TABLE.COLUMNS" +
-                    Context.EndingDelimiter;
-            }
-        }
-
         private void RunExpressionsReplace(Column column, object columns, ref string columnInputText)
         {
-            Context columnContext = new Context();
-            columnContext.Extra = columns;
-            foreach (Expression expression in _expressions)
+            var columnContext = new Context
+            {
+                Extra = columns
+            };
+
+            foreach (Expression expression in expressions)
             {
                 columnContext.Input = columnInputText;
                 expression.Parameter = column;
                 expression.Interpret(columnContext);
                 columnInputText = columnContext.Output;
             }
-        }
-
-        public override void AddExpression(Expression expression)
-        {
-            _expressions.Add(expression);
-        }
-
-        public override void RemoveExpression(Expression expression)
-        {
-            _expressions.Remove(expression);
         }
     }
 }

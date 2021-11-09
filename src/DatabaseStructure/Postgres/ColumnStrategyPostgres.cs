@@ -42,7 +42,7 @@ namespace iCodeGenerator.DatabaseStructure
         {
             int length = Convert.ToInt32(row["attlen"]);
 
-            var column = new Column
+            return new Column
             {
                 Name = row["attname"].ToString(),
                 Type = row["atttype"].ToString(),
@@ -50,7 +50,6 @@ namespace iCodeGenerator.DatabaseStructure
                 Nullable = !Convert.ToBoolean(row["attnotnull"]),
                 Default = row["attdef"].ToString()
             };
-            return column;
         }
 
         protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataProvider, IDbConnection connection)
@@ -69,13 +68,12 @@ namespace iCodeGenerator.DatabaseStructure
 
         protected override Key CreateKey(DataRow row)
         {
-            var key = new Key
+            return new Key
             {
                 Name = row["relname"].ToString(),
                 ColumnName = row["relname"].ToString(),
                 IsPrimary = Convert.ToBoolean(row["indisprimary"])
             };
-            return key;
         }
     }
 }

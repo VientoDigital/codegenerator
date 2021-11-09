@@ -5,31 +5,31 @@ namespace iCodeGenerator.Generator
 {
     public class Parser : Expression
     {
-        private ArrayList _expressions = new ArrayList();
-        private Table _table;
-
-        public override void AddExpression(Expression expression)
-        {
-            _expressions.Add(expression);
-        }
-
-        public override void RemoveExpression(Expression expression)
-        {
-            _expressions.Remove(expression);
-        }
+        private ArrayList expressions = new ArrayList();
+        private Table table;
 
         public Parser(Table table)
         {
-            _table = table;
+            this.table = table;
+        }
+
+        public override void AddExpression(Expression expression)
+        {
+            expressions.Add(expression);
         }
 
         public override void Interpret(Context context)
         {
-            foreach (Expression expression in _expressions)
+            foreach (Expression expression in expressions)
             {
-                expression.Parameter = _table;
+                expression.Parameter = table;
                 expression.Interpret(context);
             }
+        }
+
+        public override void RemoveExpression(Expression expression)
+        {
+            expressions.Remove(expression);
         }
     }
 }

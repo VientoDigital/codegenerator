@@ -8,31 +8,36 @@ namespace iCodeGenerator.DatabaseStructure
     {
         protected override DataSet ColumnSchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            IDbCommand sqlSp = dataAccessProvider.CreateCommand("sp_columns", connection);
-            sqlSp.CommandType = CommandType.StoredProcedure;
-            IDbDataParameter param = dataAccessProvider.CreateParameter();
-            param.Direction = ParameterDirection.Input;
-            param.DbType = DbType.String;
-            param.ParameterName = "@table_name";
-            param.Value = table.Name;
-            sqlSp.Parameters.Add(param);
-            IDbDataParameter schemaParameter = dataAccessProvider.CreateParameter();
+            var set = new DataSet();
+            var command = dataAccessProvider.CreateCommand("sp_columns", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            var parameter = dataAccessProvider.CreateParameter();
+            parameter.Direction = ParameterDirection.Input;
+            parameter.DbType = DbType.String;
+            parameter.ParameterName = "@table_name";
+            parameter.Value = table.Name;
+            command.Parameters.Add(parameter);
+
+            var schemaParameter = dataAccessProvider.CreateParameter();
             schemaParameter.Direction = ParameterDirection.Input;
             schemaParameter.DbType = DbType.String;
             schemaParameter.ParameterName = "@table_owner";
             schemaParameter.Value = table.Schema;
-            sqlSp.Parameters.Add(schemaParameter);
-            IDbDataAdapter da = dataAccessProvider.CreateDataAdapter();
-            da.SelectCommand = sqlSp;
-            da.Fill(ds);
-            return ds;
+            command.Parameters.Add(schemaParameter);
+
+            var adapter = dataAccessProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
 
         protected override Column CreateColumn(DataRow row)
         {
-            Column column = new Column();
-            column.Name = row["COLUMN_NAME"].ToString();
+            var column = new Column
+            {
+                Name = row["COLUMN_NAME"].ToString()
+            };
 
             string type = row["TYPE_NAME"].ToString();
             if (type.IndexOf("identity") != -1)
@@ -52,56 +57,64 @@ namespace iCodeGenerator.DatabaseStructure
 
         protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
         {
-            DataSet dsPkeys = new DataSet();
-            IDbCommand sqlSp = dataAccessProvider.CreateCommand("sp_pkeys", connection);
-            sqlSp.CommandType = CommandType.StoredProcedure;
-            IDbDataParameter param = dataAccessProvider.CreateParameter();
-            param.Direction = ParameterDirection.Input;
-            param.DbType = DbType.String;
-            param.ParameterName = "@table_name";
-            param.Value = table.Name;
-            sqlSp.Parameters.Add(param);
-            IDbDataParameter schemaParameter = dataAccessProvider.CreateParameter();
+            var keysSet = new DataSet();
+            var command = dataAccessProvider.CreateCommand("sp_pkeys", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            var parameter = dataAccessProvider.CreateParameter();
+            parameter.Direction = ParameterDirection.Input;
+            parameter.DbType = DbType.String;
+            parameter.ParameterName = "@table_name";
+            parameter.Value = table.Name;
+            command.Parameters.Add(parameter);
+
+            var schemaParameter = dataAccessProvider.CreateParameter();
             schemaParameter.Direction = ParameterDirection.Input;
             schemaParameter.DbType = DbType.String;
             schemaParameter.ParameterName = "@table_owner";
             schemaParameter.Value = table.Schema;
-            sqlSp.Parameters.Add(schemaParameter);
-            IDbDataAdapter da = dataAccessProvider.CreateDataAdapter();
-            da.SelectCommand = sqlSp;
-            da.Fill(dsPkeys);
-            foreach (DataRow row in dsPkeys.Tables[0].Rows)
+            command.Parameters.Add(schemaParameter);
+
+            var adapter = dataAccessProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(keysSet);
+
+            foreach (DataRow row in keysSet.Tables[0].Rows)
             {
-                Key key = new Key();
-                key.Name = row["PK_NAME"].ToString();
-                key.ColumnName = row["COLUMN_NAME"].ToString();
-                key.IsPrimary = true;
-                _Keys.Add(key);
+                Keys.Add(new Key
+                {
+                    Name = row["PK_NAME"].ToString(),
+                    ColumnName = row["COLUMN_NAME"].ToString(),
+                    IsPrimary = true
+                });
             }
 
-            DataSet ds = new DataSet();
-            sqlSp = dataAccessProvider.CreateCommand("sp_fkeys", connection);
-            sqlSp.CommandType = CommandType.StoredProcedure;
-            param = dataAccessProvider.CreateParameter();
-            param.Direction = ParameterDirection.Input;
-            param.DbType = DbType.String;
-            param.ParameterName = "@pktable_name";
-            param.Value = table.Name;
-            sqlSp.Parameters.Add(param);
-            da = dataAccessProvider.CreateDataAdapter();
-            da.SelectCommand = sqlSp;
-            da.Fill(ds);
-            ds.Merge(dsPkeys);
-            return ds;
+            var set = new DataSet();
+            command = dataAccessProvider.CreateCommand("sp_fkeys", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            parameter = dataAccessProvider.CreateParameter();
+            parameter.Direction = ParameterDirection.Input;
+            parameter.DbType = DbType.String;
+            parameter.ParameterName = "@pktable_name";
+            parameter.Value = table.Name;
+            command.Parameters.Add(parameter);
+
+            adapter = dataAccessProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            set.Merge(keysSet);
+            return set;
         }
 
         protected override Key CreateKey(DataRow row)
         {
-            Key key = new Key();
-            key.Name = row["PK_NAME"].ToString();
-            key.ColumnName = row["FKCOLUMN_NAME"].ToString();
-            key.IsPrimary = false;
-            return key;
+            return new Key
+            {
+                Name = row["PK_NAME"].ToString(),
+                ColumnName = row["FKCOLUMN_NAME"].ToString(),
+                IsPrimary = false
+            };
         }
     }
 }

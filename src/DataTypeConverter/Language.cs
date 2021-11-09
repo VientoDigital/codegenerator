@@ -6,13 +6,7 @@ namespace iCodeGenerator.DataTypeConverter
 {
     public class Language
     {
-        private string _Name;
-
-        public string Name
-        {
-            get { return _Name; }
-            set { _Name = value; }
-        }
+        public string Name { get; set; }
 
         public Language()
         {
@@ -20,24 +14,25 @@ namespace iCodeGenerator.DataTypeConverter
 
         public Language(string languageName)
         {
-            _Name = languageName;
+            Name = languageName;
         }
 
         public IDictionary Mappings
         {
             get
             {
-                Hashtable mappings = new Hashtable();
-                XmlDocument doc = new XmlDocument();
-                doc.Load(DataTypeManager.Uri);
-                XmlNode root = doc.DocumentElement;
+                var mappings = new Hashtable();
+                var xmlDocument = new XmlDocument();
+                xmlDocument.Load(DataTypeManager.Uri);
+                var root = xmlDocument.DocumentElement;
+                var nav = root.CreateNavigator();
+                var nodeIterator = nav.Select("/DataTypes/Language[@name = \"" + Name + "\"]/SqlType");
 
-                XPathNavigator nav = root.CreateNavigator();
-                XPathNodeIterator nodeIterator = nav.Select("/DataTypes/Language[@name = \"" + _Name + "\"]/SqlType");
                 while (nodeIterator.MoveNext())
                 {
                     mappings.Add(nodeIterator.Current.GetAttribute("name", ""), nodeIterator.Current.Value.Trim());
                 }
+
                 return mappings;
             }
         }

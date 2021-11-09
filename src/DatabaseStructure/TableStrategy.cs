@@ -11,28 +11,30 @@ namespace iCodeGenerator.DatabaseStructure
             var tables = new TableCollection();
             var dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
             var connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
+
             if (connection.State == ConnectionState.Closed)
             {
                 connection.Open();
             }
+
             connection.ChangeDatabase(database.Name);
-            DataSet ds;
+            DataSet set;
             if (Server.ProviderType != DataProviderType.Oracle)
             {
                 connection.ChangeDatabase(database.Name);
-                ds = TableSchema(dataAccessProviderFactory, connection);
+                set = TableSchema(dataAccessProviderFactory, connection);
             }
             else
             {
-                ds = TableSchema(dataAccessProviderFactory, connection, database);
+                set = TableSchema(dataAccessProviderFactory, connection, database);
             }
 
             connection.Close();
 
             /* Changed by Ferhat */
-            if (ds.Tables.Count > 0)
+            if (set.Tables.Count > 0)
             {
-                foreach (DataRow row in ds.Tables[0].Rows)
+                foreach (DataRow row in set.Tables[0].Rows)
                 {
                     tables.Add(CreateTable(database, row));
                 }
@@ -47,13 +49,16 @@ namespace iCodeGenerator.DatabaseStructure
             var tables = new TableCollection();
             var dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
             var connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
+
             if (connection.State == ConnectionState.Closed)
             {
                 connection.Open();
             }
+
             connection.ChangeDatabase(database.Name);
             var ds = ViewSchema(dataAccessProviderFactory, connection);
             connection.Close();
+
             if (ds.Tables.Count > 0)
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
@@ -64,7 +69,7 @@ namespace iCodeGenerator.DatabaseStructure
             return tables;
         }
 
-        protected abstract DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection);
+        protected abstract Table CreateTable(Database database, DataRow row);
 
         protected abstract DataSet TableSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection);
 
@@ -73,6 +78,6 @@ namespace iCodeGenerator.DatabaseStructure
             throw new NotImplementedException();
         }
 
-        protected abstract Table CreateTable(Database database, DataRow row);
+        protected abstract DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection);
     }
 }

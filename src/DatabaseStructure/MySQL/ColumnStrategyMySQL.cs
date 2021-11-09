@@ -9,10 +9,13 @@ namespace iCodeGenerator.DatabaseStructure
     {
         protected override Column CreateColumn(DataRow row)
         {
-            Column column = new Column();
-            column.Name = row["Field"].ToString();
-            bool IsParenthesisFound = row["Type"].ToString().IndexOf("(") != -1;
-            if (IsParenthesisFound)
+            var column = new Column
+            {
+                Name = row["Field"].ToString()
+            };
+
+            bool isParenthesisFound = row["Type"].ToString().IndexOf("(") != -1;
+            if (isParenthesisFound)
             {
                 column.Type = row["Type"].ToString().Substring(0, row["Type"].ToString().IndexOf("("));
             }
@@ -20,15 +23,16 @@ namespace iCodeGenerator.DatabaseStructure
             {
                 column.Type = row["Type"].ToString().Trim();
             }
-            if (IsParenthesisFound)
+            if (isParenthesisFound)
             {
                 int start = row["Type"].ToString().IndexOf("(") + 1;
                 int end = row["Type"].ToString().IndexOf(")");
                 string length = row["Type"].ToString().Substring(start, end - start);
-                int comaPosition = length.IndexOf(',');
-                if (comaPosition != -1)
+                int commaPosition = length.IndexOf(',');
+
+                if (commaPosition != -1)
                 {
-                    length = length.Substring(0, comaPosition);
+                    length = length.Substring(0, commaPosition);
                 }
                 if (!Regex.IsMatch(length, "^[0-9]+$"))
                 {
@@ -48,33 +52,34 @@ namespace iCodeGenerator.DatabaseStructure
 
         protected override DataSet ColumnSchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            IDbCommand sqlString = dataAccessProvider.CreateCommand("desc " + table.Name, connection);
-            sqlString.CommandType = CommandType.Text;
-            IDbDataAdapter da = dataAccessProvider.CreateDataAdapter();
-            da.SelectCommand = sqlString;
-            da.Fill(ds);
-            return ds;
+            var set = new DataSet();
+            var command = dataAccessProvider.CreateCommand("desc " + table.Name, connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataAccessProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
 
         protected override Key CreateKey(DataRow row)
         {
-            Key key = new Key();
-            key.Name = row["Key_name"].ToString();
-            key.ColumnName = row["Column_name"].ToString();
-            key.IsPrimary = row["Key_name"].ToString() == "PRIMARY" ? true : false;
-            return key;
+            return new Key
+            {
+                Name = row["Key_name"].ToString(),
+                ColumnName = row["Column_name"].ToString(),
+                IsPrimary = row["Key_name"].ToString() == "PRIMARY"
+            };
         }
 
         protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
         {
-            DataSet ds = new DataSet();
-            IDbCommand sqlSp = dataAccessProvider.CreateCommand("show index from " + table.Name, connection);
-            sqlSp.CommandType = CommandType.Text;
-            IDbDataAdapter da = dataAccessProvider.CreateDataAdapter();
-            da.SelectCommand = sqlSp;
-            da.Fill(ds);
-            return ds;
+            var set = new DataSet();
+            var command = dataAccessProvider.CreateCommand("show index from " + table.Name, connection);
+            command.CommandType = CommandType.Text;
+            var adapter = dataAccessProvider.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
     }
 }

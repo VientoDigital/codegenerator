@@ -28,11 +28,11 @@ namespace iCodeGenerator.Generator
 
         public override void Interpret(Context context)
         {
-            Column column = (Column)Parameter;
+            var column = (Column)Parameter;
 
-            Regex regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var regex = new Regex(InputPattern, RegexOptions.Singleline);
             string inputString = context.Input;
-            MatchCollection matches = regex.Matches(inputString);
+            var matches = regex.Matches(inputString);
             foreach (Match match in matches)
             {
                 if (match.Length == 0)
@@ -55,7 +55,7 @@ namespace iCodeGenerator.Generator
                 }
                 else
                 {
-                    ReplaceContent(match.Value, "", ref inputString);
+                    ReplaceContent(match.Value, string.Empty, ref inputString);
                 }
                 context.Output = inputString;
                 context.Input = context.Output;
