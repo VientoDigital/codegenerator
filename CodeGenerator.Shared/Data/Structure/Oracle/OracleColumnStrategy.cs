@@ -8,30 +8,32 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet ColumnSchema(Table table, DataAccessProviderFactory dataProvider, IDbConnection connection)
         {
             var set = new DataSet();
-            string schemaQuery = "SELECT atc.OWNER, " +
-                "atc.TABLE_NAME, " +
-                "atc.COLUMN_NAME, " +
-                "atc.DATA_TYPE, " +
-                "atc.DATA_LENGTH, " +
-                "atc.DATA_PRECISION, " +
-                "atc.DATA_SCALE, " +
-                "atc.NULLABLE, " +
-                "atc.COLUMN_ID, " +
-                "acc.CONSTRAINT_NAME, " +
-                "ac.CONSTRAINT_TYPE, " +
-                "ac.R_CONSTRAINT_NAME, " +
-                "ac.INDEX_NAME " +
-                "FROM ALL_TAB_COLUMNS atc " +
-                "LEFT OUTER JOIN ALL_CONS_COLUMNS acc " +
-                "ON acc.OWNER = atc.OWNER " +
-                "AND acc.TABLE_NAME = atc.TABLE_NAME " +
-                "AND acc.COLUMN_NAME = atc.COLUMN_NAME " +
-                "LEFT OUTER JOIN ALL_CONSTRAINTS ac " +
-                "ON ac.OWNER = acc.OWNER " +
-                "AND ac.CONSTRAINT_NAME = acc.CONSTRAINT_NAME " +
-                "WHERE atc.OWNER = '" + table.ParentDatabase.Name + "' " +
-                "AND atc.TABLE_NAME = '" + table.Name + "' " +
-                "ORDER BY TABLE_NAME asc";
+            string schemaQuery =
+$@"SELECT
+    atc.OWNER,
+    atc.TABLE_NAME,
+    atc.COLUMN_NAME,
+    atc.DATA_TYPE,
+    atc.DATA_LENGTH,
+    atc.DATA_PRECISION,
+    atc.DATA_SCALE,
+    atc.NULLABLE,
+    atc.COLUMN_ID,
+    acc.CONSTRAINT_NAME,
+    ac.CONSTRAINT_TYPE,
+    ac.R_CONSTRAINT_NAME,
+    ac.INDEX_NAME
+FROM ALL_TAB_COLUMNS atc
+LEFT OUTER JOIN ALL_CONS_COLUMNS acc
+    ON acc.OWNER = atc.OWNER
+    AND acc.TABLE_NAME = atc.TABLE_NAME
+    AND acc.COLUMN_NAME = atc.COLUMN_NAME
+LEFT OUTER JOIN ALL_CONSTRAINTS ac
+    ON ac.OWNER = acc.OWNER
+    AND ac.CONSTRAINT_NAME = acc.CONSTRAINT_NAME
+WHERE atc.OWNER = '{table.ParentDatabase.Name}'
+AND atc.TABLE_NAME = '{table.Name}'
+ORDER BY TABLE_NAME asc";
 
             var command = dataProvider.CreateCommand(schemaQuery, connection);
 
@@ -67,16 +69,19 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataProvider, IDbConnection connection)
         {
             var set = new DataSet();
-            string schemaQuery = "SELECT acc.COLUMN_NAME, " +
-            "ac.CONSTRAINT_NAME, " +
-            "ac.CONSTRAINT_TYPE " +
-            "FROM ALL_CONS_COLUMNS acc " +
-            "JOIN ALL_CONSTRAINTS ac " +
-            "ON ac.OWNER = acc.OWNER " +
-            "AND ac.TABLE_NAME = acc.TABLE_NAME " +
-            "AND ac.CONSTRAINT_NAME = acc.CONSTRAINT_NAME " +
-            "where acc.owner = '" + table.ParentDatabase.Name + "' " +
-            "and acc.Table_NAME = '" + table.Name + "'";
+            string schemaQuery =
+$@"SELECT
+    acc.COLUMN_NAME,
+    ac.CONSTRAINT_NAME,
+    ac.CONSTRAINT_TYPE
+FROM ALL_CONS_COLUMNS acc
+JOIN ALL_CONSTRAINTS ac
+    ON ac.OWNER = acc.OWNER
+    AND ac.TABLE_NAME = acc.TABLE_NAME
+    AND ac.CONSTRAINT_NAME = acc.CONSTRAINT_NAME
+where acc.owner = '{table.ParentDatabase.Name}'
+and acc.Table_NAME = '{table.Name}'";
+
             var command = dataProvider.CreateCommand(schemaQuery, connection);
             command.CommandType = CommandType.Text;
             var adapter = dataProvider.CreateDataAdapter();

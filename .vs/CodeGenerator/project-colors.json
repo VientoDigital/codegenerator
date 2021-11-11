@@ -25,7 +25,12 @@
       "ProjectGuid": "f3bdd828-16af-494d-9746-706822f12bb7",
       "DisplayName": "Solution Items",
       "ColorIndex": 3
+    },
+    "423a980a-21e2-4be5-ac70-0679018c5d82": {
+      "ProjectGuid": "423a980a-21e2-4be5-ac70-0679018c5d82",
+      "DisplayName": "getopt",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 4
+  "NextColorIndex": 5
 }

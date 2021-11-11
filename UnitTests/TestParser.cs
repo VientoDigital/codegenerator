@@ -207,10 +207,8 @@ LAST{/IF}
         public void TestColumnNameMatchesExpression()
         {
             context.Input = @"{TABLE.COLUMNS}" +
-                            @"{IF COLUMN.NAME =~ 'Id$'}{COLUMN.NAME} ES ID{/IF}" +
-                            "\n" +
-                            @"{IF COLUMN.NAME !~ 'Id$'}{COLUMN.NAME}{/IF}" +
-                            "\n" +
+                            @"{IF COLUMN.NAME =~ 'Id$'}{COLUMN.NAME} ES ID{/IF}\n" +
+                            @"{IF COLUMN.NAME !~ 'Id$'}{COLUMN.NAME}{/IF}\n" +
                             "{/TABLE.COLUMNS}";
 
             var columns = new ColumnsExpression();
@@ -224,13 +222,13 @@ LAST{/IF}
         public void TestColumnNaming()
         {
             context.Input = @"{TABLE.COLUMNS}" +
-                             @"Normal: {COLUMN.NAME}" + "\n" +
-                             //			                 @"Camel: {COLUMN.NAME CAMEL}" + "\n" +
-                             //			                 @"Pascal: {COLUMN.NAME PASCAL}" + "\n" +
-                             //			                 @"Upper: {COLUMN.NAME UPPER}" + "\n" +
-                             //			                 @"Lower: {COLUMN.NAME LOWER}" + "\n" +
-                             @"Underscore: {COLUMN.NAME UNDERSCORE}" + "\n" +
-                             @"Human: {COLUMN.NAME HUMAN}" + "\n" +
+                             @"Normal: {COLUMN.NAME}\n" +
+                             //	@"Camel: {COLUMN.NAME CAMEL}\n" +
+                             //	@"Pascal: {COLUMN.NAME PASCAL}\n" +
+                             // @"Upper: {COLUMN.NAME UPPER}\n" +
+                             // @"Lower: {COLUMN.NAME LOWER}\n" +
+                             @"Underscore: {COLUMN.NAME UNDERSCORE}\n" +
+                             @"Human: {COLUMN.NAME HUMAN}\n" +
                              @"{/TABLE.COLUMNS}";
 
             var columns = new ColumnsExpression();
