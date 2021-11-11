@@ -1,0 +1,66 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ef3d506a-3eff-4838-a48f-ba2302eb7054": {
+      "ProjectGuid": "ef3d506a-3eff-4838-a48f-ba2302eb7054",
+      "DisplayName": "GenericDataAccess",
+      "ColorIndex": 0
+    },
+    "f3bdd828-16af-494d-9746-706822f12bb7": {
+      "ProjectGuid": "f3bdd828-16af-494d-9746-706822f12bb7",
+      "DisplayName": "Solution Items",
+      "ColorIndex": 1
+    },
+    "e46dc87e-56e7-4585-a864-324076c4549c": {
+      "ProjectGuid": "e46dc87e-56e7-4585-a864-324076c4549c",
+      "DisplayName": "Generator",
+      "ColorIndex": 2
+    },
+    "dda5ee20-e65b-4390-b0a1-869ee583f28a": {
+      "ProjectGuid": "dda5ee20-e65b-4390-b0a1-869ee583f28a",
+      "DisplayName": "DataTypeConverter",
+      "ColorIndex": 3
+    },
+    "602dadfc-ca31-40a3-a07a-620808dd83bd": {
+      "ProjectGuid": "602dadfc-ca31-40a3-a07a-620808dd83bd",
+      "DisplayName": "ConfigurationManager",
+      "ColorIndex": 4
+    },
+    "b8dca4db-ba7c-4fa9-affe-cb8d9fe6cffc": {
+      "ProjectGuid": "b8dca4db-ba7c-4fa9-affe-cb8d9fe6cffc",
+      "DisplayName": "DatabaseNavigator",
+      "ColorIndex": 5
+    },
+    "02199a48-3bf0-4dd5-8ebc-ece536928f82": {
+      "ProjectGuid": "02199a48-3bf0-4dd5-8ebc-ece536928f82",
+      "DisplayName": "DatabaseStructure",
+      "ColorIndex": 6
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "864d830b-fa00-4d85-8287-49dd9fb2fe4b": {
+      "ProjectGuid": "864d830b-fa00-4d85-8287-49dd9fb2fe4b",
+      "DisplayName": "iCodeGeneratorConsole",
+      "ColorIndex": 7
+    },
+    "cf78dca4-978c-4ad4-a087-576926d6f075": {
+      "ProjectGuid": "cf78dca4-978c-4ad4-a087-576926d6f075",
+      "DisplayName": "Updater",
+      "ColorIndex": 8
+    },
+    "952f0df5-e8f4-4004-bdd0-281aed41842e": {
+      "ProjectGuid": "952f0df5-e8f4-4004-bdd0-281aed41842e",
+      "DisplayName": "UnitTests",
+      "ColorIndex": 9
+    },
+    "0ba9ab83-7e8b-4e80-8a79-6f450afd5336": {
+      "ProjectGuid": "0ba9ab83-7e8b-4e80-8a79-6f450afd5336",
+      "DisplayName": "iCodeGeneratorGui",
+      "ColorIndex": 10
+    }
+  },
+  "NextColorIndex": 11
+}
