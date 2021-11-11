@@ -1,6 +1,6 @@
 ﻿using CodeGenerator.DatabaseNavigator;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     partial class DatabaseNavigationForm
     {

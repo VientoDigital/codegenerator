@@ -9,7 +9,7 @@ namespace CodeGenerator.Data.TypeConversion
 {
     public class DataTypeManager
     {
-        private static string uri = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "DataTypeMapping.xml";
+        private static string uri = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}DataTypeMapping.xml";
         private XmlDocument xmlDocument = null;
 
         public DataTypeManager() : this(Uri)
@@ -22,7 +22,7 @@ namespace CodeGenerator.Data.TypeConversion
 
             if (!DataMappingFileExists())
             {
-                DataTypeManager.uri = @"C:\temp\" + "DataTypeMapping.xml";
+                DataTypeManager.uri = @"C:\temp\DataTypeMapping.xml";
             }
             try
             {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
 using CodeGenerator.Data.TypeConversion;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {
@@ -34,7 +35,7 @@ namespace CodeGenerator.Generator
                 strValue = "object";
             }
 
-            context.Output = Regex.Replace(context.Input, Context.StartDelimeter + "MAP COLUMN.TYPE" + Context.EndingDelimiter, strValue);
+            context.Output = Regex.Replace(context.Input, "MAP COLUMN.TYPE".DelimeterWrap(), strValue);
             context.Input = context.Output;
         }
     }

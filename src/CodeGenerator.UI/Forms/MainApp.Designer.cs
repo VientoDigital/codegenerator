@@ -1,4 +1,4 @@
-﻿namespace CodeGenerator.CodeGenerator.UI
+﻿namespace CodeGenerator.UI
 {
     partial class MainApp
     {
@@ -45,7 +45,7 @@
             this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuViewTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuViewResults = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuGenerator = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuGenerate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuGenerateFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpDocumentation = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +55,8 @@
             this.kryptonDockingManager = new ComponentFactory.Krypton.Docking.KryptonDockingManager();
             this.kryptonDockableWorkspace = new ComponentFactory.Krypton.Docking.KryptonDockableWorkspace();
             this.kryptonPanel = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
+            this.dlgSaveFile = new System.Windows.Forms.SaveFileDialog();
+            this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDockableWorkspace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel)).BeginInit();
@@ -67,7 +69,7 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
             this.mnuView,
-            this.mnuGenerator,
+            this.mnuGenerate,
             this.mnuGenerateFiles,
             this.mnuHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -98,21 +100,21 @@
             this.mnuFileDatabaseConnect.Name = "mnuFileDatabaseConnect";
             this.mnuFileDatabaseConnect.Size = new System.Drawing.Size(184, 22);
             this.mnuFileDatabaseConnect.Text = "Database &Connect";
-            this.mnuFileDatabaseConnect.Click += new System.EventHandler(this.DatabaseConnectClick);
+            this.mnuFileDatabaseConnect.Click += new System.EventHandler(this.mnuFileDatabaseConnect_Click);
             // 
             // mnuFileDatabaseDisconnect
             // 
             this.mnuFileDatabaseDisconnect.Name = "mnuFileDatabaseDisconnect";
             this.mnuFileDatabaseDisconnect.Size = new System.Drawing.Size(184, 22);
             this.mnuFileDatabaseDisconnect.Text = "Database &Disconnect";
-            this.mnuFileDatabaseDisconnect.Click += new System.EventHandler(this.DatabaseDisconnectClick);
+            this.mnuFileDatabaseDisconnect.Click += new System.EventHandler(this.mnuFileDatabaseDisconnect_Click);
             // 
             // mnuFileEditConfiguration
             // 
             this.mnuFileEditConfiguration.Name = "mnuFileEditConfiguration";
             this.mnuFileEditConfiguration.Size = new System.Drawing.Size(184, 22);
             this.mnuFileEditConfiguration.Text = "Edit Configuration";
-            this.mnuFileEditConfiguration.Click += new System.EventHandler(this.EditConfigDatabaseClick);
+            this.mnuFileEditConfiguration.Click += new System.EventHandler(this.mnuFileEditConfiguration_Click);
             // 
             // toolStripSeparator1
             // 
@@ -124,21 +126,21 @@
             this.mnuFileNewTemplate.Name = "mnuFileNewTemplate";
             this.mnuFileNewTemplate.Size = new System.Drawing.Size(184, 22);
             this.mnuFileNewTemplate.Text = "New Template";
-            this.mnuFileNewTemplate.Click += new System.EventHandler(this.newTemplateToolStripMenuItem_Click);
+            this.mnuFileNewTemplate.Click += new System.EventHandler(this.mnuFileNewTemplate_Click);
             // 
             // mnuFileOpenTemplate
             // 
             this.mnuFileOpenTemplate.Name = "mnuFileOpenTemplate";
             this.mnuFileOpenTemplate.Size = new System.Drawing.Size(184, 22);
             this.mnuFileOpenTemplate.Text = "&Open Template";
-            this.mnuFileOpenTemplate.Click += new System.EventHandler(this.openTemplateToolStripMenuItem_Click);
+            this.mnuFileOpenTemplate.Click += new System.EventHandler(this.mnuFileOpenTemplate_Click);
             // 
             // mnuFileSaveTemplate
             // 
             this.mnuFileSaveTemplate.Name = "mnuFileSaveTemplate";
             this.mnuFileSaveTemplate.Size = new System.Drawing.Size(184, 22);
             this.mnuFileSaveTemplate.Text = "&Save Template";
-            this.mnuFileSaveTemplate.Click += new System.EventHandler(this.saveTemplateToolStripMenuItem_Click);
+            this.mnuFileSaveTemplate.Click += new System.EventHandler(this.mnuFileSaveTemplate_Click);
             // 
             // mnuFileSaveAsTemplate
             // 
@@ -146,7 +148,7 @@
             this.mnuFileSaveAsTemplate.Name = "mnuFileSaveAsTemplate";
             this.mnuFileSaveAsTemplate.Size = new System.Drawing.Size(184, 22);
             this.mnuFileSaveAsTemplate.Text = "Save &As Template";
-            this.mnuFileSaveAsTemplate.Click += new System.EventHandler(this.saveAsTemplateToolStripMenuItem_Click);
+            this.mnuFileSaveAsTemplate.Click += new System.EventHandler(this.mnuFileSaveAsTemplate_Click);
             // 
             // mnuFileSaveAsResult
             // 
@@ -154,14 +156,14 @@
             this.mnuFileSaveAsResult.Name = "mnuFileSaveAsResult";
             this.mnuFileSaveAsResult.Size = new System.Drawing.Size(184, 22);
             this.mnuFileSaveAsResult.Text = "Save As Result";
-            this.mnuFileSaveAsResult.Click += new System.EventHandler(this.saveResultToolStripMenuItem_Click);
+            this.mnuFileSaveAsResult.Click += new System.EventHandler(this.mnuFileSaveAsResult_Click);
             // 
             // mnuFileTemplateExit
             // 
             this.mnuFileTemplateExit.Name = "mnuFileTemplateExit";
             this.mnuFileTemplateExit.Size = new System.Drawing.Size(184, 22);
             this.mnuFileTemplateExit.Text = "E&xit";
-            this.mnuFileTemplateExit.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.mnuFileTemplateExit.Click += new System.EventHandler(this.mnuFileTemplateExit_Click);
             // 
             // mnuView
             // 
@@ -175,30 +177,30 @@
             // mnuViewTemplate
             // 
             this.mnuViewTemplate.Name = "mnuViewTemplate";
-            this.mnuViewTemplate.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewTemplate.Size = new System.Drawing.Size(122, 22);
             this.mnuViewTemplate.Text = "Template";
-            this.mnuViewTemplate.Click += new System.EventHandler(this.templateToolStripMenuItem_Click);
+            this.mnuViewTemplate.Click += new System.EventHandler(this.mnuViewTemplate_Click);
             // 
             // mnuViewResults
             // 
             this.mnuViewResults.Name = "mnuViewResults";
-            this.mnuViewResults.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewResults.Size = new System.Drawing.Size(122, 22);
             this.mnuViewResults.Text = "Results";
-            this.mnuViewResults.Click += new System.EventHandler(this.resultsToolStripMenuItem_Click);
+            this.mnuViewResults.Click += new System.EventHandler(this.mnuViewResults_Click);
             // 
-            // mnuGenerator
+            // mnuGenerate
             // 
-            this.mnuGenerator.Name = "mnuGenerator";
-            this.mnuGenerator.Size = new System.Drawing.Size(71, 20);
-            this.mnuGenerator.Text = "&Generator";
-            this.mnuGenerator.Click += new System.EventHandler(this.GenerateCodeClick);
+            this.mnuGenerate.Name = "mnuGenerate";
+            this.mnuGenerate.Size = new System.Drawing.Size(66, 20);
+            this.mnuGenerate.Text = "&Generate";
+            this.mnuGenerate.Click += new System.EventHandler(this.mnuGenerate_Click);
             // 
             // mnuGenerateFiles
             // 
             this.mnuGenerateFiles.Name = "mnuGenerateFiles";
             this.mnuGenerateFiles.Size = new System.Drawing.Size(92, 20);
             this.mnuGenerateFiles.Text = "Generate Files";
-            this.mnuGenerateFiles.Click += new System.EventHandler(this.GenerateFilesClick);
+            this.mnuGenerateFiles.Click += new System.EventHandler(this.mnuGenerateFiles_Click);
             // 
             // mnuHelp
             // 
@@ -215,7 +217,7 @@
             this.mnuHelpDocumentation.Name = "mnuHelpDocumentation";
             this.mnuHelpDocumentation.Size = new System.Drawing.Size(193, 22);
             this.mnuHelpDocumentation.Text = "Documentation";
-            this.mnuHelpDocumentation.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
+            this.mnuHelpDocumentation.Click += new System.EventHandler(this.mnuHelpDocumentation_Click);
             // 
             // mnuHelpAbout
             // 
@@ -223,7 +225,7 @@
             this.mnuHelpAbout.Name = "mnuHelpAbout";
             this.mnuHelpAbout.Size = new System.Drawing.Size(193, 22);
             this.mnuHelpAbout.Text = "About Code Generator";
-            this.mnuHelpAbout.Click += new System.EventHandler(this.aboutICodegeneratorToolStripMenuItem_Click);
+            this.mnuHelpAbout.Click += new System.EventHandler(this.mnuHelpAbout_Click);
             // 
             // mnuHelpAboutVientoDigital
             // 
@@ -232,7 +234,7 @@
             this.mnuHelpAboutVientoDigital.Name = "mnuHelpAboutVientoDigital";
             this.mnuHelpAboutVientoDigital.Size = new System.Drawing.Size(193, 22);
             this.mnuHelpAboutVientoDigital.Text = "About Viento Digital";
-            this.mnuHelpAboutVientoDigital.Click += new System.EventHandler(this.aboutVientoDigitalToolStripMenuItem_Click);
+            this.mnuHelpAboutVientoDigital.Click += new System.EventHandler(this.mnuHelpAboutVientoDigital_Click);
             // 
             // kryptonManager
             // 
@@ -265,6 +267,15 @@
             this.kryptonPanel.Size = new System.Drawing.Size(1046, 647);
             this.kryptonPanel.TabIndex = 6;
             // 
+            // dlgSaveFile
+            // 
+            this.dlgSaveFile.RestoreDirectory = true;
+            // 
+            // dlgOpenFile
+            // 
+            this.dlgOpenFile.Filter = "All files (*.*)|*.*";
+            this.dlgOpenFile.RestoreDirectory = true;
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,7 +301,7 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem mnuFile;
         private System.Windows.Forms.ToolStripMenuItem mnuView;
-        private System.Windows.Forms.ToolStripMenuItem mnuGenerator;
+        private System.Windows.Forms.ToolStripMenuItem mnuGenerate;
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
         private System.Windows.Forms.ToolStripMenuItem mnuFileDatabaseConnect;
         private System.Windows.Forms.ToolStripMenuItem mnuFileDatabaseDisconnect;
@@ -312,5 +323,7 @@
         private ComponentFactory.Krypton.Docking.KryptonDockingManager kryptonDockingManager;
         private ComponentFactory.Krypton.Docking.KryptonDockableWorkspace kryptonDockableWorkspace;
         private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel;
+        private System.Windows.Forms.SaveFileDialog dlgSaveFile;
+        private System.Windows.Forms.OpenFileDialog dlgOpenFile;
     }
 }

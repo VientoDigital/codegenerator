@@ -1,15 +1,14 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Xml.Serialization;
-using CodeGenerator.Data;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Data.Structure
 {
     [Serializable]
     public class Settings
     {
-        private static readonly string location = Path.GetFullPath(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "Settings.xml";
+        private static readonly string location = $"{Path.GetFullPath(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}Settings.xml";
 
         private static Settings instance = new Settings();
         private string connectionString = string.Empty;
@@ -37,30 +36,21 @@ namespace CodeGenerator.Data.Structure
             set { connectionString = value; }
         }
 
-        public string DataTypeMappingFile => Path.GetFullPath(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "DataTypeMapping.xml";
+        public string DataTypeMappingFile => $"{Path.GetFullPath(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}DataTypeMapping.xml";
 
         public DataProviderType ProviderType { get; set; } = DataProviderType.MySql;
 
         public static void Deserialize()
         {
-            var xmlSerializer = new XmlSerializer(typeof(Settings));
-
             if (!IsNew())
             {
-                FileStream fileStream = null;
-
                 try
                 {
-                    fileStream = File.Open(Location, FileMode.Open, FileAccess.Read);
-                    instance = (Settings)xmlSerializer.Deserialize(fileStream);
+                    instance = new FileInfo(Location).XmlDeserialize<Settings>();
                 }
                 catch
                 {
                     Serialize();
-                }
-                finally
-                {
-                    fileStream.Close();
                 }
             }
         }
@@ -69,19 +59,7 @@ namespace CodeGenerator.Data.Structure
 
         public static void Serialize()
         {
-            var xmlSerializer = new XmlSerializer(instance.GetType());
-            var fileStream = File.Open(Location, FileMode.Create, FileAccess.Write, FileShare.None);
-            try
-            {
-                xmlSerializer.Serialize(fileStream, instance);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                fileStream.Close();
-            }
+            instance.XmlSerialize(Location);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CodeGenerator.CodeGenerator.UI
+﻿namespace CodeGenerator.UI
 {
     partial class ResultForm
     {

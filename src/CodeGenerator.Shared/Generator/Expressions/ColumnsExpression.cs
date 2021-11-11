@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {
@@ -19,13 +20,10 @@ namespace CodeGenerator.Generator
         {
             get
             {
-                return Context.StartDelimeter +
-                    @"TABLE.COLUMNS(?<selection> (ALL|PRIMARY|NOPRIMARY))?" +
-                    Context.EndingDelimiter +
+                return
+                    @"TABLE.COLUMNS(?<selection> (ALL|PRIMARY|NOPRIMARY))?".DelimeterWrap() +
                     "(?<column>.+?)" +
-                    Context.StartDelimeter +
-                    "/TABLE.COLUMNS" +
-                    Context.EndingDelimiter;
+                    "/TABLE.COLUMNS".DelimeterWrap();
             }
         }
 

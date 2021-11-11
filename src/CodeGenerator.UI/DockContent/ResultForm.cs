@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     public partial class ResultForm : UserControl
     {

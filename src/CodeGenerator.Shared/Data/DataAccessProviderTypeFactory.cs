@@ -14,12 +14,12 @@ namespace CodeGenerator.Data
         Access,
         PostgresSql,
         Oracle,
-        ODBC
+        //ODBC
     }
 
     public class DataAccessProviderTypeFactory
     {
-        private Type[] commandTypes = new Type[]
+        private readonly Type[] commandTypes = new Type[]
         {
             typeof(SqlCommand),
             typeof(MySqlCommand),
@@ -28,7 +28,7 @@ namespace CodeGenerator.Data
             typeof(OracleCommand)
         };
 
-        private Type[] connectionTypes = new Type[]
+        private readonly Type[] connectionTypes = new Type[]
         {
             typeof(SqlConnection),
             typeof(MySqlConnection),
@@ -37,7 +37,7 @@ namespace CodeGenerator.Data
             typeof(OracleConnection)
         };
 
-        private Type[] dataAdapterTypes = new Type[]
+        private readonly Type[] dataAdapterTypes = new Type[]
         {
             typeof(SqlDataAdapter),
             typeof(MySqlDataAdapter),
@@ -46,7 +46,7 @@ namespace CodeGenerator.Data
             typeof(OracleDataAdapter)
         };
 
-        private Type[] paramenterTypes = new Type[]
+        private readonly Type[] paramenterTypes = new Type[]
         {
             typeof(SqlParameter),
             typeof(MySqlParameter),
@@ -55,7 +55,7 @@ namespace CodeGenerator.Data
             typeof(OracleParameter)
         };
 
-        private DataProviderType providerType;
+        private readonly DataProviderType providerType;
 
         public DataAccessProviderTypeFactory(DataProviderType providerType)
         {

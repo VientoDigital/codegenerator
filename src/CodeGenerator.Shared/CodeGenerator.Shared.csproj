@@ -158,6 +158,10 @@
     <Compile Include="Data\TypeConversion\DataTypeManagerException.cs" />
     <Compile Include="Data\TypeConversion\Language.cs" />
     <Compile Include="Data\TypeConversion\LanguageCollection.cs" />
+    <Compile Include="Extensions\CustomEncodingStringWriter.cs" />
+    <Compile Include="Extensions\FileInfoExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Generator\Client.cs" />
     <Compile Include="Generator\Context.cs" />
     <Compile Include="Generator\Expression.cs" />
@@ -183,7 +187,7 @@
     <Compile Include="Data\DataAccessProviderInfo.cs" />
     <Compile Include="Data\DataAccessProviderTypeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UpdateChecker.cs" />
+    <Compile Include="AppVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConfigurationManager\Configuration.xml" />

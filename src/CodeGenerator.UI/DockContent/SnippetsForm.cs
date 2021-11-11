@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     public partial class SnippetsForm : UserControl
     {
@@ -13,20 +13,20 @@ namespace CodeGenerator.CodeGenerator.UI
             LoadSnippets();
         }
 
-        private void LoadSnippets()
+        public delegate void SnippetEventHandler(object sender, SnippetEventArgs args);
+
+        public event SnippetEventHandler SnippetSelected;
+
+        protected virtual void OnSnippetSelected(SnippetEventArgs args)
         {
-            var snippetsHelper = new SnippetsHelper();
-            foreach (string key in snippetsHelper.Snippets.Keys)
-            {
-                AddSnippetButton(key);
-            }
+            SnippetSelected?.Invoke(this, args);
         }
 
-        private void AddSnippetButton(string s)
+        private void AddSnippetButton(string snippetKey)
         {
             var button = new KryptonButton
             {
-                Text = s,
+                Text = snippetKey,
                 Dock = DockStyle.Top,
                 //FlatStyle = FlatStyle.Popup,
                 Font = new Font("Microsoft Sans Serif",
@@ -34,28 +34,26 @@ namespace CodeGenerator.CodeGenerator.UI
                     FontStyle.Regular,
                     GraphicsUnit.Point, 0)
             };
-            button.Click += ButtonClick;
+            button.Click += button_Click;
             Controls.Add(button);
         }
 
-        public delegate void SnippetEventHandler(object sender, SnippetEventArgs args);
-
-        public event SnippetEventHandler SnippetSelected;
-
-        protected virtual void OnSnippetSelected(SnippetEventArgs args)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void button_Click(object sender, EventArgs e)
         {
-            if (SnippetSelected != null)
-            {
-                SnippetSelected(this, args);
-            }
-        }
-
-        private void ButtonClick(object sender, EventArgs e)
-        {
-            var b = (KryptonButton)sender;
-            var args = new SnippetEventArgs(b.Text);
+            var button = (KryptonButton)sender;
+            var args = new SnippetEventArgs(button.Text);
             SnippetSelected(this, args);
             //throwEvent(b.Text);
+        }
+
+        private void LoadSnippets()
+        {
+            var snippetsHelper = new SnippetsHelper();
+            foreach (string key in snippetsHelper.Snippets.Keys)
+            {
+                AddSnippetButton(key);
+            }
         }
     }
 }

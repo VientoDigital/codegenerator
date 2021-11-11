@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {
@@ -14,14 +15,10 @@ namespace CodeGenerator.Generator
             get
             {
                 return @"\s*" +
-                    Context.StartDelimeter +
-                    @"IF (?<not>NOT )?COLUMN.NULLABLE" +
-                    Context.EndingDelimiter +
+                    @"IF (?<not>NOT )?COLUMN.NULLABLE".DelimeterWrap() +
                     //Content between IF tags
                     "(?<content>.+?)" +
-                    Context.StartDelimeter +
-                    "/IF" +
-                    Context.EndingDelimiter +
+                    "/IF".DelimeterWrap() +
                     @"(?<end>\s*)";
             }
         }

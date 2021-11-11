@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     public partial class DocumentForm : UserControl
     {
@@ -9,15 +9,12 @@ namespace CodeGenerator.CodeGenerator.UI
             InitializeComponent();
         }
 
-        public int SelectionStart
-        {
-            get { return rtbDocument.SelectionStart; }
-        }
+        public int SelectionStart => rtbDocument.SelectionStart;
 
         public string ContentText
         {
-            get { return rtbDocument.Text; }
-            set { rtbDocument.Text = value; }
+            get => rtbDocument.Text;
+            set => rtbDocument.Text = value;
         }
     }
 }

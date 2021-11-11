@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {
@@ -15,12 +16,10 @@ namespace CodeGenerator.Generator
 
         public override void Interpret(Context context)
         {
-            context.Output = Regex.Replace(context.Input, Context.StartDelimeter + key + Context.EndingDelimiter, value);
+            context.Output = Regex.Replace(context.Input, key.DelimeterWrap(), value);
             context.Input = context.Output;
 
-            var inputPattern = Context.StartDelimeter + key + @"\s*" +
-                @"(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*" +
-                Context.EndingDelimiter;
+            var inputPattern = $@"{key}\s*(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
 
             var regex = new Regex(inputPattern, RegexOptions.Singleline);
             var inputString = context.Input;

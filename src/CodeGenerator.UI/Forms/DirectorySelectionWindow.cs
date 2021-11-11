@@ -3,15 +3,15 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     /// <summary>
     /// Summary description for DirectorySelectionWindow.
     /// </summary>
     public class DirectorySelectionWindow : KryptonForm
     {
-        private FolderBrowserDialog uiInputFolderDialog;
-        private FolderBrowserDialog uiOutputFolderDialog;
+        private FolderBrowserDialog dlgFolderBrowserInput;
+        private FolderBrowserDialog dlgFolderBrowserOutput;
         private KryptonTextBox txtTemplatesDirectory;
         private KryptonTextBox txtOutputDirectory;
         private KryptonButton btnBrowseTemplatesDirectory;
@@ -24,7 +24,7 @@ namespace CodeGenerator.CodeGenerator.UI
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private Container components = null;
+        private readonly Container components = null;
 
         public DirectorySelectionWindow()
         {
@@ -57,8 +57,8 @@ namespace CodeGenerator.CodeGenerator.UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.uiInputFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.uiOutputFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.dlgFolderBrowserInput = new System.Windows.Forms.FolderBrowserDialog();
+            this.dlgFolderBrowserOutput = new System.Windows.Forms.FolderBrowserDialog();
             this.txtTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
             this.txtOutputDirectory = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
             this.btnBrowseTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonButton();
@@ -90,7 +90,7 @@ namespace CodeGenerator.CodeGenerator.UI
             this.btnBrowseTemplatesDirectory.Size = new System.Drawing.Size(32, 24);
             this.btnBrowseTemplatesDirectory.TabIndex = 10;
             this.btnBrowseTemplatesDirectory.Values.Text = "...";
-            this.btnBrowseTemplatesDirectory.Click += new System.EventHandler(this.uiInputFolderButton_Click);
+            this.btnBrowseTemplatesDirectory.Click += new System.EventHandler(this.btnBrowseTemplatesDirectory_Click);
             // 
             // btnBrowseOutputDirectory
             // 
@@ -99,7 +99,7 @@ namespace CodeGenerator.CodeGenerator.UI
             this.btnBrowseOutputDirectory.Size = new System.Drawing.Size(32, 24);
             this.btnBrowseOutputDirectory.TabIndex = 20;
             this.btnBrowseOutputDirectory.Values.Text = "...";
-            this.btnBrowseOutputDirectory.Click += new System.EventHandler(this.uiOutputFolderButton_Click);
+            this.btnBrowseOutputDirectory.Click += new System.EventHandler(this.btnBrowseOutputDirectory_Click);
             // 
             // lblTemplatesDirectory
             // 
@@ -124,7 +124,7 @@ namespace CodeGenerator.CodeGenerator.UI
             this.btnOK.Size = new System.Drawing.Size(90, 25);
             this.btnOK.TabIndex = 25;
             this.btnOK.Values.Text = "OK";
-            this.btnOK.Click += new System.EventHandler(this.uiOkButton_Click);
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
@@ -134,7 +134,7 @@ namespace CodeGenerator.CodeGenerator.UI
             this.btnCancel.Size = new System.Drawing.Size(90, 25);
             this.btnCancel.TabIndex = 30;
             this.btnCancel.Values.Text = "Cancel";
-            this.btnCancel.Click += new System.EventHandler(this.uiCancelButton_Click);
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // DirectorySelectionWindow
             // 
@@ -163,27 +163,30 @@ namespace CodeGenerator.CodeGenerator.UI
 
         #endregion Windows Form Designer generated code
 
-        private void uiInputFolderButton_Click(object sender, EventArgs e)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void btnBrowseTemplatesDirectory_Click(object sender, EventArgs e)
         {
-            if (uiInputFolderDialog.ShowDialog() == DialogResult.OK)
+            if (dlgFolderBrowserInput.ShowDialog() == DialogResult.OK)
             {
-                txtTemplatesDirectory.Text = uiInputFolderDialog.SelectedPath;
+                txtTemplatesDirectory.Text = dlgFolderBrowserInput.SelectedPath;
             }
         }
 
-        private void uiOutputFolderButton_Click(object sender, EventArgs e)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void btnBrowseOutputDirectory_Click(object sender, EventArgs e)
         {
             if (txtTemplatesDirectory.Text.Length > 0 && txtOutputDirectory.Text.Length == 0)
             {
-                uiOutputFolderDialog.SelectedPath = txtTemplatesDirectory.Text;
+                dlgFolderBrowserOutput.SelectedPath = txtTemplatesDirectory.Text;
             }
-            if (uiOutputFolderDialog.ShowDialog() == DialogResult.OK)
+            if (dlgFolderBrowserOutput.ShowDialog() == DialogResult.OK)
             {
-                txtOutputDirectory.Text = uiOutputFolderDialog.SelectedPath;
+                txtOutputDirectory.Text = dlgFolderBrowserOutput.SelectedPath;
             }
         }
 
-        private void uiOkButton_Click(object sender, EventArgs e)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void btnOK_Click(object sender, EventArgs e)
         {
             OnInputFolderSelected(new FolderEventArgs(txtTemplatesDirectory.Text.Trim()));
             OnOutputFolderSelected(new FolderEventArgs(txtOutputDirectory.Text.Trim()));
@@ -198,21 +201,16 @@ namespace CodeGenerator.CodeGenerator.UI
 
         protected virtual void OnInputFolderSelected(FolderEventArgs args)
         {
-            if (InputFolderSelected != null)
-            {
-                InputFolderSelected(this, args);
-            }
+            InputFolderSelected?.Invoke(this, args);
         }
 
         protected virtual void OnOutputFolderSelected(FolderEventArgs args)
         {
-            if (OutputFolderSelected != null)
-            {
-                OutputFolderSelected(this, args);
-            }
+            OutputFolderSelected?.Invoke(this, args);
         }
 
-        private void uiCancelButton_Click(object sender, EventArgs e)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
         }

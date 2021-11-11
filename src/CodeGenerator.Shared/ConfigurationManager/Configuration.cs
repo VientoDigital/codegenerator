@@ -1,6 +1,6 @@
 using System.Collections;
 using System.IO;
-using System.Xml.Serialization;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.ConfigurationManager
 {
@@ -13,36 +13,29 @@ namespace CodeGenerator.ConfigurationManager
         private static ConfigFile configFile = new ConfigFile();
         private Hashtable cataTypes = new Hashtable();
 
-        protected Configuration()
-        {
-        }
-
         public static Configuration Instance { get; set; } = new Configuration();
 
         public IDictionary DataTypes
         {
-            get { return cataTypes; }
-            set { cataTypes = (Hashtable)value; }
+            get => cataTypes;
+            set => cataTypes = (Hashtable)value;
         }
 
         public string EndTag
         {
-            get { return configFile.EndTag; }
-            set { configFile.EndTag = value; }
+            get => configFile.EndTag;
+            set => configFile.EndTag = value;
         }
 
         public string StartTag
         {
-            get { return configFile.StartTag; }
-            set { configFile.StartTag = value; }
+            get => configFile.StartTag;
+            set => configFile.StartTag = value;
         }
 
         public void Open(string filename)
         {
-            var serializer = new XmlSerializer(typeof(ConfigFile));
-            TextReader reader = new StreamReader(filename);
-            configFile = (ConfigFile)serializer.Deserialize(reader);
-            reader.Close();
+            configFile = new FileInfo(filename).XmlDeserialize<ConfigFile>();
             LoadDataTypes();
         }
 
@@ -54,10 +47,7 @@ namespace CodeGenerator.ConfigurationManager
         public void Save(string filename)
         {
             AssignDataTypes();
-            var serializer = new XmlSerializer(typeof(ConfigFile));
-            TextWriter writer = new StreamWriter(filename);
-            serializer.Serialize(writer, configFile);
-            writer.Close();
+            configFile.XmlSerialize(filename);
         }
 
         public void Save()

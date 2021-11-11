@@ -1,15 +1,30 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
-using CodeGenerator.Data.Structure;
 using CodeGenerator.Data;
+using CodeGenerator.Data.Structure;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace CodeGenerator.DatabaseNavigator
 {
     public class NavigatorControl : UserControl
     {
-        private enum NavigatorIcon : int
+        private IContainer container;
+
+        private ImageList imageList;
+
+        private readonly TreeNode rootNode;
+
+        private KryptonTreeView treeView;
+
+        public NavigatorControl()
+        {
+            InitializeComponent();
+            InitializeMenu();
+            InitializeTree();
+        }
+
+        private enum NavigatorIcon
         {
             ServerOff,
             ServerOn,
@@ -19,91 +34,18 @@ namespace CodeGenerator.DatabaseNavigator
             Column
         }
 
-        #region Attributes
-
-        private KryptonTreeView uiNavigatorTreeView;
-        private IContainer components;
-
-        /*
-		private ShortcutListener _shortcuts = null;
-		private MenuBar _menuBar = null;
-		private ContextMenuBarItem _contextMenu = null;
-        */
-        private ImageList uiNavigatorImageList;
-
-        private TreeNode rootNode;
-
-        #endregion Attributes
-
         [Browsable(true), Category("Navigator")]
         public string ConnectionString
         {
-            set { Server.ConnectionString = value; }
-            get { return Server.ConnectionString; }
+            get => Server.ConnectionString;
+            set => Server.ConnectionString = value;
         }
 
         [Browsable(true), Category("Navigator")]
         public DataProviderType ProviderType
         {
-            set { Server.ProviderType = value; }
-            get { return Server.ProviderType; }
-        }
-
-        public NavigatorControl()
-        {
-            InitializeComponent();
-            InitializeMenu();
-            InitializeTree();
-        }
-
-        private void InitializeTree()
-        {
-            rootNode = new TreeNode("Server");
-            rootNode.Tag = new Server();
-            rootNode.ImageIndex = (int)NavigatorIcon.ServerOff;
-            rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOff;
-            uiNavigatorTreeView.Nodes.Add(rootNode);
-        }
-
-        private void InitializeMenu()
-        {
-            SetDefaultMenu();
-        }
-
-        // Server Activate
-        private void SetDefaultMenu()
-        {
-            var contextMenu = new ContextMenu();
-            var miConnect = new MenuItem("Connect");
-            miConnect.Click += connect_Activate;
-            var miDisconnect = new MenuItem("Disconnect");
-            miDisconnect.Click += disconnect_Activate;
-            var miEditConnection = new MenuItem("Edit Connection");
-            miEditConnection.Click += serverEdit_Activate;
-            contextMenu.MenuItems.Add(miConnect);
-            contextMenu.MenuItems.Add(miDisconnect);
-            contextMenu.MenuItems.Add(miEditConnection);
-            ContextMenu = contextMenu;
-            /*
-			if(_contextMenu == null)
-			{
-				_contextMenu = new ContextMenuBarItem();
-			}
-			_contextMenu.MenuItems.Clear();
-			MenuButtonItem connect = new MenuButtonItem("Connect");
-			connect.Activate += new EventHandler(connect_Activate);
-			MenuButtonItem disconnect = new MenuButtonItem("Disconnect");
-			disconnect.Activate += new EventHandler(disconnect_Activate);
-			MenuButtonItem edit = new MenuButtonItem("Edit");
-			edit.Activate += new EventHandler(serverEdit_Activate);
-			_contextMenu.MenuItems.AddRange(new MenuButtonItem[] { connect, edit, disconnect });
-            */
-            //contextMenu.MenuItems[1].Shortcut = Shortcut.CtrlJ;
-        }
-
-        private void connect_Activate(object sender, EventArgs e)
-        {
-            Connect();
+            get => Server.ProviderType;
+            set => Server.ProviderType = value;
         }
 
         public void Connect()
@@ -111,28 +53,24 @@ namespace CodeGenerator.DatabaseNavigator
             try
             {
                 rootNode.Nodes.Clear();
-                Server server = new Server();
+                var server = new Server();
                 rootNode.Text = ConnectionString;
                 foreach (Database database in server.Databases)
                 {
-                    var databaseNode = new TreeNode(database.Name);
-                    databaseNode.Tag = database;
-                    databaseNode.ImageIndex = (int)NavigatorIcon.DatabaseOff;
-                    databaseNode.SelectedImageIndex = (int)NavigatorIcon.DatabaseOff;
-                    rootNode.Nodes.Add(databaseNode);
+                    rootNode.Nodes.Add(new TreeNode(database.Name)
+                    {
+                        Tag = database,
+                        ImageIndex = (int)NavigatorIcon.DatabaseOff,
+                        SelectedImageIndex = (int)NavigatorIcon.DatabaseOff
+                    });
                 }
                 rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOn;
                 rootNode.ImageIndex = (int)NavigatorIcon.ServerOn;
             }
-            catch (Exception)
+            catch
             {
                 ShowEditConnectionStringDialog();
             }
-        }
-
-        private void disconnect_Activate(object sender, EventArgs e)
-        {
-            Disconnect();
         }
 
         public void Disconnect()
@@ -141,11 +79,6 @@ namespace CodeGenerator.DatabaseNavigator
             rootNode.Text = "Server";
             rootNode.SelectedImageIndex = (int)NavigatorIcon.ServerOff;
             rootNode.ImageIndex = (int)NavigatorIcon.ServerOff;
-        }
-
-        private void serverEdit_Activate(object sender, EventArgs e)
-        {
-            ShowEditConnectionStringDialog();
         }
 
         public void ShowEditConnectionStringDialog()
@@ -157,218 +90,120 @@ namespace CodeGenerator.DatabaseNavigator
             }
         }
 
-        // Database Activate
-        private void SetDatabaseMenu()
+        protected override void Dispose(bool disposing)
         {
-            var contextMenu = new ContextMenu();
-            var openMenuItem = new MenuItem("Open");
-            openMenuItem.Click += databaseOpen_Activate;
-            contextMenu.MenuItems.Add(openMenuItem);
-            ContextMenu = contextMenu;
+            if (disposing)
+            {
+                if (container != null)
+                {
+                    container.Dispose();
+                }
+            }
+            base.Dispose(disposing);
         }
 
-        private void databaseOpen_Activate(object sender, EventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void InitializeMenu()
+        {
+            SetDefaultMenu();
+        }
+
+        private void InitializeTree()
+        {
+            treeView.Nodes.Add(new TreeNode("Server")
+            {
+                Tag = new Server(),
+                ImageIndex = (int)NavigatorIcon.ServerOff,
+                SelectedImageIndex = (int)NavigatorIcon.ServerOff
+            });
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void mnuConnect_Click(object sender, EventArgs e)
+        {
+            Connect();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void mnuDisconnect_Click(object sender, EventArgs e)
+        {
+            Disconnect();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void mnuEditConnection_Click(object sender, EventArgs e)
+        {
+            ShowEditConnectionStringDialog();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void mnuOpen_Click(object sender, EventArgs e)
+        {
+            OpenSelectedTable();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void mnuProperties_Click(object sender, EventArgs e)
+        {
+            var column = (Column)treeView.SelectedNode.Tag;
+            OnColumnShowProperties(new ColumnEventArgs(column));
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void mnuRemove_Click(object sender, EventArgs e)
+        {
+            var node = treeView.SelectedNode;
+            var column = node.Tag as Column;
+            column.ParentTable.Columns.Remove(column);
+            node.Remove();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void openMenuItem_Click(object sender, EventArgs e)
         {
             OpenSelectedDatabase();
         }
 
         private void OpenSelectedDatabase()
         {
-            var databaseNode = uiNavigatorTreeView.SelectedNode;
+            var databaseNode = treeView.SelectedNode;
             databaseNode.Nodes.Clear();
 
             /* Changed by Ferhat */
             // Fill tree with tables
             foreach (Table table in ((Database)databaseNode.Tag).Tables)
             {
-                var tableNode = new TreeNode(table.Name);
-                tableNode.Tag = table;
-                tableNode.ImageIndex = (int)NavigatorIcon.Table;
-                tableNode.SelectedImageIndex = (int)NavigatorIcon.Table;
-                databaseNode.Nodes.Add(tableNode);
+                databaseNode.Nodes.Add(new TreeNode(table.Name)
+                {
+                    Tag = table,
+                    ImageIndex = (int)NavigatorIcon.Table,
+                    SelectedImageIndex = (int)NavigatorIcon.Table
+                });
             }
 
             // Fill tree with views
-            databaseNode = uiNavigatorTreeView.SelectedNode;
+            databaseNode = treeView.SelectedNode;
             foreach (Table table in ((Database)databaseNode.Tag).Views)
             {
-                var tableNode = new TreeNode(table.Name);
-                tableNode.Tag = table;
-                tableNode.ImageIndex = (int)NavigatorIcon.Table;
-                tableNode.SelectedImageIndex = (int)NavigatorIcon.Table;
-                databaseNode.Nodes.Add(tableNode);
+                databaseNode.Nodes.Add(new TreeNode(table.Name)
+                {
+                    Tag = table,
+                    ImageIndex = (int)NavigatorIcon.Table,
+                    SelectedImageIndex = (int)NavigatorIcon.Table
+                });
             }
 
             databaseNode.ImageIndex = (int)NavigatorIcon.DatabaseOn;
             databaseNode.SelectedImageIndex = (int)NavigatorIcon.DatabaseOn;
         }
 
-        // Table Activate
-        private void SetTableMenu()
-        {
-            var contextMenu = new ContextMenu();
-            var miOpen = new MenuItem("Open");
-            miOpen.Click += tableOpen_Activate;
-            contextMenu.MenuItems.Add(miOpen);
-            ContextMenu = contextMenu;
-        }
-
-        private void tableOpen_Activate(object sender, EventArgs e)
-        {
-            OpenSelectedTable();
-        }
-
-        private void OpenSelectedTable()
-        {
-            var tableNode = uiNavigatorTreeView.SelectedNode;
-            tableNode.Nodes.Clear();
-            foreach (Column column in ((Table)tableNode.Tag).Columns)
-            {
-                var columnNode = new TreeNode(column.Name);
-                columnNode.Tag = column;
-                columnNode.ImageIndex = (int)NavigatorIcon.Column;
-                columnNode.SelectedImageIndex = (int)NavigatorIcon.Column;
-                tableNode.Nodes.Add(columnNode);
-            }
-        }
-
-        // Column Activate
-        private void SetColumnMenu()
-        {
-            var contextMenu = new ContextMenu();
-            var miProperties = new MenuItem("Properties");
-            miProperties.Click += columnShowProperties;
-            contextMenu.MenuItems.Add(miProperties);
-            var miRemove = new MenuItem("Remove");
-            miRemove.Click += columnRemove_Activate;
-            contextMenu.MenuItems.Add(miRemove);
-            ContextMenu = contextMenu;
-        }
-
-        private void columnShowProperties(object sender, EventArgs e)
-        {
-            Column column = (Column)uiNavigatorTreeView.SelectedNode.Tag;
-            OnColumnShowProperties(new ColumnEventArgs(column));
-        }
-
-        private void columnRemove_Activate(object sender, EventArgs e)
-        {
-            var node = uiNavigatorTreeView.SelectedNode;
-            var column = node.Tag as Column;
-            column.ParentTable.Columns.Remove(column);
-            node.Remove();
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            /*
-			if(_shortcuts.ShortcutActivated(keyData))
-				return true;
-             */
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-                /*
-				_shortcuts.Dispose();
-				_menuBar.SetSandBarMenu(this,null);
-				_menuBar.Dispose();
-                */
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Component Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NavigatorControl));
-            this.uiNavigatorTreeView = new KryptonTreeView();
-            this.uiNavigatorImageList = new System.Windows.Forms.ImageList(this.components);
-            this.SuspendLayout();
-            //
-            // uiNavigatorTreeView
-            //
-            this.uiNavigatorTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiNavigatorTreeView.ImageList = this.uiNavigatorImageList;
-            this.uiNavigatorTreeView.Location = new System.Drawing.Point(0, 0);
-            this.uiNavigatorTreeView.Name = "uiNavigatorTreeView";
-            this.uiNavigatorTreeView.Size = new System.Drawing.Size(150, 150);
-            this.uiNavigatorTreeView.TabIndex = 0;
-            this.uiNavigatorTreeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.uiNavigatorTreeView_KeyUp);
-            this.uiNavigatorTreeView.Controls[0].DoubleClick += new System.EventHandler(this.uiNavigatorTreeView_DoubleClick);
-            this.uiNavigatorTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.uiNavigatorTreeView_AfterSelect);
-            //
-            // uiNavigatorImageList
-            //
-            this.uiNavigatorImageList.ImageSize = new System.Drawing.Size(16, 16);
-            this.uiNavigatorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("uiNavigatorImageList.ImageStream")));
-            this.uiNavigatorImageList.TransparentColor = System.Drawing.Color.Transparent;
-            //
-            // NavigatorControl
-            //
-            this.Controls.Add(this.uiNavigatorTreeView);
-            this.Name = "NavigatorControl";
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.uiNavigatorTreeView_KeyUp);
-            this.ResumeLayout(false);
-        }
-
-        #endregion Component Designer generated code
-
-        private void uiNavigatorTreeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            object obj = e.Node.Tag;
-            if (obj == null) return;
-            if (obj.GetType() == typeof(Server))
-            {
-                SetDefaultMenu();
-            }
-            else if (obj.GetType() == typeof(Database))
-            {
-                SetDatabaseMenu();
-                OnDatabaseSelect(new DatabaseEventArgs((Database)uiNavigatorTreeView.SelectedNode.Tag));
-            }
-            else if (obj.GetType() == typeof(Table))
-            {
-                SetTableMenu();
-                OnTableSelect(new TableEventArgs((Table)uiNavigatorTreeView.SelectedNode.Tag));
-            }
-            else if (obj.GetType() == typeof(Column))
-            {
-                SetColumnMenu();
-                OnColumnSelect(new ColumnEventArgs((Column)uiNavigatorTreeView.SelectedNode.Tag));
-            }
-        }
-
-        private void uiNavigatorTreeView_DoubleClick(object sender, EventArgs e)
-        {
-            OpenSelectedItem();
-        }
-
-        private void uiNavigatorTreeView_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                OpenSelectedItem();
-            }
-        }
-
         private void OpenSelectedItem()
         {
-            object obj = uiNavigatorTreeView.SelectedNode.Tag;
+            object obj = treeView.SelectedNode.Tag;
             if (obj.GetType() == typeof(Database))
             {
                 OpenSelectedDatabase();
@@ -379,62 +214,198 @@ namespace CodeGenerator.DatabaseNavigator
             }
         }
 
-        #region Events & Delegates
+        private void OpenSelectedTable()
+        {
+            var tableNode = treeView.SelectedNode;
+            tableNode.Nodes.Clear();
+            foreach (Column column in ((Table)tableNode.Tag).Columns)
+            {
+                tableNode.Nodes.Add(new TreeNode(column.Name)
+                {
+                    Tag = column,
+                    ImageIndex = (int)NavigatorIcon.Column,
+                    SelectedImageIndex = (int)NavigatorIcon.Column
+                });
+            }
+        }
 
-        // Column Events & Delegates
+        // Column Activate
+        private void SetColumnMenu()
+        {
+            var contextMenu = new ContextMenu();
+
+            var mnuProperties = new MenuItem("Properties");
+            mnuProperties.Click += mnuProperties_Click;
+            contextMenu.MenuItems.Add(mnuProperties);
+
+            var mnuRemove = new MenuItem("Remove");
+            mnuRemove.Click += mnuRemove_Click;
+            contextMenu.MenuItems.Add(mnuRemove);
+
+            ContextMenu = contextMenu;
+        }
+
+        // Database Activate
+        private void SetDatabaseMenu()
+        {
+            var contextMenu = new ContextMenu();
+            var openMenuItem = new MenuItem("Open");
+            openMenuItem.Click += openMenuItem_Click;
+            contextMenu.MenuItems.Add(openMenuItem);
+            ContextMenu = contextMenu;
+        }
+
+        // Server Activate
+        private void SetDefaultMenu()
+        {
+            var contextMenu = new ContextMenu();
+
+            var mnuConnect = new MenuItem("Connect");
+            mnuConnect.Click += mnuConnect_Click;
+            contextMenu.MenuItems.Add(mnuConnect);
+
+            var mnuDisconnect = new MenuItem("Disconnect");
+            mnuDisconnect.Click += mnuDisconnect_Click;
+            contextMenu.MenuItems.Add(mnuDisconnect);
+
+            var mnuEditConnection = new MenuItem("Edit Connection");
+            mnuEditConnection.Click += mnuEditConnection_Click;
+            contextMenu.MenuItems.Add(mnuEditConnection);
+
+            ContextMenu = contextMenu;
+        }
+
+        // Table Activate
+        private void SetTableMenu()
+        {
+            var contextMenu = new ContextMenu();
+            var mnuOpen = new MenuItem("Open");
+            mnuOpen.Click += mnuOpen_Click;
+            contextMenu.MenuItems.Add(mnuOpen);
+            ContextMenu = contextMenu;
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.container = new System.ComponentModel.Container();
+            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NavigatorControl));
+            this.treeView = new KryptonTreeView();
+            this.imageList = new System.Windows.Forms.ImageList(this.container);
+            this.SuspendLayout();
+            //
+            // uiNavigatorTreeView
+            //
+            this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView.ImageList = this.imageList;
+            this.treeView.Location = new System.Drawing.Point(0, 0);
+            this.treeView.Name = "uiNavigatorTreeView";
+            this.treeView.Size = new System.Drawing.Size(150, 150);
+            this.treeView.TabIndex = 0;
+            this.treeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
+            this.treeView.Controls[0].DoubleClick += new System.EventHandler(this.treeView_DoubleClick);
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            //
+            // uiNavigatorImageList
+            //
+            this.imageList.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            //
+            // NavigatorControl
+            //
+            this.Controls.Add(this.treeView);
+            this.Name = "NavigatorControl";
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
+            this.ResumeLayout(false);
+        }
+
+        #endregion Component Designer generated code
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            object obj = e.Node.Tag;
+            if (obj == null) return;
+            if (obj.GetType() == typeof(Server))
+            {
+                SetDefaultMenu();
+            }
+            else if (obj.GetType() == typeof(Database))
+            {
+                SetDatabaseMenu();
+                OnDatabaseSelect(new DatabaseEventArgs((Database)treeView.SelectedNode.Tag));
+            }
+            else if (obj.GetType() == typeof(Table))
+            {
+                SetTableMenu();
+                OnTableSelect(new TableEventArgs((Table)treeView.SelectedNode.Tag));
+            }
+            else if (obj.GetType() == typeof(Column))
+            {
+                SetColumnMenu();
+                OnColumnSelect(new ColumnEventArgs((Column)treeView.SelectedNode.Tag));
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void treeView_DoubleClick(object sender, EventArgs e)
+        {
+            OpenSelectedItem();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void treeView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                OpenSelectedItem();
+            }
+        }
+
+        #region Events & Delegates
 
         public delegate void ColumnEventHandler(object sender, ColumnEventArgs args);
 
-        [Browsable(true), Category("Navigator")]
-        public event ColumnEventHandler ColumnSelect;
-
-        protected virtual void OnColumnSelect(ColumnEventArgs args)
-        {
-            if (ColumnSelect != null)
-            {
-                ColumnSelect(this, args);
-            }
-        }
-
-        [Browsable(true), Category("Navigator")]
-        public event ColumnEventHandler ColumnShowProperties;
-
-        protected virtual void OnColumnShowProperties(ColumnEventArgs args)
-        {
-            if (ColumnShowProperties != null)
-            {
-                ColumnShowProperties(this, args);
-            }
-        }
-
-        // Table Events & Delegates
+        public delegate void DatabaseEventHandler(object sender, DatabaseEventArgs args);
 
         public delegate void TableEventHandler(object sender, TableEventArgs args);
 
         [Browsable(true), Category("Navigator")]
-        public event TableEventHandler TableSelect;
+        public event ColumnEventHandler ColumnSelect;
 
-        protected virtual void OnTableSelect(TableEventArgs args)
-        {
-            if (TableSelect != null)
-            {
-                TableSelect(this, args);
-            }
-        }
-
-        // Database Events & Delegates
-
-        public delegate void DatabaseEventHandler(object sender, DatabaseEventArgs args);
+        [Browsable(true), Category("Navigator")]
+        public event ColumnEventHandler ColumnShowProperties;
 
         [Browsable(true), Category("Navigator")]
         public event DatabaseEventHandler DatabaseSelect;
 
+        [Browsable(true), Category("Navigator")]
+        public event TableEventHandler TableSelect;
+
+        protected virtual void OnColumnSelect(ColumnEventArgs args)
+        {
+            ColumnSelect?.Invoke(this, args);
+        }
+
+        protected virtual void OnColumnShowProperties(ColumnEventArgs args)
+        {
+            ColumnShowProperties?.Invoke(this, args);
+        }
+
         protected virtual void OnDatabaseSelect(DatabaseEventArgs args)
         {
-            if (DatabaseSelect != null)
-            {
-                DatabaseSelect(this, args);
-            }
+            DatabaseSelect?.Invoke(this, args);
+        }
+
+        protected virtual void OnTableSelect(TableEventArgs args)
+        {
+            TableSelect?.Invoke(this, args);
         }
 
         #endregion Events & Delegates

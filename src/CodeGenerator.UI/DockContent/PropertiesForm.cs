@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using CodeGenerator.Data.Structure;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     public partial class PropertiesForm : UserControl
     {

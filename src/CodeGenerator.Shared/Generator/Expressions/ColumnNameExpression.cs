@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {
@@ -27,21 +28,6 @@ namespace CodeGenerator.Generator
             context.Input = context.Output;
         }
 
-        private static string InputPattern
-        {
-            get
-            {
-                return string.Format(@"{0}{1}\s*(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*{2}",
-                    Context.StartDelimeter,
-                    COLUMN_NAME,
-                    Context.EndingDelimiter);
-
-                //return Context.StartDelimeter +
-                //    COLUMN_NAME +
-                //    @"\s*" +
-                //    @"(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*" +
-                //    Context.EndingDelimiter;
-            }
-        }
+        private static string InputPattern => $@"{COLUMN_NAME}\s*(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
     }
 }

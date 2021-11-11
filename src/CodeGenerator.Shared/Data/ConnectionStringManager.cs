@@ -8,50 +8,38 @@ namespace CodeGenerator.Data
     {
         private static readonly ConnectionStringManager manager = new ConnectionStringManager();
 
-        private ConnectionStringManager()
-        {
-        }
-
         public static ConnectionStringManager Instance => manager;
 
-        public string FileName { get; set; } = AppDomain.CurrentDomain.BaseDirectory + "ConnectionStrings.txt";
+        public string FileName { get; set; } = $"{AppDomain.CurrentDomain.BaseDirectory}ConnectionStrings.txt";
 
         public void Add(string connectionString)
         {
-            string[] strings = GetConnectionStrings();
+            string[] connectionStrings = GetConnectionStrings();
+            bool isNew = (connectionStrings.Length == 0 || connectionStrings[0].Trim().Length == 0);
 
-            StreamWriter streamWriter;
-            if (strings.Length == 0 || strings[0].Trim().Length == 0)
+            using (var streamWriter = isNew ? File.CreateText(FileName) : File.AppendText(FileName))
             {
-                streamWriter = File.CreateText(FileName);
-            }
-            else
-            {
-                streamWriter = File.AppendText(FileName);
-            }
-
-            streamWriter.WriteLine(connectionString);
-            streamWriter.Flush();
-            streamWriter.Close();
-        }
-
-        public void Clear()
-        {
-            var streamWriter = File.CreateText(FileName);
-            streamWriter.WriteLine();
-            streamWriter.Flush();
-            streamWriter.Close();
-        }
-
-        public string Creator(DataProviderType providerType, string server, string username, string password, string database)
-        {
-            switch (providerType)
-            {
-                case DataProviderType.SqlClient: return "SERVER=" + server + ";DATABASE=" + database + ";UID=" + username + ";PWD=" + password + ";";
-                case DataProviderType.MySql: return @"Data Source=" + database + ";Password=" + password + ";User ID=" + username + ";Location=" + server + ";";
-                default: return "Data Source=" + server + ";Initial Catalog=" + database + ";User Id=" + username + ";Password=" + password + ";";
+                streamWriter.WriteLine(connectionString);
             }
         }
+
+        //public void Clear()
+        //{
+        //    using (var streamWriter = File.CreateText(FileName))
+        //    {
+        //        streamWriter.WriteLine();
+        //    }
+        //}
+
+        //public string Creator(DataProviderType providerType, string server, string username, string password, string database)
+        //{
+        //    switch (providerType)
+        //    {
+        //        case DataProviderType.SqlClient: return $"SERVER={server};DATABASE={database};UID={username};PWD={password};";
+        //        case DataProviderType.MySql: return $"Data Source={database};Password={password};User ID={username};Location={server};";
+        //        default: return $"Data Source={server};Initial Catalog={database};User Id={username};Password={password};";
+        //    }
+        //}
 
         public string[] GetConnectionStrings()
         {
@@ -59,12 +47,13 @@ namespace CodeGenerator.Data
 
             if (File.Exists(FileName))
             {
-                var streamReader = File.OpenText(FileName);
-                while (streamReader.Peek() != -1)
+                using (var streamReader = File.OpenText(FileName))
                 {
-                    connections.Add(streamReader.ReadLine());
+                    while (streamReader.Peek() != -1)
+                    {
+                        connections.Add(streamReader.ReadLine());
+                    }
                 }
-                streamReader.Close();
             }
             else
             {

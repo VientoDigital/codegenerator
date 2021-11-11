@@ -29,19 +29,25 @@ namespace CodeGenerator.Generator
             {
                 client.StartDelimiter = "{";//originalSd;
                 client.EndingDelimiter = "}";//originalEd;
-                var streamReader = File.OpenText(fileInfo.FullName);
-                var fileContent = streamReader.ReadToEnd();
-                streamReader.Close();
+
+                string fileContent;
+                using (var streamReader = File.OpenText(fileInfo.FullName))
+                {
+                    fileContent = streamReader.ReadToEnd();
+                    streamReader.Close();
+                }
+
                 string codeGenerated = client.Parse(table, fileContent);
                 client.StartDelimiter = string.Empty;
                 client.EndingDelimiter = string.Empty;
-                var fileName = client.Parse(table, fileInfo.Name);
+                string fileName = client.Parse(table, fileInfo.Name);
+
                 try
                 {
-                    var streamWriter = new StreamWriter(outputDir + Path.DirectorySeparatorChar + fileName);
-                    streamWriter.Write(codeGenerated);
-                    streamWriter.Flush();
-                    streamWriter.Close();
+                    using (var streamWriter = new StreamWriter(outputDir + Path.DirectorySeparatorChar + fileName))
+                    {
+                        streamWriter.Write(codeGenerated);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -53,10 +59,7 @@ namespace CodeGenerator.Generator
 
         protected void CompleteNotifier(EventArgs e)
         {
-            if (OnComplete != null)
-            {
-                OnComplete(this, e);
-            }
+            OnComplete?.Invoke(this, e);
         }
     }
 }

@@ -4,41 +4,35 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     public partial class CustomValuesForm : UserControl
     {
+        private static readonly string customValuesFilename = $"{AppDomain.CurrentDomain.BaseDirectory}CustomValues.xml";
+
+        private DataSet set;
+
         public CustomValuesForm()
         {
             InitializeComponent();
             InitializeCustomValuesDataGrid();
         }
-
-        private static string _CustomValuesFilename = AppDomain.CurrentDomain.BaseDirectory + "CustomValues.xml";
-        private DataSet _CustomValues;
-
-        private void InitializeCustomValuesDataGrid()
+        public IDictionary CustomValues
         {
-            _CustomValues = new DataSet();
-            DataTable dt = new DataTable();
-            _CustomValues.Tables.Add(dt);
-            _CustomValues.Tables[0].Columns.Add("Name");
-            _CustomValues.Tables[0].Columns.Add("Value");
-            if (File.Exists(_CustomValuesFilename))
+            get
             {
-                _CustomValues.ReadXml(_CustomValuesFilename);
+                IDictionary customValues = new Hashtable();
+                foreach (DataRow row in set.Tables[0].Rows)
+                {
+                    customValues[row["Name"].ToString().ToUpper()] = row["Value"].ToString();
+                }
+                return customValues;
             }
-            gridCustomValues.DataSource = _CustomValues.Tables[0];
-        }
-
-        private void SaveCustomValues()
-        {
-            _CustomValues.WriteXml(_CustomValuesFilename);
         }
 
         private void FilterEmptyCustomValues()
         {
-            DataRow[] rows = _CustomValues.Tables[0].Select();
+            DataRow[] rows = set.Tables[0].Select();
             for (int i = 0; i < rows.Length; i++)
             {
                 if (rows[i][0].ToString().Trim().Length == 0)
@@ -53,23 +47,31 @@ namespace CodeGenerator.CodeGenerator.UI
             gridCustomValues.Refresh();
         }
 
-        public IDictionary CustomValues
-        {
-            get
-            {
-                IDictionary customValues = new Hashtable();
-                foreach (DataRow row in _CustomValues.Tables[0].Rows)
-                {
-                    customValues[row["Name"].ToString().ToUpper()] = row["Value"].ToString();
-                }
-                return customValues;
-            }
-        }
-
         private void GridCustomValuesLeave(object sender, EventArgs e)
         {
             FilterEmptyCustomValues();
             SaveCustomValues();
+        }
+
+        private void InitializeCustomValuesDataGrid()
+        {
+            set = new DataSet();
+            var table = new DataTable();
+            table.Columns.Add("Name");
+            table.Columns.Add("Value");
+            set.Tables.Add(table);
+
+            if (File.Exists(customValuesFilename))
+            {
+                set.ReadXml(customValuesFilename);
+            }
+
+            gridCustomValues.DataSource = set.Tables[0];
+        }
+
+        private void SaveCustomValues()
+        {
+            set.WriteXml(customValuesFilename);
         }
     }
 }

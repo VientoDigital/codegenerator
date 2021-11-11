@@ -1,14 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {
     public class TableNameReplaceExpression : Expression
     {
-        private static string InputPattern
-        {
-            get { return string.Concat(Context.StartDelimeter, @"TABLE.NAME.REPLACE\((?<oldValue>(.*)),(?<newValue>(.*))\)", Context.EndingDelimiter); }
-        }
+        private static string InputPattern => @"TABLE.NAME.REPLACE\((?<oldValue>(.*)),(?<newValue>(.*))\)".DelimeterWrap();
 
         public override void Interpret(Context context)
         {

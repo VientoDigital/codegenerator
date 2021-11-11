@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using CodeGenerator.DatabaseNavigator;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     public partial class DatabaseNavigationForm : UserControl
     {
@@ -9,6 +9,12 @@ namespace CodeGenerator.CodeGenerator.UI
         {
             InitializeComponent();
         }
+
+        public event NavigatorControl.ColumnEventHandler ColumnSelected;
+
+        public event NavigatorControl.DatabaseEventHandler DatabaseSelected;
+
+        public event NavigatorControl.TableEventHandler TableSelected;
 
         public void Connect()
         {
@@ -25,40 +31,22 @@ namespace CodeGenerator.CodeGenerator.UI
             navigatorControl.ShowEditConnectionStringDialog();
         }
 
-        public event NavigatorControl.DatabaseEventHandler DatabaseSelected;
-
-        protected virtual void OnDatabaseSelected(DatabaseEventArgs args)
-        {
-            DatabaseSelected?.Invoke(this, args);
-        }
-
-        public event NavigatorControl.ColumnEventHandler ColumnSelected;
-
-        protected virtual void OnColumnSelected(ColumnEventArgs args)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void navigatorControl_ColumnSelect(object sender, ColumnEventArgs args)
         {
             ColumnSelected?.Invoke(this, args);
         }
 
-        public event NavigatorControl.TableEventHandler TableSelected;
-
-        protected virtual void OnTableSelected(TableEventArgs args)
-        {
-            TableSelected?.Invoke(this, args);
-        }
-
-        private void navigatorControl_ColumnSelect(object sender, ColumnEventArgs args)
-        {
-            OnColumnSelected(args);
-        }
-
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void navigatorControl_DatabaseSelect(object sender, DatabaseEventArgs args)
         {
-            OnDatabaseSelected(args);
+            DatabaseSelected?.Invoke(this, args);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void navigatorControl_TableSelect(object sender, TableEventArgs args)
         {
-            OnTableSelected(args);
+            TableSelected?.Invoke(this, args);
         }
     }
 }

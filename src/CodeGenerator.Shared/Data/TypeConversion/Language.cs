@@ -25,11 +25,11 @@ namespace CodeGenerator.Data.TypeConversion
                 xmlDocument.Load(DataTypeManager.Uri);
                 var root = xmlDocument.DocumentElement;
                 var nav = root.CreateNavigator();
-                var nodeIterator = nav.Select("/DataTypes/Language[@name = \"" + Name + "\"]/SqlType");
+                var nodeIterator = nav.Select($"/DataTypes/Language[@name = \"{Name}\"]/SqlType");
 
                 while (nodeIterator.MoveNext())
                 {
-                    mappings.Add(nodeIterator.Current.GetAttribute("name", ""), nodeIterator.Current.Value.Trim());
+                    mappings.Add(nodeIterator.Current.GetAttribute("name", string.Empty), nodeIterator.Current.Value.Trim());
                 }
 
                 return mappings;

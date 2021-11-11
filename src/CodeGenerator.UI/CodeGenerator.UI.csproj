@@ -10,7 +10,7 @@
     <ApplicationIcon>Resources\icode64.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>iCodeGeneratorGui</AssemblyName>
+    <AssemblyName>CodeGenerator.UI</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
@@ -18,9 +18,9 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>iCodeGenerator.iCodeGeneratorGui</RootNamespace>
+    <RootNamespace>CodeGenerator.UI</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>CodeGenerator.CodeGenerator.UI.MainApp</StartupObject>
+    <StartupObject>CodeGenerator.UI.Program</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -169,6 +169,7 @@
     <Compile Include="Forms\AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -250,6 +251,7 @@
     </Content>
     <EmbeddedResource Include="DatabaseNavigator\NavigatorControl.resx">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseNavigator\ServerSettingsForm.resx">
       <DependentUpon>ServerSettingsForm.cs</DependentUpon>

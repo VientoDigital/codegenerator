@@ -2,9 +2,8 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
-using CodeGenerator;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     /// <summary>
     /// Summary description for UpdatesWindow.
@@ -16,7 +15,7 @@ namespace CodeGenerator.CodeGenerator.UI
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private Container components = null;
+        private readonly Container components = null;
 
         public UpdatesWindow()
         {
@@ -24,7 +23,7 @@ namespace CodeGenerator.CodeGenerator.UI
             // Required for Windows Form Designer support
             //
             InitializeComponent();
-            webBrowser1.Url = new Uri(string.Format("http://icodegenerator.net/?v={0}#.download", UpdateChecker.Version));
+            webBrowser1.Url = new Uri(string.Format("http://icodegenerator.net/?v={0}#.download", AppVersion.Version));
         }
 
         /// <summary>

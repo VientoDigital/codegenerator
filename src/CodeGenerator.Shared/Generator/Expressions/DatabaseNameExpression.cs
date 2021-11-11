@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {
@@ -7,17 +8,7 @@ namespace CodeGenerator.Generator
     {
         private const string DATABASE_NAME = "DATABASE.NAME";
 
-        private static string InputPattern
-        {
-            get
-            {
-                return Context.StartDelimeter +
-                    DATABASE_NAME +
-                    @"\s*" +
-                    @"(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*" +
-                    Context.EndingDelimiter;
-            }
-        }
+        private static string InputPattern => $@"{DATABASE_NAME}\s*(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
 
         public override void Interpret(Context context)
         {

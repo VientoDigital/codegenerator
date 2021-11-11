@@ -1,6 +1,6 @@
 using System;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     public class FolderEventArgs : EventArgs
     {

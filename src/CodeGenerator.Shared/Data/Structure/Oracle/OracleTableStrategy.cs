@@ -12,7 +12,7 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet TableSchema(DataAccessProviderFactory dataProvider, IDbConnection connection, Database database)
         {
             var set = new DataSet();
-            var command = dataProvider.CreateCommand("SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '" + database.Name + "'", connection);
+            var command = dataProvider.CreateCommand($"SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '{database.Name}'", connection);
             command.CommandType = CommandType.Text;
             var adapter = dataProvider.CreateDataAdapter();
             adapter.SelectCommand = command;

@@ -1,6 +1,6 @@
 ﻿using ComponentFactory.Krypton.Toolkit;
 
-namespace CodeGenerator.CodeGenerator.UI
+namespace CodeGenerator.UI
 {
     partial class CustomValuesForm
     {
