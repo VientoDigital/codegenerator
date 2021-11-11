@@ -12,14 +12,14 @@ namespace CodeGenerator.CodeGenerator.UI
     {
         private FolderBrowserDialog uiInputFolderDialog;
         private FolderBrowserDialog uiOutputFolderDialog;
-        private KryptonTextBox uiInputFolderSelectedTextBox;
-        private KryptonTextBox uiOutputFolderSelectedTextBox;
-        private KryptonButton uiInputFolderButton;
-        private KryptonButton uiOutputFolderButton;
-        private KryptonLabel label1;
-        private KryptonLabel label2;
-        private KryptonButton uiOkButton;
-        private KryptonButton uiCancelButton;
+        private KryptonTextBox txtTemplatesDirectory;
+        private KryptonTextBox txtOutputDirectory;
+        private KryptonButton btnBrowseTemplatesDirectory;
+        private KryptonButton btnBrowseOutputDirectory;
+        private KryptonLabel lblTemplatesDirectory;
+        private KryptonLabel lblOutputDirectory;
+        private KryptonButton btnOK;
+        private KryptonButton btnCancel;
 
         /// <summary>
         /// Required designer variable.
@@ -59,97 +59,97 @@ namespace CodeGenerator.CodeGenerator.UI
         {
             this.uiInputFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.uiOutputFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.uiInputFolderSelectedTextBox = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.uiOutputFolderSelectedTextBox = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.uiInputFolderButton = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.uiOutputFolderButton = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.uiOkButton = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.uiCancelButton = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.txtTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
+            this.txtOutputDirectory = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
+            this.btnBrowseTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.btnBrowseOutputDirectory = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.lblTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.lblOutputDirectory = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.btnOK = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.btnCancel = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.SuspendLayout();
             // 
-            // uiInputFolderSelectedTextBox
+            // txtTemplatesDirectory
             // 
-            this.uiInputFolderSelectedTextBox.Location = new System.Drawing.Point(136, 24);
-            this.uiInputFolderSelectedTextBox.Name = "uiInputFolderSelectedTextBox";
-            this.uiInputFolderSelectedTextBox.Size = new System.Drawing.Size(280, 23);
-            this.uiInputFolderSelectedTextBox.TabIndex = 5;
+            this.txtTemplatesDirectory.Location = new System.Drawing.Point(136, 24);
+            this.txtTemplatesDirectory.Name = "txtTemplatesDirectory";
+            this.txtTemplatesDirectory.Size = new System.Drawing.Size(280, 23);
+            this.txtTemplatesDirectory.TabIndex = 5;
             // 
-            // uiOutputFolderSelectedTextBox
+            // txtOutputDirectory
             // 
-            this.uiOutputFolderSelectedTextBox.Location = new System.Drawing.Point(136, 72);
-            this.uiOutputFolderSelectedTextBox.Name = "uiOutputFolderSelectedTextBox";
-            this.uiOutputFolderSelectedTextBox.Size = new System.Drawing.Size(280, 23);
-            this.uiOutputFolderSelectedTextBox.TabIndex = 15;
+            this.txtOutputDirectory.Location = new System.Drawing.Point(136, 72);
+            this.txtOutputDirectory.Name = "txtOutputDirectory";
+            this.txtOutputDirectory.Size = new System.Drawing.Size(280, 23);
+            this.txtOutputDirectory.TabIndex = 15;
             // 
-            // uiInputFolderButton
+            // btnBrowseTemplatesDirectory
             // 
-            this.uiInputFolderButton.Location = new System.Drawing.Point(424, 24);
-            this.uiInputFolderButton.Name = "uiInputFolderButton";
-            this.uiInputFolderButton.Size = new System.Drawing.Size(32, 24);
-            this.uiInputFolderButton.TabIndex = 10;
-            this.uiInputFolderButton.Values.Text = "...";
-            this.uiInputFolderButton.Click += new System.EventHandler(this.uiInputFolderButton_Click);
+            this.btnBrowseTemplatesDirectory.Location = new System.Drawing.Point(424, 24);
+            this.btnBrowseTemplatesDirectory.Name = "btnBrowseTemplatesDirectory";
+            this.btnBrowseTemplatesDirectory.Size = new System.Drawing.Size(32, 24);
+            this.btnBrowseTemplatesDirectory.TabIndex = 10;
+            this.btnBrowseTemplatesDirectory.Values.Text = "...";
+            this.btnBrowseTemplatesDirectory.Click += new System.EventHandler(this.uiInputFolderButton_Click);
             // 
-            // uiOutputFolderButton
+            // btnBrowseOutputDirectory
             // 
-            this.uiOutputFolderButton.Location = new System.Drawing.Point(424, 72);
-            this.uiOutputFolderButton.Name = "uiOutputFolderButton";
-            this.uiOutputFolderButton.Size = new System.Drawing.Size(32, 24);
-            this.uiOutputFolderButton.TabIndex = 20;
-            this.uiOutputFolderButton.Values.Text = "...";
-            this.uiOutputFolderButton.Click += new System.EventHandler(this.uiOutputFolderButton_Click);
+            this.btnBrowseOutputDirectory.Location = new System.Drawing.Point(424, 72);
+            this.btnBrowseOutputDirectory.Name = "btnBrowseOutputDirectory";
+            this.btnBrowseOutputDirectory.Size = new System.Drawing.Size(32, 24);
+            this.btnBrowseOutputDirectory.TabIndex = 20;
+            this.btnBrowseOutputDirectory.Values.Text = "...";
+            this.btnBrowseOutputDirectory.Click += new System.EventHandler(this.uiOutputFolderButton_Click);
             // 
-            // label1
+            // lblTemplatesDirectory
             // 
-            this.label1.Location = new System.Drawing.Point(16, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 20);
-            this.label1.TabIndex = 4;
-            this.label1.Values.Text = "Templates Directory";
+            this.lblTemplatesDirectory.Location = new System.Drawing.Point(16, 24);
+            this.lblTemplatesDirectory.Name = "lblTemplatesDirectory";
+            this.lblTemplatesDirectory.Size = new System.Drawing.Size(120, 20);
+            this.lblTemplatesDirectory.TabIndex = 4;
+            this.lblTemplatesDirectory.Values.Text = "Templates Directory";
             // 
-            // label2
+            // lblOutputDirectory
             // 
-            this.label2.Location = new System.Drawing.Point(16, 72);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 20);
-            this.label2.TabIndex = 5;
-            this.label2.Values.Text = "Output Directory";
+            this.lblOutputDirectory.Location = new System.Drawing.Point(16, 72);
+            this.lblOutputDirectory.Name = "lblOutputDirectory";
+            this.lblOutputDirectory.Size = new System.Drawing.Size(103, 20);
+            this.lblOutputDirectory.TabIndex = 5;
+            this.lblOutputDirectory.Values.Text = "Output Directory";
             // 
-            // uiOkButton
+            // btnOK
             // 
-            this.uiOkButton.Location = new System.Drawing.Point(136, 110);
-            this.uiOkButton.Name = "uiOkButton";
-            this.uiOkButton.Size = new System.Drawing.Size(90, 25);
-            this.uiOkButton.TabIndex = 25;
-            this.uiOkButton.Values.Text = "Ok";
-            this.uiOkButton.Click += new System.EventHandler(this.uiOkButton_Click);
+            this.btnOK.Location = new System.Drawing.Point(136, 110);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(90, 25);
+            this.btnOK.TabIndex = 25;
+            this.btnOK.Values.Text = "OK";
+            this.btnOK.Click += new System.EventHandler(this.uiOkButton_Click);
             // 
-            // uiCancelButton
+            // btnCancel
             // 
-            this.uiCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.uiCancelButton.Location = new System.Drawing.Point(326, 110);
-            this.uiCancelButton.Name = "uiCancelButton";
-            this.uiCancelButton.Size = new System.Drawing.Size(90, 25);
-            this.uiCancelButton.TabIndex = 30;
-            this.uiCancelButton.Values.Text = "Cancel";
-            this.uiCancelButton.Click += new System.EventHandler(this.uiCancelButton_Click);
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(326, 110);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(90, 25);
+            this.btnCancel.TabIndex = 30;
+            this.btnCancel.Values.Text = "Cancel";
+            this.btnCancel.Click += new System.EventHandler(this.uiCancelButton_Click);
             // 
             // DirectorySelectionWindow
             // 
-            this.AcceptButton = this.uiOkButton;
+            this.AcceptButton = this.btnOK;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.CancelButton = this.uiCancelButton;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(476, 147);
-            this.Controls.Add(this.uiCancelButton);
-            this.Controls.Add(this.uiOkButton);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.uiOutputFolderButton);
-            this.Controls.Add(this.uiInputFolderButton);
-            this.Controls.Add(this.uiOutputFolderSelectedTextBox);
-            this.Controls.Add(this.uiInputFolderSelectedTextBox);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.lblOutputDirectory);
+            this.Controls.Add(this.lblTemplatesDirectory);
+            this.Controls.Add(this.btnBrowseOutputDirectory);
+            this.Controls.Add(this.btnBrowseTemplatesDirectory);
+            this.Controls.Add(this.txtOutputDirectory);
+            this.Controls.Add(this.txtTemplatesDirectory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "DirectorySelectionWindow";
             this.ShowInTaskbar = false;
@@ -167,26 +167,26 @@ namespace CodeGenerator.CodeGenerator.UI
         {
             if (uiInputFolderDialog.ShowDialog() == DialogResult.OK)
             {
-                uiInputFolderSelectedTextBox.Text = uiInputFolderDialog.SelectedPath;
+                txtTemplatesDirectory.Text = uiInputFolderDialog.SelectedPath;
             }
         }
 
         private void uiOutputFolderButton_Click(object sender, EventArgs e)
         {
-            if (uiInputFolderSelectedTextBox.Text.Length > 0 && uiOutputFolderSelectedTextBox.Text.Length == 0)
+            if (txtTemplatesDirectory.Text.Length > 0 && txtOutputDirectory.Text.Length == 0)
             {
-                uiOutputFolderDialog.SelectedPath = uiInputFolderSelectedTextBox.Text;
+                uiOutputFolderDialog.SelectedPath = txtTemplatesDirectory.Text;
             }
             if (uiOutputFolderDialog.ShowDialog() == DialogResult.OK)
             {
-                uiOutputFolderSelectedTextBox.Text = uiOutputFolderDialog.SelectedPath;
+                txtOutputDirectory.Text = uiOutputFolderDialog.SelectedPath;
             }
         }
 
         private void uiOkButton_Click(object sender, EventArgs e)
         {
-            OnInputFolderSelected(new FolderEventArgs(uiInputFolderSelectedTextBox.Text.Trim()));
-            OnOutputFolderSelected(new FolderEventArgs(uiOutputFolderSelectedTextBox.Text.Trim()));
+            OnInputFolderSelected(new FolderEventArgs(txtTemplatesDirectory.Text.Trim()));
+            OnOutputFolderSelected(new FolderEventArgs(txtOutputDirectory.Text.Trim()));
             Close();
         }
 

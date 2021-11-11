@@ -25,12 +25,12 @@ namespace CodeGenerator.CodeGenerator.UI
 
         private void CheckForUpdates()
         {
-            aboutICodegeneratorToolStripMenuItem.Text = aboutICodegeneratorToolStripMenuItem.Text + @" " + UpdateChecker.Version;
+            mnuHelpAbout.Text = mnuHelpAbout.Text + @" " + UpdateChecker.Version;
             if (UpdateChecker.IsNewUpdate)
             {
-                aboutICodegeneratorToolStripMenuItem.BackColor = Color.LightCoral;
-                aboutICodegeneratorToolStripMenuItem.ForeColor = Color.White;
-                aboutICodegeneratorToolStripMenuItem.Text = @" Download iCodegenerator " + @" (New Version " + UpdateChecker.Software.Version + @")";
+                mnuHelpAbout.BackColor = Color.LightCoral;
+                mnuHelpAbout.ForeColor = Color.White;
+                mnuHelpAbout.Text = @" Download iCodegenerator " + @" (New Version " + UpdateChecker.Software.Version + @")";
             }
         }
 
