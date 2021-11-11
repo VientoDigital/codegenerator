@@ -134,35 +134,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\ConfigurationManager\ConfigurationManager.csproj">
-      <Name>ConfigurationManager</Name>
-      <Project>{602DADFC-CA31-40A3-A07A-620808DD83BD}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\DatabaseNavigator\DatabaseNavigator.csproj">
-      <Name>DatabaseNavigator</Name>
-      <Project>{B8DCA4DB-BA7C-4FA9-AFFE-CB8D9FE6CFFC}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\DatabaseStructure\DatabaseStructure.csproj">
-      <Name>DatabaseStructure</Name>
-      <Project>{02199A48-3BF0-4DD5-8EBC-ECE536928F82}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\DataTypeConverter\DataTypeConverter.csproj">
-      <Name>DataTypeConverter</Name>
-      <Project>{DDA5EE20-E65B-4390-B0A1-869EE583F28A}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\Generator\Generator.csproj">
-      <Name>Generator</Name>
-      <Project>{E46DC87E-56E7-4585-A864-324076C4549C}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\GenericDataAccess\GenericDataAccess.csproj">
-      <Name>GenericDataAccess</Name>
-      <Project>{EF3D506A-3EFF-4838-A48F-BA2302EB7054}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    <ProjectReference Include="..\CodeGenerator.Shared\CodeGenerator.Shared.csproj">
+      <Project>{06e6629d-ecb3-4df9-96e0-9c15305769d9}</Project>
+      <Name>CodeGenerator.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

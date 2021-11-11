@@ -1,7 +1,7 @@
-using iCodeGenerator.GenericDataAccess;
+using CodeGenerator.GenericDataAccess;
 using NUnit.Framework;
 
-namespace iCodeGenerator.UnitTests
+namespace CodeGenerator.UnitTests
 {
     [TestFixture]
     public class TestConnectionStringManager

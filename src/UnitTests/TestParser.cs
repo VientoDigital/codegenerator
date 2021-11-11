@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using System.Text.RegularExpressions;
-using iCodeGenerator.DatabaseStructure;
-using iCodeGenerator.Generator;
-using iCodeGenerator.GenericDataAccess;
+using CodeGenerator.DatabaseStructure;
+using CodeGenerator.Generator;
+using CodeGenerator.GenericDataAccess;
 using NUnit.Framework;
 
-namespace iCodeGenerator.UnitTests
+namespace CodeGenerator.UnitTests
 {
     [TestFixture]
     public class TestParser

@@ -58,9 +58,19 @@
     },
     "0ba9ab83-7e8b-4e80-8a79-6f450afd5336": {
       "ProjectGuid": "0ba9ab83-7e8b-4e80-8a79-6f450afd5336",
-      "DisplayName": "iCodeGeneratorGui",
+      "DisplayName": "CodeGenerator.UI",
       "ColorIndex": 10
+    },
+    "502be1b3-b089-4bbf-bad4-14b40f144fbd": {
+      "ProjectGuid": "502be1b3-b089-4bbf-bad4-14b40f144fbd",
+      "DisplayName": "CodeGenerator.Shared",
+      "ColorIndex": 11
+    },
+    "06e6629d-ecb3-4df9-96e0-9c15305769d9": {
+      "ProjectGuid": "06e6629d-ecb3-4df9-96e0-9c15305769d9",
+      "DisplayName": "CodeGenerator.Shared",
+      "ColorIndex": 12
     }
   },
-  "NextColorIndex": 11
+  "NextColorIndex": 13
 }

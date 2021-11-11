@@ -1,9 +1,9 @@
 using System;
-using iCodeGenerator.DatabaseStructure;
-using iCodeGenerator.GenericDataAccess;
+using CodeGenerator.DatabaseStructure;
+using CodeGenerator.GenericDataAccess;
 using NUnit.Framework;
 
-namespace iCodeGenerator.UnitTests
+namespace CodeGenerator.UnitTests
 {
     [TestFixture]
     public class TestDatabaseNavigator

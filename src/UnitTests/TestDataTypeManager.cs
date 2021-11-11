@@ -1,7 +1,7 @@
-using iCodeGenerator.DataTypeConverter;
+using CodeGenerator.DataTypeConverter;
 using NUnit.Framework;
 
-namespace iCodeGenerator.UnitTests
+namespace CodeGenerator.UnitTests
 {
     [TestFixture]
     public class TestDataTypeManager

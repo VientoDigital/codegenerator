@@ -1,9 +1,9 @@
 using System;
 using System.IO;
-using iCodeGenerator.ConfigurationManager;
+using CodeGenerator.ConfigurationManager;
 using NUnit.Framework;
 
-namespace iCodeGenerator.UnitTests
+namespace CodeGenerator.UnitTests
 {
     /// <summary>
     /// Summary description for TestConfiguration.

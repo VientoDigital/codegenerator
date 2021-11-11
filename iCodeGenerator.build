@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project name="iCodeGenerator" default="notest" xmlns="http://nant.sf.net/schemas/nant.xsd">
+<project name="CodeGenerator" default="notest" xmlns="http://nant.sf.net/schemas/nant.xsd">
 	<property name="build.dir" value="build" />
 
 	<!-- User targets -->
@@ -8,7 +8,7 @@
 	</target>
 	
 	<target name="compile" description="Compiles using the AutomatedDebug Configuration">
-		<solution solutionfile="src\iCodeGenerator.sln" configuration="AutomatedDebug" />
+		<solution solutionfile="src\CodeGenerator.sln" configuration="AutomatedDebug" />
 	</target>
 	
 	<target name="test" depends="compile, run-unit-tests" 
@@ -34,11 +34,11 @@
 			<arg value="..\..\test-reports\Coverage.xml" />
 			<arg value="/c" />
 			<arg value="&quot;..\..\..\tools\nunit\nunit-console.exe&quot;" />
-			<arg value="&quot;iCodeGenerator.UnitTests.dll /xml:..\..\test-reports\UnitTests.xml /nologo&quot;" />
+			<arg value="&quot;CodeGenerator.UnitTests.dll /xml:..\..\test-reports\UnitTests.xml /nologo&quot;" />
 		</exec>
 <!--
 		<exec program="nunit-console.exe" basedir="tools\nunit" workingdir="${build.dir}\Debug\UnitTests">
-			<arg value="iCodeGenerator.UnitTests.dll" />
+			<arg value="CodeGenerator.UnitTests.dll" />
 			<arg value="/xml:..\..\test-reports\UnitTests.xml" />
 		</exec>
 -->
@@ -60,7 +60,7 @@
 				<exclude name="**\*.pdb" />
 			</fileset>
 		</copy>
-		<zip zipfile="${build.dir}\iCodeGenerator.zip">
+		<zip zipfile="${build.dir}\CodeGenerator.zip">
 			<fileset basedir="${build.dir}\dist">
 				<include name="**\*" />
 			</fileset>

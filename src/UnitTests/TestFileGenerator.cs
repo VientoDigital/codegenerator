@@ -1,10 +1,10 @@
 using System;
-using iCodeGenerator.DatabaseStructure;
-using iCodeGenerator.Generator;
-using iCodeGenerator.GenericDataAccess;
+using CodeGenerator.DatabaseStructure;
+using CodeGenerator.Generator;
+using CodeGenerator.GenericDataAccess;
 using NUnit.Framework;
 
-namespace iCodeGenerator.UnitTests
+namespace CodeGenerator.UnitTests
 {
     /// <summary>
     /// Summary description for Test.
