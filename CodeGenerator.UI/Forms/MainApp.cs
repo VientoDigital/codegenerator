@@ -7,9 +7,9 @@ using CodeGenerator.Data.Structure;
 using CodeGenerator.Data.TypeConversion;
 using CodeGenerator.DatabaseNavigator;
 using CodeGenerator.Generator;
-using ComponentFactory.Krypton.Docking;
-using ComponentFactory.Krypton.Navigator;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Docking;
+using Krypton.Navigator;
+using Krypton.Toolkit;
 
 namespace CodeGenerator.UI
 {
@@ -366,7 +366,7 @@ namespace CodeGenerator.UI
             return folder.Length > 0 && Directory.Exists(folder);
         }
 
-        private KryptonPage NewDocument(string name, Control content, Image icon = null)
+        private KryptonPage NewDocument(string name, Control content, Bitmap icon = null)
         {
             var page = NewPage(name, content, icon);
 
@@ -375,7 +375,7 @@ namespace CodeGenerator.UI
             return page;
         }
 
-        private KryptonPage NewPage(string name, Control content, Image icon = null)
+        private KryptonPage NewPage(string name, Control content, Bitmap icon = null)
         {
             // Create new page with title and image
             var page = new KryptonPage

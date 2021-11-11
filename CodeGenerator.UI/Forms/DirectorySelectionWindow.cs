@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace CodeGenerator.UI
 {
@@ -59,14 +59,14 @@ namespace CodeGenerator.UI
         {
             this.dlgFolderBrowserInput = new System.Windows.Forms.FolderBrowserDialog();
             this.dlgFolderBrowserOutput = new System.Windows.Forms.FolderBrowserDialog();
-            this.txtTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.txtOutputDirectory = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.btnBrowseTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.btnBrowseOutputDirectory = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.lblTemplatesDirectory = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.lblOutputDirectory = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.btnOK = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.btnCancel = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.txtTemplatesDirectory = new Krypton.Toolkit.KryptonTextBox();
+            this.txtOutputDirectory = new Krypton.Toolkit.KryptonTextBox();
+            this.btnBrowseTemplatesDirectory = new Krypton.Toolkit.KryptonButton();
+            this.btnBrowseOutputDirectory = new Krypton.Toolkit.KryptonButton();
+            this.lblTemplatesDirectory = new Krypton.Toolkit.KryptonLabel();
+            this.lblOutputDirectory = new Krypton.Toolkit.KryptonLabel();
+            this.btnOK = new Krypton.Toolkit.KryptonButton();
+            this.btnCancel = new Krypton.Toolkit.KryptonButton();
             this.SuspendLayout();
             // 
             // txtTemplatesDirectory

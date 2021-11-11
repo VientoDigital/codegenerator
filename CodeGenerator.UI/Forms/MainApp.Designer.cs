@@ -51,10 +51,10 @@
             this.mnuHelpDocumentation = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpAboutVientoDigital = new System.Windows.Forms.ToolStripMenuItem();
-            this.kryptonManager = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
-            this.kryptonDockingManager = new ComponentFactory.Krypton.Docking.KryptonDockingManager();
-            this.kryptonDockableWorkspace = new ComponentFactory.Krypton.Docking.KryptonDockableWorkspace();
-            this.kryptonPanel = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
+            this.kryptonManager = new Krypton.Toolkit.KryptonManager(this.components);
+            this.kryptonDockingManager = new Krypton.Docking.KryptonDockingManager();
+            this.kryptonDockableWorkspace = new Krypton.Docking.KryptonDockableWorkspace();
+            this.kryptonPanel = new Krypton.Toolkit.KryptonPanel();
             this.dlgSaveFile = new System.Windows.Forms.SaveFileDialog();
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip.SuspendLayout();
@@ -238,13 +238,13 @@
             // 
             // kryptonManager
             // 
-            this.kryptonManager.GlobalPaletteMode = ComponentFactory.Krypton.Toolkit.PaletteModeManager.Office2010Black;
+            this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010Black;
             // 
             // kryptonDockableWorkspace
             // 
             this.kryptonDockableWorkspace.AutoHiddenHost = false;
-            this.kryptonDockableWorkspace.CompactFlags = ((ComponentFactory.Krypton.Workspace.CompactFlags)(((ComponentFactory.Krypton.Workspace.CompactFlags.RemoveEmptyCells | ComponentFactory.Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
-            | ComponentFactory.Krypton.Workspace.CompactFlags.PromoteLeafs)));
+            this.kryptonDockableWorkspace.CompactFlags = ((Krypton.Workspace.CompactFlags)(((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
+            | Krypton.Workspace.CompactFlags.PromoteLeafs)));
             this.kryptonDockableWorkspace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonDockableWorkspace.Location = new System.Drawing.Point(0, 0);
             this.kryptonDockableWorkspace.Name = "kryptonDockableWorkspace";
@@ -319,10 +319,10 @@
         private System.Windows.Forms.ToolStripMenuItem mnuViewTemplate;
         private System.Windows.Forms.ToolStripMenuItem mnuViewResults;
         private System.Windows.Forms.ToolStripMenuItem mnuFileNewTemplate;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager;
-        private ComponentFactory.Krypton.Docking.KryptonDockingManager kryptonDockingManager;
-        private ComponentFactory.Krypton.Docking.KryptonDockableWorkspace kryptonDockableWorkspace;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel;
+        private Krypton.Toolkit.KryptonManager kryptonManager;
+        private Krypton.Docking.KryptonDockingManager kryptonDockingManager;
+        private Krypton.Docking.KryptonDockableWorkspace kryptonDockableWorkspace;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel;
         private System.Windows.Forms.SaveFileDialog dlgSaveFile;
         private System.Windows.Forms.OpenFileDialog dlgOpenFile;
     }

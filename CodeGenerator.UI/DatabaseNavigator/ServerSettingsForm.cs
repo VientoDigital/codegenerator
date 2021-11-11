@@ -4,7 +4,7 @@ using System.Data;
 using System.Windows.Forms;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace CodeGenerator.DatabaseNavigator
 {
@@ -125,15 +125,15 @@ namespace CodeGenerator.DatabaseNavigator
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lblConnectionString = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.lblProviderType = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.btnTestConnection = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.cmbProviderType = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.btnSaveConnection = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.lblConnectionString = new Krypton.Toolkit.KryptonLabel();
+            this.lblProviderType = new Krypton.Toolkit.KryptonLabel();
+            this.btnTestConnection = new Krypton.Toolkit.KryptonButton();
+            this.cmbProviderType = new Krypton.Toolkit.KryptonComboBox();
+            this.btnSaveConnection = new Krypton.Toolkit.KryptonButton();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.cmbConnectionString = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.btnCancel = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.lblConnectionStringHelp = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.cmbConnectionString = new Krypton.Toolkit.KryptonComboBox();
+            this.btnCancel = new Krypton.Toolkit.KryptonButton();
+            this.lblConnectionStringHelp = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.cmbProviderType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbConnectionString)).BeginInit();
             this.SuspendLayout();

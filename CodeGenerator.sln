@@ -12,18 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.UI", "CodeGenerator.UI\CodeGenerator.UI.csproj", "{0BA9AB83-7E8B-4E80-8A79-6F450AFD5336}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{C7917F46-9FA1-4D24-8079-748B29ADF120}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Krypton", "Krypton", "{BD814DE6-F995-4066-8A6A-9A3A988667CA}"
-	ProjectSection(SolutionItems) = preProject
-		..\lib\Krypton\ComponentFactory.Krypton.Design.dll = ..\lib\Krypton\ComponentFactory.Krypton.Design.dll
-		..\lib\Krypton\ComponentFactory.Krypton.Docking.dll = ..\lib\Krypton\ComponentFactory.Krypton.Docking.dll
-		..\lib\Krypton\ComponentFactory.Krypton.Navigator.dll = ..\lib\Krypton\ComponentFactory.Krypton.Navigator.dll
-		..\lib\Krypton\ComponentFactory.Krypton.Ribbon.dll = ..\lib\Krypton\ComponentFactory.Krypton.Ribbon.dll
-		..\lib\Krypton\ComponentFactory.Krypton.Toolkit.dll = ..\lib\Krypton\ComponentFactory.Krypton.Toolkit.dll
-		..\lib\Krypton\ComponentFactory.Krypton.Workspace.dll = ..\lib\Krypton\ComponentFactory.Krypton.Workspace.dll
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.Shared", "CodeGenerator.Shared\CodeGenerator.Shared.csproj", "{06E6629D-ECB3-4DF9-96E0-9C15305769D9}"
 EndProject
 Global
@@ -54,10 +42,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C7917F46-9FA1-4D24-8079-748B29ADF120} = {F3BDD828-16AF-494D-9746-706822F12BB7}
-		{BD814DE6-F995-4066-8A6A-9A3A988667CA} = {C7917F46-9FA1-4D24-8079-748B29ADF120}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D651BE83-BDCC-4A4D-9D9F-4F0CB7CA1258}

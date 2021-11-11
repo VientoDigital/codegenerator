@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace CodeGenerator.DatabaseNavigator
 {
@@ -13,7 +13,7 @@ namespace CodeGenerator.DatabaseNavigator
 
         private ImageList imageList;
 
-        private readonly TreeNode rootNode;
+        private TreeNode rootNode;
 
         private KryptonTreeView treeView;
 
@@ -114,12 +114,13 @@ namespace CodeGenerator.DatabaseNavigator
 
         private void InitializeTree()
         {
-            treeView.Nodes.Add(new TreeNode("Server")
+            rootNode = new TreeNode("Server")
             {
                 Tag = new Server(),
                 ImageIndex = (int)NavigatorIcon.ServerOff,
                 SelectedImageIndex = (int)NavigatorIcon.ServerOff
-            });
+            };
+            treeView.Nodes.Add(rootNode);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
