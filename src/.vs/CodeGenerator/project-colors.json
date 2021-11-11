@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "0ba9ab83-7e8b-4e80-8a79-6f450afd5336": {
+      "ProjectGuid": "0ba9ab83-7e8b-4e80-8a79-6f450afd5336",
+      "DisplayName": "CodeGenerator.UI",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "06e6629d-ecb3-4df9-96e0-9c15305769d9": {
+      "ProjectGuid": "06e6629d-ecb3-4df9-96e0-9c15305769d9",
+      "DisplayName": "CodeGenerator.Shared",
+      "ColorIndex": 1
+    },
+    "952f0df5-e8f4-4004-bdd0-281aed41842e": {
+      "ProjectGuid": "952f0df5-e8f4-4004-bdd0-281aed41842e",
+      "DisplayName": "UnitTests",
+      "ColorIndex": 2
+    },
+    "f3bdd828-16af-494d-9746-706822f12bb7": {
+      "ProjectGuid": "f3bdd828-16af-494d-9746-706822f12bb7",
+      "DisplayName": "Solution Items",
+      "ColorIndex": 3
+    }
+  },
+  "NextColorIndex": 4
+}

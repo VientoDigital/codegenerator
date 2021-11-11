@@ -1,6 +1,6 @@
 using System;
-using CodeGenerator.DatabaseStructure;
-using CodeGenerator.GenericDataAccess;
+using CodeGenerator.Data.Structure;
+using CodeGenerator.Data;
 using NUnit.Framework;
 
 namespace CodeGenerator.UnitTests

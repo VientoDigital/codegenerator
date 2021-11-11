@@ -1,4 +1,4 @@
-using CodeGenerator.GenericDataAccess;
+using CodeGenerator.Data;
 using NUnit.Framework;
 
 namespace CodeGenerator.UnitTests

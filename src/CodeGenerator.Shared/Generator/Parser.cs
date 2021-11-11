@@ -1,5 +1,5 @@
 using System.Collections;
-using CodeGenerator.DatabaseStructure;
+using CodeGenerator.Data.Structure;
 
 namespace CodeGenerator.Generator
 {

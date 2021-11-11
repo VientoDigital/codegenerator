@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using CodeGenerator.DatabaseStructure;
+using CodeGenerator.Data.Structure;
 
 namespace CodeGenerator.CodeGenerator.UI
 {

@@ -7,10 +7,10 @@ using ComponentFactory.Krypton.Docking;
 using ComponentFactory.Krypton.Navigator;
 using ComponentFactory.Krypton.Toolkit;
 using CodeGenerator.DatabaseNavigator;
-using CodeGenerator.DatabaseStructure;
-using CodeGenerator.DataTypeConverter;
+using CodeGenerator.Data.Structure;
+using CodeGenerator.Data.TypeConversion;
 using CodeGenerator.Generator;
-using CodeGenerator.Updater;
+using CodeGenerator;
 
 namespace CodeGenerator.CodeGenerator.UI
 {

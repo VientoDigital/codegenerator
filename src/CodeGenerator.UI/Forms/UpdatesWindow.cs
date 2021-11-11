@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
-using CodeGenerator.Updater;
+using CodeGenerator;
 
 namespace CodeGenerator.CodeGenerator.UI
 {

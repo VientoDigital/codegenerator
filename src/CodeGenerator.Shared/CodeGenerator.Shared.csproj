@@ -126,38 +126,38 @@
     <Compile Include="ConfigurationManager\Configuration.cs">
       <DependentUpon>Configuration.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseStructure\Column.cs" />
-    <Compile Include="DatabaseStructure\ColumnCollection.cs" />
-    <Compile Include="DatabaseStructure\ColumnStrategy.cs" />
-    <Compile Include="DatabaseStructure\Database.cs" />
-    <Compile Include="DatabaseStructure\DatabaseCollection.cs" />
-    <Compile Include="DatabaseStructure\DatabaseStrategy.cs" />
-    <Compile Include="DatabaseStructure\Exceptions\ColumnException.cs" />
-    <Compile Include="DatabaseStructure\Exceptions\KeyException.cs" />
-    <Compile Include="DatabaseStructure\Exceptions\TableException.cs" />
-    <Compile Include="DatabaseStructure\Key.cs" />
-    <Compile Include="DatabaseStructure\KeyCollection.cs" />
-    <Compile Include="DatabaseStructure\MySQL\ColumnStrategyMySQL.cs" />
-    <Compile Include="DatabaseStructure\MySQL\DatabaseStrategyMySQL.cs" />
-    <Compile Include="DatabaseStructure\MySQL\TableStrategyMySQL.cs" />
-    <Compile Include="DatabaseStructure\Oracle\ColumnStrategyOracle.cs" />
-    <Compile Include="DatabaseStructure\Oracle\DatabaseStrategyOracle.cs" />
-    <Compile Include="DatabaseStructure\Oracle\TableStrategyOracle.cs" />
-    <Compile Include="DatabaseStructure\Postgres\ColumnStrategyPostgres.cs" />
-    <Compile Include="DatabaseStructure\Postgres\DatabaseStrategyPostgres.cs" />
-    <Compile Include="DatabaseStructure\Postgres\TableStrategyPostgres.cs" />
-    <Compile Include="DatabaseStructure\Server.cs" />
-    <Compile Include="DatabaseStructure\Settings.cs" />
-    <Compile Include="DatabaseStructure\SQLServer\ColumnStrategySQLServer.cs" />
-    <Compile Include="DatabaseStructure\SQLServer\DatabaseStrategySQLServer.cs" />
-    <Compile Include="DatabaseStructure\SQLServer\TableStrategySQLServer.cs" />
-    <Compile Include="DatabaseStructure\Table.cs" />
-    <Compile Include="DatabaseStructure\TableCollection.cs" />
-    <Compile Include="DatabaseStructure\TableStrategy.cs" />
-    <Compile Include="DataTypeConverter\DataTypeManager.cs" />
-    <Compile Include="DataTypeConverter\Exceptions\DataTypeManagerException.cs" />
-    <Compile Include="DataTypeConverter\Language.cs" />
-    <Compile Include="DataTypeConverter\LanguageCollection.cs" />
+    <Compile Include="Data\Structure\Column.cs" />
+    <Compile Include="Data\Structure\ColumnCollection.cs" />
+    <Compile Include="Data\Structure\ColumnStrategy.cs" />
+    <Compile Include="Data\Structure\Database.cs" />
+    <Compile Include="Data\Structure\DatabaseCollection.cs" />
+    <Compile Include="Data\Structure\DatabaseStrategy.cs" />
+    <Compile Include="Data\Structure\Exceptions\ColumnException.cs" />
+    <Compile Include="Data\Structure\Exceptions\KeyException.cs" />
+    <Compile Include="Data\Structure\Exceptions\TableException.cs" />
+    <Compile Include="Data\Structure\Key.cs" />
+    <Compile Include="Data\Structure\KeyCollection.cs" />
+    <Compile Include="Data\Structure\MySql\MySqlColumnStrategy.cs" />
+    <Compile Include="Data\Structure\MySql\MySqlDatabaseStrategy.cs" />
+    <Compile Include="Data\Structure\MySql\MySqlTableStrategy.cs" />
+    <Compile Include="Data\Structure\Oracle\OracleColumnStrategy.cs" />
+    <Compile Include="Data\Structure\Oracle\OracleDatabaseStrategy.cs" />
+    <Compile Include="Data\Structure\Oracle\OracleTableStrategy.cs" />
+    <Compile Include="Data\Structure\Postgres\PostgresColumnStrategy.cs" />
+    <Compile Include="Data\Structure\Postgres\PostgresDatabaseStrategy.cs" />
+    <Compile Include="Data\Structure\Postgres\PostgresTableStrategy.cs" />
+    <Compile Include="Data\Structure\Server.cs" />
+    <Compile Include="Data\Structure\Settings.cs" />
+    <Compile Include="Data\Structure\Sql\SqlColumnStrategy.cs" />
+    <Compile Include="Data\Structure\Sql\SqlDatabaseStrategy.cs" />
+    <Compile Include="Data\Structure\Sql\SqlTableStrategy.cs" />
+    <Compile Include="Data\Structure\Table.cs" />
+    <Compile Include="Data\Structure\TableCollection.cs" />
+    <Compile Include="Data\Structure\TableStrategy.cs" />
+    <Compile Include="Data\TypeConversion\DataTypeManager.cs" />
+    <Compile Include="Data\TypeConversion\DataTypeManagerException.cs" />
+    <Compile Include="Data\TypeConversion\Language.cs" />
+    <Compile Include="Data\TypeConversion\LanguageCollection.cs" />
     <Compile Include="Generator\Client.cs" />
     <Compile Include="Generator\Context.cs" />
     <Compile Include="Generator\Expression.cs" />
@@ -178,16 +178,16 @@
     <Compile Include="Generator\Expressions\TableSchemaExpression.cs" />
     <Compile Include="Generator\FileGenerator.cs" />
     <Compile Include="Generator\Parser.cs" />
-    <Compile Include="GenericDataAccess\ConnectionStringManager.cs" />
-    <Compile Include="GenericDataAccess\DataAccessProviderFactory.cs" />
-    <Compile Include="GenericDataAccess\DataAccessProviderInfo.cs" />
-    <Compile Include="GenericDataAccess\DataAccessProviderTypeFactory.cs" />
+    <Compile Include="Data\ConnectionStringManager.cs" />
+    <Compile Include="Data\DataAccessProviderFactory.cs" />
+    <Compile Include="Data\DataAccessProviderInfo.cs" />
+    <Compile Include="Data\DataAccessProviderTypeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Updater\UpdateChecker.cs" />
+    <Compile Include="UpdateChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConfigurationManager\Configuration.xml" />
-    <Content Include="DataTypeConverter\DataTypeMapping.xml" />
+    <Content Include="Data\TypeConversion\DataTypeMapping.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -197,7 +197,7 @@
     <None Include="ConfigurationManager\Configuration.xsx">
       <DependentUpon>Configuration.xsd</DependentUpon>
     </None>
-    <None Include="DataTypeConverter\DataTypeMapping.xsd">
+    <None Include="Data\TypeConversion\DataTypeMapping.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />

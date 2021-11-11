@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Text.RegularExpressions;
-using CodeGenerator.DatabaseStructure;
+using CodeGenerator.Data.Structure;
 using CodeGenerator.Generator;
-using CodeGenerator.GenericDataAccess;
+using CodeGenerator.Data;
 using NUnit.Framework;
 
 namespace CodeGenerator.UnitTests

@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
-using CodeGenerator.DatabaseStructure;
-using CodeGenerator.GenericDataAccess;
+using CodeGenerator.Data.Structure;
+using CodeGenerator.Data;
 
 namespace CodeGenerator.DatabaseNavigator
 {

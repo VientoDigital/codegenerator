@@ -1,4 +1,4 @@
-using CodeGenerator.DataTypeConverter;
+using CodeGenerator.Data.TypeConversion;
 using NUnit.Framework;
 
 namespace CodeGenerator.UnitTests

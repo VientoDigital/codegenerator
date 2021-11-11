@@ -1,5 +1,5 @@
 using System;
-using CodeGenerator.DatabaseStructure;
+using CodeGenerator.Data.Structure;
 
 namespace CodeGenerator.DatabaseNavigator
 {

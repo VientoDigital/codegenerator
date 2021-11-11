@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Text.RegularExpressions;
-using CodeGenerator.DatabaseStructure;
-using CodeGenerator.DataTypeConverter;
+using CodeGenerator.Data.Structure;
+using CodeGenerator.Data.TypeConversion;
 
 namespace CodeGenerator.Generator
 {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.IO;
-using CodeGenerator.DatabaseStructure;
+using CodeGenerator.Data.Structure;
 
 namespace CodeGenerator.Generator
 {
