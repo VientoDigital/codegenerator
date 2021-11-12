@@ -1,3 +1,4 @@
+using System.Linq;
 using CodeGenerator.Data.TypeConversion;
 using NUnit.Framework;
 
@@ -24,7 +25,7 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestMappings()
         {
-            Assert.IsTrue(manager.Languages[0].Mappings.Count > 0);
+            Assert.IsTrue(manager.Languages.First().Mappings.Count > 0);
             Assert.IsTrue(manager.SelectedLanguage.Mappings.Count > 0);
         }
     }

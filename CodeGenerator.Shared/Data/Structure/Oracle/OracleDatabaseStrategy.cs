@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Data;
 
 namespace CodeGenerator.Data.Structure
 {
     public class OracleDatabaseStrategy : DatabaseStrategy
     {
-        protected override Database CreateDatabase(DataRow row, DatabaseCollection databases)
+        protected override Database CreateDatabase(DataRow row, ICollection<Database> databases)
         {
             return new Database
             {

@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using CodeGenerator.Generator;
+using Newtonsoft.Json;
 
 namespace CodeGenerator.Shared.Extensions
 {
@@ -11,6 +12,36 @@ namespace CodeGenerator.Shared.Extensions
         public static string DelimeterWrap(this string source)
         {
             return $"{Context.StartDelimeter}{source}{Context.EndingDelimiter}";
+        }
+
+        /// <summary>
+        /// Deserializes the JSON to the specified .NET type using Newtonsoft.Json.JsonSerializerSettings.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to deserialize to.</typeparam>
+        /// <param name="source">The JSON to deserialize.</param>
+        /// <param name="settings">
+        /// The Newtonsoft.Json.JsonSerializerSettings used to deserialize the object. If
+        /// this is null, default serialization settings will be used.
+        /// </param>
+        /// <returns>The deserialized object from the JSON string.</returns>
+        public static T JsonDeserialize<T>(this string source, JsonSerializerSettings settings = null)
+        {
+            return JsonConvert.DeserializeObject<T>(source, settings);
+        }
+
+        /// <summary>
+        /// Deserializes the JSON to the specified .NET type using Newtonsoft.Json.JsonSerializerSettings.
+        /// </summary>
+        /// <param name="source">The JSON to deserialize.</param>
+        /// <param name="type">The type of the object to deserialize to.</param>
+        /// <param name="settings">
+        /// The Newtonsoft.Json.JsonSerializerSettings used to deserialize the object. If
+        /// this is null, default serialization settings will be used.
+        /// </param>
+        /// <returns></returns>
+        public static object JsonDeserialize(this string source, Type type, JsonSerializerSettings settings = null)
+        {
+            return JsonConvert.DeserializeObject(source, type, settings);
         }
 
         // From https://github.com/gordon-matt/Extenso/blob/master/Extenso.Core/StringExtensions.cs

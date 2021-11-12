@@ -5,6 +5,7 @@ using CodeGenerator.Data.Structure;
 using CodeGenerator.Generator;
 using CodeGenerator.Data;
 using NUnit.Framework;
+using System.Linq;
 
 namespace CodeGenerator.UnitTests
 {
@@ -21,7 +22,7 @@ namespace CodeGenerator.UnitTests
             Server.ProviderType = DataProviderType.SqlClient;
             Context.StartDelimeter = "{";
             Context.EndingDelimiter = "}";
-            parser = new Parser(new Server().Databases[0].Tables[0]);
+            parser = new Parser(new Server().Databases.First().Tables.First());
         }
 
         [TearDown]
@@ -78,7 +79,7 @@ namespace CodeGenerator.UnitTests
             columns.AddExpression(new ColumnNameExpression());
             columns.AddExpression(new ColumnTypeExpression());
             columns.AddExpression(new ColumnMapTypeExpression());
-            //columns.AddExpression(new LiteralExpression("[A-Z. ]+",""));
+            //columns.AddExpression(new LiteralExpression("[A-Z. ]+", string.Empty));
             parser.AddExpression(columns);
             parser.AddExpression(new TableNameExpression());
             parser.Interpret(context);
@@ -141,7 +142,7 @@ LAST{/IF}
         public void TestColumnsPrimary()
         {
             var client = new Client();
-            string outputText = client.Parse(new Server().Databases[0].Tables[0], @"{TABLE.COLUMNS PRIMARY}{COLUMN.NAME}
+            string outputText = client.Parse(new Server().Databases.First().Tables.First(), @"{TABLE.COLUMNS PRIMARY}{COLUMN.NAME}
 {/TABLE.COLUMNS}");
 
             Console.WriteLine(outputText);
@@ -167,7 +168,7 @@ LAST{/IF}
         public void TestColumnsIfTypeClient()
         {
             var client = new Client();
-            string outputText = client.Parse(new Server().Databases[0].Tables[0], @"
+            string outputText = client.Parse(new Server().Databases.First().Tables.First(), @"
 {TABLE.COLUMNS}
 {IF COLUMN.TYPE EQ 'int'}int _{COLUMN.NAME}{/IF}
 {IF COLUMN.TYPE NE 'int'}string _{COLUMN.NAME}{/IF}
@@ -198,9 +199,9 @@ LAST{/IF}
                 }
             };
 
-            Server.ConnectionString = ConnectionStringManager.Instance.GetConnectionStrings()[0];
+            Server.ConnectionString = ConfigFile.Instance.ConnectionStrings.First();
             Server.ProviderType = DataProviderType.SqlClient;
-            client.Parse(new Server().Databases[0].Tables[0], "{NAMESPACE}");
+            client.Parse(new Server().Databases.First().Tables.First(), "{NAMESPACE}");
         }
 
         [Test]

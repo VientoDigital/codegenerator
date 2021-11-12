@@ -2,6 +2,7 @@ using System;
 using CodeGenerator.Data.Structure;
 using CodeGenerator.Data;
 using NUnit.Framework;
+using System.Linq;
 
 namespace CodeGenerator.UnitTests
 {
@@ -35,7 +36,7 @@ namespace CodeGenerator.UnitTests
         {
             int count = server.Databases.Count;
             Console.Out.WriteLine(count);
-            server.Databases.Remove(server.Databases[0]);
+            server.Databases.Remove(server.Databases.First());
 
             int countAfterRemove = count - 1;
             Assert.IsTrue(server.Databases.Count == countAfterRemove);
@@ -46,27 +47,27 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestDatabaseTablesCollection()
         {
-            Assert.IsTrue(server.Databases[0].Tables.Count > 0);
+            Assert.IsTrue(server.Databases.First().Tables.Count > 0);
         }
 
         [Test]
         public void TestDatabaseTableColumnsCollection()
         {
-            var table = server.Databases[0].Tables[0];
+            var table = server.Databases.First().Tables.First();
             Assert.IsTrue(table.Columns.Count > 0);
         }
 
         [Test]
         public void TestDatabaseKeys()
         {
-            var table = server.Databases[0].Tables[0];
+            var table = server.Databases.First().Tables.First();
             Assert.IsTrue(table.Keys.Count > 0);
         }
 
         [Test]
         public void TestPrimaryKeyExists()
         {
-            var table = server.Databases[0].Tables[0];
+            var table = server.Databases.First().Tables.First();
             bool exists = false;
             foreach (Column column in table.Columns)
             {

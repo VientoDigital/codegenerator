@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using CodeGenerator.Data;
 
@@ -7,8 +8,8 @@ namespace CodeGenerator.Data.Structure
     {
         private readonly TableStrategy strategy;
         private bool reload;
-        private TableCollection tables;
-        private TableCollection views;
+        private ICollection<Table> tables;
+        private ICollection<Table> views;
 
         public Database()
         {
@@ -25,7 +26,7 @@ namespace CodeGenerator.Data.Structure
         public string Name { get; set; }
 
         [Browsable(false), DefaultValue(false)]
-        public TableCollection Tables
+        public ICollection<Table> Tables
         {
             get
             {
@@ -39,7 +40,7 @@ namespace CodeGenerator.Data.Structure
         }
 
         [Browsable(false), DefaultValue(false)]
-        public TableCollection Views
+        public ICollection<Table> Views
         {
             get
             {

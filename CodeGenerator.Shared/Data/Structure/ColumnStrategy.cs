@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using CodeGenerator.Data;
 
@@ -5,24 +6,24 @@ namespace CodeGenerator.Data.Structure
 {
     public abstract class ColumnStrategy
     {
-        private IDbConnection connection;
-        private DataAccessProviderFactory dataAccessProviderFactory;
-        private ColumnCollection columns;
-        private KeyCollection keys;
+        private readonly IDbConnection connection;
+        private readonly DataAccessProviderFactory dataAccessProviderFactory;
+        private readonly ICollection<Column> columns;
+        private readonly ICollection<Key> keys;
 
         protected ColumnStrategy()
         {
             dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
             connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
-            columns = new ColumnCollection();
-            keys = new KeyCollection();
+            columns = new List<Column>();
+            keys = new List<Key>();
         }
 
-        protected ColumnCollection Columns => columns;
+        protected ICollection<Column> Columns => columns;
 
-        protected KeyCollection Keys => keys;
+        protected ICollection<Key> Keys => keys;
 
-        public ColumnCollection GetColumns(Table table)
+        public ICollection<Column> GetColumns(Table table)
         {
             if (connection.State == ConnectionState.Closed)
             {
@@ -60,7 +61,7 @@ namespace CodeGenerator.Data.Structure
 
         protected abstract Column CreateColumn(DataRow row);
 
-        public KeyCollection GetKeys(Table table)
+        public ICollection<Key> GetKeys(Table table)
         {
             if (connection.State == ConnectionState.Closed)
             {

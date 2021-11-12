@@ -1,9 +1,11 @@
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
+using CodeGenerator.Shared;
 using Krypton.Toolkit;
 
 namespace CodeGenerator.DatabaseNavigator
@@ -32,7 +34,7 @@ namespace CodeGenerator.DatabaseNavigator
             cmbProviderType.DisplayMember = "Name";
 
             cmbConnectionString.Items.Clear();
-            cmbConnectionString.Items.AddRange(ConnectionStringManager.Instance.GetConnectionStrings());
+            cmbConnectionString.Items.AddRange(ConfigFile.Instance.ConnectionStrings.ToArray());
 
             if (Server.ConnectionString.Length > 0)
             {
@@ -70,7 +72,7 @@ namespace CodeGenerator.DatabaseNavigator
 
                 if (IsNewConnectionString)
                 {
-                    ConnectionStringManager.Instance.Add(cmbConnectionString.Text.Trim());
+                    ConfigFile.Instance.ConnectionStrings.Add(cmbConnectionString.Text.Trim());
                 }
                 Server.ConnectionString = cmbConnectionString.Text.Trim();
             }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
 using CodeGenerator.Shared.Extensions;
@@ -24,7 +26,7 @@ namespace CodeGenerator.Generator
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
             string inputString = context.Input;
             var matches = regex.Matches(inputString);
-            var columns = (ColumnCollection)context.Extra;
+            var columns = ((IEnumerable<Column>)context.Extra).ToList();
 
             bool isLastColumn = (columns.Count == (columns.IndexOf((Column)Parameter) + 1));
 
@@ -54,7 +56,7 @@ namespace CodeGenerator.Generator
                     }
                     else if (IsIfLast && !isLastColumn)
                     {
-                        ReplaceContent(matchString, "", ref inputString);
+                        ReplaceContent(matchString, string.Empty, ref inputString);
                     }
                 }
             }

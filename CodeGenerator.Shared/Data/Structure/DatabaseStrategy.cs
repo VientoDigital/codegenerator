@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using CodeGenerator.Data;
 
@@ -18,9 +19,9 @@ namespace CodeGenerator.Data.Structure
             }
         }
 
-        protected internal DatabaseCollection GetDatabases()
+        protected internal ICollection<Database> GetDatabases()
         {
-            var databases = new DatabaseCollection();
+            var databases = new List<Database>();
             var dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
             var connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
 
@@ -34,7 +35,7 @@ namespace CodeGenerator.Data.Structure
             return databases;
         }
 
-        protected abstract Database CreateDatabase(DataRow row, DatabaseCollection databases);
+        protected abstract Database CreateDatabase(DataRow row, ICollection<Database> databases);
 
         protected abstract DataSet DatabaseSchema(DataAccessProviderFactory dataAccessProviderFactory, IDbConnection connection);
     }

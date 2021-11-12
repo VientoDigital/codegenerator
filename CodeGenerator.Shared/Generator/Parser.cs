@@ -5,8 +5,8 @@ namespace CodeGenerator.Generator
 {
     public class Parser : Expression
     {
-        private ArrayList expressions = new ArrayList();
-        private Table table;
+        private readonly ArrayList expressions = new ArrayList();
+        private readonly Table table;
 
         public Parser(Table table)
         {

@@ -5,40 +5,58 @@ namespace CodeGenerator.Data
     /// </summary>
     public class DataAccessProviderInfo
     {
-        private string[] _ConnectionStringFormat = new string[] {
-            @"SERVER=<SERVER>;UID=<USERNAME>;PWD=<PASSWORD>;",
-            @"SERVER=<SERVER>;UID=<USERNAME>;PWD=<PASSWORD>;",
-            @"",
-            @"Server=<SERVER>;Port=<PORT>;User Id=<USERNAME>;Password=<PASSWORD>;",
-            @"Provider=OraOLEDB.Oracle;Password=<PASSWORD>;Persist Security Info=True;User ID=<USERNAME>;Data Source=<DATASOURCE>"
-        };
-
-        private string[] _Description = new string[] {
-            @"SQL Server Connction Type",
-            @"MySQL Server Connction Type",
-            @"Access Database Connction Type",
-            @"Postgres Server Connection Type",
-            @"Oracle Server Connection Type"
-                                                     };
-
-        private string[] _Names = new string[] {
-            @"SQL Server",
-            @"MySQL Server",
-            @"Access Database",
-            @"Postgres Server",
-            @"Oracle Server"
-                                               };
-
         public DataAccessProviderInfo(DataProviderType providerType)
         {
             ProviderType = providerType;
         }
 
-        public string ConnectionStringFormat => _ConnectionStringFormat[(int)ProviderType];
+        public string ConnectionStringFormat
+        {
+            get
+            {
+                switch (ProviderType)
+                {
+                    case DataProviderType.SqlClient: return "SERVER=<SERVER>;UID=<USERNAME>;PWD=<PASSWORD>;";
+                    case DataProviderType.MySql: return "SERVER=<SERVER>;UID=<USERNAME>;PWD=<PASSWORD>;";
+                    case DataProviderType.Access: return string.Empty;
+                    case DataProviderType.PostgresSql: return "Server=<SERVER>;Port=<PORT>;User Id=<USERNAME>;Password=<PASSWORD>;";
+                    case DataProviderType.Oracle: return "Provider=OraOLEDB.Oracle;Password=<PASSWORD>;Persist Security Info=True;User ID=<USERNAME>;Data Source=<DATASOURCE>";
+                    default: return null;
+                }
+            }
+        }
 
-        public string Description => _Description[(int)ProviderType];
+        public string Description
+        {
+            get
+            {
+                switch (ProviderType)
+                {
+                    case DataProviderType.SqlClient: return "SQL Server Connction Type";
+                    case DataProviderType.MySql: return "MySQL Server Connction Type";
+                    case DataProviderType.Access: return "Access Database Connction Type";
+                    case DataProviderType.PostgresSql: return "Postgres Server Connction Type";
+                    case DataProviderType.Oracle: return "Oracle Server Connction Type";
+                    default: return null;
+                }
+            }
+        }
 
-        public string Name => _Names[(int)ProviderType];
+        public string Name
+        {
+            get
+            {
+                switch (ProviderType)
+                {
+                    case DataProviderType.SqlClient: return "SQL Server";
+                    case DataProviderType.MySql: return "MySQL Server";
+                    case DataProviderType.Access: return "Access Database";
+                    case DataProviderType.PostgresSql: return "Postgres Server";
+                    case DataProviderType.Oracle: return "Oracle Server";
+                    default: return null;
+                }
+            }
+        }
 
         public DataProviderType ProviderType { get; private set; }
     }

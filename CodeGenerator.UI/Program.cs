@@ -8,7 +8,13 @@ namespace CodeGenerator.UI
         [STAThread]
         public static void Main()
         {
+            Application.ApplicationExit += Application_ApplicationExit;
             Application.Run(new Main());
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            ConfigFile.Instance.Save();
         }
     }
 }

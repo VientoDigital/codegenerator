@@ -1,77 +1,40 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
-using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.UI
 {
     public partial class CustomValuesForm : UserControl
     {
-        private static readonly string customValuesFilename = $"{AppDomain.CurrentDomain.BaseDirectory}CustomValues.xml";
-
-        private DataSet set;
-
         public CustomValuesForm()
         {
             InitializeComponent();
-            InitializeCustomValuesDataGrid();
-        }
-        public IDictionary CustomValues
-        {
-            get
-            {
-                IDictionary customValues = new Hashtable();
-                foreach (DataRow row in set.Tables[0].Rows)
-                {
-                    customValues[row["Name"].ToString().ToUpper()] = row["Value"].ToString();
-                }
-                return customValues;
-            }
+            gridCustomValues.DataSource = ConfigFile.Instance.CustomValues.ToDataTable();
         }
 
-        private void FilterEmptyCustomValues()
+        public IDictionary CustomValues => (Dictionary<string, string>)ConfigFile.Instance.CustomValues;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        private void gridCustomValues_Leave(object sender, EventArgs e)
         {
-            DataRow[] rows = set.Tables[0].Select();
-            for (int i = 0; i < rows.Length; i++)
+            for (int i = gridCustomValues.Rows.Count - 1; i > -1; i--)
             {
-                if (rows[i][0].ToString().Trim().Length == 0)
+                DataGridViewRow row = gridCustomValues.Rows[i];
+                if (!row.IsNewRow && string.IsNullOrEmpty(row.Cells[0].Value as string))
                 {
-                    rows[i].Delete();
-                }
-                else
-                {
-                    rows[i][0] = rows[i][0].ToString().ToUpper().Trim();
+                    gridCustomValues.Rows.RemoveAt(i);
                 }
             }
-            gridCustomValues.Refresh();
-        }
 
-        private void GridCustomValuesLeave(object sender, EventArgs e)
-        {
-            FilterEmptyCustomValues();
-            SaveCustomValues();
-        }
-
-        private void InitializeCustomValuesDataGrid()
-        {
-            set = new DataSet();
-            var table = new DataTable();
-            table.Columns.Add("Name");
-            table.Columns.Add("Value");
-            set.Tables.Add(table);
-
-            if (File.Exists(customValuesFilename))
-            {
-                set.ReadXml(customValuesFilename);
-            }
-
-            gridCustomValues.DataSource = set.Tables[0];
-        }
-
-        private void SaveCustomValues()
-        {
-            set.WriteXml(customValuesFilename);
+            ConfigFile.Instance.CustomValues = (gridCustomValues.DataSource as DataTable).Rows
+                .OfType<DataRow>()
+                .ToDictionary(
+                    k => k.ItemArray[0].ToString(),
+                    v => v.ItemArray[1].ToString());
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CodeGenerator.Data;
 
 namespace CodeGenerator.Data.Structure
@@ -5,7 +6,7 @@ namespace CodeGenerator.Data.Structure
     public class Server
     {
         private readonly DatabaseStrategy strategy;
-        private DatabaseCollection databases;
+        private ICollection<Database> databases;
         private bool reload;
 
         public Server()
@@ -23,7 +24,7 @@ namespace CodeGenerator.Data.Structure
 
         public static DataProviderType ProviderType { get; set; }
 
-        public DatabaseCollection Databases
+        public ICollection<Database> Databases
         {
             get
             {

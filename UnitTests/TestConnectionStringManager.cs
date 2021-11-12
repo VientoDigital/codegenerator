@@ -1,3 +1,4 @@
+using System.Linq;
 using CodeGenerator.Data;
 using NUnit.Framework;
 
@@ -9,15 +10,16 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestGetConnectionStrings()
         {
-            Assert.IsTrue(ConnectionStringManager.Instance.GetConnectionStrings().Length >= 0);
+            Assert.IsTrue(ConfigFile.Instance.ConnectionStrings.Count() >= 0);
         }
 
         [Test]
         public void TestAddConnection()
         {
-            int numConn = ConnectionStringManager.Instance.GetConnectionStrings().Length;
-            ConnectionStringManager.Instance.Add("Borrarme");
-            Assert.IsTrue(numConn == (ConnectionStringManager.Instance.GetConnectionStrings().Length - 1));
+            int numConn = ConfigFile.Instance.ConnectionStrings.Count();
+            ConfigFile.Instance.ConnectionStrings.Add("Borrarme");
+            ConfigFile.Instance.Save();
+            Assert.IsTrue(numConn == (ConfigFile.Instance.ConnectionStrings.Count() - 1));
         }
     }
 }

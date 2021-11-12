@@ -1,11 +1,33 @@
 ﻿using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace CodeGenerator.Shared.Extensions
 {
     public static class ObjectExtensions
     {
+        // From: https://github.com/gordon-matt/Extenso/blob/master/Extenso.Core/ObjectExtensions.cs
+        /// <summary>
+        /// Serializes the specified object to a JSON string. A parameter specifies the serializer settings.
+        /// </summary>
+        /// <typeparam name="T">The type of source.</typeparam>
+        /// <param name="source">The object to serialize.</param>
+        /// <param name="settings">
+        /// The Newtonsoft.Json.JsonSerializerSettings used to serialize the object. If this
+        /// is null, default serialization settings will be used.
+        /// </param>
+        /// <returns>A JSON string representation of the object.</returns>
+        public static string JsonSerialize<T>(this T source, JsonSerializerSettings settings = null)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            return JsonConvert.SerializeObject(source, settings);
+        }
+
         // From: https://github.com/gordon-matt/Extenso/blob/master/Extenso.Core/ObjectExtensions.cs
         /// <summary>
         /// Serializes the specified object and writes the XML document to a file.

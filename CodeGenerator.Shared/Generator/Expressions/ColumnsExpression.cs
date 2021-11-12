@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
 using CodeGenerator.Shared.Extensions;
@@ -9,7 +10,7 @@ namespace CodeGenerator.Generator
     {
         private const string NOPRIMARY = "NOPRIMARY";
         private const string PRIMARY = "PRIMARY";
-        private ArrayList expressions;
+        private readonly ArrayList expressions;
 
         public ColumnsExpression()
         {
@@ -42,7 +43,7 @@ namespace CodeGenerator.Generator
                 string columnOutput = string.Empty;
                 string columnInput = match.Groups["column"].Value;
                 var columns = ((Table)Parameter).Columns;
-                var filteredColumns = new ColumnCollection();
+                var filteredColumns = new List<Column>();
 
                 foreach (Column column in columns)
                 {

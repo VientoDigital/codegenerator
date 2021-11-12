@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using CodeGenerator.Data;
 
@@ -6,8 +7,8 @@ namespace CodeGenerator.Data.Structure
     public class Table
     {
         private readonly ColumnStrategy strategy;
-        private ColumnCollection columns;
-        private KeyCollection keys;
+        private ICollection<Column> columns;
+        private ICollection<Key> keys;
         private bool reload;
 
         public Table()
@@ -22,7 +23,7 @@ namespace CodeGenerator.Data.Structure
         }
 
         [Browsable(false), DefaultValue(false)]
-        public ColumnCollection Columns
+        public ICollection<Column> Columns
         {
             get
             {
@@ -39,7 +40,7 @@ namespace CodeGenerator.Data.Structure
         }
 
         [Browsable(false), DefaultValue(false)]
-        public KeyCollection Keys
+        public ICollection<Key> Keys
         {
             get
             {

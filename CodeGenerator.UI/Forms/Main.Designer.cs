@@ -177,14 +177,14 @@
             // mnuViewTemplate
             // 
             this.mnuViewTemplate.Name = "mnuViewTemplate";
-            this.mnuViewTemplate.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewTemplate.Size = new System.Drawing.Size(122, 22);
             this.mnuViewTemplate.Text = "Template";
             this.mnuViewTemplate.Click += new System.EventHandler(this.mnuViewTemplate_Click);
             // 
             // mnuViewResults
             // 
             this.mnuViewResults.Name = "mnuViewResults";
-            this.mnuViewResults.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewResults.Size = new System.Drawing.Size(122, 22);
             this.mnuViewResults.Text = "Results";
             this.mnuViewResults.Click += new System.EventHandler(this.mnuViewResults_Click);
             // 
@@ -280,7 +280,7 @@
             this.dlgOpenFile.Filter = "All files (*.*)|*.*";
             this.dlgOpenFile.RestoreDirectory = true;
             // 
-            // MainApp
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -289,7 +289,8 @@
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
-            this.Name = "MainApp";
+            this.Name = "Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Code Generator";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();

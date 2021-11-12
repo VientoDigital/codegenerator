@@ -143,9 +143,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestConfiguration.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestConnectionStringManager.cs">
       <SubType>Code</SubType>
     </Compile>

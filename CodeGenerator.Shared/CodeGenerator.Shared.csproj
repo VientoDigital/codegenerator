@@ -122,21 +122,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationManager\ConfigFile.cs" />
-    <Compile Include="ConfigurationManager\Configuration.cs">
-      <DependentUpon>Configuration.xsd</DependentUpon>
-    </Compile>
+    <Compile Include="ConfigFile.cs" />
     <Compile Include="Data\Structure\Column.cs" />
-    <Compile Include="Data\Structure\ColumnCollection.cs" />
     <Compile Include="Data\Structure\ColumnStrategy.cs" />
     <Compile Include="Data\Structure\Database.cs" />
-    <Compile Include="Data\Structure\DatabaseCollection.cs" />
     <Compile Include="Data\Structure\DatabaseStrategy.cs" />
     <Compile Include="Data\Structure\Exceptions\ColumnException.cs" />
     <Compile Include="Data\Structure\Exceptions\KeyException.cs" />
     <Compile Include="Data\Structure\Exceptions\TableException.cs" />
     <Compile Include="Data\Structure\Key.cs" />
-    <Compile Include="Data\Structure\KeyCollection.cs" />
     <Compile Include="Data\Structure\MySql\MySqlColumnStrategy.cs" />
     <Compile Include="Data\Structure\MySql\MySqlDatabaseStrategy.cs" />
     <Compile Include="Data\Structure\MySql\MySqlTableStrategy.cs" />
@@ -147,18 +141,16 @@
     <Compile Include="Data\Structure\Postgres\PostgresDatabaseStrategy.cs" />
     <Compile Include="Data\Structure\Postgres\PostgresTableStrategy.cs" />
     <Compile Include="Data\Structure\Server.cs" />
-    <Compile Include="Data\Structure\Settings.cs" />
     <Compile Include="Data\Structure\Sql\SqlColumnStrategy.cs" />
     <Compile Include="Data\Structure\Sql\SqlDatabaseStrategy.cs" />
     <Compile Include="Data\Structure\Sql\SqlTableStrategy.cs" />
     <Compile Include="Data\Structure\Table.cs" />
-    <Compile Include="Data\Structure\TableCollection.cs" />
     <Compile Include="Data\Structure\TableStrategy.cs" />
     <Compile Include="Data\TypeConversion\DataTypeManager.cs" />
     <Compile Include="Data\TypeConversion\DataTypeManagerException.cs" />
     <Compile Include="Data\TypeConversion\Language.cs" />
-    <Compile Include="Data\TypeConversion\LanguageCollection.cs" />
     <Compile Include="Extensions\CustomEncodingStringWriter.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -182,7 +174,6 @@
     <Compile Include="Generator\Expressions\TableSchemaExpression.cs" />
     <Compile Include="Generator\FileGenerator.cs" />
     <Compile Include="Generator\Parser.cs" />
-    <Compile Include="Data\ConnectionStringManager.cs" />
     <Compile Include="Data\DataAccessProviderFactory.cs" />
     <Compile Include="Data\DataAccessProviderInfo.cs" />
     <Compile Include="Data\DataAccessProviderTypeFactory.cs" />
@@ -190,17 +181,10 @@
     <Compile Include="AppVersion.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ConfigurationManager\Configuration.xml" />
     <Content Include="Data\TypeConversion\DataTypeMapping.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ConfigurationManager\Configuration.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="ConfigurationManager\Configuration.xsx">
-      <DependentUpon>Configuration.xsd</DependentUpon>
-    </None>
     <None Include="Data\TypeConversion\DataTypeMapping.xsd">
       <SubType>Designer</SubType>
     </None>

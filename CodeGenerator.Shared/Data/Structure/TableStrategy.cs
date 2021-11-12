@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using CodeGenerator.Data;
 
@@ -6,9 +7,9 @@ namespace CodeGenerator.Data.Structure
 {
     public abstract class TableStrategy
     {
-        protected internal TableCollection GetTables(Database database)
+        protected internal ICollection<Table> GetTables(Database database)
         {
-            var tables = new TableCollection();
+            var tables = new List<Table>();
             var dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
             var connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
 
@@ -44,9 +45,9 @@ namespace CodeGenerator.Data.Structure
 
         /* Add by Ferhat */
 
-        protected internal TableCollection GetViews(Database database)
+        protected internal ICollection<Table> GetViews(Database database)
         {
-            var tables = new TableCollection();
+            var tables = new List<Table>();
             var dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
             var connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
 

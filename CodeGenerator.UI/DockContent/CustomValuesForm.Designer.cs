@@ -42,7 +42,7 @@ namespace CodeGenerator.UI
             this.gridCustomValues.Name = "gridCustomValues";
             this.gridCustomValues.Size = new System.Drawing.Size(284, 262);
             this.gridCustomValues.TabIndex = 0;
-            this.gridCustomValues.Leave += new System.EventHandler(this.GridCustomValuesLeave);
+            this.gridCustomValues.Leave += new System.EventHandler(this.gridCustomValues_Leave);
             // 
             // CustomValuesForm
             // 

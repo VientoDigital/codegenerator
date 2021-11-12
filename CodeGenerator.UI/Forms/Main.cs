@@ -190,8 +190,8 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuHelpAbout_Click(object sender, EventArgs e)
         {
-            new UpdatesWindow().ShowDialog();
-
+            new AboutWindow().ShowDialog();
+            //new UpdatesWindow().ShowDialog(); // TODO: Have separate menu item for this?
             //var processStartInfo = new ProcessStartInfo("http://www.icodegenerator.net/");
             //Process.Start(processStartInfo);
         }
@@ -199,8 +199,6 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuHelpAboutVientoDigital_Click(object sender, EventArgs e)
         {
-            new AboutWindow().ShowDialog();
-
             var processStartInfo = new ProcessStartInfo("http://www.vientodigital.com/");
             Process.Start(processStartInfo);
         }
@@ -391,9 +389,9 @@ namespace CodeGenerator.UI
             });
         }
 
-        private bool IsValidFolder(string folder)
+        private bool IsValidFolder(string folderPath)
         {
-            return folder.Length > 0 && Directory.Exists(folder);
+            return !string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath);
         }
 
         private KryptonPage NewDocument(string name, Control content, Bitmap icon = null)

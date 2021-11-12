@@ -3,6 +3,7 @@ using CodeGenerator.Data.Structure;
 using CodeGenerator.Generator;
 using CodeGenerator.Data;
 using NUnit.Framework;
+using System.Linq;
 
 namespace CodeGenerator.UnitTests
 {
@@ -23,7 +24,7 @@ namespace CodeGenerator.UnitTests
             _ = client.EndingDelimiter;
             client.StartDelimiter = string.Empty;
             client.EndingDelimiter = string.Empty;
-            Console.WriteLine(client.Parse(server.Databases[0].Tables[0], "DATABASE.NAME_TABLE.NAMEForm.aspx"));
+            Console.WriteLine(client.Parse(server.Databases.First().Tables.First(), "DATABASE.NAME_TABLE.NAMEForm.aspx"));
         }
     }
 }
