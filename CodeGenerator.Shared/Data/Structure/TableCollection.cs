@@ -7,8 +7,8 @@ namespace CodeGenerator.Data.Structure
     {
         public Table this[int index]
         {
-            get { return (Table)List[index]; }
-            set { List[index] = value; }
+            get => (Table)List[index];
+            set => List[index] = value;
         }
 
         public void Add(Table table) => List.Add(table);

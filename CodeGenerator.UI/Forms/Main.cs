@@ -13,7 +13,7 @@ using Krypton.Toolkit;
 
 namespace CodeGenerator.UI
 {
-    public partial class MainApp : KryptonForm
+    public partial class Main : KryptonForm
     {
         private static string inputTemplateFolder = string.Empty;
 
@@ -45,7 +45,9 @@ namespace CodeGenerator.UI
 
         #endregion Forms
 
-        public MainApp()
+        private KryptonDockingWorkspace workspace;
+
+        public Main()
         {
             InitializeComponent();
             InitializeControls();
@@ -158,9 +160,13 @@ namespace CodeGenerator.UI
         private void mnuFileSaveTemplate_Click(object sender, EventArgs e)
         {
             if (templateFile != null)
+            {
                 SaveFile(templateFile, documentForm.ContentText);
+            }
             else
+            {
                 templateFile = SaveAsFile(templateFile, documentForm.ContentText);
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
@@ -184,52 +190,40 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuHelpAbout_Click(object sender, EventArgs e)
         {
-            /*
-            var uw = new UpdatesWindow();
-            uw.ShowDialog();
-            */
-            var sInfo = new ProcessStartInfo("http://www.icodegenerator.net/");
-            Process.Start(sInfo);
+            new UpdatesWindow().ShowDialog();
+
+            //var processStartInfo = new ProcessStartInfo("http://www.icodegenerator.net/");
+            //Process.Start(processStartInfo);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuHelpAboutVientoDigital_Click(object sender, EventArgs e)
         {
-            var sInfo = new ProcessStartInfo("http://www.vientodigital.com/");
-            Process.Start(sInfo);
+            new AboutWindow().ShowDialog();
+
+            var processStartInfo = new ProcessStartInfo("http://www.vientodigital.com/");
+            Process.Start(processStartInfo);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuHelpDocumentation_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo("http://icodegenerator.net/#.documentation");
-            Process.Start(sInfo);
+            ProcessStartInfo processStartInfo = new ProcessStartInfo("http://icodegenerator.net/#.documentation");
+            Process.Start(processStartInfo);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuViewResults_Click(object sender, EventArgs e)
         {
-            if (resultPage.IsDisposed)
+            EnsureResultsFormExists();
+
+            if (!kryptonDockingManager.IsPageShowing(resultPage))
             {
-                if (resultForm.IsDisposed)
-                {
-                    resultForm = new ResultForm { Text = "Results" };
-                }
-                resultPage = NewDocument("Results", resultForm, icon: IconToBitMap("iresult.ico"));
-                kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { resultPage });
-                kryptonDockingManager.HidePage(resultPage);
                 kryptonDockingManager.ShowPage(resultPage);
             }
             else
             {
-                if (!kryptonDockingManager.IsPageShowing(resultPage))
-                {
-                    kryptonDockingManager.ShowPage(resultPage);
-                }
-                else
-                {
-                    kryptonDockingManager.HidePage(resultPage);
-                }
+                kryptonDockingManager.HidePage(resultPage);
             }
         }
 
@@ -270,32 +264,68 @@ namespace CodeGenerator.UI
 
         private void CheckForUpdates()
         {
-            mnuHelpAbout.Text = mnuHelpAbout.Text + @" " + AppVersion.Version;
+            mnuHelpAbout.Text = $"{mnuHelpAbout.Text} {AppVersion.Version}";
             if (AppVersion.HasNewUpdate)
             {
                 mnuHelpAbout.BackColor = Color.LightCoral;
                 mnuHelpAbout.ForeColor = Color.White;
-                mnuHelpAbout.Text = $@" Download Code Generator (Version: {AppVersion.LatestVersion.Version})";
+                mnuHelpAbout.Text = $@"Download Code Generator (Version: {AppVersion.LatestVersion.Version})";
             }
+        }
+
+        private void EnsureResultsFormExists()
+        {
+            if (resultPage.IsDisposed)
+            {
+                if (resultForm.IsDisposed)
+                {
+                    resultForm = new ResultForm { Text = "Results" };
+                }
+                resultPage = NewDocument("Results", resultForm, icon: IconToBitMap("iresult.ico"));
+                kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { resultPage });
+                kryptonDockingManager.HidePage(resultPage);
+                kryptonDockingManager.ShowPage(resultPage);
+            }
+        }
+
+        private bool EnsureTableSelected()
+        {
+            if (selectedTable == null)
+            {
+                MessageBox.Show("Please selected a table first.", "Nothing Selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+
+            return true;
         }
 
         private void GenerateCode()
         {
             try
             {
-                if (selectedTable == null) return;
-                var cgenerator = new Client { CustomValues = customValuesForm.CustomValues };
-                resultForm.ContentText = cgenerator.Parse(selectedTable, documentForm.ContentText);
+                if (!EnsureTableSelected())
+                {
+                    return;
+                }
+
+                EnsureResultsFormExists();
+                var client = new Client { CustomValues = customValuesForm.CustomValues };
+                resultForm.ContentText = client.Parse(selectedTable, documentForm.ContentText);
+                workspace.SelectPage(resultPage.UniqueName);
             }
-            catch (DataTypeManagerException ex)
+            catch (DataTypeManagerException x)
             {
-                MessageBox.Show(this, ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, x.Message, x.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         private void GenerateFiles()
         {
-            if (selectedTable == null) return;
+            if (!EnsureTableSelected())
+            {
+                return;
+            }
+
             if (IsValidFolder(inputTemplateFolder) && IsValidFolder(outputTemplateFolder))
             {
                 try
@@ -305,9 +335,9 @@ namespace CodeGenerator.UI
                     fileGenerator.CustomValues = customValuesForm.CustomValues;
                     fileGenerator.Generate(selectedTable, inputTemplateFolder, outputTemplateFolder);
                 }
-                catch (Exception e)
+                catch (Exception x)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show(x.Message);
                 }
             }
             else
@@ -318,14 +348,14 @@ namespace CodeGenerator.UI
 
         private Bitmap IconToBitMap(string iconName)
         {
-            return new Bitmap(Icon.ExtractAssociatedIcon(@"Resources\" + iconName).ToBitmap(), new Size(16, 16));
+            return new Bitmap(Icon.ExtractAssociatedIcon($@"Resources\{iconName}").ToBitmap(), new Size(16, 16));
         }
 
         private void InitializeControls()
         {
             // Setup docking functionality
-            KryptonDockingWorkspace w = kryptonDockingManager.ManageWorkspace(kryptonDockableWorkspace);
-            kryptonDockingManager.ManageControl(kryptonPanel, w);
+            workspace = kryptonDockingManager.ManageWorkspace(kryptonDockableWorkspace);
+            kryptonDockingManager.ManageControl(kryptonPanel, workspace);
             kryptonDockingManager.ManageFloating(this);
 
             // Add initial docking pages
@@ -369,9 +399,7 @@ namespace CodeGenerator.UI
         private KryptonPage NewDocument(string name, Control content, Bitmap icon = null)
         {
             var page = NewPage(name, content, icon);
-
             page.ClearFlags(KryptonPageFlags.DockingAllowClose);
-
             return page;
         }
 
@@ -399,23 +427,23 @@ namespace CodeGenerator.UI
             return page;
         }
 
-        private string SaveAsFile(string filename, string contentText)
+        private string SaveAsFile(string fileName, string contentText)
         {
             if (dlgSaveFile.ShowDialog() == DialogResult.OK)
             {
-                filename = dlgSaveFile.FileName;
-                SaveFile(filename, contentText);
+                fileName = dlgSaveFile.FileName;
+                SaveFile(fileName, contentText);
             }
-            return filename;
+            return fileName;
         }
 
-        private string SaveFile(string filename, string contentText)
+        private string SaveFile(string fileName, string contentText)
         {
-            using (var writer = new StreamWriter(filename))
+            using (var streamWriter = new StreamWriter(fileName))
             {
-                writer.Write(contentText);
+                streamWriter.Write(contentText);
             }
-            return filename;
+            return fileName;
         }
 
         private void SelectTemplatesDirectory()

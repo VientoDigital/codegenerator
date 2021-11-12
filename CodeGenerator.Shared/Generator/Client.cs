@@ -19,19 +19,19 @@ namespace CodeGenerator.Generator
 
         public string EndingDelimiter
         {
-            get { return Context.EndingDelimiter; }
-            set { Context.EndingDelimiter = value; }
+            get => Context.EndingDelimiter;
+            set => Context.EndingDelimiter = value;
         }
 
         public string Input
         {
-            set { context.Input = value; }
+            set => context.Input = value;
         }
 
         public string StartDelimiter
         {
-            get { return Context.StartDelimeter; }
-            set { Context.StartDelimeter = value; }
+            get => Context.StartDelimeter;
+            set => Context.StartDelimeter = value;
         }
 
         public Table Table { get; set; }

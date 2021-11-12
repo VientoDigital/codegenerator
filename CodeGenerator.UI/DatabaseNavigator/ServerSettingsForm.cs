@@ -90,9 +90,9 @@ namespace CodeGenerator.DatabaseNavigator
                     connection.Open();
                     MessageBox.Show("Connection Succesfull");
                 }
-                catch (Exception e1)
+                catch (Exception x)
                 {
-                    MessageBox.Show(e1.Message);
+                    MessageBox.Show(x.Message);
                 }
                 finally
                 {

@@ -9,16 +9,16 @@ namespace CodeGenerator.ConfigurationManager
     /// </summary>
     public class Configuration
     {
-        private const string iCodeConfigFile = @"C:\iCodeConfig.xml";
+        private const string configFilePath = @"C:\iCodeConfig.xml";
         private static ConfigFile configFile = new ConfigFile();
-        private Hashtable cataTypes = new Hashtable();
+        private Hashtable dataTypes = new Hashtable();
 
         public static Configuration Instance { get; set; } = new Configuration();
 
         public IDictionary DataTypes
         {
-            get => cataTypes;
-            set => cataTypes = (Hashtable)value;
+            get => dataTypes;
+            set => dataTypes = (Hashtable)value;
         }
 
         public string EndTag
@@ -33,26 +33,26 @@ namespace CodeGenerator.ConfigurationManager
             set => configFile.StartTag = value;
         }
 
-        public void Open(string filename)
+        public void Open(string fileName)
         {
-            configFile = new FileInfo(filename).XmlDeserialize<ConfigFile>();
+            configFile = new FileInfo(fileName).XmlDeserialize<ConfigFile>();
             LoadDataTypes();
         }
 
         public void Open()
         {
-            Open(iCodeConfigFile);
+            Open(configFilePath);
         }
 
-        public void Save(string filename)
+        public void Save(string fileName)
         {
             AssignDataTypes();
-            configFile.XmlSerialize(filename);
+            configFile.XmlSerialize(fileName);
         }
 
         public void Save()
         {
-            Save(iCodeConfigFile);
+            Save(configFilePath);
         }
 
         private static DataTypes GetConfigDataTypes()
@@ -73,12 +73,12 @@ namespace CodeGenerator.ConfigurationManager
         {
             var dataTypes = GetConfigDataTypes();
             dataTypes.Clear();
-            foreach (string key in cataTypes.Keys)
+            foreach (string key in this.dataTypes.Keys)
             {
                 dataTypes.Add(new SqlType
                 {
                     name = key,
-                    value = cataTypes[key].ToString()
+                    value = this.dataTypes[key].ToString()
                 });
             }
             return dataTypes;
@@ -89,9 +89,9 @@ namespace CodeGenerator.ConfigurationManager
             var dataTypes = GetConfigDataTypes();
             foreach (SqlType sqlType in dataTypes.SqlTypeCollection)
             {
-                if (!cataTypes.ContainsKey(sqlType.name))
+                if (!this.dataTypes.ContainsKey(sqlType.name))
                 {
-                    cataTypes.Add(sqlType.name, sqlType.value);
+                    this.dataTypes.Add(sqlType.name, sqlType.value);
                 }
             }
         }

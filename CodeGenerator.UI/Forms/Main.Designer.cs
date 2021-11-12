@@ -1,6 +1,6 @@
 ﻿namespace CodeGenerator.UI
 {
-    partial class MainApp
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainApp));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileDatabaseConnect = new System.Windows.Forms.ToolStripMenuItem();
@@ -177,14 +177,14 @@
             // mnuViewTemplate
             // 
             this.mnuViewTemplate.Name = "mnuViewTemplate";
-            this.mnuViewTemplate.Size = new System.Drawing.Size(122, 22);
+            this.mnuViewTemplate.Size = new System.Drawing.Size(180, 22);
             this.mnuViewTemplate.Text = "Template";
             this.mnuViewTemplate.Click += new System.EventHandler(this.mnuViewTemplate_Click);
             // 
             // mnuViewResults
             // 
             this.mnuViewResults.Name = "mnuViewResults";
-            this.mnuViewResults.Size = new System.Drawing.Size(122, 22);
+            this.mnuViewResults.Size = new System.Drawing.Size(180, 22);
             this.mnuViewResults.Text = "Results";
             this.mnuViewResults.Click += new System.EventHandler(this.mnuViewResults_Click);
             // 
@@ -238,13 +238,15 @@
             // 
             // kryptonManager
             // 
-            this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010Black;
+            this.kryptonManager.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office365Silver;
             // 
             // kryptonDockableWorkspace
             // 
+            this.kryptonDockableWorkspace.ActivePage = null;
             this.kryptonDockableWorkspace.AutoHiddenHost = false;
             this.kryptonDockableWorkspace.CompactFlags = ((Krypton.Workspace.CompactFlags)(((Krypton.Workspace.CompactFlags.RemoveEmptyCells | Krypton.Workspace.CompactFlags.RemoveEmptySequences) 
             | Krypton.Workspace.CompactFlags.PromoteLeafs)));
+            this.kryptonDockableWorkspace.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonDockableWorkspace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonDockableWorkspace.Location = new System.Drawing.Point(0, 0);
             this.kryptonDockableWorkspace.Name = "kryptonDockableWorkspace";
@@ -253,8 +255,10 @@
             // 
             this.kryptonDockableWorkspace.Root.UniqueName = "F867F895E47B4CA5C6AC47791205A4AB";
             this.kryptonDockableWorkspace.Root.WorkspaceControl = this.kryptonDockableWorkspace;
+            this.kryptonDockableWorkspace.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.LowProfile;
             this.kryptonDockableWorkspace.ShowMaximizeButton = false;
             this.kryptonDockableWorkspace.Size = new System.Drawing.Size(1046, 647);
+            this.kryptonDockableWorkspace.SplitterWidth = 5;
             this.kryptonDockableWorkspace.TabIndex = 5;
             this.kryptonDockableWorkspace.TabStop = true;
             // 
@@ -286,7 +290,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "MainApp";
-            this.Text = "iCodegenerator - Viento Digital";
+            this.Text = "Code Generator";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDockableWorkspace)).EndInit();

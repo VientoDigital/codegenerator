@@ -49,9 +49,9 @@ namespace CodeGenerator.Generator
                         streamWriter.Write(codeGenerated);
                     }
                 }
-                catch (Exception e)
+                catch (Exception x)
                 {
-                    Debug.WriteLine(e);
+                    Debug.WriteLine(x);
                 }
             }
             CompleteNotifier(new EventArgs());

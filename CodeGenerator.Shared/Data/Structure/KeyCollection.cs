@@ -11,8 +11,8 @@ namespace CodeGenerator.Data.Structure
 
         public Key this[int index]
         {
-            get { return (Key)List[index]; }
-            set { List[index] = value; }
+            get => (Key)List[index];
+            set => List[index] = value;
         }
 
         public void Add(Key key) => List.Add(key);

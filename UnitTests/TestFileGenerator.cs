@@ -15,10 +15,10 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestFilenameGenerator()
         {
-            Server.ConnectionString = @"SERVER=(local);DATABASE=;UID=sa;PWD=m14m14;";
+            Server.ConnectionString = @"Server=.;Database=master;Integrated Security=SSPI;";
             Server.ProviderType = DataProviderType.SqlClient;
             Server server = new Server();
-            Client client = new Client();
+            var client = new Client();
             _ = client.StartDelimiter;
             _ = client.EndingDelimiter;
             client.StartDelimiter = string.Empty;

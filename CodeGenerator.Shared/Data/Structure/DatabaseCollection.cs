@@ -11,8 +11,8 @@ namespace CodeGenerator.Data.Structure
 
         public Database this[int index]
         {
-            get { return (Database)List[index]; }
-            set { List[index] = value; }
+            get => (Database)List[index];
+            set => List[index] = value;
         }
 
         public void Add(Database database) => List.Add(database);

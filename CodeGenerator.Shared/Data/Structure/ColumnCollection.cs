@@ -11,8 +11,8 @@ namespace CodeGenerator.Data.Structure
 
         public Column this[int index]
         {
-            get { return (Column)List[index]; }
-            set { List[index] = value; }
+            get => (Column)List[index];
+            set => List[index] = value;
         }
 
         public void Add(Column column) => List.Add(column);

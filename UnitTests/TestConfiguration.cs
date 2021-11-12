@@ -16,8 +16,8 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestOpen()
         {
-            Configuration config = Configuration.Instance;
-            Configuration config2 = Configuration.Instance;
+            var config = Configuration.Instance;
+            var config2 = Configuration.Instance;
             config.Open(configFile);
             Console.WriteLine(config.StartTag);
             Console.WriteLine(config.EndTag);
@@ -28,7 +28,7 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestSave()
         {
-            Configuration config = Configuration.Instance;
+            var config = Configuration.Instance;
             if (File.Exists(configFile))
             {
                 config.Open(configFile);

@@ -8,7 +8,7 @@ namespace CodeGenerator.UI
         [STAThread]
         public static void Main()
         {
-            Application.Run(new MainApp());
+            Application.Run(new Main());
         }
     }
 }

@@ -11,8 +11,8 @@ namespace CodeGenerator.UI
 
         public string ContentText
         {
-            get { return rtbResult.Text; }
-            set { rtbResult.Text = value; }
+            get => rtbResult.Text;
+            set => rtbResult.Text = value;
         }
     }
 }

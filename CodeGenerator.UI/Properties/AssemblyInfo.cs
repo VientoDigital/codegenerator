@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Resources;
 using System.Reflection;
 
@@ -7,11 +8,11 @@ using System.Reflection;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("CodeGenerator.UI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Authored by Victor Y. Dominguez and Matt Gordon")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyProduct("CodeGenerator.UI")]
+[assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -26,7 +27,7 @@ using System.Reflection;
 // You can specify all the values or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("2.0.0.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the
@@ -57,3 +58,5 @@ using System.Reflection;
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
 [assembly: NeutralResourcesLanguage("en-US")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: Guid("C35EDDDA-E3A4-4F1F-9C61-785E10F302F4")]

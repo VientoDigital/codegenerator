@@ -12,8 +12,8 @@ namespace CodeGenerator.UI
 
         public object SelectedObject
         {
-            get { return (Table)propertyGrid.SelectedObject; }
-            set { propertyGrid.SelectedObject = value; }
+            get => (Table)propertyGrid.SelectedObject;
+            set => propertyGrid.SelectedObject = value;
         }
     }
 }

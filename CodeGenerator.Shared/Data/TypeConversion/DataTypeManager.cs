@@ -29,9 +29,9 @@ namespace CodeGenerator.Data.TypeConversion
                 xmlDocument = new XmlDocument();
                 xmlDocument.Load(DataTypeManager.uri);
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                throw new DataTypeManagerException(string.Format("Error Loading Data Mapping Values. File expected at {0}", DataTypeManager.uri), ex);
+                throw new DataTypeManagerException(string.Format("Error Loading Data Mapping Values. File expected at {0}", DataTypeManager.uri), x);
             }
         }
 

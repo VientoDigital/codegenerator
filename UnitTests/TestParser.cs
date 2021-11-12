@@ -11,13 +11,13 @@ namespace CodeGenerator.UnitTests
     [TestFixture]
     public class TestParser
     {
-        private Context context = new Context();
+        private readonly Context context = new Context();
         private Parser parser;
 
         [SetUp]
         public void SetUp()
         {
-            Server.ConnectionString = @"SERVER=SAM\NETSDK;DATABASE=;UID=sa;PWD=s4ms4m;";
+            Server.ConnectionString = @"Server=.;Database=master;Integrated Security=SSPI;";
             Server.ProviderType = DataProviderType.SqlClient;
             Context.StartDelimeter = "{";
             Context.EndingDelimiter = "}";
@@ -190,12 +190,12 @@ LAST{/IF}
         [Test]
         public void TestCustomValues()
         {
-            var hashtable = new Hashtable();
-            hashtable.Add("NAMESPACE", "CodeGenerator.Bla");
-
             var client = new Client
             {
-                CustomValues = hashtable
+                CustomValues = new Hashtable
+                {
+                    { "NAMESPACE", "CodeGenerator.Bla" }
+                }
             };
 
             Server.ConnectionString = ConnectionStringManager.Instance.GetConnectionStrings()[0];
@@ -235,7 +235,7 @@ LAST{/IF}
             columns.AddExpression(new ColumnNameExpression());
             parser.AddExpression(columns);
             parser.Interpret(context);
-            //			Console.WriteLine(_context.Output);
+            //Console.WriteLine(_context.Output);
         }
     }
 }
