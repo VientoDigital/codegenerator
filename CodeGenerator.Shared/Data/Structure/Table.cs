@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using CodeGenerator.Data;
 
 namespace CodeGenerator.Data.Structure
 {

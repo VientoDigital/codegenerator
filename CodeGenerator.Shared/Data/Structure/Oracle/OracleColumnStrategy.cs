@@ -48,12 +48,12 @@ ORDER BY TABLE_NAME asc";
         {
             var column = new Column
             {
-                Name = row["COLUMN_NAME"].ToString(),
-                Type = row["DATA_TYPE"].ToString(),
-                Length = Convert.ToInt16(row["DATA_LENGTH"].ToString())
+                Name = row.Field<string>("COLUMN_NAME"),
+                Type = row.Field<string>("DATA_TYPE"),
+                Length = row.Field<int>("DATA_LENGTH")
             };
 
-            if (row["NULLABLE"].ToString() == "Y")
+            if (row.Field<string>("NULLABLE") == "Y")
             {
                 column.Nullable = true;
             }
@@ -94,11 +94,11 @@ and acc.Table_NAME = '{table.Name}'";
         {
             var key = new Key
             {
-                Name = row["CONSTRAINT_NAME"].ToString(),
-                ColumnName = row["COLUMN_NAME"].ToString()
+                Name = row.Field<string>("CONSTRAINT_NAME"),
+                ColumnName = row.Field<string>("COLUMN_NAME")
             };
 
-            if (row["CONSTRAINT_TYPE"].ToString() == "P")
+            if (row.Field<string>("CONSTRAINT_TYPE") == "P")
             {
                 key.IsPrimary = true;
             }

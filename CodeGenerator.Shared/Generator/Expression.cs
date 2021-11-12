@@ -74,11 +74,13 @@ namespace CodeGenerator.Generator
             }
 
             replacement = firstChar + replacement.Substring(1).Replace("_", string.Empty);
-            var minMay = Regex.Matches(replacement, "(?<min>[a-z])(?<may>[A-Z])");
-            foreach (Match mm in minMay)
+            var matches = Regex.Matches(replacement, "(?<min>[a-z])(?<may>[A-Z])");
+            foreach (Match match in matches)
             {
-                replacement =
-                    Regex.Replace(replacement, mm.Groups["min"].Value + mm.Groups["may"].Value, mm.Groups["min"].Value + separatorString + mm.Groups["may"].Value);
+                replacement = Regex.Replace(
+                    replacement,
+                    $"{match.Groups["min"].Value}{match.Groups["may"].Value}",
+                    $"{match.Groups["min"].Value}{separatorString}{match.Groups["may"].Value}");
             }
             return replacement;
         }

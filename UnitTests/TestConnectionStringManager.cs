@@ -1,5 +1,4 @@
 using System.Linq;
-using CodeGenerator.Data;
 using NUnit.Framework;
 
 namespace CodeGenerator.UnitTests

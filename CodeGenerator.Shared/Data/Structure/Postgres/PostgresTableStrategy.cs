@@ -25,7 +25,7 @@ namespace CodeGenerator.Data.Structure
             return new Table
             {
                 ParentDatabase = database,
-                Name = row["tablename"].ToString(),
+                Name = row.Field<string>("tablename"),
                 Schema = string.Empty
             };
         }

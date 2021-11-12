@@ -1,8 +1,8 @@
 using System;
-using CodeGenerator.Data.Structure;
-using CodeGenerator.Data;
-using NUnit.Framework;
 using System.Linq;
+using CodeGenerator.Data;
+using CodeGenerator.Data.Structure;
+using NUnit.Framework;
 
 namespace CodeGenerator.UnitTests
 {

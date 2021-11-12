@@ -146,9 +146,6 @@
     <Compile Include="Data\Structure\Sql\SqlTableStrategy.cs" />
     <Compile Include="Data\Structure\Table.cs" />
     <Compile Include="Data\Structure\TableStrategy.cs" />
-    <Compile Include="Data\TypeConversion\DataTypeManager.cs" />
-    <Compile Include="Data\TypeConversion\DataTypeManagerException.cs" />
-    <Compile Include="Data\TypeConversion\Language.cs" />
     <Compile Include="Extensions\CustomEncodingStringWriter.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
@@ -181,13 +178,7 @@
     <Compile Include="AppVersion.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\TypeConversion\DataTypeMapping.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
-    <None Include="Data\TypeConversion\DataTypeMapping.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

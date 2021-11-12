@@ -68,66 +68,66 @@ namespace CodeGenerator.UI
             this.btnOK = new Krypton.Toolkit.KryptonButton();
             this.btnCancel = new Krypton.Toolkit.KryptonButton();
             this.SuspendLayout();
-            // 
+            //
             // txtTemplatesDirectory
-            // 
+            //
             this.txtTemplatesDirectory.Location = new System.Drawing.Point(136, 24);
             this.txtTemplatesDirectory.Name = "txtTemplatesDirectory";
             this.txtTemplatesDirectory.Size = new System.Drawing.Size(280, 23);
             this.txtTemplatesDirectory.TabIndex = 5;
-            // 
+            //
             // txtOutputDirectory
-            // 
+            //
             this.txtOutputDirectory.Location = new System.Drawing.Point(136, 72);
             this.txtOutputDirectory.Name = "txtOutputDirectory";
             this.txtOutputDirectory.Size = new System.Drawing.Size(280, 23);
             this.txtOutputDirectory.TabIndex = 15;
-            // 
+            //
             // btnBrowseTemplatesDirectory
-            // 
+            //
             this.btnBrowseTemplatesDirectory.Location = new System.Drawing.Point(424, 24);
             this.btnBrowseTemplatesDirectory.Name = "btnBrowseTemplatesDirectory";
             this.btnBrowseTemplatesDirectory.Size = new System.Drawing.Size(32, 24);
             this.btnBrowseTemplatesDirectory.TabIndex = 10;
             this.btnBrowseTemplatesDirectory.Values.Text = "...";
             this.btnBrowseTemplatesDirectory.Click += new System.EventHandler(this.btnBrowseTemplatesDirectory_Click);
-            // 
+            //
             // btnBrowseOutputDirectory
-            // 
+            //
             this.btnBrowseOutputDirectory.Location = new System.Drawing.Point(424, 72);
             this.btnBrowseOutputDirectory.Name = "btnBrowseOutputDirectory";
             this.btnBrowseOutputDirectory.Size = new System.Drawing.Size(32, 24);
             this.btnBrowseOutputDirectory.TabIndex = 20;
             this.btnBrowseOutputDirectory.Values.Text = "...";
             this.btnBrowseOutputDirectory.Click += new System.EventHandler(this.btnBrowseOutputDirectory_Click);
-            // 
+            //
             // lblTemplatesDirectory
-            // 
+            //
             this.lblTemplatesDirectory.Location = new System.Drawing.Point(16, 24);
             this.lblTemplatesDirectory.Name = "lblTemplatesDirectory";
             this.lblTemplatesDirectory.Size = new System.Drawing.Size(120, 20);
             this.lblTemplatesDirectory.TabIndex = 4;
             this.lblTemplatesDirectory.Values.Text = "Templates Directory";
-            // 
+            //
             // lblOutputDirectory
-            // 
+            //
             this.lblOutputDirectory.Location = new System.Drawing.Point(16, 72);
             this.lblOutputDirectory.Name = "lblOutputDirectory";
             this.lblOutputDirectory.Size = new System.Drawing.Size(103, 20);
             this.lblOutputDirectory.TabIndex = 5;
             this.lblOutputDirectory.Values.Text = "Output Directory";
-            // 
+            //
             // btnOK
-            // 
+            //
             this.btnOK.Location = new System.Drawing.Point(136, 110);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(90, 25);
             this.btnOK.TabIndex = 25;
             this.btnOK.Values.Text = "OK";
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
+            //
             // btnCancel
-            // 
+            //
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(326, 110);
             this.btnCancel.Name = "btnCancel";
@@ -135,9 +135,9 @@ namespace CodeGenerator.UI
             this.btnCancel.TabIndex = 30;
             this.btnCancel.Values.Text = "Cancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
+            //
             // DirectorySelectionWindow
-            // 
+            //
             this.AcceptButton = this.btnOK;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.btnCancel;
@@ -158,7 +158,6 @@ namespace CodeGenerator.UI
             this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion Windows Form Designer generated code

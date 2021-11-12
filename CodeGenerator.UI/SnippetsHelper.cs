@@ -1,5 +1,4 @@
 using System.Collections;
-using CodeGenerator.Generator;
 using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.UI

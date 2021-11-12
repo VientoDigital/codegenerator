@@ -292,7 +292,6 @@
     <Content Include="Resources\App.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="DataTypeMapping.xml" />
     <Content Include="Resources\icode.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

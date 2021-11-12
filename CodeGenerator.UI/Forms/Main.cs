@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using CodeGenerator.Data.Structure;
-using CodeGenerator.Data.TypeConversion;
 using CodeGenerator.DatabaseNavigator;
 using CodeGenerator.Generator;
 using Krypton.Docking;
@@ -311,7 +310,7 @@ namespace CodeGenerator.UI
                 resultForm.ContentText = client.Parse(selectedTable, documentForm.ContentText);
                 workspace.SelectPage(resultPage.UniqueName);
             }
-            catch (DataTypeManagerException x)
+            catch (Exception x)
             {
                 MessageBox.Show(this, x.Message, x.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }

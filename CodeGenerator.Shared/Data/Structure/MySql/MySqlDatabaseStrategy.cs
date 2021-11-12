@@ -9,7 +9,7 @@ namespace CodeGenerator.Data.Structure
         {
             return new Database
             {
-                Name = row["DATABASE"].ToString()
+                Name = row.Field<string>("DATABASE")
             };
         }
 

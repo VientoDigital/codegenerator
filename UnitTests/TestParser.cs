@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Text.RegularExpressions;
+using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
 using CodeGenerator.Generator;
-using CodeGenerator.Data;
 using NUnit.Framework;
-using System.Linq;
 
 namespace CodeGenerator.UnitTests
 {

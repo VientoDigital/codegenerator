@@ -56,15 +56,15 @@ ORDER BY 2, 3;", connection);
 
         protected override Column CreateColumn(DataRow row)
         {
-            int length = Convert.ToInt32(row["attlen"]);
+            int length = row.Field<int>("attlen");
 
             return new Column
             {
-                Name = row["attname"].ToString(),
-                Type = row["atttype"].ToString(),
-                Length = length >= 0 ? length : Convert.ToInt32(row["atttypmod"]) - 4,
-                Nullable = !Convert.ToBoolean(row["attnotnull"]),
-                Default = row["attdef"].ToString()
+                Name = row.Field<string>("attname"),
+                Type = row.Field<string>("atttype"),
+                Length = length >= 0 ? length : row.Field<int>("atttypmod") - 4,
+                Nullable = !row.Field<bool>("attnotnull"),
+                Default = row.Field<string>("attdef")
             };
         }
 
@@ -95,9 +95,9 @@ ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname", connection);
         {
             return new Key
             {
-                Name = row["relname"].ToString(),
-                ColumnName = row["relname"].ToString(),
-                IsPrimary = Convert.ToBoolean(row["indisprimary"])
+                Name = row.Field<string>("relname"),
+                ColumnName = row.Field<string>("relname"),
+                IsPrimary = row.Field<bool>("indisprimary")
             };
         }
     }

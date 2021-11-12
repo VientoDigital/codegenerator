@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Forms;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
-using CodeGenerator.Shared;
 using Krypton.Toolkit;
 
 namespace CodeGenerator.DatabaseNavigator

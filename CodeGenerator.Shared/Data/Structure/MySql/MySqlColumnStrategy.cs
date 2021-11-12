@@ -10,23 +10,23 @@ namespace CodeGenerator.Data.Structure
         {
             var column = new Column
             {
-                Name = row["Field"].ToString()
+                Name = row.Field<string>("Field")
             };
 
-            bool isParenthesisFound = row["Type"].ToString().IndexOf("(") != -1;
+            bool isParenthesisFound = row.Field<string>("Type").IndexOf("(") != -1;
             if (isParenthesisFound)
             {
-                column.Type = row["Type"].ToString().Substring(0, row["Type"].ToString().IndexOf("("));
+                column.Type = row.Field<string>("Type").Substring(0, row.Field<string>("Type").IndexOf("("));
             }
             else
             {
-                column.Type = row["Type"].ToString().Trim();
+                column.Type = row.Field<string>("Type").Trim();
             }
             if (isParenthesisFound)
             {
-                int start = row["Type"].ToString().IndexOf("(") + 1;
-                int end = row["Type"].ToString().IndexOf(")");
-                string length = row["Type"].ToString().Substring(start, end - start);
+                int start = row.Field<string>("Type").IndexOf("(") + 1;
+                int end = row.Field<string>("Type").IndexOf(")");
+                string length = row.Field<string>("Type").Substring(start, end - start);
                 int commaPosition = length.IndexOf(',');
 
                 if (commaPosition != -1)
@@ -44,8 +44,8 @@ namespace CodeGenerator.Data.Structure
                 column.Length = 0;
             }
 
-            column.Nullable = (row["Null"].ToString() != null && row["Null"].ToString().Length == 0);
-            column.Default = row["Default"].ToString();
+            column.Nullable = !string.IsNullOrEmpty(row.Field<string>("Null"));
+            column.Default = row.Field<string>("Default");
             return column;
         }
 
@@ -64,9 +64,9 @@ namespace CodeGenerator.Data.Structure
         {
             return new Key
             {
-                Name = row["Key_name"].ToString(),
-                ColumnName = row["Column_name"].ToString(),
-                IsPrimary = row["Key_name"].ToString() == "PRIMARY"
+                Name = row.Field<string>("Key_name"),
+                ColumnName = row.Field<string>("Column_name"),
+                IsPrimary = row.Field<string>("Key_name") == "PRIMARY"
             };
         }
 
