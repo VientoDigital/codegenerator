@@ -49,12 +49,12 @@ namespace CodeGenerator.Data.Structure
             return column;
         }
 
-        protected override DataSet ColumnSchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataAccessProvider.CreateCommand("desc " + table.Name, connection);
+            var command = providerFactory.CreateCommand("desc " + table.Name, connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataAccessProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;
@@ -70,12 +70,12 @@ namespace CodeGenerator.Data.Structure
             };
         }
 
-        protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataAccessProvider.CreateCommand("show index from " + table.Name, connection);
+            var command = providerFactory.CreateCommand("show index from " + table.Name, connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataAccessProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;

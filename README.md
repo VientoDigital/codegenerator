@@ -6,7 +6,7 @@ Code Generator is a database centric template based code generator for any text(
 ## Documentation
 ### Database
 
-**{DATABASE.NAME}**
+- **{DATABASE.NAME}**
 Placeholder for the database name.
 
 ### Table
@@ -69,7 +69,7 @@ public class {TABLE.NAME PASCAL}Model : IEntity
     /// <summary>
     /// {COLUMN.COMMENT}
     /// </summary>
-    public {MAP COLUMN.TYPE} {COLUMN.NAME PASCAL} {set;get;}
+    public {MAP COLUMN.TYPE} {COLUMN.NAME PASCAL} { get; set; }
     {/TABLE.COLUMNS}
 }
 ```

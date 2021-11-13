@@ -46,7 +46,7 @@ namespace CodeGenerator.UI
         }
 
         [Browsable(true), Category("Navigator")]
-        public DataProviderType ProviderType
+        public ProviderType ProviderType
         {
             get => Server.ProviderType;
             set => Server.ProviderType = value;
@@ -291,9 +291,9 @@ namespace CodeGenerator.UI
             this.treeView = new Krypton.Toolkit.KryptonTreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
-            //
+            // 
             // treeView
-            //
+            // 
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView.ImageIndex = 0;
             this.treeView.ImageList = this.imageList;
@@ -303,10 +303,11 @@ namespace CodeGenerator.UI
             this.treeView.Size = new System.Drawing.Size(150, 150);
             this.treeView.TabIndex = 0;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            this.treeView.Controls[0].DoubleClick += new System.EventHandler(this.treeView_DoubleClick);
             this.treeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
-            //
+            // 
             // imageList
-            //
+            // 
             this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList.Images.SetKeyName(0, "");
@@ -315,13 +316,14 @@ namespace CodeGenerator.UI
             this.imageList.Images.SetKeyName(3, "");
             this.imageList.Images.SetKeyName(4, "");
             this.imageList.Images.SetKeyName(5, "");
-            //
+            // 
             // NavigatorControl
-            //
+            // 
             this.Controls.Add(this.treeView);
             this.Name = "NavigatorControl";
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
             this.ResumeLayout(false);
+
         }
 
         #endregion Component Designer generated code

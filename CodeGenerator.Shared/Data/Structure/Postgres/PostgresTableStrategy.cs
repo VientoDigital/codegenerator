@@ -4,18 +4,18 @@ namespace CodeGenerator.Data.Structure
 {
     public class PostgresTableStrategy : TableStrategy
     {
-        protected override DataSet TableSchema(DataAccessProviderFactory dataProvider, IDbConnection connection)
+        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataProvider.CreateCommand("SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;", connection);
+            var command = providerFactory.CreateCommand("SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;", connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;
         }
 
-        protected override DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ViewSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
         {
             return new DataSet();
         }

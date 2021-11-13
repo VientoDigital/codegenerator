@@ -4,7 +4,7 @@ namespace CodeGenerator.Data.Structure
 {
     public class OracleColumnStrategy : ColumnStrategy
     {
-        protected override DataSet ColumnSchema(Table table, DataAccessProviderFactory dataProvider, IDbConnection connection)
+        protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
             string schemaQuery =
@@ -34,10 +34,9 @@ WHERE atc.OWNER = '{table.ParentDatabase.Name}'
 AND atc.TABLE_NAME = '{table.Name}'
 ORDER BY TABLE_NAME asc";
 
-            var command = dataProvider.CreateCommand(schemaQuery, connection);
-
+            var command = providerFactory.CreateCommand(schemaQuery, connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;
@@ -65,7 +64,7 @@ ORDER BY TABLE_NAME asc";
             return column;
         }
 
-        protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataProvider, IDbConnection connection)
+        protected override DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
             string schemaQuery =
@@ -81,9 +80,9 @@ JOIN ALL_CONSTRAINTS ac
 where acc.owner = '{table.ParentDatabase.Name}'
 and acc.Table_NAME = '{table.Name}'";
 
-            var command = dataProvider.CreateCommand(schemaQuery, connection);
+            var command = providerFactory.CreateCommand(schemaQuery, connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;

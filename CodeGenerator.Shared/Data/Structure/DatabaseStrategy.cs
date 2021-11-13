@@ -9,8 +9,8 @@ namespace CodeGenerator.Data.Structure
         {
             get
             {
-                var dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
-                var connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
+                var providerFactory = new ProviderFactory(Server.ProviderType);
+                var connection = providerFactory.CreateConnection(Server.ConnectionString);
                 return new Database
                 {
                     Name = connection.Database
@@ -21,10 +21,10 @@ namespace CodeGenerator.Data.Structure
         protected internal ICollection<Database> GetDatabases()
         {
             var databases = new List<Database>();
-            var dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
-            var connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
+            var providerFactory = new ProviderFactory(Server.ProviderType);
+            var connection = providerFactory.CreateConnection(Server.ConnectionString);
 
-            var set = DatabaseSchema(dataAccessProviderFactory, connection);
+            var set = DatabaseSchema(providerFactory, connection);
 
             foreach (DataRow row in set.Tables[0].Rows)
             {
@@ -36,6 +36,6 @@ namespace CodeGenerator.Data.Structure
 
         protected abstract Database CreateDatabase(DataRow row, ICollection<Database> databases);
 
-        protected abstract DataSet DatabaseSchema(DataAccessProviderFactory dataAccessProviderFactory, IDbConnection connection);
+        protected abstract DataSet DatabaseSchema(ProviderFactory dataAccessProviderFactory, IDbConnection connection);
     }
 }

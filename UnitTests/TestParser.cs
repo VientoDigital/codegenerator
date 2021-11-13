@@ -19,7 +19,7 @@ namespace CodeGenerator.UnitTests
         public void SetUp()
         {
             Server.ConnectionString = @"Server=.;Database=master;Integrated Security=SSPI;";
-            Server.ProviderType = DataProviderType.SqlClient;
+            Server.ProviderType = ProviderType.SqlServer;
             Context.StartDelimeter = "{";
             Context.EndingDelimiter = "}";
             parser = new Parser(new Server().Databases.First().Tables.First());
@@ -200,7 +200,7 @@ LAST{/IF}
             };
 
             Server.ConnectionString = ConfigFile.Instance.ConnectionStrings.First();
-            Server.ProviderType = DataProviderType.SqlClient;
+            Server.ProviderType = ProviderType.SqlServer;
             client.Parse(new Server().Databases.First().Tables.First(), "{NAMESPACE}");
         }
 

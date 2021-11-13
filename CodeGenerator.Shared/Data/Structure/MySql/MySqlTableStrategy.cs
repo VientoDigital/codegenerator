@@ -4,18 +4,18 @@ namespace CodeGenerator.Data.Structure
 {
     public class MySqlTableStrategy : TableStrategy
     {
-        protected override DataSet TableSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataAccessProvider.CreateCommand("show tables", connection);
+            var command = providerFactory.CreateCommand("show tables", connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataAccessProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;
         }
 
-        protected override DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ViewSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
         {
             return new DataSet();
         }

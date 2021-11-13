@@ -4,17 +4,17 @@ namespace CodeGenerator.Data.Structure
 {
     public class OracleTableStrategy : TableStrategy
     {
-        protected override DataSet TableSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet TableSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
         {
             return new DataSet();
         }
 
-        protected override DataSet TableSchema(DataAccessProviderFactory dataProvider, IDbConnection connection, Database database)
+        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection, Database database)
         {
             var set = new DataSet();
-            var command = dataProvider.CreateCommand($"SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '{database.Name}' ORDER BY TABLE_NAME", connection);
+            var command = providerFactory.CreateCommand($"SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '{database.Name}' ORDER BY TABLE_NAME", connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;
@@ -30,7 +30,7 @@ namespace CodeGenerator.Data.Structure
             };
         }
 
-        protected override DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ViewSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
         {
             return new DataSet();
         }

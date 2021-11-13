@@ -26,10 +26,10 @@ namespace CodeGenerator.UI
         {
             InitializeComponent();
 
-            cmbProviderType.Items.Add(new DataAccessProviderInfo(DataProviderType.SqlClient));
-            cmbProviderType.Items.Add(new DataAccessProviderInfo(DataProviderType.MySql));
-            cmbProviderType.Items.Add(new DataAccessProviderInfo(DataProviderType.PostgresSql));
-            cmbProviderType.Items.Add(new DataAccessProviderInfo(DataProviderType.Oracle));
+            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.SqlServer));
+            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.MySql));
+            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.PostgresSql));
+            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.Oracle));
             cmbProviderType.DisplayMember = "Name";
             cmbProviderType.SelectedIndex = 0;
 
@@ -72,7 +72,7 @@ namespace CodeGenerator.UI
         {
             if (TestConnection())
             {
-                Server.ProviderType = ((DataAccessProviderInfo)cmbProviderType.SelectedItem).ProviderType;
+                Server.ProviderType = ((ProviderInfo)cmbProviderType.SelectedItem).ProviderType;
                 bool isNewConnectionString = cmbConnectionString.SelectedIndex == -1;
                 string selectedConnectionString = cmbConnectionString.Text.Trim();
 
@@ -92,11 +92,11 @@ namespace CodeGenerator.UI
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                var dataAccessProviderFactory = new DataAccessProviderFactory(((DataAccessProviderInfo)cmbProviderType.SelectedItem).ProviderType);
+                var providerFactory = new ProviderFactory(((ProviderInfo)cmbProviderType.SelectedItem).ProviderType);
 
                 try
                 {
-                    using (var connection = dataAccessProviderFactory.CreateConnection(cmbConnectionString.Text.Trim()))
+                    using (var connection = providerFactory.CreateConnection(cmbConnectionString.Text.Trim()))
                     {
                         connection.Open();
                         return true;
@@ -130,7 +130,7 @@ namespace CodeGenerator.UI
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                string connectionStringFormat = new DataAccessProviderInfo(((DataAccessProviderInfo)cmbProviderType.SelectedItem).ProviderType).ConnectionStringFormat;
+                string connectionStringFormat = new ProviderInfo(((ProviderInfo)cmbProviderType.SelectedItem).ProviderType).ConnectionStringFormat;
                 lblConnectionStringHelp.Text = connectionStringFormat;
                 toolTip.SetToolTip(cmbConnectionString, connectionStringFormat);
                 cmbConnectionString.Focus();

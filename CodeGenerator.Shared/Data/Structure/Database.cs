@@ -14,10 +14,10 @@ namespace CodeGenerator.Data.Structure
         {
             switch (Server.ProviderType)
             {
-                case DataProviderType.SqlClient: strategy = new SqlTableStrategy(); break;
-                case DataProviderType.MySql: strategy = new MySqlTableStrategy(); break;
-                case DataProviderType.PostgresSql: strategy = new PostgresTableStrategy(); break;
-                case DataProviderType.Oracle: strategy = new OracleTableStrategy(); break;
+                case ProviderType.SqlServer: strategy = new SqlTableStrategy(); break;
+                case ProviderType.MySql: strategy = new MySqlTableStrategy(); break;
+                case ProviderType.PostgresSql: strategy = new PostgresTableStrategy(); break;
+                case ProviderType.Oracle: strategy = new OracleTableStrategy(); break;
             }
         }
 

@@ -171,9 +171,9 @@
     <Compile Include="Generator\Expressions\TableSchemaExpression.cs" />
     <Compile Include="Generator\FileGenerator.cs" />
     <Compile Include="Generator\Parser.cs" />
-    <Compile Include="Data\DataAccessProviderFactory.cs" />
-    <Compile Include="Data\DataAccessProviderInfo.cs" />
-    <Compile Include="Data\DataAccessProviderTypeFactory.cs" />
+    <Compile Include="Data\ProviderFactory.cs" />
+    <Compile Include="Data\ProviderInfo.cs" />
+    <Compile Include="Data\ProviderType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AppVersion.cs" />
   </ItemGroup>

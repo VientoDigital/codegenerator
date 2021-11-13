@@ -6,14 +6,14 @@ namespace CodeGenerator.Data.Structure
     public abstract class ColumnStrategy
     {
         private readonly IDbConnection connection;
-        private readonly DataAccessProviderFactory dataAccessProviderFactory;
+        private readonly ProviderFactory providerFactory;
         private readonly ICollection<Column> columns;
         private readonly ICollection<Key> keys;
 
         protected ColumnStrategy()
         {
-            dataAccessProviderFactory = new DataAccessProviderFactory(Server.ProviderType);
-            connection = dataAccessProviderFactory.CreateConnection(Server.ConnectionString);
+            providerFactory = new ProviderFactory(Server.ProviderType);
+            connection = providerFactory.CreateConnection(Server.ConnectionString);
             columns = new List<Column>();
             keys = new List<Key>();
         }
@@ -29,12 +29,12 @@ namespace CodeGenerator.Data.Structure
                 connection.Open();
             }
 
-            if (Server.ProviderType != DataProviderType.Oracle)
+            if (Server.ProviderType != ProviderType.Oracle)
             {
                 connection.ChangeDatabase(table.ParentDatabase.Name);
             }
 
-            var set = ColumnSchema(table, dataAccessProviderFactory, connection);
+            var set = ColumnSchema(table, providerFactory, connection);
             foreach (DataRow row in set.Tables[0].Rows)
             {
                 var column = CreateColumn(row);
@@ -56,7 +56,7 @@ namespace CodeGenerator.Data.Structure
             return Columns;
         }
 
-        protected abstract DataSet ColumnSchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection);
+        protected abstract DataSet ColumnSchema(Table table, ProviderFactory dataAccessProvider, IDbConnection connection);
 
         protected abstract Column CreateColumn(DataRow row);
 
@@ -66,11 +66,11 @@ namespace CodeGenerator.Data.Structure
             {
                 connection.Open();
             }
-            if (Server.ProviderType != DataProviderType.Oracle)
+            if (Server.ProviderType != ProviderType.Oracle)
             {
                 connection.ChangeDatabase(table.ParentDatabase.Name);
             }
-            DataSet set = KeySchema(table, dataAccessProviderFactory, connection);
+            DataSet set = KeySchema(table, providerFactory, connection);
             foreach (DataRow row in set.Tables[0].Rows)
             {
                 var key = CreateKey(row);
@@ -80,7 +80,7 @@ namespace CodeGenerator.Data.Structure
             return Keys;
         }
 
-        protected abstract DataSet KeySchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection);
+        protected abstract DataSet KeySchema(Table table, ProviderFactory dataAccessProvider, IDbConnection connection);
 
         protected abstract Key CreateKey(DataRow row);
     }

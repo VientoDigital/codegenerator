@@ -5,27 +5,27 @@ namespace CodeGenerator.Data.Structure
 {
     public class SqlColumnStrategy : ColumnStrategy
     {
-        protected override DataSet ColumnSchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataAccessProvider.CreateCommand("sp_columns", connection);
+            var command = providerFactory.CreateCommand("sp_columns", connection);
             command.CommandType = CommandType.StoredProcedure;
 
-            var parameter = dataAccessProvider.CreateParameter();
+            var parameter = providerFactory.CreateParameter();
             parameter.Direction = ParameterDirection.Input;
             parameter.DbType = DbType.String;
             parameter.ParameterName = "@table_name";
             parameter.Value = table.Name;
             command.Parameters.Add(parameter);
 
-            var schemaParameter = dataAccessProvider.CreateParameter();
+            var schemaParameter = providerFactory.CreateParameter();
             schemaParameter.Direction = ParameterDirection.Input;
             schemaParameter.DbType = DbType.String;
             schemaParameter.ParameterName = "@table_owner";
             schemaParameter.Value = table.Schema;
             command.Parameters.Add(schemaParameter);
 
-            var adapter = dataAccessProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;
@@ -54,27 +54,27 @@ namespace CodeGenerator.Data.Structure
             return column;
         }
 
-        protected override DataSet KeySchema(Table table, DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var keysSet = new DataSet();
-            var command = dataAccessProvider.CreateCommand("sp_pkeys", connection);
+            var command = providerFactory.CreateCommand("sp_pkeys", connection);
             command.CommandType = CommandType.StoredProcedure;
 
-            var parameter = dataAccessProvider.CreateParameter();
+            var parameter = providerFactory.CreateParameter();
             parameter.Direction = ParameterDirection.Input;
             parameter.DbType = DbType.String;
             parameter.ParameterName = "@table_name";
             parameter.Value = table.Name;
             command.Parameters.Add(parameter);
 
-            var schemaParameter = dataAccessProvider.CreateParameter();
+            var schemaParameter = providerFactory.CreateParameter();
             schemaParameter.Direction = ParameterDirection.Input;
             schemaParameter.DbType = DbType.String;
             schemaParameter.ParameterName = "@table_owner";
             schemaParameter.Value = table.Schema;
             command.Parameters.Add(schemaParameter);
 
-            var adapter = dataAccessProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(keysSet);
 
@@ -89,17 +89,17 @@ namespace CodeGenerator.Data.Structure
             }
 
             var set = new DataSet();
-            command = dataAccessProvider.CreateCommand("sp_fkeys", connection);
+            command = providerFactory.CreateCommand("sp_fkeys", connection);
             command.CommandType = CommandType.StoredProcedure;
 
-            parameter = dataAccessProvider.CreateParameter();
+            parameter = providerFactory.CreateParameter();
             parameter.Direction = ParameterDirection.Input;
             parameter.DbType = DbType.String;
             parameter.ParameterName = "@pktable_name";
             parameter.Value = table.Name;
             command.Parameters.Add(parameter);
 
-            adapter = dataAccessProvider.CreateDataAdapter();
+            adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             set.Merge(keysSet);

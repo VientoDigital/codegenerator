@@ -13,12 +13,12 @@ namespace CodeGenerator.Data.Structure
             };
         }
 
-        protected override DataSet DatabaseSchema(DataAccessProviderFactory dataProviderFactory, IDbConnection connection)
+        protected override DataSet DatabaseSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataProviderFactory.CreateCommand("SELECT DISTINCT USERNAME FROM ALL_USERS", connection);
+            var command = providerFactory.CreateCommand("SELECT DISTINCT USERNAME FROM ALL_USERS", connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataProviderFactory.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;

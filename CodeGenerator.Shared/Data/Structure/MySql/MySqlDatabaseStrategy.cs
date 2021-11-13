@@ -13,12 +13,12 @@ namespace CodeGenerator.Data.Structure
             };
         }
 
-        protected override DataSet DatabaseSchema(DataAccessProviderFactory dataAccessProviderFactory, IDbConnection connection)
+        protected override DataSet DatabaseSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataAccessProviderFactory.CreateCommand("show databases", connection);
+            var command = providerFactory.CreateCommand("show databases", connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataAccessProviderFactory.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;

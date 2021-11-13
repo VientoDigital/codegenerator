@@ -4,29 +4,29 @@ namespace CodeGenerator.Data.Structure
 {
     public class SqlTableStrategy : TableStrategy
     {
-        protected override DataSet TableSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataAccessProvider.CreateCommand("SELECT s.name AS [SCHEMA], t.name AS [NAME], t.type AS type " +
+            var command = providerFactory.CreateCommand("SELECT s.name AS [SCHEMA], t.name AS [NAME], t.type AS type " +
                             "FROM sys.tables t " +
                             "INNER JOIN sys.schemas s ON t.schema_id = s.schema_id " +
                             "ORDER BY s.name, t.name", connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataAccessProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;
         }
 
-        protected override DataSet ViewSchema(DataAccessProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = dataAccessProvider.CreateCommand("SELECT s.name AS [SCHEMA], v.name AS [NAME], v.type AS type " +
+            var command = providerFactory.CreateCommand("SELECT s.name AS [SCHEMA], v.name AS [NAME], v.type AS type " +
                           "FROM sys.views v  " +
                           "INNER JOIN sys.schemas s ON v.schema_id = s.schema_id " +
                           "ORDER BY s.name, v.name ", connection);
             command.CommandType = CommandType.Text;
-            var adapter = dataAccessProvider.CreateDataAdapter();
+            var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
             return set;

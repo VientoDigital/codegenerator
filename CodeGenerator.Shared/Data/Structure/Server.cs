@@ -12,16 +12,16 @@ namespace CodeGenerator.Data.Structure
         {
             switch (ProviderType)
             {
-                case DataProviderType.SqlClient: strategy = new SqlDatabaseStrategy(); break;
-                case DataProviderType.MySql: strategy = new MySqlDatabaseStrategy(); break;
-                case DataProviderType.PostgresSql: strategy = new PostgresDatabaseStrategy(); break;
-                case DataProviderType.Oracle: strategy = new OracleDatabaseStrategy(); break;
+                case ProviderType.SqlServer: strategy = new SqlDatabaseStrategy(); break;
+                case ProviderType.MySql: strategy = new MySqlDatabaseStrategy(); break;
+                case ProviderType.PostgresSql: strategy = new PostgresDatabaseStrategy(); break;
+                case ProviderType.Oracle: strategy = new OracleDatabaseStrategy(); break;
             }
         }
 
         public static string ConnectionString { get; set; }
 
-        public static DataProviderType ProviderType { get; set; }
+        public static ProviderType ProviderType { get; set; }
 
         public ICollection<Database> Databases
         {
