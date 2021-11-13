@@ -1,6 +1,6 @@
 ﻿namespace CodeGenerator.UI
 {
-    partial class SnippetsForm
+    partial class SnippetsControl
     {
         /// <summary>
         /// Required designer variable.

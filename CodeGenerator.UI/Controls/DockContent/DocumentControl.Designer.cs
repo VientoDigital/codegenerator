@@ -1,8 +1,6 @@
-﻿using Krypton.Toolkit;
-
-namespace CodeGenerator.UI
+﻿namespace CodeGenerator.UI
 {
-    partial class CustomValuesForm
+    partial class DocumentControl
     {
         /// <summary>
         /// Required designer variable.
@@ -30,36 +28,34 @@ namespace CodeGenerator.UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.gridCustomValues = new KryptonDataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.gridCustomValues)).BeginInit();
+            this.rtbDocument = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // gridCustomValues
+            // rtbDocument
             // 
-            this.gridCustomValues.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridCustomValues.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridCustomValues.Location = new System.Drawing.Point(0, 0);
-            this.gridCustomValues.Name = "gridCustomValues";
-            this.gridCustomValues.Size = new System.Drawing.Size(284, 262);
-            this.gridCustomValues.TabIndex = 0;
-            this.gridCustomValues.Leave += new System.EventHandler(this.gridCustomValues_Leave);
+            this.rtbDocument.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbDocument.Location = new System.Drawing.Point(0, 0);
+            this.rtbDocument.Name = "rtbDocument";
+            this.rtbDocument.Size = new System.Drawing.Size(284, 262);
+            this.rtbDocument.TabIndex = 0;
+            this.rtbDocument.Text = "";
             // 
-            // CustomValuesForm
+            // DocumentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.gridCustomValues);
+            this.Controls.Add(this.rtbDocument);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "CustomValuesForm";
-            this.Text = "CustomValuesForm";
-            ((System.ComponentModel.ISupportInitialize)(this.gridCustomValues)).EndInit();
+            this.Name = "DocumentForm";
+            this.Text = "DocumentForm";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private KryptonDataGridView gridCustomValues;
+        private System.Windows.Forms.RichTextBox rtbDocument;
+
     }
 }

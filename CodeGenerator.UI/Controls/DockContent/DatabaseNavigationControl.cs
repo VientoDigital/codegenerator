@@ -1,11 +1,10 @@
 ﻿using System.Windows.Forms;
-using CodeGenerator.DatabaseNavigator;
 
 namespace CodeGenerator.UI
 {
-    public partial class DatabaseNavigationForm : UserControl
+    public partial class DatabaseNavigationControl : UserControl
     {
-        public DatabaseNavigationForm()
+        public DatabaseNavigationControl()
         {
             InitializeComponent();
         }
@@ -28,7 +27,7 @@ namespace CodeGenerator.UI
 
         public void ShowEditConnectionString()
         {
-            navigatorControl.ShowEditConnectionStringDialog();
+            navigatorControl.ShowConnectionForm();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]

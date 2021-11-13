@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using CodeGenerator.Data;
@@ -8,9 +7,9 @@ using CodeGenerator.Data.Structure;
 using CodeGenerator.Shared.Extensions;
 using Krypton.Toolkit;
 
-namespace CodeGenerator.DatabaseNavigator
+namespace CodeGenerator.UI
 {
-    public class ServerSettingsForm : KryptonForm
+    public class ConnectionForm : KryptonForm
     {
         private KryptonButton btnCancel;
         private KryptonButton btnConnect;
@@ -23,7 +22,7 @@ namespace CodeGenerator.DatabaseNavigator
         private KryptonLabel lblProviderType;
         private ToolTip toolTip;
 
-        public ServerSettingsForm()
+        public ConnectionForm()
         {
             InitializeComponent();
 
@@ -159,34 +158,34 @@ namespace CodeGenerator.DatabaseNavigator
             ((System.ComponentModel.ISupportInitialize)(this.cmbProviderType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbConnectionString)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // lblConnectionString
-            // 
+            //
             this.lblConnectionString.Location = new System.Drawing.Point(8, 35);
             this.lblConnectionString.Name = "lblConnectionString";
             this.lblConnectionString.Size = new System.Drawing.Size(109, 20);
             this.lblConnectionString.TabIndex = 0;
             this.lblConnectionString.Values.Text = "Connection String";
-            // 
+            //
             // lblProviderType
-            // 
+            //
             this.lblProviderType.Location = new System.Drawing.Point(8, 8);
             this.lblProviderType.Name = "lblProviderType";
             this.lblProviderType.Size = new System.Drawing.Size(85, 20);
             this.lblProviderType.TabIndex = 1;
             this.lblProviderType.Values.Text = "Provider Type";
-            // 
+            //
             // btnTestConnection
-            // 
+            //
             this.btnTestConnection.Location = new System.Drawing.Point(8, 102);
             this.btnTestConnection.Name = "btnTestConnection";
             this.btnTestConnection.Size = new System.Drawing.Size(128, 35);
             this.btnTestConnection.TabIndex = 10;
             this.btnTestConnection.Values.Text = "Test Connection";
             this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
-            // 
+            //
             // cmbProviderType
-            // 
+            //
             this.cmbProviderType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cmbProviderType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProviderType.DropDownWidth = 256;
@@ -196,18 +195,18 @@ namespace CodeGenerator.DatabaseNavigator
             this.cmbProviderType.Size = new System.Drawing.Size(256, 21);
             this.cmbProviderType.TabIndex = 1;
             this.cmbProviderType.SelectedIndexChanged += new System.EventHandler(this.cmbProviderType_SelectedIndexChanged);
-            // 
+            //
             // btnConnect
-            // 
+            //
             this.btnConnect.Location = new System.Drawing.Point(142, 102);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(128, 35);
             this.btnConnect.TabIndex = 20;
             this.btnConnect.Values.Text = "Connect";
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-            // 
+            //
             // cmbConnectionString
-            // 
+            //
             this.cmbConnectionString.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cmbConnectionString.DropDownWidth = 522;
             this.cmbConnectionString.IntegralHeight = false;
@@ -215,9 +214,9 @@ namespace CodeGenerator.DatabaseNavigator
             this.cmbConnectionString.Name = "cmbConnectionString";
             this.cmbConnectionString.Size = new System.Drawing.Size(522, 21);
             this.cmbConnectionString.TabIndex = 5;
-            // 
+            //
             // btnCancel
-            // 
+            //
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(278, 102);
             this.btnCancel.Name = "btnCancel";
@@ -225,18 +224,18 @@ namespace CodeGenerator.DatabaseNavigator
             this.btnCancel.TabIndex = 25;
             this.btnCancel.Values.Text = "Cancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
+            //
             // lblConnectionStringHelp
-            // 
+            //
             this.lblConnectionStringHelp.Font = new System.Drawing.Font("Courier New", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblConnectionStringHelp.ForeColor = System.Drawing.SystemColors.WindowText;
             this.lblConnectionStringHelp.Location = new System.Drawing.Point(8, 76);
             this.lblConnectionStringHelp.Name = "lblConnectionStringHelp";
             this.lblConnectionStringHelp.Size = new System.Drawing.Size(39, 20);
             this.lblConnectionStringHelp.TabIndex = 26;
-            // 
+            //
             // ServerSettingsForm
-            // 
+            //
             this.AcceptButton = this.btnConnect;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.btnCancel;
@@ -260,7 +259,6 @@ namespace CodeGenerator.DatabaseNavigator
             ((System.ComponentModel.ISupportInitialize)(this.cmbConnectionString)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion Windows Form Designer generated code

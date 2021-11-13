@@ -3,68 +3,73 @@ Code Generator
 
 Code Generator is a database centric template based code generator for any text(ascii) programming language like C, PHP, C#, Visual Basic, Java, Perl, Python... Supported databases are SQL Server, MySQL and PostgreSQL.
 
-## Syntax
+## Documentation
 ### Database
 
 **{DATABASE.NAME}**
-Returns the database name.
+Placeholder for the database name.
+
 ### Table
 
-- **{TABLE.NAME}**
-Returns the table name.
 - **{TABLE.SCHEMA}**
-Returns the table schema.
+Placeholder for the table schema.
+- **{TABLE.NAME}**
+Placeholder for the table name.
 - **{TABLE.COLUMNS}...{/TABLE.COLUMNS}**
-Its a placeholder for the Column tags. Which can have the attributes of PRIMARY, NOPRIMARY or ALL (default) to filter which columns to process.
+Placeholder for the columns. Posisble attributes are: PRIMARY, NOPRIMARY or ALL (default) to filter which columns to process.
+
 ### Columns
 
-- **{COLUMN.TYPE}**
-Returns the column type.
-- **{COLUMN.DEFAULT}**
-Returns the column default value.
 - **{COLUMN.NAME}**
-Returns the column name.
-- **{COLUMN.LENGTH}**
-Returns the column length
+Placeholder for the column's name.
+- **{COLUMN.TYPE}**
+Placeholder for the column's type.
 - **{MAP COLUMN.TYPE}**
-Returns the mapping value to the column type defined in the config file: DataTypeMapping.xml.
-Conditional Statements
+Placeholder for the .NET data type mapped from the source database type. Configurable in the Config.js file.
+- **{COLUMN.LENGTH}**
+Placeholder for the column's length.
+- **{COLUMN.DEFAULT}**
+Placeholder for the column's default value.
 
-- **{IF NOT COLUMN.NULLABLE}{/IF}**
-Condition to test if column is nullable or not.
-- **{IF COLUMN.TYPE EQ ‘int’}{/IF}**
-Condition to test if column equals a SQL type.
+### Conditional Statements
+
 - **{IF COLUMN.NAME =~ ‘Id’}{/IF}**
 Condition to test if the name of the column contains a string.
+- **{IF COLUMN.TYPE EQ ‘int’}{/IF}**
+Condition to test if the type of the column is the specified SQL type.
+- **{IF NOT COLUMN.NULLABLE}{/IF}**
+Condition to test if a column is nullable or not.
 - **{IF NOT LAST},{/IF}**
-Condition to test if it is the last column.
-### Custom
+Condition to test if it is the last column being processed.
+
+### Custom Values
 
 - **{NAME_OF_YOUR_TAG}**
-Custom Values are Key/Value Pairs that you can define to use on a template.
+Custom Values are Key/Value Pairs that you can define to use in a template.
+
+### Examples
 
 ```
 public class {TABLE.NAME PASCAL}Mapping : EntityTypeConfiguration<{TABLE.NAME PASCAL}Model>,IRegisterMapping
 {
-	public {TABLE.NAME PASCAL}Mapping()
-	{
-		ToTable("{TABLE.NAME}");
-
-		{TABLE.COLUMNS}
-		Property(i => i.{COLUMN.NAME PASCAL}).HasColumnName("{COLUMN.NAME}").HasColumnType("{COLUMN.TYPE}"){IF NOT COLUMN.NULLABLE}.IsRequired(){/IF};
-		{/TABLE.COLUMNS}
-	}
+    public {TABLE.NAME PASCAL}Mapping()
+    {
+        ToTable("{TABLE.NAME}");
+        {TABLE.COLUMNS}
+        Property(i => i.{COLUMN.NAME PASCAL}).HasColumnName("{COLUMN.NAME}").HasColumnType("{COLUMN.TYPE}"){IF NOT COLUMN.NULLABLE}.IsRequired(){/IF};
+        {/TABLE.COLUMNS}
+    }
 }
 ```
 
 ```
-public class {TABLE.NAME PASCAL}Model:Entity
+public class {TABLE.NAME PASCAL}Model : IEntity
 {
-	{TABLE.COLUMNS}
-	/// <summary>
-	/// {COLUMN.COMMENT}
-	/// </summary>
-	public {MAP COLUMN.TYPE} {COLUMN.NAME PASCAL} {set;get;}
-	{/TABLE.COLUMNS}
+    {TABLE.COLUMNS}
+    /// <summary>
+    /// {COLUMN.COMMENT}
+    /// </summary>
+    public {MAP COLUMN.TYPE} {COLUMN.NAME PASCAL} {set;get;}
+    {/TABLE.COLUMNS}
 }
 ```

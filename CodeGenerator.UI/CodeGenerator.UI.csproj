@@ -159,15 +159,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseNavigator\ColumnEventArgs.cs" />
-    <Compile Include="DatabaseNavigator\DatabaseEventArgs.cs" />
-    <Compile Include="DatabaseNavigator\NavigatorControl.cs">
+    <Compile Include="Controls\Navigator\EventArgs\ColumnEventArgs.cs" />
+    <Compile Include="Controls\Navigator\EventArgs\DatabaseEventArgs.cs" />
+    <Compile Include="Controls\Navigator\NavigatorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DatabaseNavigator\ServerSettingsForm.cs">
+    <Compile Include="Forms\ConnectionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseNavigator\TableEventArgs.cs" />
+    <Compile Include="Controls\Navigator\EventArgs\TableEventArgs.cs" />
     <Compile Include="Forms\AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,26 +176,26 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FolderEventArgs.cs" />
-    <Compile Include="DockContent\CustomValuesForm.cs">
+    <Compile Include="Controls\DockContent\CustomValuesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DockContent\CustomValuesForm.Designer.cs">
-      <DependentUpon>CustomValuesForm.cs</DependentUpon>
+    <Compile Include="Controls\DockContent\CustomValuesControl.Designer.cs">
+      <DependentUpon>CustomValuesControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="DockContent\DatabaseNavigationForm.cs">
+    <Compile Include="Controls\DockContent\DatabaseNavigationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DockContent\DatabaseNavigationForm.Designer.cs">
-      <DependentUpon>DatabaseNavigationForm.cs</DependentUpon>
+    <Compile Include="Controls\DockContent\DatabaseNavigationControl.Designer.cs">
+      <DependentUpon>DatabaseNavigationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\DirectorySelectionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DockContent\DocumentForm.cs">
+    <Compile Include="Controls\DockContent\DocumentControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DockContent\DocumentForm.Designer.cs">
-      <DependentUpon>DocumentForm.cs</DependentUpon>
+    <Compile Include="Controls\DockContent\DocumentControl.Designer.cs">
+      <DependentUpon>DocumentControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
@@ -203,29 +203,29 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="DockContent\PropertiesForm.cs">
+    <Compile Include="Controls\DockContent\PropertiesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DockContent\PropertiesForm.Designer.cs">
-      <DependentUpon>PropertiesForm.cs</DependentUpon>
+    <Compile Include="Controls\DockContent\PropertiesControl.Designer.cs">
+      <DependentUpon>PropertiesControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="DockContent\ResultForm.cs">
+    <Compile Include="Controls\DockContent\ResultControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DockContent\ResultForm.Designer.cs">
-      <DependentUpon>ResultForm.cs</DependentUpon>
+    <Compile Include="Controls\DockContent\ResultControl.Designer.cs">
+      <DependentUpon>ResultControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="SnippetEventArgs.cs" />
-    <Compile Include="DockContent\SnippetsForm.cs">
+    <Compile Include="Controls\DockContent\SnippetEventArgs.cs" />
+    <Compile Include="Controls\DockContent\SnippetsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DockContent\SnippetsForm.Designer.cs">
-      <DependentUpon>SnippetsForm.cs</DependentUpon>
+    <Compile Include="Controls\DockContent\SnippetsControl.Designer.cs">
+      <DependentUpon>SnippetsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SnippetsHelper.cs">
       <SubType>Code</SubType>
@@ -251,40 +251,40 @@
     <Content Include="Resources\itemplate.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="DatabaseNavigator\NavigatorControl.resx">
+    <EmbeddedResource Include="Controls\Navigator\NavigatorControl.resx">
       <DependentUpon>NavigatorControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseNavigator\ServerSettingsForm.resx">
-      <DependentUpon>ServerSettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ConnectionWindow.resx">
+      <DependentUpon>ConnectionWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DockContent\CustomValuesForm.resx">
-      <DependentUpon>CustomValuesForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\DockContent\CustomValuesControl.resx">
+      <DependentUpon>CustomValuesControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DockContent\DatabaseNavigationForm.resx">
-      <DependentUpon>DatabaseNavigationForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\DockContent\DatabaseNavigationControl.resx">
+      <DependentUpon>DatabaseNavigationControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DirectorySelectionWindow.resx">
       <DependentUpon>DirectorySelectionWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DockContent\DocumentForm.resx">
-      <DependentUpon>DocumentForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\DockContent\DocumentControl.resx">
+      <DependentUpon>DocumentControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DockContent\PropertiesForm.resx">
-      <DependentUpon>PropertiesForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\DockContent\PropertiesControl.resx">
+      <DependentUpon>PropertiesControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="DockContent\ResultForm.resx">
-      <DependentUpon>ResultForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\DockContent\ResultControl.resx">
+      <DependentUpon>ResultControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpdatesWindow.resx">
       <DependentUpon>UpdatesWindow.cs</DependentUpon>

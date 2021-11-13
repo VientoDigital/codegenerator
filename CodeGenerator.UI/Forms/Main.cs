@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using CodeGenerator.Data.Structure;
-using CodeGenerator.DatabaseNavigator;
 using CodeGenerator.Generator;
 using CodeGenerator.UI.Properties;
 using Krypton.Docking;
@@ -27,19 +26,19 @@ namespace CodeGenerator.UI
 
         #region Forms
 
-        private CustomValuesForm customValuesForm;
+        private CustomValuesControl customValuesForm;
 
-        private DatabaseNavigationForm databaseNavigationForm;
+        private DatabaseNavigationControl databaseNavigationForm;
 
-        private DocumentForm documentForm;
+        private DocumentControl documentForm;
 
-        private PropertiesForm propertiesForm;
+        private PropertiesControl propertiesForm;
 
-        private ResultForm resultForm;
+        private ResultControl resultForm;
 
         private KryptonPage resultPage;
 
-        private SnippetsForm snippetsForm;
+        private SnippetsControl snippetsForm;
 
         private KryptonPage templatePage;
 
@@ -232,7 +231,7 @@ namespace CodeGenerator.UI
             {
                 if (documentForm.IsDisposed)
                 {
-                    documentForm = new DocumentForm { Text = "Template" };
+                    documentForm = new DocumentControl { Text = "Template" };
                 }
                 templatePage = NewDocument("Template", documentForm, icon: IconToBitMap(Resources.itemplate));
                 kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { templatePage });
@@ -277,7 +276,7 @@ namespace CodeGenerator.UI
             {
                 if (resultForm.IsDisposed)
                 {
-                    resultForm = new ResultForm { Text = "Results" };
+                    resultForm = new ResultControl { Text = "Results" };
                 }
                 resultPage = NewDocument("Results", resultForm, icon: IconToBitMap(Resources.iresult));
                 kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { resultPage });
@@ -362,18 +361,18 @@ namespace CodeGenerator.UI
             kryptonDockingManager.ManageFloating(this);
 
             // Add initial docking pages
-            databaseNavigationForm = new DatabaseNavigationForm { Text = "Database Navigation" };
+            databaseNavigationForm = new DatabaseNavigationControl { Text = "Database Navigation" };
             databaseNavigationForm.TableSelected += databaseNavigationForm_TableSelected;
             databaseNavigationForm.DatabaseSelected += databaseNavigationForm_DatabaseSelected;
             databaseNavigationForm.ColumnSelected += databaseNavigationForm_ColumnSelected;
 
-            snippetsForm = new SnippetsForm { Text = "Snippets" };
+            snippetsForm = new SnippetsControl { Text = "Snippets" };
             snippetsForm.SnippetSelected += snippetsForm_SnippetSelected;
 
-            documentForm = new DocumentForm { Text = "Template" };
-            resultForm = new ResultForm { Text = "Results" };
-            propertiesForm = new PropertiesForm { Text = "Properties" };
-            customValuesForm = new CustomValuesForm { Text = "Custom Values" };
+            documentForm = new DocumentControl { Text = "Template" };
+            resultForm = new ResultControl { Text = "Results" };
+            propertiesForm = new PropertiesControl { Text = "Properties" };
+            customValuesForm = new CustomValuesControl { Text = "Custom Values" };
 
             templatePage = NewDocument("Template", documentForm, icon: IconToBitMap(Resources.itemplate));
             resultPage = NewDocument("Results", resultForm, icon: IconToBitMap(Resources.iresult));

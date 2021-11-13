@@ -1,6 +1,6 @@
 ﻿namespace CodeGenerator.UI
 {
-    partial class PropertiesForm
+    partial class PropertiesControl
     {
         /// <summary>
         /// Required designer variable.

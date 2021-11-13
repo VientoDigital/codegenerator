@@ -3,9 +3,9 @@ using CodeGenerator.Data.Structure;
 
 namespace CodeGenerator.UI
 {
-    public partial class PropertiesForm : UserControl
+    public partial class PropertiesControl : UserControl
     {
-        public PropertiesForm()
+        public PropertiesControl()
         {
             InitializeComponent();
         }

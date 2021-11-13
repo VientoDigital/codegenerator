@@ -2,9 +2,9 @@
 
 namespace CodeGenerator.UI
 {
-    public partial class ResultForm : UserControl
+    public partial class ResultControl : UserControl
     {
-        public ResultForm()
+        public ResultControl()
         {
             InitializeComponent();
         }

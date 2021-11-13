@@ -17,9 +17,9 @@ namespace CodeGenerator.UI
             Snippets.Add("{TABLE.NAME...", "TABLE.NAME CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER".DelimeterWrap());
             Snippets.Add("{TABLE.COLUMNS...", "TABLE.COLUMNS PRIMARY|NOPRIMARY".DelimeterWrap() + "/TABLE.COLUMNS".DelimeterWrap());
 
-            Snippets.Add("{MAP COLUMN.TYPE...", "MAP COLUMN.TYPE".DelimeterWrap());
             Snippets.Add("{COLUMN.NAME...", "COLUMN.NAME CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER".DelimeterWrap());
             Snippets.Add("{COLUMN.TYPE...", "COLUMN.TYPE".DelimeterWrap());
+            Snippets.Add("{MAP COLUMN.TYPE...", "MAP COLUMN.TYPE".DelimeterWrap());
             Snippets.Add("{COLUMN.LENGTH...", "COLUMN.LENGTH".DelimeterWrap());
             Snippets.Add("{COLUMN.DEFAULT...", "COLUMN.DEFAULT".DelimeterWrap());
 

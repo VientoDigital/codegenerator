@@ -1,7 +1,7 @@
 using System;
 using CodeGenerator.Data.Structure;
 
-namespace CodeGenerator.DatabaseNavigator
+namespace CodeGenerator.UI
 {
     public class DatabaseEventArgs : EventArgs
     {

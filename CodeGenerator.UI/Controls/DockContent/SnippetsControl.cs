@@ -6,9 +6,9 @@ using Krypton.Toolkit;
 
 namespace CodeGenerator.UI
 {
-    public partial class SnippetsForm : UserControl
+    public partial class SnippetsControl : UserControl
     {
-        public SnippetsForm()
+        public SnippetsControl()
         {
             InitializeComponent();
             LoadSnippets();

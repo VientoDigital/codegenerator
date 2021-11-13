@@ -1,8 +1,8 @@
-﻿using CodeGenerator.DatabaseNavigator;
+﻿using CodeGenerator.UI;
 
 namespace CodeGenerator.UI
 {
-    partial class DatabaseNavigationForm
+    partial class DatabaseNavigationControl
     {
         /// <summary>
         /// Required designer variable.

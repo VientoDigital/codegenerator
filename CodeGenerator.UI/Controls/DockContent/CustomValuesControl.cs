@@ -8,9 +8,9 @@ using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.UI
 {
-    public partial class CustomValuesForm : UserControl
+    public partial class CustomValuesControl : UserControl
     {
-        public CustomValuesForm()
+        public CustomValuesControl()
         {
             InitializeComponent();
             gridCustomValues.DataSource = ConfigFile.Instance.CustomValues.ToDataTable();

@@ -1,6 +1,6 @@
 ﻿namespace CodeGenerator.UI
 {
-    partial class ResultForm
+    partial class ResultControl
     {
         /// <summary>
         /// Required designer variable.
