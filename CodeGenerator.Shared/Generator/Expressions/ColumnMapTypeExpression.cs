@@ -20,6 +20,11 @@ namespace CodeGenerator.Generator
                 value = "object";
             }
 
+            if (column.Nullable && value != "string")
+            {
+                value += "?";
+            }
+
             context.Output = Regex.Replace(context.Input, "MAP COLUMN.TYPE".DelimeterWrap(), value);
             context.Input = context.Output;
         }

@@ -20,7 +20,8 @@ namespace CodeGenerator.Data
                     case DataProviderType.MySql: return "SERVER=<SERVER>;UID=<USERNAME>;PWD=<PASSWORD>;";
                     case DataProviderType.Access: return string.Empty;
                     case DataProviderType.PostgresSql: return "Server=<SERVER>;Port=<PORT>;User Id=<USERNAME>;Password=<PASSWORD>;";
-                    case DataProviderType.Oracle: return "Provider=OraOLEDB.Oracle;Password=<PASSWORD>;Persist Security Info=True;User ID=<USERNAME>;Data Source=<DATASOURCE>";
+                    case DataProviderType.Oracle: return "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=<IP)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME = <SERVICENAME>)));User ID=<USERNAME>;Password=<PASSWORD>";
+                    //case DataProviderType.Oracle: return "Provider=OraOLEDB.Oracle;Password=<PASSWORD>;Persist Security Info=True;User ID=<USERNAME>;Data Source=<DATASOURCE>";
                     default: return null;
                 }
             }

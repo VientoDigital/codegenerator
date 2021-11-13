@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using CodeGenerator.Data.Structure;
 using CodeGenerator.DatabaseNavigator;
 using CodeGenerator.Generator;
+using CodeGenerator.UI.Properties;
 using Krypton.Docking;
 using Krypton.Navigator;
 using Krypton.Toolkit;
@@ -50,7 +51,7 @@ namespace CodeGenerator.UI
         {
             InitializeComponent();
             InitializeControls();
-            CheckForUpdates();
+            //CheckForUpdates(); // Commented out, as no longer working
         }
 
         #region Event Handlers
@@ -233,7 +234,7 @@ namespace CodeGenerator.UI
                 {
                     documentForm = new DocumentForm { Text = "Template" };
                 }
-                templatePage = NewDocument("Template", documentForm, icon: IconToBitMap("itemplate.ico"));
+                templatePage = NewDocument("Template", documentForm, icon: IconToBitMap(Resources.itemplate));
                 kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { templatePage });
                 kryptonDockingManager.HidePage(templatePage);
                 kryptonDockingManager.ShowPage(templatePage);
@@ -278,7 +279,7 @@ namespace CodeGenerator.UI
                 {
                     resultForm = new ResultForm { Text = "Results" };
                 }
-                resultPage = NewDocument("Results", resultForm, icon: IconToBitMap("iresult.ico"));
+                resultPage = NewDocument("Results", resultForm, icon: IconToBitMap(Resources.iresult));
                 kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { resultPage });
                 kryptonDockingManager.HidePage(resultPage);
                 kryptonDockingManager.ShowPage(resultPage);
@@ -345,7 +346,12 @@ namespace CodeGenerator.UI
 
         private Bitmap IconToBitMap(string iconName)
         {
-            return new Bitmap(Icon.ExtractAssociatedIcon($@"Resources\{iconName}").ToBitmap(), new Size(16, 16));
+            return IconToBitMap(Icon.ExtractAssociatedIcon($@"Resources\{iconName}"));
+        }
+
+        private Bitmap IconToBitMap(Icon icon)
+        {
+            return new Bitmap(icon.ToBitmap(), new Size(16, 16));
         }
 
         private void InitializeControls()
@@ -369,22 +375,22 @@ namespace CodeGenerator.UI
             propertiesForm = new PropertiesForm { Text = "Properties" };
             customValuesForm = new CustomValuesForm { Text = "Custom Values" };
 
-            templatePage = NewDocument("Template", documentForm, icon: IconToBitMap("itemplate.ico"));
-            resultPage = NewDocument("Results", resultForm, icon: IconToBitMap("iresult.ico"));
+            templatePage = NewDocument("Template", documentForm, icon: IconToBitMap(Resources.itemplate));
+            resultPage = NewDocument("Results", resultForm, icon: IconToBitMap(Resources.iresult));
 
             kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { templatePage, resultPage });
             kryptonDockingManager.AddAutoHiddenGroup("Control", DockingEdge.Left, new KryptonPage[]
             {
-                NewPage("Snippets", snippetsForm, icon: IconToBitMap("isnippet.ico"))
+                NewPage("Snippets", snippetsForm, icon: IconToBitMap(Resources.isnippet))
             });
             kryptonDockingManager.AddDockspace("Control", DockingEdge.Left, new KryptonPage[]
             {
-                NewPage("Database Navigation", databaseNavigationForm, icon: IconToBitMap("idb.ico"))
+                NewPage("Database Navigation", databaseNavigationForm, icon: IconToBitMap(Resources.idb))
             });
             kryptonDockingManager.AddDockspace("Control", DockingEdge.Right, new KryptonPage[]
             {
-                NewPage("Properties", propertiesForm, icon: IconToBitMap("igen.ico")),
-                NewPage("Custom Values", customValuesForm, icon: IconToBitMap("icustom.ico"))
+                NewPage("Properties", propertiesForm, icon: IconToBitMap(Resources.igen)),
+                NewPage("Custom Values", customValuesForm, icon: IconToBitMap(Resources.icustom))
             });
         }
 

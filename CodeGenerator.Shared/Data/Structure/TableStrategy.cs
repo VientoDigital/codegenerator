@@ -17,7 +17,7 @@ namespace CodeGenerator.Data.Structure
                 connection.Open();
             }
 
-            connection.ChangeDatabase(database.Name);
+            //connection.ChangeDatabase(database.Name);
             DataSet set;
             if (Server.ProviderType != DataProviderType.Oracle)
             {
@@ -55,13 +55,17 @@ namespace CodeGenerator.Data.Structure
                 connection.Open();
             }
 
-            connection.ChangeDatabase(database.Name);
-            var ds = ViewSchema(dataAccessProviderFactory, connection);
+            if (Server.ProviderType != DataProviderType.Oracle)
+            {
+                connection.ChangeDatabase(database.Name);
+            }
+
+            var set = ViewSchema(dataAccessProviderFactory, connection);
             connection.Close();
 
-            if (ds.Tables.Count > 0)
+            if (set.Tables.Count > 0)
             {
-                foreach (DataRow row in ds.Tables[0].Rows)
+                foreach (DataRow row in set.Tables[0].Rows)
                 {
                     tables.Add(CreateTable(database, row));
                 }

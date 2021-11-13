@@ -19,12 +19,14 @@ namespace CodeGenerator.Generator
         {
             var directoryInfo = new DirectoryInfo(inputDir);
             var client = new Client();
-            //var originalSd = client.StartDelimiter;
-            //var originalEd = client.EndingDelimiter;
+            var originalSd = client.StartDelimiter;
+            var originalEd = client.EndingDelimiter;
+
             if (CustomValues != null)
             {
                 client.CustomValues = CustomValues;
             }
+
             foreach (var fileInfo in directoryInfo.GetFiles())
             {
                 client.StartDelimiter = "{";//originalSd;
@@ -54,6 +56,9 @@ namespace CodeGenerator.Generator
                     Debug.WriteLine(x);
                 }
             }
+
+            client.StartDelimiter = originalSd;
+            client.EndingDelimiter = originalEd;
             CompleteNotifier(new EventArgs());
         }
 

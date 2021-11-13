@@ -1,4 +1,3 @@
-using System;
 using System.Data;
 
 namespace CodeGenerator.Data.Structure

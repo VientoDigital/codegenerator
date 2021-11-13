@@ -49,7 +49,7 @@ namespace CodeGenerator.Data.Structure
             }
 
             column.Length = row.Field<int>("LENGTH");
-            column.Nullable = row.Field<bool>("Nullable");
+            column.Nullable = Convert.ToBoolean(row.Field<short>("Nullable"));
             column.Default = row.Field<string>("COLUMN_DEF");
             return column;
         }

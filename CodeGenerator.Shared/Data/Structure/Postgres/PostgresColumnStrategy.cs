@@ -63,7 +63,7 @@ ORDER BY 2, 3;", connection);
                 Name = row.Field<string>("attname"),
                 Type = row.Field<string>("atttype"),
                 Length = length >= 0 ? length : row.Field<int>("atttypmod") - 4,
-                Nullable = !row.Field<bool>("attnotnull"),
+                Nullable = !Convert.ToBoolean(row.Field<string>("attnotnull")),
                 Default = row.Field<string>("attdef")
             };
         }
@@ -97,7 +97,7 @@ ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname", connection);
             {
                 Name = row.Field<string>("relname"),
                 ColumnName = row.Field<string>("relname"),
-                IsPrimary = row.Field<bool>("indisprimary")
+                IsPrimary = Convert.ToBoolean(row.Field<string>("indisprimary"))
             };
         }
     }
