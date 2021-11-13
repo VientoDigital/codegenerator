@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 
@@ -49,8 +50,7 @@ namespace CodeGenerator.UI
 
         private void LoadSnippets()
         {
-            var snippetsHelper = new SnippetsHelper();
-            foreach (string key in snippetsHelper.Snippets.Keys)
+            foreach (string key in SnippetsHelper.Snippets.Keys.Reverse())
             {
                 AddSnippetButton(key);
             }

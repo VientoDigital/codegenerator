@@ -5,7 +5,7 @@ namespace CodeGenerator.Data
 {
     public class DataAccessProviderFactory
     {
-        private DataAccessProviderTypeFactory dataAccessProviderTypeFactory;
+        private readonly DataAccessProviderTypeFactory dataAccessProviderTypeFactory;
 
         public DataAccessProviderFactory(DataProviderType providerType)
         {

@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.UI
@@ -6,97 +6,27 @@ namespace CodeGenerator.UI
     /// <summary>
     /// Summary description for SnippetsHelper.
     /// </summary>
-    public class SnippetsHelper
+    public static class SnippetsHelper
     {
-        private readonly Hashtable snippets = new Hashtable();
+        public static IDictionary<string, string> Snippets { get; } = new Dictionary<string, string>();
 
-        public SnippetsHelper()
+        static SnippetsHelper()
         {
-            LoadSnippets();
-        }
+            Snippets.Add("{DATABASE.NAME...", "DATABASE.NAME CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER".DelimeterWrap());
+            Snippets.Add("{TABLE.SCHEMA...", "TABLE.SCHEMA".DelimeterWrap());
+            Snippets.Add("{TABLE.NAME...", "TABLE.NAME CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER".DelimeterWrap());
+            Snippets.Add("{TABLE.COLUMNS...", "TABLE.COLUMNS PRIMARY|NOPRIMARY".DelimeterWrap() + "/TABLE.COLUMNS".DelimeterWrap());
 
-        public Hashtable Snippets => snippets;
+            Snippets.Add("{MAP COLUMN.TYPE...", "MAP COLUMN.TYPE".DelimeterWrap());
+            Snippets.Add("{COLUMN.NAME...", "COLUMN.NAME CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER".DelimeterWrap());
+            Snippets.Add("{COLUMN.TYPE...", "COLUMN.TYPE".DelimeterWrap());
+            Snippets.Add("{COLUMN.LENGTH...", "COLUMN.LENGTH".DelimeterWrap());
+            Snippets.Add("{COLUMN.DEFAULT...", "COLUMN.DEFAULT".DelimeterWrap());
 
-        private void AddColumnDefault()
-        {
-            snippets.Add("{COLUMN.DEFAULT...", "COLUMN.DEFAULT".DelimeterWrap());
-        }
-
-        private void AddColumnLength()
-        {
-            snippets.Add("{COLUMN.LENGTH...", "COLUMN.LENGTH".DelimeterWrap());
-        }
-
-        private void AddColumnName()
-        {
-            snippets.Add("{COLUMN.NAME...", "COLUMN.NAME UPPER|LOWER|CAMEL|HUMAN".DelimeterWrap());
-        }
-
-        private void AddColumnType()
-        {
-            snippets.Add("{COLUMN.TYPE...", "COLUMN.TYPE".DelimeterWrap());
-        }
-
-        private void AddDatabaseName()
-        {
-            snippets.Add("{DATABASE.NAME...", "DATABASE.NAME".DelimeterWrap());
-        }
-
-        private void AddIfColumnName()
-        {
-            snippets.Add("{IF COLUMN.NAME...", "IF COLUMN.NAME =~|!~ 'text'".DelimeterWrap() + "/IF".DelimeterWrap());
-        }
-
-        private void AddIfColumnNullable()
-        {
-            snippets.Add("{IF COLUMN.NULLABLE...", "IF NOT COLUMN.NULLABLE".DelimeterWrap() + "/IF".DelimeterWrap());
-        }
-
-        private void AddIfColumnType()
-        {
-            snippets.Add("{IF COLUMN.TYPE...", "IF COLUMN.TYPE EQ|NE ''".DelimeterWrap() + "/IF".DelimeterWrap());
-        }
-
-        private void AddIfLast()
-        {
-            snippets.Add("{IF LAST...", "IF NOT LAST".DelimeterWrap() + "/IF".DelimeterWrap());
-        }
-
-        private void AddMapColumnType()
-        {
-            snippets.Add("{MAP COLUMN.TYPE...", "MAP COLUMN.TYPE".DelimeterWrap());
-        }
-
-        private void AddTableColumns()
-        {
-            snippets.Add("{TABLE.COLUMNS...", "TABLE.COLUMNS PRIMARY|NOPRIMARY".DelimeterWrap() + "/TABLE.COLUMNS".DelimeterWrap());
-        }
-
-        private void AddTableName()
-        {
-            snippets.Add("{TABLE.NAME...", "TABLE.NAME".DelimeterWrap());
-        }
-
-        private void AddTableSchema()
-        {
-            snippets.Add("{TABLE.SCHEMA...", "TABLE.SCHEMA".DelimeterWrap());
-        }
-
-        private void LoadSnippets()
-        {
-            AddDatabaseName();
-            AddTableName();
-            AddTableSchema();
-            AddColumnType();
-            AddIfColumnName();
-            AddMapColumnType();
-            AddColumnLength();
-            AddIfColumnType();
-            AddIfColumnNullable();
-            AddIfLast();
-            AddColumnDefault();
-            AddColumnName();
-            AddTableColumns();
+            Snippets.Add("{IF COLUMN.NAME...", "IF COLUMN.NAME =~|!~ 'text'".DelimeterWrap() + "/IF".DelimeterWrap());
+            Snippets.Add("{IF COLUMN.TYPE...", "IF COLUMN.TYPE EQ|NE ''".DelimeterWrap() + "/IF".DelimeterWrap());
+            Snippets.Add("{IF COLUMN.NULLABLE...", "IF NOT COLUMN.NULLABLE".DelimeterWrap() + "/IF".DelimeterWrap());
+            Snippets.Add("{IF LAST...", "IF NOT LAST".DelimeterWrap() + "/IF".DelimeterWrap());
         }
     }
 }

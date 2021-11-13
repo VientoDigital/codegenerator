@@ -7,14 +7,19 @@ using Krypton.Toolkit;
 
 namespace CodeGenerator.DatabaseNavigator
 {
+    // TODO: Support generating files for multiple tables at once.. we need to set Checkboxes enabled on the treeView and then:
+    //  disable for database nodes (only show checkboxes on table nodes) by using this solution:
+    //  https://stackoverflow.com/questions/698369/how-to-disable-a-winforms-treeview-node-checkbox
+    // Then we can iterate through the selected tables and generate the files from the selected templates.
+
     public class NavigatorControl : UserControl
     {
-        private IContainer container;
+        //private readonly IContainer container;
 
         private ImageList imageList;
 
         private TreeNode rootNode;
-
+        private IContainer components;
         private KryptonTreeView treeView;
 
         public NavigatorControl()
@@ -94,10 +99,10 @@ namespace CodeGenerator.DatabaseNavigator
         {
             if (disposing)
             {
-                if (container != null)
-                {
-                    container.Dispose();
-                }
+                //if (container != null)
+                //{
+                //    container.Dispose();
+                //}
             }
             base.Dispose(disposing);
         }
@@ -294,36 +299,43 @@ namespace CodeGenerator.DatabaseNavigator
         /// </summary>
         private void InitializeComponent()
         {
-            this.container = new System.ComponentModel.Container();
-            System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NavigatorControl));
-            this.treeView = new KryptonTreeView();
-            this.imageList = new System.Windows.Forms.ImageList(this.container);
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorControl));
+            this.treeView = new Krypton.Toolkit.KryptonTreeView();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
-            //
-            // uiNavigatorTreeView
-            //
+            // 
+            // treeView
+            // 
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView.ImageIndex = 0;
             this.treeView.ImageList = this.imageList;
             this.treeView.Location = new System.Drawing.Point(0, 0);
-            this.treeView.Name = "uiNavigatorTreeView";
+            this.treeView.Name = "treeView";
+            this.treeView.SelectedImageIndex = 0;
             this.treeView.Size = new System.Drawing.Size(150, 150);
             this.treeView.TabIndex = 0;
-            this.treeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
-            this.treeView.Controls[0].DoubleClick += new System.EventHandler(this.treeView_DoubleClick);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
-            //
-            // uiNavigatorImageList
-            //
-            this.imageList.ImageSize = new System.Drawing.Size(16, 16);
+            this.treeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
+            // 
+            // imageList
+            // 
             this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            //
+            this.imageList.Images.SetKeyName(0, "");
+            this.imageList.Images.SetKeyName(1, "");
+            this.imageList.Images.SetKeyName(2, "");
+            this.imageList.Images.SetKeyName(3, "");
+            this.imageList.Images.SetKeyName(4, "");
+            this.imageList.Images.SetKeyName(5, "");
+            // 
             // NavigatorControl
-            //
+            // 
             this.Controls.Add(this.treeView);
             this.Name = "NavigatorControl";
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
             this.ResumeLayout(false);
+
         }
 
         #endregion Component Designer generated code

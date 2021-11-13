@@ -255,7 +255,7 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void snippetsForm_SnippetSelected(object sender, SnippetEventArgs args)
         {
-            documentForm.ContentText = documentForm.ContentText.Insert(documentForm.SelectionStart, new SnippetsHelper().Snippets[args.Snippet].ToString());
+            documentForm.ContentText = documentForm.ContentText.Insert(documentForm.SelectionStart, SnippetsHelper.Snippets[args.Snippet].ToString());
         }
 
         #endregion Event Handlers

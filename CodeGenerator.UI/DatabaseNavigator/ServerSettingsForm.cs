@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
+using CodeGenerator.Shared.Extensions;
 using Krypton.Toolkit;
 
 namespace CodeGenerator.DatabaseNavigator
@@ -12,7 +13,7 @@ namespace CodeGenerator.DatabaseNavigator
     public class ServerSettingsForm : KryptonForm
     {
         private KryptonButton btnCancel;
-        private KryptonButton btnSaveConnection;
+        private KryptonButton btnConnect;
         private KryptonButton btnTestConnection;
         private KryptonComboBox cmbConnectionString;
         private KryptonComboBox cmbProviderType;
@@ -31,9 +32,15 @@ namespace CodeGenerator.DatabaseNavigator
             cmbProviderType.Items.Add(new DataAccessProviderInfo(DataProviderType.PostgresSql));
             cmbProviderType.Items.Add(new DataAccessProviderInfo(DataProviderType.Oracle));
             cmbProviderType.DisplayMember = "Name";
+            cmbProviderType.SelectedIndex = 0;
 
             cmbConnectionString.Items.Clear();
-            cmbConnectionString.Items.AddRange(ConfigFile.Instance.ConnectionStrings.ToArray());
+
+            if (!ConfigFile.Instance.ConnectionStrings.IsNullOrEmpty())
+            {
+                cmbConnectionString.Items.AddRange(ConfigFile.Instance.ConnectionStrings.ToArray());
+                cmbConnectionString.SelectedIndex = 0;
+            }
 
             if (Server.ConnectionString.Length > 0)
             {
@@ -62,46 +69,60 @@ namespace CodeGenerator.DatabaseNavigator
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
-        private void btnSaveConnection_Click(object sender, EventArgs e)
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (TestConnection())
+            {
+                Server.ProviderType = ((DataAccessProviderInfo)cmbProviderType.SelectedItem).ProviderType;
+                bool isNewConnectionString = cmbConnectionString.SelectedIndex == -1;
+                string selectedConnectionString = cmbConnectionString.Text.Trim();
+
+                if (isNewConnectionString)
+                {
+                    ConfigFile.Instance.ConnectionStrings.Add(selectedConnectionString);
+                }
+
+                Server.ConnectionString = selectedConnectionString;
+
+                DialogResult = DialogResult.OK;
+                Hide();
+            }
+        }
+
+        private bool TestConnection()
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                Server.ProviderType = ((DataAccessProviderInfo)cmbProviderType.SelectedItem).ProviderType;
-                bool IsNewConnectionString = cmbConnectionString.SelectedIndex == -1;
+                var dataAccessProviderFactory = new DataAccessProviderFactory(((DataAccessProviderInfo)cmbProviderType.SelectedItem).ProviderType);
 
-                if (IsNewConnectionString)
+                try
                 {
-                    ConfigFile.Instance.ConnectionStrings.Add(cmbConnectionString.Text.Trim());
+                    using (var connection = dataAccessProviderFactory.CreateConnection(cmbConnectionString.Text.Trim()))
+                    {
+                        connection.Open();
+                        return true;
+                    }
                 }
-                Server.ConnectionString = cmbConnectionString.Text.Trim();
+                catch (Exception x)
+                {
+                    MessageBox.Show(x.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
-            DialogResult = DialogResult.OK;
-            Hide();
+            else
+            {
+                MessageBox.Show("Please select a provider!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            return false;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void btnTestConnection_Click(object sender, EventArgs e)
         {
-            if (cmbProviderType.SelectedIndex >= 0)
+            if (TestConnection())
             {
-                var dataAccessProviderFactory = new DataAccessProviderFactory(((DataAccessProviderInfo)cmbProviderType.SelectedItem).ProviderType);
-                IDbConnection connection = dataAccessProviderFactory.CreateConnection(cmbConnectionString.Text.Trim());
-                try
-                {
-                    connection.Open();
-                    MessageBox.Show("Connection Succesfull");
-                }
-                catch (Exception x)
-                {
-                    MessageBox.Show(x.Message);
-                }
-                finally
-                {
-                    if (connection.State != ConnectionState.Closed)
-                    {
-                        connection.Close();
-                    }
-                }
+                MessageBox.Show("Connected successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -130,7 +151,7 @@ namespace CodeGenerator.DatabaseNavigator
             this.lblProviderType = new Krypton.Toolkit.KryptonLabel();
             this.btnTestConnection = new Krypton.Toolkit.KryptonButton();
             this.cmbProviderType = new Krypton.Toolkit.KryptonComboBox();
-            this.btnSaveConnection = new Krypton.Toolkit.KryptonButton();
+            this.btnConnect = new Krypton.Toolkit.KryptonButton();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmbConnectionString = new Krypton.Toolkit.KryptonComboBox();
             this.btnCancel = new Krypton.Toolkit.KryptonButton();
@@ -138,61 +159,65 @@ namespace CodeGenerator.DatabaseNavigator
             ((System.ComponentModel.ISupportInitialize)(this.cmbProviderType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbConnectionString)).BeginInit();
             this.SuspendLayout();
-            //
+            // 
             // lblConnectionString
-            //
+            // 
             this.lblConnectionString.Location = new System.Drawing.Point(8, 35);
             this.lblConnectionString.Name = "lblConnectionString";
             this.lblConnectionString.Size = new System.Drawing.Size(109, 20);
             this.lblConnectionString.TabIndex = 0;
             this.lblConnectionString.Values.Text = "Connection String";
-            //
+            // 
             // lblProviderType
-            //
+            // 
             this.lblProviderType.Location = new System.Drawing.Point(8, 8);
             this.lblProviderType.Name = "lblProviderType";
             this.lblProviderType.Size = new System.Drawing.Size(85, 20);
             this.lblProviderType.TabIndex = 1;
             this.lblProviderType.Values.Text = "Provider Type";
-            //
+            // 
             // btnTestConnection
-            //
+            // 
             this.btnTestConnection.Location = new System.Drawing.Point(8, 102);
             this.btnTestConnection.Name = "btnTestConnection";
             this.btnTestConnection.Size = new System.Drawing.Size(128, 35);
             this.btnTestConnection.TabIndex = 10;
             this.btnTestConnection.Values.Text = "Test Connection";
             this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
-            //
+            // 
             // cmbProviderType
-            //
+            // 
+            this.cmbProviderType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cmbProviderType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProviderType.DropDownWidth = 256;
+            this.cmbProviderType.IntegralHeight = false;
             this.cmbProviderType.Location = new System.Drawing.Point(150, 8);
             this.cmbProviderType.Name = "cmbProviderType";
             this.cmbProviderType.Size = new System.Drawing.Size(256, 21);
             this.cmbProviderType.TabIndex = 1;
             this.cmbProviderType.SelectedIndexChanged += new System.EventHandler(this.cmbProviderType_SelectedIndexChanged);
-            //
-            // btnSaveConnection
-            //
-            this.btnSaveConnection.Location = new System.Drawing.Point(142, 102);
-            this.btnSaveConnection.Name = "btnSaveConnection";
-            this.btnSaveConnection.Size = new System.Drawing.Size(128, 35);
-            this.btnSaveConnection.TabIndex = 20;
-            this.btnSaveConnection.Values.Text = "Save Connection";
-            this.btnSaveConnection.Click += new System.EventHandler(this.btnSaveConnection_Click);
-            //
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(142, 102);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(128, 35);
+            this.btnConnect.TabIndex = 20;
+            this.btnConnect.Values.Text = "Connect";
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // cmbConnectionString
-            //
+            // 
+            this.cmbConnectionString.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cmbConnectionString.DropDownWidth = 522;
+            this.cmbConnectionString.IntegralHeight = false;
             this.cmbConnectionString.Location = new System.Drawing.Point(150, 35);
             this.cmbConnectionString.Name = "cmbConnectionString";
             this.cmbConnectionString.Size = new System.Drawing.Size(522, 21);
             this.cmbConnectionString.TabIndex = 5;
-            //
+            // 
             // btnCancel
-            //
+            // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(278, 102);
             this.btnCancel.Name = "btnCancel";
@@ -200,19 +225,19 @@ namespace CodeGenerator.DatabaseNavigator
             this.btnCancel.TabIndex = 25;
             this.btnCancel.Values.Text = "Cancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            //
+            // 
             // lblConnectionStringHelp
-            //
+            // 
             this.lblConnectionStringHelp.Font = new System.Drawing.Font("Courier New", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblConnectionStringHelp.ForeColor = System.Drawing.SystemColors.WindowText;
             this.lblConnectionStringHelp.Location = new System.Drawing.Point(8, 76);
             this.lblConnectionStringHelp.Name = "lblConnectionStringHelp";
             this.lblConnectionStringHelp.Size = new System.Drawing.Size(39, 20);
             this.lblConnectionStringHelp.TabIndex = 26;
-            //
+            // 
             // ServerSettingsForm
-            //
-            this.AcceptButton = this.btnSaveConnection;
+            // 
+            this.AcceptButton = this.btnConnect;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(684, 157);
@@ -223,7 +248,7 @@ namespace CodeGenerator.DatabaseNavigator
             this.Controls.Add(this.lblProviderType);
             this.Controls.Add(this.btnTestConnection);
             this.Controls.Add(this.cmbProviderType);
-            this.Controls.Add(this.btnSaveConnection);
+            this.Controls.Add(this.btnConnect);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -235,6 +260,7 @@ namespace CodeGenerator.DatabaseNavigator
             ((System.ComponentModel.ISupportInitialize)(this.cmbConnectionString)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion Windows Form Designer generated code
