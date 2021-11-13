@@ -13,8 +13,12 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
-            context.Output = Regex.Replace(context.Input, "COLUMN.DEFAULT".DelimeterWrap(), column.Default);
-            context.Input = context.Output;
+
+            if (column.Default != null)
+            {
+                context.Output = Regex.Replace(context.Input, "COLUMN.DEFAULT".DelimeterWrap(), column.Default);
+                context.Input = context.Output;
+            }
         }
     }
 }

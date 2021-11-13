@@ -11,7 +11,7 @@ namespace CodeGenerator.Generator
             get
             {
                 return @"\s*" +
-                    @"IF COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+'(?<typeValue>[a-zA-Z0-9_)(|]+)'".DelimeterWrap() +
+                    @"IF COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+('|‘)(?<typeValue>[a-zA-Z0-9_)(|]+)('|’)".DelimeterWrap() +
                     //Content between IF tags
                     "(?<content>.+?)" +
                     "/IF".DelimeterWrap() +
@@ -52,6 +52,7 @@ namespace CodeGenerator.Generator
                         isAMatch = true;
                         break;
                     }
+                    // TODO: Possible bug to fix (https://github.com/VientoDigital/codegenerator/issues/2)
                     else if (isNotEqual && (column.Type.ToLower() != valueStrings[i].ToLower()))
                     {
                         ReplaceContent(match.Value, replacementString, ref inputString);
