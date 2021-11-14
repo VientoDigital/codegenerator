@@ -7,7 +7,14 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;", connection);
+
+            var command = providerFactory.CreateCommand(
+@"SELECT ""table_schema"" AS ""Schema"", ""table_name"" AS ""Name"", ""table_type"" AS ""Type""
+FROM information_schema.""tables""
+WHERE ""table_schema"" NOT IN('information_schema', 'pg_catalog')
+AND ""table_type"" = 'BASE TABLE'
+ORDER BY ""table_name""", connection);
+
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
@@ -15,9 +22,22 @@ namespace CodeGenerator.Data.Structure
             return set;
         }
 
-        protected override DataSet ViewSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
-            return new DataSet();
+            var set = new DataSet();
+
+            var command = providerFactory.CreateCommand(
+@"SELECT ""table_schema"" AS ""Schema"", ""table_name"" AS ""Name"", ""table_type"" AS ""Type""
+FROM information_schema.""tables""
+WHERE ""table_schema"" NOT IN('information_schema', 'pg_catalog')
+AND ""table_type"" = 'VIEW'
+ORDER BY ""table_name""", connection);
+
+            command.CommandType = CommandType.Text;
+            var adapter = providerFactory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
 
         protected override Table CreateTable(Database database, DataRow row)
@@ -25,8 +45,8 @@ namespace CodeGenerator.Data.Structure
             return new Table
             {
                 ParentDatabase = database,
-                Name = row.Field<string>("tablename"),
-                Schema = string.Empty
+                Schema = row.Field<string>("Schema"),
+                Name = row.Field<string>("Name")
             };
         }
     }

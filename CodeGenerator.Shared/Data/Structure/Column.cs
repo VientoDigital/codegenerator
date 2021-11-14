@@ -4,14 +4,14 @@ namespace CodeGenerator.Data.Structure
 {
     public class Column
     {
-        private Table parentTable;
+        [Browsable(false), ReadOnly(true)]
+        public Table ParentTable { get; set; }
 
-        public Column()
-        {
-        }
+        [Category("Column"), ReadOnly(true)]
+        public string Name { get; set; }
 
         [Category("Column")]
-        public string Default { get; set; }
+        public string Type { get; set; }
 
         [Category("Column"), ReadOnly(true)]
         public bool IsPrimaryKey { get; set; }
@@ -19,21 +19,10 @@ namespace CodeGenerator.Data.Structure
         [Category("Column")]
         public int Length { get; set; }
 
-        [Category("Column"), ReadOnly(true)]
-        public string Name { get; set; }
-
         [Category("Column")]
         public bool Nullable { get; set; }
 
-        [Browsable(false), ReadOnly(true)]
-        public Table ParentTable => parentTable;
-
         [Category("Column")]
-        public string Type { get; set; }
-
-        internal void SetParentTable(Table table)
-        {
-            parentTable = table;
-        }
+        public string Default { get; set; }
     }
 }

@@ -75,13 +75,13 @@ namespace CodeGenerator.Data.Structure
 
         protected abstract Table CreateTable(Database database, DataRow row);
 
-        protected abstract DataSet TableSchema(ProviderFactory dataAccessProvider, IDbConnection connection);
+        protected abstract DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection);
 
-        protected virtual DataSet TableSchema(ProviderFactory dataAccessProvider, IDbConnection connection, Database database)
+        protected virtual DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection, Database database)
         {
             throw new NotImplementedException();
         }
 
-        protected abstract DataSet ViewSchema(ProviderFactory dataAccessProvider, IDbConnection connection);
+        protected abstract DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection);
     }
 }

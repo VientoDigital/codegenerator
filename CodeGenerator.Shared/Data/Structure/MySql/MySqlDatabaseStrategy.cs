@@ -1,27 +1,15 @@
 using System.Collections.Generic;
-using System.Data;
+using System.Data.Common;
+using Extenso.Data.MySql;
+using MySql.Data.MySqlClient;
 
 namespace CodeGenerator.Data.Structure
 {
     public class MySqlDatabaseStrategy : DatabaseStrategy
     {
-        protected override Database CreateDatabase(DataRow row, ICollection<Database> databases)
+        protected override IEnumerable<string> GetDatabaseNames(DbConnection connection)
         {
-            return new Database
-            {
-                Name = row.Field<string>("DATABASE")
-            };
-        }
-
-        protected override DataSet DatabaseSchema(ProviderFactory providerFactory, IDbConnection connection)
-        {
-            var set = new DataSet();
-            var command = providerFactory.CreateCommand("show databases", connection);
-            command.CommandType = CommandType.Text;
-            var adapter = providerFactory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-            adapter.Fill(set);
-            return set;
+            return (connection as MySqlConnection).GetDatabaseNames();
         }
     }
 }

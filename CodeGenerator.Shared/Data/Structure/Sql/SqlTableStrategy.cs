@@ -7,10 +7,13 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("SELECT s.name AS [SCHEMA], t.name AS [NAME], t.type AS type " +
-                            "FROM sys.tables t " +
-                            "INNER JOIN sys.schemas s ON t.schema_id = s.schema_id " +
-                            "ORDER BY s.name, t.name", connection);
+
+            var command = providerFactory.CreateCommand(
+@"SELECT S.[name] AS [Schema], T.[name] AS [Name], T.[type] AS [Type]
+FROM sys.tables T
+INNER JOIN sys.schemas S ON T.[schema_id] = S.[schema_id]
+ORDER BY S.[name], T.[name]", connection);
+
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
@@ -21,10 +24,13 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("SELECT s.name AS [SCHEMA], v.name AS [NAME], v.type AS type " +
-                          "FROM sys.views v  " +
-                          "INNER JOIN sys.schemas s ON v.schema_id = s.schema_id " +
-                          "ORDER BY s.name, v.name ", connection);
+
+            var command = providerFactory.CreateCommand(
+@"SELECT S.[name] AS [Schema], V.[name] AS [Name], V.[type] AS [Type]
+FROM sys.views V
+INNER JOIN sys.schemas S ON V.[schema_id] = S.[schema_id]
+ORDER BY S.[name], V.[name]", connection);
+
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
@@ -37,8 +43,8 @@ namespace CodeGenerator.Data.Structure
             return new Table
             {
                 ParentDatabase = database,
-                Schema = row.Field<string>("SCHEMA"),
-                Name = row.Field<string>("NAME")
+                Schema = row.Field<string>("Schema"),
+                Name = row.Field<string>("Name")
             };
         }
     }

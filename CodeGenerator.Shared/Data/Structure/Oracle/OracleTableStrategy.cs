@@ -4,7 +4,17 @@ namespace CodeGenerator.Data.Structure
 {
     public class OracleTableStrategy : TableStrategy
     {
-        protected override DataSet TableSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override Table CreateTable(Database database, DataRow row)
+        {
+            return new Table
+            {
+                ParentDatabase = database,
+                Name = row.Field<string>("table_name"),
+                Schema = string.Empty
+            };
+        }
+
+        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             return new DataSet();
         }
@@ -20,17 +30,7 @@ namespace CodeGenerator.Data.Structure
             return set;
         }
 
-        protected override Table CreateTable(Database database, DataRow row)
-        {
-            return new Table
-            {
-                ParentDatabase = database,
-                Name = row.Field<string>("table_name"),
-                Schema = string.Empty
-            };
-        }
-
-        protected override DataSet ViewSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             return new DataSet();
         }

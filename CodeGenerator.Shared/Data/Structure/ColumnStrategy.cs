@@ -38,7 +38,7 @@ namespace CodeGenerator.Data.Structure
             foreach (DataRow row in set.Tables[0].Rows)
             {
                 var column = CreateColumn(row);
-                column.SetParentTable(table);
+                column.ParentTable = table;
                 foreach (Key key in table.Keys)
                 {
                     if (key.IsPrimary)
@@ -56,7 +56,7 @@ namespace CodeGenerator.Data.Structure
             return Columns;
         }
 
-        protected abstract DataSet ColumnSchema(Table table, ProviderFactory dataAccessProvider, IDbConnection connection);
+        protected abstract DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection);
 
         protected abstract Column CreateColumn(DataRow row);
 
@@ -80,7 +80,7 @@ namespace CodeGenerator.Data.Structure
             return Keys;
         }
 
-        protected abstract DataSet KeySchema(Table table, ProviderFactory dataAccessProvider, IDbConnection connection);
+        protected abstract DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection);
 
         protected abstract Key CreateKey(DataRow row);
     }

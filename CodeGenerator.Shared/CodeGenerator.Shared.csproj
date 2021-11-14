@@ -9,6 +9,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Extenso.Core" Version="5.0.1" />
+    <PackageReference Include="Extenso.Data" Version="5.0.0" />
+    <PackageReference Include="Extenso.Data.MySql" Version="5.0.0" />
+    <PackageReference Include="Extenso.Data.Npgsql" Version="5.0.1" />
     <PackageReference Include="Google.Protobuf" Version="3.19.1" />
     <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.15" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

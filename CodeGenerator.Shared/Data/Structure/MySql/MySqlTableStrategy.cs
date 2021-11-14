@@ -7,7 +7,7 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("show tables", connection);
+            var command = providerFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'BASE TABLE'", connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
@@ -15,9 +15,15 @@ namespace CodeGenerator.Data.Structure
             return set;
         }
 
-        protected override DataSet ViewSchema(ProviderFactory dataAccessProvider, IDbConnection connection)
+        protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
-            return new DataSet();
+            var set = new DataSet();
+            var command = providerFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'VIEW'", connection);
+            command.CommandType = CommandType.Text;
+            var adapter = providerFactory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set;
         }
 
         protected override Table CreateTable(Database database, DataRow row)
@@ -25,8 +31,8 @@ namespace CodeGenerator.Data.Structure
             return new Table
             {
                 ParentDatabase = database,
-                Name = row.Field<string>(0),
-                Schema = string.Empty
+                Schema = string.Empty,
+                Name = row.Field<string>(0)
             };
         }
     }

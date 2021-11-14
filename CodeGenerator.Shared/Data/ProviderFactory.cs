@@ -37,7 +37,7 @@ namespace CodeGenerator.Data
             return command;
         }
 
-        public IDbConnection CreateConnection(string connectionString)
+        public DbConnection CreateConnection(string connectionString)
         {
             var connection = DbProviderFactory.CreateConnection();
             connection.ConnectionString = connectionString;
