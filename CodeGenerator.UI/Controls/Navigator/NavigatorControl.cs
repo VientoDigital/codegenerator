@@ -225,57 +225,57 @@ namespace CodeGenerator.UI
         // Column Activate
         private void SetColumnMenu()
         {
-            var contextMenu = new ContextMenu();
+            var contextMenu = new ContextMenuStrip();
 
-            var mnuProperties = new MenuItem("Properties");
+            var mnuProperties = new ToolStripMenuItem("Properties");
             mnuProperties.Click += mnuProperties_Click;
-            contextMenu.MenuItems.Add(mnuProperties);
+            contextMenu.Items.Add(mnuProperties);
 
-            var mnuRemove = new MenuItem("Remove");
+            var mnuRemove = new ToolStripMenuItem("Remove");
             mnuRemove.Click += mnuRemove_Click;
-            contextMenu.MenuItems.Add(mnuRemove);
+            contextMenu.Items.Add(mnuRemove);
 
-            ContextMenu = contextMenu;
+            ContextMenuStrip = contextMenu;
         }
 
         // Database Activate
         private void SetDatabaseMenu()
         {
-            var contextMenu = new ContextMenu();
-            var openMenuItem = new MenuItem("Open");
+            var contextMenu = new ContextMenuStrip();
+            var openMenuItem = new ToolStripMenuItem("Open");
             openMenuItem.Click += openMenuItem_Click;
-            contextMenu.MenuItems.Add(openMenuItem);
-            ContextMenu = contextMenu;
+            contextMenu.Items.Add(openMenuItem);
+            ContextMenuStrip = contextMenu;
         }
 
         // Server Activate
         private void SetDefaultMenu()
         {
-            var contextMenu = new ContextMenu();
+            var contextMenu = new ContextMenuStrip();
 
-            var mnuConnect = new MenuItem("Connect");
+            var mnuConnect = new ToolStripMenuItem("Connect");
             mnuConnect.Click += mnuConnect_Click;
-            contextMenu.MenuItems.Add(mnuConnect);
+            contextMenu.Items.Add(mnuConnect);
 
-            var mnuDisconnect = new MenuItem("Disconnect");
+            var mnuDisconnect = new ToolStripMenuItem("Disconnect");
             mnuDisconnect.Click += mnuDisconnect_Click;
-            contextMenu.MenuItems.Add(mnuDisconnect);
+            contextMenu.Items.Add(mnuDisconnect);
 
-            var mnuEditConnection = new MenuItem("Edit Connection");
+            var mnuEditConnection = new ToolStripMenuItem("Edit Connection");
             mnuEditConnection.Click += mnuEditConnection_Click;
-            contextMenu.MenuItems.Add(mnuEditConnection);
+            contextMenu.Items.Add(mnuEditConnection);
 
-            ContextMenu = contextMenu;
+            ContextMenuStrip = contextMenu;
         }
 
         // Table Activate
         private void SetTableMenu()
         {
-            var contextMenu = new ContextMenu();
-            var mnuOpen = new MenuItem("Open");
+            var contextMenu = new ContextMenuStrip();
+            var mnuOpen = new ToolStripMenuItem("Open");
             mnuOpen.Click += mnuOpen_Click;
-            contextMenu.MenuItems.Add(mnuOpen);
-            ContextMenu = contextMenu;
+            contextMenu.Items.Add(mnuOpen);
+            ContextMenuStrip = contextMenu;
         }
 
         #region Component Designer generated code

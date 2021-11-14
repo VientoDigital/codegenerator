@@ -1,16 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0BA9AB83-7E8B-4E80-8A79-6F450AFD5336}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>Resources\icode64.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>CodeGenerator.UI</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
@@ -18,16 +12,9 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CodeGenerator.UI</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>CodeGenerator.UI.Program</StartupObject>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <ManifestCertificateThumbprint>7A00BC547B4D7131B665454A7BE4970D09D748BF</ManifestCertificateThumbprint>
     <ManifestKeyFile>iCodeGeneratorGui_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
@@ -47,64 +34,42 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn>
     </NoWarn>
-    <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-    <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
-    <DebugSymbols>false</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn>
     </NoWarn>
-    <Optimize>true</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AutomatedDebug|AnyCPU' ">
     <OutputPath>..\..\build\Debug\iCodeGeneratorGui\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -115,204 +80,46 @@
     <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-    <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Krypton.Docking, Version=6.2111.312.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Docking.6.2111.312\lib\net48\Krypton.Docking.dll</HintPath>
-    </Reference>
-    <Reference Include="Krypton.Navigator, Version=6.2111.312.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Navigator.6.2111.312\lib\net48\Krypton.Navigator.dll</HintPath>
-    </Reference>
-    <Reference Include="Krypton.Toolkit, Version=6.2111.312.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Toolkit.6.2111.312\lib\net48\Krypton.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="Krypton.Workspace, Version=6.2111.312.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Workspace.6.2111.312\lib\net48\Krypton.Workspace.dll</HintPath>
-    </Reference>
-    <Reference Include="System">
+    <Reference Update="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.Core">
+    <Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data">
+    <Reference Update="System.Data">
       <Name>System.Data</Name>
     </Reference>
-    <Reference Include="System.Design" />
-    <Reference Include="System.Drawing">
+    <Reference Update="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
-    </Reference>
-    <Reference Include="System.Xml">
+    <Reference Update="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\CodeGenerator.Shared\CodeGenerator.Shared.csproj">
-      <Project>{06e6629d-ecb3-4df9-96e0-9c15305769d9}</Project>
-      <Name>CodeGenerator.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Navigator\EventArgs\ColumnEventArgs.cs" />
-    <Compile Include="Controls\Navigator\EventArgs\DatabaseEventArgs.cs" />
-    <Compile Include="Controls\Navigator\NavigatorControl.cs">
+    <Compile Update="Controls\Navigator\NavigatorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\DocumentationWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ConnectionWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\Navigator\EventArgs\TableEventArgs.cs" />
-    <Compile Include="Forms\AboutWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FolderEventArgs.cs" />
-    <Compile Include="Controls\DockContent\CustomValuesControl.cs">
+    <Compile Update="Controls\DockContent\CustomValuesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DockContent\CustomValuesControl.Designer.cs">
-      <DependentUpon>CustomValuesControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DockContent\DatabaseNavigationControl.cs">
+    <Compile Update="Controls\DockContent\DatabaseNavigationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DockContent\DatabaseNavigationControl.Designer.cs">
-      <DependentUpon>DatabaseNavigationControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\DirectorySelectionWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\DockContent\DocumentControl.cs">
+    <Compile Update="Controls\DockContent\DocumentControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DockContent\DocumentControl.Designer.cs">
-      <DependentUpon>DocumentControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DockContent\PropertiesControl.cs">
+    <Compile Update="Controls\DockContent\PropertiesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DockContent\PropertiesControl.Designer.cs">
-      <DependentUpon>PropertiesControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DockContent\ResultControl.cs">
+    <Compile Update="Controls\DockContent\ResultControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DockContent\ResultControl.Designer.cs">
-      <DependentUpon>ResultControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DockContent\SnippetEventArgs.cs" />
-    <Compile Include="Controls\DockContent\SnippetsControl.cs">
+    <Compile Update="Controls\DockContent\SnippetsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DockContent\SnippetsControl.Designer.cs">
-      <DependentUpon>SnippetsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SnippetsHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Forms\UpdatesWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Content Include="Resources\icustom.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\idb.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\igen.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\iresult.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\isnippet.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\itemplate.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="Controls\Navigator\NavigatorControl.resx">
-      <DependentUpon>NavigatorControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DocumentationWindow.resx">
-      <DependentUpon>DocumentationWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ConnectionWindow.resx">
-      <DependentUpon>ConnectionWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AboutWindow.resx">
-      <DependentUpon>AboutWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DockContent\CustomValuesControl.resx">
-      <DependentUpon>CustomValuesControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DockContent\DatabaseNavigationControl.resx">
-      <DependentUpon>DatabaseNavigationControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DirectorySelectionWindow.resx">
-      <DependentUpon>DirectorySelectionWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DockContent\DocumentControl.resx">
-      <DependentUpon>DocumentControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DockContent\PropertiesControl.resx">
-      <DependentUpon>PropertiesControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DockContent\ResultControl.resx">
-      <DependentUpon>ResultControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UpdatesWindow.resx">
-      <DependentUpon>UpdatesWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <Content Include="Resources\App.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icode.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icode64.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\iCodeLogo.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\iCodeLogo16.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -342,17 +149,51 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Documentation.rtf">
+    <None Update="Documentation.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Update="Resources\App.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\icode.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\icode64.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\iCodeLogo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\iCodeLogo16.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\icustom.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\idb.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\igen.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\iresult.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\isnippet.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\itemplate.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-    <PostBuildEvent>copy $(ProjectDir)*.ico $(TargetDir)
-copy $(ProjectDir)DataTypeMapping.xml $(TargetDir)</PostBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Krypton.Docking" Version="6.2111.312" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.255803">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.Shared\CodeGenerator.Shared.csproj" />
+  </ItemGroup>
 </Project>
