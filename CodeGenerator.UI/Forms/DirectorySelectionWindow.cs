@@ -153,7 +153,7 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void btnBrowseOutputDirectory_Click(object sender, EventArgs e)
         {
-            if (txtTemplatesDirectory.Text.Length > 0 && txtOutputDirectory.Text.Length == 0)
+            if (!string.IsNullOrEmpty(txtTemplatesDirectory.Text) && !string.IsNullOrEmpty(txtOutputDirectory.Text))
             {
                 dlgFolderBrowserOutput.SelectedPath = txtTemplatesDirectory.Text;
             }

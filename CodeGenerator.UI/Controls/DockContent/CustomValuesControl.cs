@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using CodeGenerator.Shared.Extensions;
+using Extenso.Collections;
 
 namespace CodeGenerator.UI
 {

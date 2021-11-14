@@ -24,13 +24,15 @@ namespace CodeGenerator.UI
 
         private DirectorySelectionWindow directorySelectionWindow;
 
+        private KryptonDockingWorkspace workspace;
+
         #region Forms
 
         private CustomValuesControl customValuesForm;
 
         private DatabaseNavigationControl databaseNavigationForm;
 
-        private DocumentControl documentForm;
+        private DocumentControl templateForm;
 
         private PropertiesControl propertiesForm;
 
@@ -43,8 +45,6 @@ namespace CodeGenerator.UI
         private KryptonPage templatePage;
 
         #endregion Forms
-
-        private KryptonDockingWorkspace workspace;
 
         public Main()
         {
@@ -119,7 +119,8 @@ namespace CodeGenerator.UI
         private void mnuFileNewTemplate_Click(object sender, EventArgs e)
         {
             templateFile = null;
-            documentForm.ContentText = string.Empty;
+            templateForm.ContentText = string.Empty;
+            workspace.SelectPage(templatePage.UniqueName);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
@@ -133,8 +134,9 @@ namespace CodeGenerator.UI
                     using (var stream = dlgOpenFile.OpenFile())
                     using (var streamReader = new StreamReader(stream))
                     {
-                        documentForm.ContentText = streamReader.ReadToEnd();
+                        templateForm.ContentText = streamReader.ReadToEnd();
                     }
+                    workspace.SelectPage(templatePage.UniqueName);
                 }
                 catch (Exception x)
                 {
@@ -152,7 +154,7 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuFileSaveAsTemplate_Click(object sender, EventArgs e)
         {
-            templateFile = SaveAsFile(null, documentForm.ContentText);
+            templateFile = SaveAsFile(null, templateForm.ContentText);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
@@ -160,11 +162,11 @@ namespace CodeGenerator.UI
         {
             if (templateFile != null)
             {
-                SaveFile(templateFile, documentForm.ContentText);
+                SaveFile(templateFile, templateForm.ContentText);
             }
             else
             {
-                templateFile = SaveAsFile(templateFile, documentForm.ContentText);
+                templateFile = SaveAsFile(templateFile, templateForm.ContentText);
             }
         }
 
@@ -225,11 +227,11 @@ namespace CodeGenerator.UI
         {
             if (templatePage.IsDisposed)
             {
-                if (documentForm.IsDisposed)
+                if (templateForm.IsDisposed)
                 {
-                    documentForm = new DocumentControl { Text = "Template" };
+                    templateForm = new DocumentControl { Text = "Template" };
                 }
-                templatePage = NewDocument("Template", documentForm, icon: IconToBitMap(Resources.itemplate));
+                templatePage = NewDocument("Template", templateForm, icon: IconToBitMap(Resources.itemplate));
                 kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { templatePage });
                 kryptonDockingManager.HidePage(templatePage);
                 kryptonDockingManager.ShowPage(templatePage);
@@ -250,7 +252,7 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void snippetsForm_SnippetSelected(object sender, SnippetEventArgs args)
         {
-            documentForm.ContentText = documentForm.ContentText.Insert(documentForm.SelectionStart, SnippetsHelper.Snippets[args.Snippet].ToString());
+            templateForm.ContentText = templateForm.ContentText.Insert(templateForm.SelectionStart, SnippetsHelper.Snippets[args.Snippet].ToString());
         }
 
         #endregion Event Handlers
@@ -303,7 +305,7 @@ namespace CodeGenerator.UI
 
                 EnsureResultsFormExists();
                 var client = new Client { CustomValues = customValuesForm.CustomValues };
-                resultForm.ContentText = client.Parse(selectedTable, documentForm.ContentText);
+                resultForm.ContentText = client.Parse(selectedTable, templateForm.ContentText);
                 workspace.SelectPage(resultPage.UniqueName);
             }
             catch (Exception x)
@@ -365,12 +367,12 @@ namespace CodeGenerator.UI
             snippetsForm = new SnippetsControl { Text = "Snippets" };
             snippetsForm.SnippetSelected += snippetsForm_SnippetSelected;
 
-            documentForm = new DocumentControl { Text = "Template" };
+            templateForm = new DocumentControl { Text = "Template" };
             resultForm = new ResultControl { Text = "Results" };
             propertiesForm = new PropertiesControl { Text = "Properties" };
             customValuesForm = new CustomValuesControl { Text = "Custom Values" };
 
-            templatePage = NewDocument("Template", documentForm, icon: IconToBitMap(Resources.itemplate));
+            templatePage = NewDocument("Template", templateForm, icon: IconToBitMap(Resources.itemplate));
             resultPage = NewDocument("Results", resultForm, icon: IconToBitMap(Resources.iresult));
 
             kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { templatePage, resultPage });

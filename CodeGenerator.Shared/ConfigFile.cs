@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CodeGenerator.Shared.Extensions;
+using Extenso;
 using Newtonsoft.Json;
 
 namespace CodeGenerator
