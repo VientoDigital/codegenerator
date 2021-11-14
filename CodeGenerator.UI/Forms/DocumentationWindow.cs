@@ -1,7 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows.Forms;
 using Krypton.Toolkit;
 
 namespace CodeGenerator.UI
@@ -13,30 +10,10 @@ namespace CodeGenerator.UI
     {
         private KryptonRichTextBox rtbDocumentation;
 
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private readonly Container components = null;
-
         public DocumentationWindow()
         {
             InitializeComponent();
             rtbDocumentation.LoadFile($"{AppDomain.CurrentDomain.BaseDirectory}Documentation.rtf");
-        }
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
@@ -62,9 +39,9 @@ namespace CodeGenerator.UI
             // 
             // DocumentationWindow
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1008, 681);
+            this.ClientSize = new System.Drawing.Size(1024, 720);
             this.Controls.Add(this.rtbDocumentation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

@@ -17,15 +17,16 @@ namespace CodeGenerator.Generator
 
         public void Generate(Table table, string inputDir, string outputDir)
         {
-            var directoryInfo = new DirectoryInfo(inputDir);
             var client = new Client();
-            var originalSd = Context.StartDelimeter;
-            var originalEd = Context.EndingDelimiter;
 
             if (CustomValues != null)
             {
                 client.CustomValues = CustomValues;
             }
+
+            var directoryInfo = new DirectoryInfo(inputDir);
+            var originalSd = Context.StartDelimeter;
+            var originalEd = Context.EndingDelimiter;
 
             foreach (var fileInfo in directoryInfo.GetFiles())
             {
@@ -39,16 +40,16 @@ namespace CodeGenerator.Generator
                     streamReader.Close();
                 }
 
-                string codeGenerated = client.Parse(table, fileContent);
-                Context.StartDelimeter = string.Empty;
-                Context.EndingDelimiter = string.Empty;
+                string generatedCode = client.Parse(table, fileContent);
+                //Context.StartDelimeter = string.Empty;
+                //Context.EndingDelimiter = string.Empty;
                 string fileName = client.Parse(table, fileInfo.Name);
 
                 try
                 {
-                    using (var streamWriter = new StreamWriter(outputDir + Path.DirectorySeparatorChar + fileName))
+                    using (var streamWriter = new StreamWriter($"{outputDir}{Path.DirectorySeparatorChar}{fileName}"))
                     {
-                        streamWriter.Write(codeGenerated);
+                        streamWriter.Write(generatedCode);
                     }
                 }
                 catch (Exception x)
@@ -59,12 +60,7 @@ namespace CodeGenerator.Generator
 
             Context.StartDelimeter = originalSd;
             Context.EndingDelimiter = originalEd;
-            CompleteNotifier(new EventArgs());
-        }
-
-        protected void CompleteNotifier(EventArgs e)
-        {
-            OnComplete?.Invoke(this, e);
+            OnComplete?.Invoke(this, new EventArgs());
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Krypton.Toolkit;
@@ -19,31 +18,11 @@ namespace CodeGenerator.UI
         private LinkLabel lnkContributor;
         private Label lblContributor;
 
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private readonly Container components = null;
-
         public AboutWindow()
         {
             InitializeComponent();
             lblHeading.Text += $" {AppVersion.Version}";
             lblYear.Text = $"2005 - {DateTime.Now.Year}";
-        }
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
@@ -66,28 +45,28 @@ namespace CodeGenerator.UI
             //
             // lblHeading
             //
-            this.lblHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHeading.Location = new System.Drawing.Point(12, 8);
+            this.lblHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblHeading.Location = new System.Drawing.Point(14, 10);
             this.lblHeading.Name = "lblHeading";
-            this.lblHeading.Size = new System.Drawing.Size(268, 23);
+            this.lblHeading.Size = new System.Drawing.Size(322, 28);
             this.lblHeading.TabIndex = 0;
             this.lblHeading.Text = "Code Generator";
             this.lblHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // lblYear
             //
-            this.lblYear.Location = new System.Drawing.Point(15, 31);
+            this.lblYear.Location = new System.Drawing.Point(18, 38);
             this.lblYear.Name = "lblYear";
-            this.lblYear.Size = new System.Drawing.Size(265, 23);
+            this.lblYear.Size = new System.Drawing.Size(318, 28);
             this.lblYear.TabIndex = 2;
             this.lblYear.Text = "2005 - ";
             this.lblYear.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // lnkUrl
             //
-            this.lnkUrl.Location = new System.Drawing.Point(15, 54);
+            this.lnkUrl.Location = new System.Drawing.Point(18, 66);
             this.lnkUrl.Name = "lnkUrl";
-            this.lnkUrl.Size = new System.Drawing.Size(265, 23);
+            this.lnkUrl.Size = new System.Drawing.Size(318, 29);
             this.lnkUrl.TabIndex = 3;
             this.lnkUrl.TabStop = true;
             this.lnkUrl.Text = "http://www.icodegenerator.net";
@@ -97,18 +76,18 @@ namespace CodeGenerator.UI
             //
             // lblAuthor
             //
-            this.lblAuthor.Location = new System.Drawing.Point(15, 90);
+            this.lblAuthor.Location = new System.Drawing.Point(18, 111);
             this.lblAuthor.Name = "lblAuthor";
-            this.lblAuthor.Size = new System.Drawing.Size(265, 23);
+            this.lblAuthor.Size = new System.Drawing.Size(318, 28);
             this.lblAuthor.TabIndex = 1;
             this.lblAuthor.Text = "Original Author: Victor Y. Dominguez";
             this.lblAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // lnkAuthor
             //
-            this.lnkAuthor.Location = new System.Drawing.Point(15, 113);
+            this.lnkAuthor.Location = new System.Drawing.Point(18, 139);
             this.lnkAuthor.Name = "lnkAuthor";
-            this.lnkAuthor.Size = new System.Drawing.Size(265, 23);
+            this.lnkAuthor.Size = new System.Drawing.Size(318, 28);
             this.lnkAuthor.TabIndex = 4;
             this.lnkAuthor.TabStop = true;
             this.lnkAuthor.Text = "http://www.vientodigital.com/";
@@ -117,9 +96,9 @@ namespace CodeGenerator.UI
             //
             // lnkContributor
             //
-            this.lnkContributor.Location = new System.Drawing.Point(15, 159);
+            this.lnkContributor.Location = new System.Drawing.Point(18, 196);
             this.lnkContributor.Name = "lnkContributor";
-            this.lnkContributor.Size = new System.Drawing.Size(265, 23);
+            this.lnkContributor.Size = new System.Drawing.Size(318, 28);
             this.lnkContributor.TabIndex = 6;
             this.lnkContributor.TabStop = true;
             this.lnkContributor.Text = "https://github.com/gordon-matt";
@@ -128,18 +107,18 @@ namespace CodeGenerator.UI
             //
             // lblContributor
             //
-            this.lblContributor.Location = new System.Drawing.Point(15, 136);
+            this.lblContributor.Location = new System.Drawing.Point(18, 167);
             this.lblContributor.Name = "lblContributor";
-            this.lblContributor.Size = new System.Drawing.Size(265, 23);
+            this.lblContributor.Size = new System.Drawing.Size(318, 29);
             this.lblContributor.TabIndex = 5;
             this.lblContributor.Text = "Contributor: Matt Gordon";
             this.lblContributor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // AboutWindow
             //
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(292, 191);
+            this.ClientSize = new System.Drawing.Size(364, 241);
             this.Controls.Add(this.lnkContributor);
             this.Controls.Add(this.lblContributor);
             this.Controls.Add(this.lnkAuthor);

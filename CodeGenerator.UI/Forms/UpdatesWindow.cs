@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 
@@ -12,11 +11,6 @@ namespace CodeGenerator.UI
     {
         private WebBrowser webBrowser1;
 
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private readonly Container components = null;
-
         public UpdatesWindow()
         {
             //
@@ -24,21 +18,6 @@ namespace CodeGenerator.UI
             //
             InitializeComponent();
             webBrowser1.Url = new Uri(string.Format("http://icodegenerator.net/?v={0}#.download", AppVersion.Version));
-        }
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
@@ -59,15 +38,15 @@ namespace CodeGenerator.UI
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(794, 572);
+            this.webBrowser1.Size = new System.Drawing.Size(784, 561);
             this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
+            this.webBrowser1.Url = new System.Uri("about:blank", System.UriKind.Absolute);
             //
             // UpdatesWindow
             //
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(794, 572);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.webBrowser1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

@@ -19,10 +19,10 @@ namespace CodeGenerator.Data
             {
                 switch (providerType)
                 {
-                    case ProviderType.SqlServer: return "Microsoft.Data.SqlClient";
+                    case ProviderType.SqlServer: return "System.Data.SqlClient";
                     case ProviderType.MySql: return "MySql.Data.MySqlClient";
                     case ProviderType.PostgresSql: return "Npgsql";
-                    case ProviderType.Oracle: return "Oracle.DataAccess.Client";
+                    case ProviderType.Oracle: return "Oracle.ManagedDataAccess.Client";
                     default: throw new ArgumentOutOfRangeException(nameof(providerType));
                 }
             }

@@ -79,7 +79,6 @@ namespace {Namespace}.Data
 }
 ```
 
-
 ```
 using System;
 using Extenso.Data.Entity;
@@ -112,6 +111,13 @@ namespace {Namespace}.Data.Domain
         }
     }
 }
+```
+
+### Additional Notes:
+- If you name your templates using the `{TABLE.NAME…}` expression, it will automatically generate the correct file name for you as well. Examples:
+```
+{TABLE.NAME PASCAL}.cs
+{TABLE.NAME PASCAL}Controller.cs
 ```
 
 ### Future Work:
