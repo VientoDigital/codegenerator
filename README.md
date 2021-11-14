@@ -129,4 +129,3 @@ It would be good to have the following work done in future:
 - Support for foreign key info, so that we can generate things like EF Navigation Properties
 - Better type mapping for each db provider, without the user having to care about the configuration.
 - Column lengths don't seem to be right in some cases. Need to check the schema queries and make corrections where needed.
-- Consider updating to .NET 6

@@ -9,7 +9,7 @@ namespace CodeGenerator
     /// </summary>
     public static class AppVersion
     {
-        public const string Version = "2.1";
+        public const string Version = "3.0";
 
         private const string Url = "http://icodegenerator.net/version";
         private static VersionInfo latestVersion;

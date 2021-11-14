@@ -5,6 +5,7 @@
     <RootNamespace>CodeGenerator</RootNamespace>
     <AssemblyName>CodeGenerator</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>3.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.19.1" />
