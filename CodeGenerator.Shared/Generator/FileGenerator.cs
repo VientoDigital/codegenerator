@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using CodeGenerator.Data.Structure;
@@ -13,14 +13,14 @@ namespace CodeGenerator.Generator
     {
         public event EventHandler OnComplete;
 
-        public IDictionary CustomValues { get; set; }
+        public IDictionary<string, string> CustomValues { get; set; }
 
         public void Generate(Table table, string inputDir, string outputDir)
         {
             var directoryInfo = new DirectoryInfo(inputDir);
             var client = new Client();
-            var originalSd = client.StartDelimiter;
-            var originalEd = client.EndingDelimiter;
+            var originalSd = Context.StartDelimeter;
+            var originalEd = Context.EndingDelimiter;
 
             if (CustomValues != null)
             {
@@ -29,8 +29,8 @@ namespace CodeGenerator.Generator
 
             foreach (var fileInfo in directoryInfo.GetFiles())
             {
-                client.StartDelimiter = "{";//originalSd;
-                client.EndingDelimiter = "}";//originalEd;
+                Context.StartDelimeter = "{";//originalSd;
+                Context.EndingDelimiter = "}";//originalEd;
 
                 string fileContent;
                 using (var streamReader = File.OpenText(fileInfo.FullName))
@@ -40,8 +40,8 @@ namespace CodeGenerator.Generator
                 }
 
                 string codeGenerated = client.Parse(table, fileContent);
-                client.StartDelimiter = string.Empty;
-                client.EndingDelimiter = string.Empty;
+                Context.StartDelimeter = string.Empty;
+                Context.EndingDelimiter = string.Empty;
                 string fileName = client.Parse(table, fileInfo.Name);
 
                 try
@@ -57,8 +57,8 @@ namespace CodeGenerator.Generator
                 }
             }
 
-            client.StartDelimiter = originalSd;
-            client.EndingDelimiter = originalEd;
+            Context.StartDelimeter = originalSd;
+            Context.EndingDelimiter = originalEd;
             CompleteNotifier(new EventArgs());
         }
 

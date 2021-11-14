@@ -8,25 +8,25 @@ namespace CodeGenerator.Generator
     {
         private const string TABLE_NAME = "TABLE.NAME";
 
-        private static string InputPattern => $@"{TABLE_NAME}\s*(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
+        private static string InputPattern => $@"{TABLE_NAME}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
 
         public override void Interpret(Context context)
         {
             var table = (Table)Parameter;
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
-            var inputString = context.Input;
-            var matches = regex.Matches(inputString);
+            string input = context.Input;
+            var matches = regex.Matches(input);
 
             foreach (Match match in matches)
             {
-                var matchString = match.Value;
-                var naming = match.Groups["naming"].ToString();
-                var replacement = table.Name;
-                replacement = CaseConversion(naming, replacement, table.Name);
-                inputString = Regex.Replace(inputString, matchString, replacement);
+                string matchValue = match.Value;
+                string casing = match.Groups["casing"].ToString();
+                string tableName = table.Name;
+                tableName = CaseConversion(casing, tableName, table.Name);
+                input = Regex.Replace(input, matchValue, tableName);
             }
 
-            context.Output = inputString;
+            context.Output = input;
             context.Input = context.Output;
         }
     }

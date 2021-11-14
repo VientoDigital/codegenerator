@@ -134,10 +134,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\CodeGenerator.Shared\CodeGenerator.Shared.csproj">
-      <Project>{06e6629d-ecb3-4df9-96e0-9c15305769d9}</Project>
-      <Name>CodeGenerator.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs">
@@ -179,6 +175,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.Shared\CodeGenerator.Shared.csproj">
+      <Project>{06e6629d-ecb3-4df9-96e0-9c15305769d9}</Project>
+      <Name>CodeGenerator.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

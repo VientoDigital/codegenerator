@@ -7,8 +7,8 @@
     <ProjectGuid>{06E6629D-ECB3-4DF9-96E0-9C15305769D9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeGenerator.Shared</RootNamespace>
-    <AssemblyName>CodeGenerator.Shared</AssemblyName>
+    <RootNamespace>CodeGenerator</RootNamespace>
+    <AssemblyName>CodeGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -169,6 +169,7 @@
     <Compile Include="Generator\Expressions\TableNameExpression.cs" />
     <Compile Include="Generator\Expressions\TableNameReplaceExpression.cs" />
     <Compile Include="Generator\Expressions\TableSchemaExpression.cs" />
+    <Compile Include="Generator\Expressions\TablesExpression.cs" />
     <Compile Include="Generator\FileGenerator.cs" />
     <Compile Include="Generator\Parser.cs" />
     <Compile Include="Data\ProviderFactory.cs" />

@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data;
@@ -193,7 +193,7 @@ LAST{/IF}
         {
             var client = new Client
             {
-                CustomValues = new Hashtable
+                CustomValues = new Dictionary<string, string>
                 {
                     { "NAMESPACE", "CodeGenerator.Bla" }
                 }

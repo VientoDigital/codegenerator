@@ -164,6 +164,9 @@
     <Compile Include="Controls\Navigator\NavigatorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\DocumentationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ConnectionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,14 +258,20 @@
       <DependentUpon>NavigatorControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DocumentationWindow.resx">
+      <DependentUpon>DocumentationWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ConnectionWindow.resx">
       <DependentUpon>ConnectionWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DockContent\CustomValuesControl.resx">
       <DependentUpon>CustomValuesControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DockContent\DatabaseNavigationControl.resx">
       <DependentUpon>DatabaseNavigationControl.cs</DependentUpon>
@@ -334,6 +343,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Documentation.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -59,7 +59,7 @@ namespace CodeGenerator.UI
                 rootNode.Nodes.Clear();
                 var server = new Server();
                 rootNode.Text = ConnectionString;
-                foreach (Database database in server.Databases)
+                foreach (var database in server.Databases)
                 {
                     rootNode.Nodes.Add(new TreeNode(database.Name)
                     {
@@ -168,7 +168,7 @@ namespace CodeGenerator.UI
 
             /* Changed by Ferhat */
             // Fill tree with tables
-            foreach (Table table in ((Database)databaseNode.Tag).Tables)
+            foreach (var table in ((Database)databaseNode.Tag).Tables)
             {
                 databaseNode.Nodes.Add(new TreeNode(table.Name)
                 {
@@ -180,7 +180,7 @@ namespace CodeGenerator.UI
 
             // Fill tree with views
             databaseNode = treeView.SelectedNode;
-            foreach (Table table in ((Database)databaseNode.Tag).Views)
+            foreach (var table in ((Database)databaseNode.Tag).Views)
             {
                 databaseNode.Nodes.Add(new TreeNode(table.Name)
                 {
@@ -211,7 +211,7 @@ namespace CodeGenerator.UI
         {
             var tableNode = treeView.SelectedNode;
             tableNode.Nodes.Clear();
-            foreach (Column column in ((Table)tableNode.Tag).Columns)
+            foreach (var column in ((Table)tableNode.Tag).Columns)
             {
                 tableNode.Nodes.Add(new TreeNode(column.Name)
                 {

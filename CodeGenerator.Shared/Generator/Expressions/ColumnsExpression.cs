@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
@@ -10,11 +9,11 @@ namespace CodeGenerator.Generator
     {
         private const string NOPRIMARY = "NOPRIMARY";
         private const string PRIMARY = "PRIMARY";
-        private readonly ArrayList expressions;
+        private readonly ICollection<Expression> expressions;
 
         public ColumnsExpression()
         {
-            expressions = new ArrayList();
+            expressions = new List<Expression>();
         }
 
         private static string InputPattern
@@ -45,7 +44,7 @@ namespace CodeGenerator.Generator
                 var columns = ((Table)Parameter).Columns;
                 var filteredColumns = new List<Column>();
 
-                foreach (Column column in columns)
+                foreach (var column in columns)
                 {
                     if (IsValidColumn(column, match.Groups["selection"].Value.Trim()))
                     {
@@ -53,7 +52,7 @@ namespace CodeGenerator.Generator
                     }
                 }
 
-                foreach (Column column in filteredColumns)
+                foreach (var column in filteredColumns)
                 {
                     string columnTemporaryText = columnInput;
                     RunExpressionsReplace(column, filteredColumns, ref columnTemporaryText);

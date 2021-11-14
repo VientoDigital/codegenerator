@@ -8,9 +8,9 @@ namespace CodeGenerator.Generator
     {
         internal object Parameter { get; set; }
 
-        public static string CaseConversion(string naming, string replacement, string name)
+        public static string CaseConversion(string casing, string replacement, string name)
         {
-            switch (naming)
+            switch (casing)
             {
                 case "CAMEL": replacement = CamelReplacement(name); break;
                 case "PASCAL": replacement = PascalReplacement(name); break;
@@ -61,9 +61,9 @@ namespace CodeGenerator.Generator
             return replacement;
         }
 
-        private static string SeparatorReplacement(string replacement, string separatorString, bool ignoreFirstChar)
+        private static string SeparatorReplacement(string replacement, string separator, bool ignoreFirstChar)
         {
-            if (ignoreFirstChar && Regex.IsMatch(replacement.Substring(1), separatorString))
+            if (ignoreFirstChar && Regex.IsMatch(replacement.Substring(1), separator))
             {
                 return replacement;
             }
@@ -81,7 +81,7 @@ namespace CodeGenerator.Generator
                 replacement = Regex.Replace(
                     replacement,
                     $"{match.Groups["min"].Value}{match.Groups["may"].Value}",
-                    $"{match.Groups["min"].Value}{separatorString}{match.Groups["may"].Value}");
+                    $"{match.Groups["min"].Value}{separator}{match.Groups["may"].Value}");
             }
             return replacement;
         }

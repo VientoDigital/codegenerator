@@ -20,10 +20,10 @@ namespace CodeGenerator.UnitTests
             Server.ProviderType = ProviderType.SqlServer;
             Server server = new Server();
             var client = new Client();
-            _ = client.StartDelimiter;
-            _ = client.EndingDelimiter;
-            client.StartDelimiter = string.Empty;
-            client.EndingDelimiter = string.Empty;
+            _ = Context.StartDelimeter;
+            _ = Context.EndingDelimiter;
+            Context.StartDelimeter = string.Empty;
+            Context.EndingDelimiter = string.Empty;
             Console.WriteLine(client.Parse(server.Databases.First().Tables.First(), "DATABASE.NAME_TABLE.NAMEForm.aspx"));
         }
     }

@@ -26,11 +26,7 @@ namespace CodeGenerator.UI
         {
             InitializeComponent();
 
-            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.SqlServer));
-            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.MySql));
-            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.PostgresSql));
-            cmbProviderType.Items.Add(new ProviderInfo(ProviderType.Oracle));
-            cmbProviderType.DisplayMember = "Name";
+            cmbProviderType.DataSource = Enum.GetValues(typeof(ProviderType));
             cmbProviderType.SelectedIndex = 0;
 
             cmbConnectionString.Items.Clear();
@@ -72,7 +68,7 @@ namespace CodeGenerator.UI
         {
             if (TestConnection())
             {
-                Server.ProviderType = ((ProviderInfo)cmbProviderType.SelectedItem).ProviderType;
+                Server.ProviderType = ((ProviderType)cmbProviderType.SelectedItem);
                 bool isNewConnectionString = cmbConnectionString.SelectedIndex == -1;
                 string selectedConnectionString = cmbConnectionString.Text.Trim();
 
@@ -92,7 +88,7 @@ namespace CodeGenerator.UI
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                var providerFactory = new ProviderFactory(((ProviderInfo)cmbProviderType.SelectedItem).ProviderType);
+                var providerFactory = new ProviderFactory(((ProviderType)cmbProviderType.SelectedItem));
 
                 try
                 {
@@ -130,7 +126,7 @@ namespace CodeGenerator.UI
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                string connectionStringFormat = new ProviderInfo(((ProviderInfo)cmbProviderType.SelectedItem).ProviderType).ConnectionStringFormat;
+                string connectionStringFormat = new ProviderInfo(((ProviderType)cmbProviderType.SelectedItem)).ConnectionStringFormat;
                 lblConnectionStringHelp.Text = connectionStringFormat;
                 toolTip.SetToolTip(cmbConnectionString, connectionStringFormat);
                 cmbConnectionString.Focus();

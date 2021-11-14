@@ -89,7 +89,7 @@ namespace CodeGenerator.UI
             this.btnBrowseTemplatesDirectory.Name = "btnBrowseTemplatesDirectory";
             this.btnBrowseTemplatesDirectory.Size = new System.Drawing.Size(32, 24);
             this.btnBrowseTemplatesDirectory.TabIndex = 10;
-            this.btnBrowseTemplatesDirectory.Values.Text = "...";
+            this.btnBrowseTemplatesDirectory.Values.Text = "…";
             this.btnBrowseTemplatesDirectory.Click += new System.EventHandler(this.btnBrowseTemplatesDirectory_Click);
             //
             // btnBrowseOutputDirectory
@@ -98,7 +98,7 @@ namespace CodeGenerator.UI
             this.btnBrowseOutputDirectory.Name = "btnBrowseOutputDirectory";
             this.btnBrowseOutputDirectory.Size = new System.Drawing.Size(32, 24);
             this.btnBrowseOutputDirectory.TabIndex = 20;
-            this.btnBrowseOutputDirectory.Values.Text = "...";
+            this.btnBrowseOutputDirectory.Values.Text = "…";
             this.btnBrowseOutputDirectory.Click += new System.EventHandler(this.btnBrowseOutputDirectory_Click);
             //
             // lblTemplatesDirectory

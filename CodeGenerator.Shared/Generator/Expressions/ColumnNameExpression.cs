@@ -8,26 +8,26 @@ namespace CodeGenerator.Generator
     {
         private const string COLUMN_NAME = "COLUMN.NAME";
 
+        private static string InputPattern => $@"{COLUMN_NAME}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
+
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
-            var inputString = context.Input;
-            var matches = regex.Matches(inputString);
+            string input = context.Input;
+            var matches = regex.Matches(input);
 
             foreach (Match match in matches)
             {
-                var matchString = match.Value;
-                var naming = match.Groups["naming"].ToString();
-                var replacement = column.Name;
-                replacement = CaseConversion(naming, replacement, column.Name);
-                inputString = Regex.Replace(inputString, matchString, replacement);
+                string matchValue = match.Value;
+                string casing = match.Groups["casing"].ToString();
+                string replacement = column.Name;
+                replacement = CaseConversion(casing, replacement, column.Name);
+                input = Regex.Replace(input, matchValue, replacement);
             }
 
-            context.Output = inputString;
+            context.Output = input;
             context.Input = context.Output;
         }
-
-        private static string InputPattern => $@"{COLUMN_NAME}\s*(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
     }
 }

@@ -190,9 +190,6 @@ namespace CodeGenerator.UI
         private void mnuHelpAbout_Click(object sender, EventArgs e)
         {
             new AboutWindow().ShowDialog();
-            //new UpdatesWindow().ShowDialog(); // TODO: Have separate menu item for this?
-            //var processStartInfo = new ProcessStartInfo("http://www.icodegenerator.net/");
-            //Process.Start(processStartInfo);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
@@ -205,8 +202,7 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuHelpDocumentation_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo processStartInfo = new ProcessStartInfo("http://icodegenerator.net/#.documentation");
-            Process.Start(processStartInfo);
+            new DocumentationWindow().ShowDialog();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
@@ -259,16 +255,16 @@ namespace CodeGenerator.UI
 
         #endregion Event Handlers
 
-        private void CheckForUpdates()
-        {
-            mnuHelpAbout.Text = $"{mnuHelpAbout.Text} {AppVersion.Version}";
-            if (AppVersion.HasNewUpdate)
-            {
-                mnuHelpAbout.BackColor = Color.LightCoral;
-                mnuHelpAbout.ForeColor = Color.White;
-                mnuHelpAbout.Text = $@"Download Code Generator (Version: {AppVersion.LatestVersion.Version})";
-            }
-        }
+        //private void CheckForUpdates()
+        //{
+        //    mnuHelpAbout.Text = $"{mnuHelpAbout.Text} {AppVersion.Version}";
+        //    if (AppVersion.HasNewUpdate)
+        //    {
+        //        mnuHelpAbout.BackColor = Color.LightCoral;
+        //        mnuHelpAbout.ForeColor = Color.White;
+        //        mnuHelpAbout.Text = $@"Download Code Generator (Version: {AppVersion.LatestVersion.Version})";
+        //    }
+        //}
 
         private void EnsureResultsFormExists()
         {
@@ -343,10 +339,10 @@ namespace CodeGenerator.UI
             }
         }
 
-        private Bitmap IconToBitMap(string iconName)
-        {
-            return IconToBitMap(Icon.ExtractAssociatedIcon($@"Resources\{iconName}"));
-        }
+        //private Bitmap IconToBitMap(string iconName)
+        //{
+        //    return IconToBitMap(Icon.ExtractAssociatedIcon($@"Resources\{iconName}"));
+        //}
 
         private Bitmap IconToBitMap(Icon icon)
         {

@@ -74,7 +74,7 @@
             this.mnuHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1046, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1264, 24);
             this.menuStrip.TabIndex = 3;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -257,7 +257,7 @@
             this.kryptonDockableWorkspace.Root.WorkspaceControl = this.kryptonDockableWorkspace;
             this.kryptonDockableWorkspace.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.LowProfile;
             this.kryptonDockableWorkspace.ShowMaximizeButton = false;
-            this.kryptonDockableWorkspace.Size = new System.Drawing.Size(1046, 647);
+            this.kryptonDockableWorkspace.Size = new System.Drawing.Size(1264, 657);
             this.kryptonDockableWorkspace.SplitterWidth = 5;
             this.kryptonDockableWorkspace.TabIndex = 5;
             this.kryptonDockableWorkspace.TabStop = true;
@@ -268,7 +268,7 @@
             this.kryptonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel.Location = new System.Drawing.Point(0, 24);
             this.kryptonPanel.Name = "kryptonPanel";
-            this.kryptonPanel.Size = new System.Drawing.Size(1046, 647);
+            this.kryptonPanel.Size = new System.Drawing.Size(1264, 657);
             this.kryptonPanel.TabIndex = 6;
             // 
             // dlgSaveFile
@@ -284,7 +284,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1046, 671);
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.kryptonPanel);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

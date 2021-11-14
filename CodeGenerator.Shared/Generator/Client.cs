@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CodeGenerator.Data.Structure;
 
 namespace CodeGenerator.Generator
@@ -15,24 +15,7 @@ namespace CodeGenerator.Generator
 
         public event EventHandler OnComplete;
 
-        public IDictionary CustomValues { get; set; }
-
-        public string EndingDelimiter
-        {
-            get => Context.EndingDelimiter;
-            set => Context.EndingDelimiter = value;
-        }
-
-        public string Input
-        {
-            set => context.Input = value;
-        }
-
-        public string StartDelimiter
-        {
-            get => Context.StartDelimeter;
-            set => Context.StartDelimeter = value;
-        }
+        public IDictionary<string, string> CustomValues { get; set; }
 
         public Table Table { get; set; }
 
@@ -60,6 +43,7 @@ namespace CodeGenerator.Generator
         private string Intrepret()
         {
             var parser = new Parser(Table);
+
             var columnsExpression = new ColumnsExpression();
             columnsExpression.AddExpression(new ColumnIfTypeExpression());
             columnsExpression.AddExpression(new ColumnNameExpression());
@@ -71,6 +55,14 @@ namespace CodeGenerator.Generator
             columnsExpression.AddExpression(new ColumnIfNullableExpression());
             columnsExpression.AddExpression(new ColumnNameMatchesExpression());
             parser.AddExpression(columnsExpression);
+
+            var tablesExpression = new TablesExpression();
+            tablesExpression.AddExpression(new TableNameExpression());
+            tablesExpression.AddExpression(new TableNameReplaceExpression());
+            tablesExpression.AddExpression(new TableSchemaExpression());
+            tablesExpression.AddExpression(new DatabaseNameExpression());
+            parser.AddExpression(tablesExpression);
+
             parser.AddExpression(new TableNameExpression());
             parser.AddExpression(new TableNameReplaceExpression());
             parser.AddExpression(new TableSchemaExpression());
@@ -78,9 +70,9 @@ namespace CodeGenerator.Generator
 
             if (CustomValues != null)
             {
-                foreach (DictionaryEntry entry in CustomValues)
+                foreach (var entry in CustomValues)
                 {
-                    parser.AddExpression(new LiteralExpression(entry.Key.ToString(), entry.Value.ToString()));
+                    parser.AddExpression(new LiteralExpression(entry.Key, entry.Value));
                 }
             }
 

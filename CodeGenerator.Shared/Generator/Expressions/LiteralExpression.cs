@@ -8,10 +8,10 @@ namespace CodeGenerator.Generator
         private readonly string key;
         private readonly string value;
 
-        public LiteralExpression(string strKey, string strValue)
+        public LiteralExpression(string key, string value)
         {
-            key = strKey;
-            value = strValue;
+            this.key = key;
+            this.value = value;
         }
 
         public override void Interpret(Context context)
@@ -19,22 +19,22 @@ namespace CodeGenerator.Generator
             context.Output = Regex.Replace(context.Input, key.DelimeterWrap(), value);
             context.Input = context.Output;
 
-            var inputPattern = $@"{key}\s*(?<naming>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
+            string inputPattern = $@"{key}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
 
             var regex = new Regex(inputPattern, RegexOptions.Singleline);
-            var inputString = context.Input;
-            var matches = regex.Matches(inputString);
+            string input = context.Input;
+            var matches = regex.Matches(input);
 
             foreach (Match match in matches)
             {
-                var matchString = match.Value;
-                var naming = match.Groups["naming"].ToString();
-                var replacement = value;
-                replacement = CaseConversion(naming, replacement, value);
-                inputString = Regex.Replace(inputString, matchString, replacement);
+                string matchValue = match.Value;
+                string casing = match.Groups["casing"].ToString();
+                string replacement = value;
+                replacement = CaseConversion(casing, replacement, value);
+                input = Regex.Replace(input, matchValue, replacement);
             }
 
-            context.Output = inputString;
+            context.Output = input;
             context.Input = context.Output;
         }
     }

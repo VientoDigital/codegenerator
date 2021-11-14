@@ -1,13 +1,15 @@
 Code Generator
 ==============
 
-Code Generator is a database centric template based code generator for any text(ascii) programming language like C, PHP, C#, Visual Basic, Java, Perl, Python... Supported databases are SQL Server, MySQL and PostgreSQL.
+Code Generator is a database centric template based code generator for any text(ascii) programming language like C, PHP, C#, Visual Basic, Java, Perl, Python… Supported databases are SQL Server, MySQL, PostgreSQL and Oracle.
 
 ## Documentation
 ### Database
 
 - **{DATABASE.NAME}**
 Placeholder for the database name.
+- **{DATABASE.TABLES}…{/DATABASE.TABLES}**
+Placeholder for the tables. Only used for iterating tables. Attempting to further iterate by columns will not work as you may expect.
 
 ### Table
 
@@ -15,7 +17,9 @@ Placeholder for the database name.
 Placeholder for the table schema.
 - **{TABLE.NAME}**
 Placeholder for the table name.
-- **{TABLE.COLUMNS}...{/TABLE.COLUMNS}**
+- **{TABLE.NAME.REPLACE(OldValue,NewValue)}**
+An expression that allows you to replace a part of the table name with something. This can be useful if your table names tend to have a prefix. For example: `MyCompany_Sales`. To remove the prefix, use `{TABLE.NAME.REPLACE(MyCompany_.,)}`
+- **{TABLE.COLUMNS}…{/TABLE.COLUMNS}**
 Placeholder for the columns. Posisble attributes are: PRIMARY, NOPRIMARY or ALL (default) to filter which columns to process.
 
 ### Columns
@@ -50,26 +54,73 @@ Custom Values are Key/Value Pairs that you can define to use in a template.
 ### Examples
 
 ```
-public class {TABLE.NAME PASCAL}Mapping : EntityTypeConfiguration<{TABLE.NAME PASCAL}Model>,IRegisterMapping
+using {Namespace}.Data.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace {Namespace}.Data
 {
-    public {TABLE.NAME PASCAL}Mapping()
+    public class ApplicationDbContext : IdentityDbContext
     {
-        ToTable("{TABLE.NAME}");
-        {TABLE.COLUMNS}
-        Property(i => i.{COLUMN.NAME PASCAL}).HasColumnName("{COLUMN.NAME}").HasColumnType("{COLUMN.TYPE}"){IF NOT COLUMN.NULLABLE}.IsRequired(){/IF};
-        {/TABLE.COLUMNS}
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+{DATABASE.TABLES}
+        public DbSet<{TABLE.NAME PASCAL}> {TABLE.NAME PASCAL} { get; set; }
+{/DATABASE.TABLES}
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+{DATABASE.TABLES}
+            builder.ApplyConfiguration(new {TABLE.NAME PASCAL}Map());{/DATABASE.TABLES}
+        }
     }
 }
 ```
 
+
 ```
-public class {TABLE.NAME PASCAL}Model : IEntity
+using System;
+using Extenso.Data.Entity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace {Namespace}.Data.Domain
 {
-    {TABLE.COLUMNS}
-    /// <summary>
-    /// {COLUMN.COMMENT}
-    /// </summary>
-    public {MAP COLUMN.TYPE} {COLUMN.NAME PASCAL} { get; set; }
-    {/TABLE.COLUMNS}
+    public class {TABLE.NAME PASCAL} : IEntity
+    {{TABLE.COLUMNS}
+        public {MAP COLUMN.TYPE} {COLUMN.NAME} { get; set; }
+{/TABLE.COLUMNS}
+        #region IEntity Members
+
+        public object[] KeyValues
+        {
+            get { return new object[] { {TABLE.COLUMNS PRIMARY}{COLUMN.NAME}{/TABLE.COLUMNS} }; }
+        }
+
+        #endregion IEntity Members
+    }
+
+    public class {TABLE.NAME PASCAL}Map : IEntityTypeConfiguration<{TABLE.NAME PASCAL}>
+    {
+        public void Configure(EntityTypeBuilder<{TABLE.NAME PASCAL}> builder)
+        {
+            builder.ToTable("{TABLE.NAME}");
+           {TABLE.COLUMNS PRIMARY} builder.HasKey(m => m.{COLUMN.NAME});{/TABLE.COLUMNS}{TABLE.COLUMNS NOPRIMARY}
+            builder.Property(m => m.{COLUMN.NAME}).HasColumnType("{COLUMN.TYPE}"){IF NOT COLUMN.NULLABLE}.IsRequired(){/IF}.HasMaxLength({COLUMN.LENGTH});{/TABLE.COLUMNS}
+        }
+    }
 }
 ```
+
+### Future Work:
+
+It would be good to have the following work done in future:
+
+- Option to singularize / pluralize table and column names
+- Separate the views from the tables.. example: {VIEW.COLUMNS…}, {VIEW.NAME…}, etc.
+- Support for foreign key info, so that we can generate things like EF Navigation Properties
+- Better type mapping for each db provider, without the user having to care about the configuration.
+- Column lengths don't seem to be right in some cases. Need to check the schema queries and make corrections where needed.
+- Consider updating to .NET 6

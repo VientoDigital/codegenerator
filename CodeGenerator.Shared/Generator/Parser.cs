@@ -1,11 +1,11 @@
-using System.Collections;
+using System.Collections.Generic;
 using CodeGenerator.Data.Structure;
 
 namespace CodeGenerator.Generator
 {
     public class Parser : Expression
     {
-        private readonly ArrayList expressions = new ArrayList();
+        private readonly ICollection<Expression> expressions = new List<Expression>();
         private readonly Table table;
 
         public Parser(Table table)
