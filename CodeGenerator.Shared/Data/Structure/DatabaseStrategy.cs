@@ -12,8 +12,7 @@ namespace CodeGenerator.Data.Structure
             get
             {
                 var providerFactory = new ProviderFactory(Server.ProviderType);
-                var connection = providerFactory.CreateConnection(Server.ConnectionString);
-
+                using var connection = providerFactory.CreateConnection(Server.ConnectionString);
                 return new Database
                 {
                     Name = connection.Database
@@ -25,8 +24,7 @@ namespace CodeGenerator.Data.Structure
         {
             var databases = new List<Database>();
             var providerFactory = new ProviderFactory(Server.ProviderType);
-            var connection = providerFactory.CreateConnection(Server.ConnectionString);
-
+            using var connection = providerFactory.CreateConnection(Server.ConnectionString);
             return GetDatabaseNames(connection).Select(x => new Database { Name = x }).ToList();
         }
 

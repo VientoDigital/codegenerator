@@ -10,7 +10,7 @@ namespace CodeGenerator.Data.Structure
         {
             var tables = new List<Table>();
             var providerFactory = new ProviderFactory(Server.ProviderType);
-            var connection = providerFactory.CreateConnection(Server.ConnectionString);
+            using var connection = providerFactory.CreateConnection(Server.ConnectionString);
 
             if (connection.State == ConnectionState.Closed)
             {
@@ -48,7 +48,7 @@ namespace CodeGenerator.Data.Structure
         {
             var tables = new List<Table>();
             var providerFactory = new ProviderFactory(Server.ProviderType);
-            var connection = providerFactory.CreateConnection(Server.ConnectionString);
+            using var connection = providerFactory.CreateConnection(Server.ConnectionString);
 
             if (connection.State == ConnectionState.Closed)
             {

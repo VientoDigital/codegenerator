@@ -41,7 +41,7 @@ namespace CodeGenerator.Generator
         private static string CamelReplacement(string name)
         {
             var replacement = name.Replace("_", string.Empty);
-            replacement = replacement.Substring(0, 1).ToLower() + replacement.Substring(1);
+            replacement = replacement[..1].ToLower() + replacement[1..];
             return replacement;
         }
 
@@ -57,24 +57,24 @@ namespace CodeGenerator.Generator
         private static string PascalReplacement(string name)
         {
             var replacement = name.Replace("_", string.Empty);
-            replacement = replacement.Substring(0, 1).ToUpper() + replacement.Substring(1);
+            replacement = replacement[..1].ToUpper() + replacement[1..];
             return replacement;
         }
 
         private static string SeparatorReplacement(string replacement, string separator, bool ignoreFirstChar)
         {
-            if (ignoreFirstChar && Regex.IsMatch(replacement.Substring(1), separator))
+            if (ignoreFirstChar && Regex.IsMatch(replacement[1..], separator))
             {
                 return replacement;
             }
 
-            string firstChar = replacement.Substring(0, 1);
+            string firstChar = replacement[..1];
             if (!ignoreFirstChar)
             {
                 firstChar = firstChar.ToUpper();
             }
 
-            replacement = firstChar + replacement.Substring(1).Replace("_", string.Empty);
+            replacement = firstChar + replacement[1..].Replace("_", string.Empty);
             var matches = Regex.Matches(replacement, "(?<min>[a-z])(?<may>[A-Z])");
             foreach (Match match in matches)
             {

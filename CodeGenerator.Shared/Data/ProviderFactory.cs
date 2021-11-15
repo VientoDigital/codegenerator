@@ -13,24 +13,18 @@ namespace CodeGenerator.Data
             this.providerType = providerType;
         }
 
-        public string DbProviderInvarianName
+        public string DbProviderInvarianName => providerType switch
         {
-            get
-            {
-                switch (providerType)
-                {
-                    case ProviderType.SqlServer: return "System.Data.SqlClient";
-                    case ProviderType.MySql: return "MySql.Data.MySqlClient";
-                    case ProviderType.PostgresSql: return "Npgsql";
-                    case ProviderType.Oracle: return "Oracle.ManagedDataAccess.Client";
-                    default: throw new ArgumentOutOfRangeException(nameof(providerType));
-                }
-            }
-        }
+            ProviderType.SqlServer => "System.Data.SqlClient",
+            ProviderType.MySql => "MySql.Data.MySqlClient",
+            ProviderType.PostgresSql => "Npgsql",
+            ProviderType.Oracle => "Oracle.ManagedDataAccess.Client",
+            _ => throw new ArgumentOutOfRangeException(nameof(providerType)),
+        };
 
         public DbProviderFactory DbProviderFactory => DbProviderFactories.GetFactory(DbProviderInvarianName);
 
-        public IDbCommand CreateCommand(string cmdText, IDbConnection connection)
+        public static IDbCommand CreateCommand(string cmdText, IDbConnection connection)
         {
             var command = connection.CreateCommand();
             command.CommandText = cmdText;

@@ -34,7 +34,7 @@ WHERE atc.OWNER = '{table.ParentDatabase.Name}'
 AND atc.TABLE_NAME = '{table.Name}'
 ORDER BY TABLE_NAME asc";
 
-            var command = providerFactory.CreateCommand(schemaQuery, connection);
+            using var command = ProviderFactory.CreateCommand(schemaQuery, connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
@@ -80,7 +80,7 @@ JOIN ALL_CONSTRAINTS ac
 where acc.owner = '{table.ParentDatabase.Name}'
 and acc.Table_NAME = '{table.Name}'";
 
-            var command = providerFactory.CreateCommand(schemaQuery, connection);
+            using var command = ProviderFactory.CreateCommand(schemaQuery, connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;

@@ -8,7 +8,7 @@ namespace CodeGenerator.Data.Structure
         {
             var set = new DataSet();
 
-            var command = providerFactory.CreateCommand(
+            using var command = ProviderFactory.CreateCommand(
 @"SELECT S.[name] AS [Schema], T.[name] AS [Name], T.[type] AS [Type]
 FROM sys.tables T
 INNER JOIN sys.schemas S ON T.[schema_id] = S.[schema_id]
@@ -25,7 +25,7 @@ ORDER BY S.[name], T.[name]", connection);
         {
             var set = new DataSet();
 
-            var command = providerFactory.CreateCommand(
+            using var command = ProviderFactory.CreateCommand(
 @"SELECT S.[name] AS [Schema], V.[name] AS [Name], V.[type] AS [Type]
 FROM sys.views V
 INNER JOIN sys.schemas S ON V.[schema_id] = S.[schema_id]

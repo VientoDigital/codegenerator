@@ -92,11 +92,9 @@ namespace CodeGenerator.UI
 
                 try
                 {
-                    using (var connection = providerFactory.CreateConnection(cmbConnectionString.Text.Trim()))
-                    {
-                        connection.Open();
-                        return true;
-                    }
+                    using var connection = providerFactory.CreateConnection(cmbConnectionString.Text.Trim());
+                    connection.Open();
+                    return true;
                 }
                 catch (Exception x)
                 {
@@ -126,12 +124,22 @@ namespace CodeGenerator.UI
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                string connectionStringFormat = new ProviderInfo(((ProviderType)cmbProviderType.SelectedItem)).ConnectionStringFormat;
+                var providerType = (ProviderType)cmbProviderType.SelectedItem;
+                string connectionStringFormat = GetConnectionStringFormat(providerType);
                 lblConnectionStringHelp.Text = connectionStringFormat;
                 toolTip.SetToolTip(cmbConnectionString, connectionStringFormat);
                 cmbConnectionString.Focus();
             }
         }
+
+        private static string GetConnectionStringFormat(ProviderType providerType) => providerType switch
+        {
+            ProviderType.SqlServer => "Server=<SERVER>;User Id=<USERNAME>;Password=<PASSWORD>;",
+            ProviderType.MySql => "Server=<SERVER>;Uid=<USERNAME>;Pwd=<PASSWORD>;",
+            ProviderType.PostgresSql => "Host=<SERVER>;Port=<PORT>;User Id=<USERNAME>;Password=<PASSWORD>;",
+            ProviderType.Oracle => "Data Source=<SERVER>;User Id=<USERNAME>;Password=<PASSWORD>;Integrated Security=no;",
+            _ => null,
+        };
 
         #region Windows Form Designer generated code
 

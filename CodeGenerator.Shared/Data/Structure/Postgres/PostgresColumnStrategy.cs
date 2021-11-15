@@ -9,7 +9,7 @@ namespace CodeGenerator.Data.Structure
         {
             var set = new DataSet();
             int tableId = GetTableId(table.Name, providerFactory, connection);
-            var command = providerFactory.CreateCommand(
+            using var command = ProviderFactory.CreateCommand(
 $@"SELECT
     a.attname,
     t.typname as atttype,
@@ -40,7 +40,7 @@ ORDER BY a.attnum", connection);
 
         private static int GetTableId(string tablename, ProviderFactory providerFactory, IDbConnection connection)
         {
-            var command = providerFactory.CreateCommand(
+            using var command = ProviderFactory.CreateCommand(
 $@"SELECT
     c.oid,
     n.nspname,
@@ -71,7 +71,7 @@ ORDER BY 2, 3;", connection);
         protected override DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand(
+            using var command = ProviderFactory.CreateCommand(
 $@"SELECT
     c2.relname,
     i.indisprimary,

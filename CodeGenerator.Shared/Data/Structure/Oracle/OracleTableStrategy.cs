@@ -22,7 +22,7 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection, Database database)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand($"SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '{database.Name}' ORDER BY TABLE_NAME", connection);
+            using var command = ProviderFactory.CreateCommand($"SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '{database.Name}' ORDER BY TABLE_NAME", connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;

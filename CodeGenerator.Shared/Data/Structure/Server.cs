@@ -35,7 +35,7 @@ namespace CodeGenerator.Data.Structure
             }
         }
 
-        public Database SelectedDatabase => DatabaseStrategy.SelectedDatabase;
+        public static Database SelectedDatabase => DatabaseStrategy.SelectedDatabase;
 
         public void Reload() => reload = true;
     }

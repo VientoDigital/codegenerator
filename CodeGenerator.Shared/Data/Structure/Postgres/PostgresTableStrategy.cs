@@ -8,7 +8,7 @@ namespace CodeGenerator.Data.Structure
         {
             var set = new DataSet();
 
-            var command = providerFactory.CreateCommand(
+            var command = ProviderFactory.CreateCommand(
 @"SELECT ""table_schema"" AS ""Schema"", ""table_name"" AS ""Name"", ""table_type"" AS ""Type""
 FROM information_schema.""tables""
 WHERE ""table_schema"" NOT IN('information_schema', 'pg_catalog')
@@ -26,7 +26,7 @@ ORDER BY ""table_name""", connection);
         {
             var set = new DataSet();
 
-            var command = providerFactory.CreateCommand(
+            using var command = ProviderFactory.CreateCommand(
 @"SELECT ""table_schema"" AS ""Schema"", ""table_name"" AS ""Name"", ""table_type"" AS ""Type""
 FROM information_schema.""tables""
 WHERE ""table_schema"" NOT IN('information_schema', 'pg_catalog')

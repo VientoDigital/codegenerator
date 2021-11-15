@@ -7,7 +7,7 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'BASE TABLE'", connection);
+            using var command = ProviderFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'BASE TABLE'", connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
@@ -18,7 +18,7 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'VIEW'", connection);
+            using var command = ProviderFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'VIEW'", connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;

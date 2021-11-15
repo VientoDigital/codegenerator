@@ -16,7 +16,7 @@ namespace CodeGenerator.Data.Structure
             bool isParenthesisFound = row.Field<string>("Type").IndexOf("(") != -1;
             if (isParenthesisFound)
             {
-                column.Type = row.Field<string>("Type").Substring(0, row.Field<string>("Type").IndexOf("("));
+                column.Type = row.Field<string>("Type")[..row.Field<string>("Type").IndexOf("(")];
             }
             else
             {
@@ -26,12 +26,12 @@ namespace CodeGenerator.Data.Structure
             {
                 int start = row.Field<string>("Type").IndexOf("(") + 1;
                 int end = row.Field<string>("Type").IndexOf(")");
-                string length = row.Field<string>("Type").Substring(start, end - start);
+                string length = row.Field<string>("Type")[start..(end - start)];
                 int commaPosition = length.IndexOf(',');
 
                 if (commaPosition != -1)
                 {
-                    length = length.Substring(0, commaPosition);
+                    length = length[..commaPosition];
                 }
                 if (!Regex.IsMatch(length, "^[0-9]+$"))
                 {
@@ -52,7 +52,7 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("desc " + table.Name, connection);
+            using var command = ProviderFactory.CreateCommand("desc " + table.Name, connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
@@ -73,7 +73,7 @@ namespace CodeGenerator.Data.Structure
         protected override DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
-            var command = providerFactory.CreateCommand("show index from " + table.Name, connection);
+            using var command = ProviderFactory.CreateCommand("show index from " + table.Name, connection);
             command.CommandType = CommandType.Text;
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
