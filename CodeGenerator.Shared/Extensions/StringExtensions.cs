@@ -1,6 +1,6 @@
 ﻿using CodeGenerator.Generator;
 
-namespace CodeGenerator.Shared.Extensions
+namespace CodeGenerator
 {
     public static class StringExtensions
     {

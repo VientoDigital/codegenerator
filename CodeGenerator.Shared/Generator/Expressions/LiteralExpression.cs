@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {

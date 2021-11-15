@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace CodeGenerator.Data.Structure
 {
     public class OracleColumnStrategy : ColumnStrategy
     {
-        protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
             string schemaQuery =
@@ -39,10 +41,11 @@ ORDER BY TABLE_NAME asc";
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
-            return set;
+
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => CreateColumn(x));
         }
 
-        protected override Column CreateColumn(DataRow row)
+        protected Column CreateColumn(DataRow row)
         {
             var column = new Column
             {

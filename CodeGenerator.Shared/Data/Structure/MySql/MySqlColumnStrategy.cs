@@ -1,12 +1,36 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace CodeGenerator.Data.Structure
 {
     public class MySqlColumnStrategy : ColumnStrategy
     {
-        protected override Column CreateColumn(DataRow row)
+        protected override IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        {
+            //var columnData = (connection as MySqlConnection).GetColumnData(table.Name);
+            //return columnData.OfType<ColumnInfo>().Select(x => new Column
+            //{
+            //    Name = x.ColumnName,
+            //    Type = x.DataTypeNative,
+            //    Length = (int)x.MaximumLength,
+            //    Nullable = x.IsNullable,
+            //    Default = x.DefaultValue,
+            //    IsPrimaryKey = x.KeyType == KeyType.PrimaryKey
+            //});
+
+            var set = new DataSet();
+            using var command = ProviderFactory.CreateCommand("desc " + table.Name, connection);
+            command.CommandType = CommandType.Text;
+            var adapter = providerFactory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => CreateColumn(x));
+        }
+
+        protected Column CreateColumn(DataRow row)
         {
             var column = new Column
             {
@@ -47,17 +71,6 @@ namespace CodeGenerator.Data.Structure
             column.Nullable = !string.IsNullOrEmpty(row.Field<string>("Null"));
             column.Default = row.Field<string>("Default");
             return column;
-        }
-
-        protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
-        {
-            var set = new DataSet();
-            using var command = ProviderFactory.CreateCommand("desc " + table.Name, connection);
-            command.CommandType = CommandType.Text;
-            var adapter = providerFactory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-            adapter.Fill(set);
-            return set;
         }
 
         protected override Key CreateKey(DataRow row)

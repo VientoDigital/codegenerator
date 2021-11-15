@@ -166,8 +166,8 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void btnOK_Click(object sender, EventArgs e)
         {
-            OnInputFolderSelected(new FolderEventArgs(txtTemplatesDirectory.Text.Trim()));
-            OnOutputFolderSelected(new FolderEventArgs(txtOutputDirectory.Text.Trim()));
+            InputFolderSelected?.Invoke(this, new FolderEventArgs(txtTemplatesDirectory.Text.Trim()));
+            OutputFolderSelected?.Invoke(this, new FolderEventArgs(txtOutputDirectory.Text.Trim()));
             Close();
         }
 
@@ -176,16 +176,6 @@ namespace CodeGenerator.UI
         public event FolderEventHandler InputFolderSelected;
 
         public event FolderEventHandler OutputFolderSelected;
-
-        protected virtual void OnInputFolderSelected(FolderEventArgs args)
-        {
-            InputFolderSelected?.Invoke(this, args);
-        }
-
-        protected virtual void OnOutputFolderSelected(FolderEventArgs args)
-        {
-            OutputFolderSelected?.Invoke(this, args);
-        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void btnCancel_Click(object sender, EventArgs e)

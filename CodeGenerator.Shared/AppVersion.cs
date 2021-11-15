@@ -1,6 +1,6 @@
-using System.IO;
-using System.Net;
-using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace CodeGenerator
 {
@@ -11,7 +11,6 @@ namespace CodeGenerator
     {
         public const string Version = "3.0";
 
-        private const string Url = "http://icodegenerator.net/version";
         private static VersionInfo latestVersion;
 
         public static bool HasNewUpdate => CheckForUpdate();
@@ -27,14 +26,10 @@ namespace CodeGenerator
                         return latestVersion;
                     }
 
-                    var request = (HttpWebRequest)WebRequest.Create(Url);
-                    using (var response = (HttpWebResponse)request.GetResponse())
-                    using (var streamReader = new StreamReader(response.GetResponseStream()))
-                    {
-                        string content = streamReader.ReadToEnd();
-                        latestVersion = JsonConvert.DeserializeObject<VersionInfo>(content);
-                        return latestVersion;
-                    }
+                    using var client = new HttpClient();
+                    client.BaseAddress = new Uri(@"http://icodegenerator.net/");
+                    latestVersion = client.GetFromJsonAsync<VersionInfo>("version").Result;
+                    return latestVersion;
                 }
                 catch
                 {

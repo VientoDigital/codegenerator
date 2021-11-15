@@ -37,10 +37,9 @@ namespace CodeGenerator.Data.Structure
                 connection.ChangeDatabase(table.ParentDatabase.Name);
             }
 
-            var set = ColumnSchema(table, providerFactory, connection);
-            foreach (DataRow row in set.Tables[0].Rows)
+            var columns = ColumnSchema(table, providerFactory, connection);
+            foreach (var column in columns)
             {
-                var column = CreateColumn(row);
                 column.ParentTable = table;
                 foreach (Key key in table.Keys)
                 {
@@ -59,9 +58,7 @@ namespace CodeGenerator.Data.Structure
             return Columns;
         }
 
-        protected abstract DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection);
-
-        protected abstract Column CreateColumn(DataRow row);
+        protected abstract IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection);
 
         public ICollection<Key> GetKeys(Table table)
         {

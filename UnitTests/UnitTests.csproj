@@ -105,6 +105,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CodeGenerator.Shared\CodeGenerator.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>

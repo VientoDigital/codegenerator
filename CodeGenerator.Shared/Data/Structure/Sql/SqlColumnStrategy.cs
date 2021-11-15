@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace CodeGenerator.Data.Structure
 {
     public class SqlColumnStrategy : ColumnStrategy
     {
-        protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
+            //var columnData = (connection as SqlConnection).GetColumnData(table.Name);
+
             var set = new DataSet();
             using var command = ProviderFactory.CreateCommand("sp_columns", connection);
             command.CommandType = CommandType.StoredProcedure;
@@ -28,10 +32,11 @@ namespace CodeGenerator.Data.Structure
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
-            return set;
+
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => CreateColumn(x));
         }
 
-        protected override Column CreateColumn(DataRow row)
+        protected Column CreateColumn(DataRow row)
         {
             var column = new Column
             {

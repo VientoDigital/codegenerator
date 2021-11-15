@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
-using CodeGenerator.Shared.Extensions;
 
 namespace CodeGenerator.Generator
 {

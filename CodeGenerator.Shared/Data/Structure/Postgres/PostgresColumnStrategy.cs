@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace CodeGenerator.Data.Structure
 {
     public class PostgresColumnStrategy : ColumnStrategy
     {
-        protected override DataSet ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
             int tableId = GetTableId(table.Name, providerFactory, connection);
@@ -35,7 +37,8 @@ ORDER BY a.attnum", connection);
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
-            return set;
+
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => CreateColumn(x));
         }
 
         private static int GetTableId(string tablename, ProviderFactory providerFactory, IDbConnection connection)
@@ -54,7 +57,7 @@ ORDER BY 2, 3;", connection);
             return Convert.ToInt32(command.ExecuteScalar());
         }
 
-        protected override Column CreateColumn(DataRow row)
+        protected Column CreateColumn(DataRow row)
         {
             int length = row.Field<int>("attlen");
 

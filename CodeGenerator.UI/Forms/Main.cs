@@ -197,7 +197,7 @@ namespace CodeGenerator.UI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void mnuHelpAboutVientoDigital_Click(object sender, EventArgs e)
         {
-            var processStartInfo = new ProcessStartInfo("http://www.vientodigital.com/");
+            var processStartInfo = new ProcessStartInfo("http://www.vientodigital.com/") { UseShellExecute = true };
             Process.Start(processStartInfo);
         }
 
@@ -283,7 +283,7 @@ namespace CodeGenerator.UI
             }
         }
 
-        private bool EnsureTableSelected()
+        private static bool EnsureTableSelected()
         {
             if (selectedTable == null)
             {
@@ -346,7 +346,7 @@ namespace CodeGenerator.UI
         //    return IconToBitMap(Icon.ExtractAssociatedIcon($@"Resources\{iconName}"));
         //}
 
-        private Bitmap IconToBitMap(Icon icon)
+        private static Bitmap IconToBitMap(Icon icon)
         {
             return new Bitmap(icon.ToBitmap(), new Size(16, 16));
         }
@@ -391,19 +391,19 @@ namespace CodeGenerator.UI
             });
         }
 
-        private bool IsValidFolder(string folderPath)
+        private static bool IsValidFolder(string folderPath)
         {
             return !string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath);
         }
 
-        private KryptonPage NewDocument(string name, Control content, Bitmap icon = null)
+        private static KryptonPage NewDocument(string name, Control content, Bitmap icon = null)
         {
             var page = NewPage(name, content, icon);
             page.ClearFlags(KryptonPageFlags.DockingAllowClose);
             return page;
         }
 
-        private KryptonPage NewPage(string name, Control content, Bitmap icon = null)
+        private static KryptonPage NewPage(string name, Control content, Bitmap icon = null)
         {
             // Create new page with title and image
             var page = new KryptonPage
@@ -437,7 +437,7 @@ namespace CodeGenerator.UI
             return fileName;
         }
 
-        private string SaveFile(string fileName, string contentText)
+        private static string SaveFile(string fileName, string contentText)
         {
             using (var streamWriter = new StreamWriter(fileName))
             {
