@@ -1,39 +1,35 @@
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using Extenso.Data.MySql;
+using MySql.Data.MySqlClient;
 
 namespace CodeGenerator.Data.Structure
 {
     public class MySqlTableStrategy : TableStrategy
     {
-        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Table> TableSchema(Database database, ProviderFactory providerFactory, IDbConnection connection)
         {
-            var set = new DataSet();
-            using var command = ProviderFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'BASE TABLE'", connection);
-            command.CommandType = CommandType.Text;
-            var adapter = providerFactory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-            adapter.Fill(set);
-            return set;
-        }
-
-        protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
-        {
-            var set = new DataSet();
-            using var command = ProviderFactory.CreateCommand("SHOW FULL TABLES WHERE `Table_Type` = 'VIEW'", connection);
-            command.CommandType = CommandType.Text;
-            var adapter = providerFactory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-            adapter.Fill(set);
-            return set;
-        }
-
-        protected override Table CreateTable(Database database, DataRow row)
-        {
-            return new Table
+            var mySqlConnection = connection as MySqlConnection;
+            var tableNames = mySqlConnection.GetTableNames(includeViews: false);
+            return tableNames.Select(x => new Table
             {
                 ParentDatabase = database,
                 Schema = string.Empty,
-                Name = row.Field<string>(0)
-            };
+                Name = x
+            });
+        }
+
+        protected override IEnumerable<Table> ViewSchema(Database database, ProviderFactory providerFactory, IDbConnection connection)
+        {
+            var mySqlConnection = connection as MySqlConnection;
+            var viewNames = mySqlConnection.GetViewNames();
+            return viewNames.Select(x => new Table
+            {
+                ParentDatabase = database,
+                Schema = string.Empty,
+                Name = x
+            });
         }
     }
 }

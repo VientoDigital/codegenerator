@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
+using Extenso.Collections;
 using NUnit.Framework;
 
 namespace CodeGenerator.UnitTests
@@ -47,7 +48,7 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestDatabaseTablesCollection()
         {
-            Assert.IsTrue(server.Databases.First().Tables.Count > 0);
+            Assert.IsTrue(!server.Databases.First().Tables.IsNullOrEmpty());
         }
 
         [Test]

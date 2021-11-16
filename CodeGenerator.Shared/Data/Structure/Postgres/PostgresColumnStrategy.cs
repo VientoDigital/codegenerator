@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Extenso.Data;
+using Extenso.Data.Npgsql;
+using Npgsql;
 
 namespace CodeGenerator.Data.Structure
 {
@@ -9,36 +12,17 @@ namespace CodeGenerator.Data.Structure
     {
         protected override IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
-            var set = new DataSet();
-            int tableId = GetTableId(table.Name, providerFactory, connection);
-            using var command = ProviderFactory.CreateCommand(
-$@"SELECT
-    a.attname,
-    t.typname as atttype,
-    (
-        SELECT substring(d.adsrc for 128)
-        FROM pg_catalog.pg_attrdef d
-        WHERE d.adrelid = a.attrelid
-        AND d.adnum = a.attnum
-        AND a.atthasdef
-    ) as attdef,
-    a.attlen,
-    a.atttypmod,
-    a.attnotnull,
-    a.attnum
-FROM pg_catalog.pg_attribute a, pg_catalog.pg_type t
-WHERE a.attrelid = '{tableId}'
-AND a.attnum > 0
-AND NOT a.attisdropped
-AND t.oid = a.atttypid
-ORDER BY a.attnum", connection);
-
-            command.CommandType = CommandType.Text;
-            var adapter = providerFactory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-            adapter.Fill(set);
-
-            return set.Tables[0].Rows.OfType<DataRow>().Select(x => CreateColumn(x));
+            var columnData = (connection as NpgsqlConnection).GetColumnData(table.Name, table.Schema);
+            return columnData.OfType<ColumnInfo>().Select(x => new Column
+            {
+                ParentTable = table,
+                Name = x.ColumnName,
+                Type = x.DataTypeNative,
+                Length = (int)x.MaximumLength,
+                Nullable = x.IsNullable,
+                Default = x.DefaultValue,
+                IsPrimaryKey = x.KeyType == KeyType.PrimaryKey
+            });
         }
 
         private static int GetTableId(string tablename, ProviderFactory providerFactory, IDbConnection connection)
@@ -57,21 +41,7 @@ ORDER BY 2, 3;", connection);
             return Convert.ToInt32(command.ExecuteScalar());
         }
 
-        protected Column CreateColumn(DataRow row)
-        {
-            int length = row.Field<int>("attlen");
-
-            return new Column
-            {
-                Name = row.Field<string>("attname"),
-                Type = row.Field<string>("atttype"),
-                Length = length >= 0 ? length : row.Field<int>("atttypmod") - 4,
-                Nullable = !Convert.ToBoolean(row.Field<string>("attnotnull")),
-                Default = row.Field<string>("attdef")
-            };
-        }
-
-        protected override DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Key> KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
             using var command = ProviderFactory.CreateCommand(
@@ -91,17 +61,13 @@ ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname", connection);
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
-            return set;
-        }
 
-        protected override Key CreateKey(DataRow row)
-        {
-            return new Key
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => new Key
             {
-                Name = row.Field<string>("relname"),
-                ColumnName = row.Field<string>("relname"),
-                IsPrimary = Convert.ToBoolean(row.Field<string>("indisprimary"))
-            };
+                Name = x.Field<string>("relname"),
+                ColumnName = x.Field<string>("relname"),
+                IsPrimary = Convert.ToBoolean(x.Field<string>("indisprimary"))
+            });
         }
     }
 }

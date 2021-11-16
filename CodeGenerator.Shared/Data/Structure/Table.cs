@@ -5,7 +5,7 @@ namespace CodeGenerator.Data.Structure
 {
     public class Table
     {
-        private readonly ColumnStrategy strategy;
+        private readonly ColumnStrategy columnStrategy;
         private ICollection<Column> columns;
         private ICollection<Key> keys;
         private bool reload;
@@ -14,10 +14,36 @@ namespace CodeGenerator.Data.Structure
         {
             switch (Server.ProviderType)
             {
-                case ProviderType.SqlServer: strategy = new SqlColumnStrategy(); break;
-                case ProviderType.MySql: strategy = new MySqlColumnStrategy(); break;
-                case ProviderType.PostgresSql: strategy = new PostgresColumnStrategy(); break;
-                case ProviderType.Oracle: strategy = new OracleColumnStrategy(); break;
+                case ProviderType.SqlServer: columnStrategy = new SqlColumnStrategy(); break;
+                case ProviderType.MySql: columnStrategy = new MySqlColumnStrategy(); break;
+                case ProviderType.PostgresSql: columnStrategy = new PostgresColumnStrategy(); break;
+                case ProviderType.Oracle: columnStrategy = new OracleColumnStrategy(); break;
+            }
+        }
+
+        [Browsable(false), DefaultValue(false)]
+        public Database ParentDatabase { get; set; }
+
+        [Category("Table"), ReadOnly(true)]
+        public string Schema { get; set; }
+
+        [Category("Table"), ReadOnly(true)]
+        public string Name { get; set; }
+
+        [Browsable(false), DefaultValue(false)]
+        public ICollection<Key> Keys
+        {
+            get
+            {
+                if (reload || keys == null)
+                {
+                    if (keys != null)
+                    {
+                        keys.Clear();
+                    }
+                    keys = columnStrategy.GetKeys(this);
+                }
+                return keys;
             }
         }
 
@@ -32,38 +58,14 @@ namespace CodeGenerator.Data.Structure
                     {
                         columns.Clear();
                     }
-                    columns = strategy.GetColumns(this);
+                    columns = columnStrategy.GetColumns(this);
                 }
                 return columns;
             }
         }
 
-        [Browsable(false), DefaultValue(false)]
-        public ICollection<Key> Keys
-        {
-            get
-            {
-                if (reload || keys == null)
-                {
-                    if (keys != null)
-                    {
-                        keys.Clear();
-                    }
-                    keys = strategy.GetKeys(this);
-                }
-                return keys;
-            }
-        }
-
-        [Category("Table"), ReadOnly(true)]
-        public string Name { get; set; }
-
-        [Browsable(false), DefaultValue(false)]
-        public Database ParentDatabase { get; set; }
-
-        [Category("Table"), ReadOnly(true)]
-        public string Schema { get; set; }
-
         public void Reload() => reload = true;
+
+        public override string ToString() => $"{Schema}.{Name}";
     }
 }

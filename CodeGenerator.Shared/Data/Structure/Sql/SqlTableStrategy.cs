@@ -1,51 +1,51 @@
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using Extenso.Data.SqlClient;
 
 namespace CodeGenerator.Data.Structure
 {
     public class SqlTableStrategy : TableStrategy
     {
-        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Table> TableSchema(Database database, ProviderFactory providerFactory, IDbConnection connection)
         {
-            var set = new DataSet();
+            var sqlConnection = connection as SqlConnection;
+            var schemas = sqlConnection.GetSchemaNames();
 
-            using var command = ProviderFactory.CreateCommand(
-@"SELECT S.[name] AS [Schema], T.[name] AS [Name], T.[type] AS [Type]
-FROM sys.tables T
-INNER JOIN sys.schemas S ON T.[schema_id] = S.[schema_id]
-ORDER BY S.[name], T.[name]", connection);
-
-            command.CommandType = CommandType.Text;
-            var adapter = providerFactory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-            adapter.Fill(set);
-            return set;
-        }
-
-        protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
-        {
-            var set = new DataSet();
-
-            using var command = ProviderFactory.CreateCommand(
-@"SELECT S.[name] AS [Schema], V.[name] AS [Name], V.[type] AS [Type]
-FROM sys.views V
-INNER JOIN sys.schemas S ON V.[schema_id] = S.[schema_id]
-ORDER BY S.[name], V.[name]", connection);
-
-            command.CommandType = CommandType.Text;
-            var adapter = providerFactory.CreateDataAdapter();
-            adapter.SelectCommand = command;
-            adapter.Fill(set);
-            return set;
-        }
-
-        protected override Table CreateTable(Database database, DataRow row)
-        {
-            return new Table
+            var tables = new List<Table>();
+            foreach (string schema in schemas)
             {
-                ParentDatabase = database,
-                Schema = row.Field<string>("Schema"),
-                Name = row.Field<string>("Name")
-            };
+                var tableNames = sqlConnection.GetTableNames(includeViews: false, schema: schema);
+                tables.AddRange(tableNames.Select(x => new Table
+                {
+                    ParentDatabase = database,
+                    Schema = schema,
+                    Name = x
+                }));
+            }
+
+            return tables;
+        }
+
+        protected override IEnumerable<Table> ViewSchema(Database database, ProviderFactory providerFactory, IDbConnection connection)
+        {
+            var sqlConnection = connection as SqlConnection;
+            var schemas = sqlConnection.GetSchemaNames();
+
+            var views = new List<Table>();
+            foreach (string schema in schemas)
+            {
+                var viewNames = sqlConnection.GetViewNames(schema: schema);
+                views.AddRange(viewNames.Select(x => new Table
+                {
+                    ParentDatabase = database,
+                    Schema = schema,
+                    Name = x
+                }));
+            }
+
+            return views;
         }
     }
 }

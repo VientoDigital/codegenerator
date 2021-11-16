@@ -1,25 +1,12 @@
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace CodeGenerator.Data.Structure
 {
     public class OracleTableStrategy : TableStrategy
     {
-        protected override Table CreateTable(Database database, DataRow row)
-        {
-            return new Table
-            {
-                ParentDatabase = database,
-                Name = row.Field<string>("table_name"),
-                Schema = string.Empty
-            };
-        }
-
-        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection)
-        {
-            return new DataSet();
-        }
-
-        protected override DataSet TableSchema(ProviderFactory providerFactory, IDbConnection connection, Database database)
+        protected override IEnumerable<Table> TableSchema(Database database, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
             using var command = ProviderFactory.CreateCommand($"SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '{database.Name}' ORDER BY TABLE_NAME", connection);
@@ -27,12 +14,18 @@ namespace CodeGenerator.Data.Structure
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
-            return set;
+
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => new Table
+            {
+                ParentDatabase = database,
+                Schema = string.Empty,
+                Name = x.Field<string>("table_name")
+            });
         }
 
-        protected override DataSet ViewSchema(ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Table> ViewSchema(Database database, ProviderFactory providerFactory, IDbConnection connection)
         {
-            return new DataSet();
+            return Enumerable.Empty<Table>();
         }
     }
 }

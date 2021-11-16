@@ -38,5 +38,7 @@ namespace CodeGenerator.Data.Structure
         public static Database SelectedDatabase => DatabaseStrategy.SelectedDatabase;
 
         public void Reload() => reload = true;
+
+        public override string ToString() => $"{ProviderType}:{ConnectionString}";
     }
 }

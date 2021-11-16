@@ -3,12 +3,14 @@ using System.ComponentModel;
 
 namespace CodeGenerator.Data.Structure
 {
+    // TODO: Add schemas collection in here..
+
     public class Database
     {
         private readonly TableStrategy strategy;
         private bool reload;
-        private ICollection<Table> tables;
-        private ICollection<Table> views;
+        private IEnumerable<Table> tables;
+        private IEnumerable<Table> views;
 
         public Database()
         {
@@ -25,7 +27,7 @@ namespace CodeGenerator.Data.Structure
         public string Name { get; set; }
 
         [Browsable(false), DefaultValue(false)]
-        public ICollection<Table> Tables
+        public IEnumerable<Table> Tables
         {
             get
             {
@@ -39,7 +41,7 @@ namespace CodeGenerator.Data.Structure
         }
 
         [Browsable(false), DefaultValue(false)]
-        public ICollection<Table> Views
+        public IEnumerable<Table> Views
         {
             get
             {
@@ -53,5 +55,7 @@ namespace CodeGenerator.Data.Structure
         }
 
         public void Reload() => reload = true;
+
+        public override string ToString() => $"{Name}";
     }
 }

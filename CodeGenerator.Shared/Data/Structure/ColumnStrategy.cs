@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Extenso;
+using Oracle.ManagedDataAccess.Client;
 
 namespace CodeGenerator.Data.Structure
 {
@@ -40,18 +42,12 @@ namespace CodeGenerator.Data.Structure
             var columns = ColumnSchema(table, providerFactory, connection);
             foreach (var column in columns)
             {
-                column.ParentTable = table;
-                foreach (Key key in table.Keys)
+                if (connection is OracleConnection)
                 {
-                    if (key.IsPrimary)
-                    {
-                        if (key.ColumnName == column.Name)
-                        {
-                            column.IsPrimaryKey = true;
-                            continue;
-                        }
-                    }
+                    // Only needed for Oracle (for now), because the other providers take care of this..
+                    column.IsPrimaryKey = table.Keys.OfType<Key>().FirstOrDefault(x => x.IsPrimary && x.ColumnName == column.Name) != null;
                 }
+
                 Columns.Add(column);
             }
             connection.Close();
@@ -70,19 +66,19 @@ namespace CodeGenerator.Data.Structure
             {
                 connection.ChangeDatabase(table.ParentDatabase.Name);
             }
-            DataSet set = KeySchema(table, providerFactory, connection);
-            foreach (DataRow row in set.Tables[0].Rows)
+
+            var keys = KeySchema(table, providerFactory, connection);
+            foreach (var key in keys)
             {
-                var key = CreateKey(row);
                 Keys.Add(key);
             }
             connection.Close();
             return Keys;
         }
 
-        protected abstract DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection);
+        protected abstract IEnumerable<Key> KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection);
 
-        protected abstract Key CreateKey(DataRow row);
+        #region IDisposable Members
 
         protected virtual void Dispose(bool disposing)
         {
@@ -112,5 +108,7 @@ namespace CodeGenerator.Data.Structure
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+        #endregion IDisposable Members
     }
 }

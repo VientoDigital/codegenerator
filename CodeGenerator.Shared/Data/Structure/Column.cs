@@ -24,5 +24,7 @@ namespace CodeGenerator.Data.Structure
 
         [Category("Column")]
         public string Default { get; set; }
+
+        public override string ToString() => Name;
     }
 }

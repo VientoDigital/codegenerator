@@ -42,32 +42,18 @@ ORDER BY TABLE_NAME asc";
             adapter.SelectCommand = command;
             adapter.Fill(set);
 
-            return set.Tables[0].Rows.OfType<DataRow>().Select(x => CreateColumn(x));
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => new Column
+            {
+                ParentTable = table,
+                Name = x.Field<string>("COLUMN_NAME"),
+                Type = x.Field<string>("DATA_TYPE"),
+                Length = x.Field<int>("DATA_LENGTH"),
+                Nullable = x.Field<string>("NULLABLE") == "Y",
+                Default = string.Empty
+            });
         }
 
-        protected Column CreateColumn(DataRow row)
-        {
-            var column = new Column
-            {
-                Name = row.Field<string>("COLUMN_NAME"),
-                Type = row.Field<string>("DATA_TYPE"),
-                Length = row.Field<int>("DATA_LENGTH")
-            };
-
-            if (row.Field<string>("NULLABLE") == "Y")
-            {
-                column.Nullable = true;
-            }
-            else
-            {
-                column.Nullable = false;
-            }
-
-            column.Default = string.Empty;
-            return column;
-        }
-
-        protected override DataSet KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Key> KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
         {
             var set = new DataSet();
             string schemaQuery =
@@ -88,26 +74,13 @@ and acc.Table_NAME = '{table.Name}'";
             var adapter = providerFactory.CreateDataAdapter();
             adapter.SelectCommand = command;
             adapter.Fill(set);
-            return set;
-        }
 
-        protected override Key CreateKey(DataRow row)
-        {
-            var key = new Key
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => new Key
             {
-                Name = row.Field<string>("CONSTRAINT_NAME"),
-                ColumnName = row.Field<string>("COLUMN_NAME")
-            };
-
-            if (row.Field<string>("CONSTRAINT_TYPE") == "P")
-            {
-                key.IsPrimary = true;
-            }
-            else
-            {
-                key.IsPrimary = false;
-            }
-            return key;
+                Name = x.Field<string>("CONSTRAINT_NAME"),
+                ColumnName = x.Field<string>("COLUMN_NAME"),
+                IsPrimary = x.Field<string>("CONSTRAINT_TYPE") == "P"
+            });
         }
     }
 }
