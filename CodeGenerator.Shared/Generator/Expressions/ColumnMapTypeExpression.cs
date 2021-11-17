@@ -17,7 +17,7 @@ namespace CodeGenerator.Generator
             var column = (Column)Parameter;
             string typeName;
 
-            if (Server.ProviderType != ProviderType.Oracle)
+            if (Server.ProviderType != DataSource.Oracle)
             {
                 var systemType = DataTypeConvertor.GetSystemType(column.DbType);
 

@@ -66,7 +66,7 @@ namespace CodeGenerator.Generator
                 Extra = tables
             };
 
-            foreach (Expression expression in expressions)
+            foreach (var expression in expressions)
             {
                 tableContext.Input = tableInputText;
                 expression.Parameter = table;

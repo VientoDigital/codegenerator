@@ -22,44 +22,43 @@ namespace CodeGenerator.Generator
 
         public override void Interpret(Context context)
         {
-            var regex = new Regex(InputPattern, RegexOptions.Singleline);
-            string inputString = context.Input;
-            var matches = regex.Matches(inputString);
             var columns = ((IEnumerable<Column>)context.Extra).ToList();
-
             bool isLastColumn = (columns.Count == (columns.IndexOf((Column)Parameter) + 1));
+
+            string result = context.Input;
+            var regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var matches = regex.Matches(result);
 
             foreach (Match match in matches)
             {
-                bool IsIfNotLast;
-                string matchString = match.Value;
+                bool matchNotLast;
+                string matchValue = match.Value;
                 if (match.Length != 0)
                 {
-                    string content = match.Groups["content"].ToString();
-                    string endString = match.Groups["end"].ToString();
+                    string content = match.Groups["content"].Value;
+                    string endString = match.Groups["end"].Value;
                     string replacementString = content + endString;
-                    IsIfNotLast = (match.Groups["not"].ToString().Length != 0);
+                    matchNotLast = (match.Groups["not"].Value.Length != 0);
 
-                    bool IsIfLast = !IsIfNotLast;
-                    if (IsIfNotLast && isLastColumn)
+                    if (matchNotLast && isLastColumn)
                     {
-                        ReplaceContent(matchString, string.Empty, ref inputString);
+                        ReplaceContent(matchValue, string.Empty, ref result);
                     }
-                    else if (IsIfLast && isLastColumn)
+                    else if (!matchNotLast && isLastColumn)
                     {
-                        ReplaceContent(matchString, replacementString, ref inputString);
+                        ReplaceContent(matchValue, replacementString, ref result);
                     }
-                    else if (IsIfNotLast && !isLastColumn)
+                    else if (matchNotLast && !isLastColumn)
                     {
-                        ReplaceContent(matchString, replacementString, ref inputString);
+                        ReplaceContent(matchValue, replacementString, ref result);
                     }
-                    else if (IsIfLast && !isLastColumn)
+                    else if (!matchNotLast && !isLastColumn)
                     {
-                        ReplaceContent(matchString, string.Empty, ref inputString);
+                        ReplaceContent(matchValue, string.Empty, ref result);
                     }
                 }
             }
-            context.Output = inputString;
+            context.Output = result;
             context.Input = context.Output;
         }
 

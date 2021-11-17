@@ -21,19 +21,19 @@ namespace CodeGenerator.Generator
             string inputPattern = $@"{key}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
 
             var regex = new Regex(inputPattern, RegexOptions.Singleline);
-            string input = context.Input;
-            var matches = regex.Matches(input);
+            string result = context.Input;
+            var matches = regex.Matches(result);
 
             foreach (Match match in matches)
             {
                 string matchValue = match.Value;
-                string casing = match.Groups["casing"].ToString();
+                string casing = match.Groups["casing"].Value;
                 string replacement = value;
                 replacement = CaseConversion(casing, replacement, value);
-                input = Regex.Replace(input, matchValue, replacement);
+                result = Regex.Replace(result, matchValue, replacement);
             }
 
-            context.Output = input;
+            context.Output = result;
             context.Input = context.Output;
         }
     }

@@ -5,27 +5,25 @@ namespace CodeGenerator.Generator
 {
     public class ColumnNameExpression : Expression
     {
-        private const string COLUMN_NAME = "COLUMN.NAME";
-
-        private static string InputPattern => $@"{COLUMN_NAME}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
+        private static string InputPattern => @"COLUMN.NAME\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
 
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
-            string input = context.Input;
-            var matches = regex.Matches(input);
+            string result = context.Input;
+            var matches = regex.Matches(result);
 
             foreach (Match match in matches)
             {
                 string matchValue = match.Value;
-                string casing = match.Groups["casing"].ToString();
+                string casing = match.Groups["casing"].Value;
                 string replacement = column.Name;
                 replacement = CaseConversion(casing, replacement, column.Name);
-                input = Regex.Replace(input, matchValue, replacement);
+                result = Regex.Replace(result, matchValue, replacement);
             }
 
-            context.Output = input;
+            context.Output = result;
             context.Input = context.Output;
         }
     }

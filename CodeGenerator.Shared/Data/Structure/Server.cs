@@ -4,7 +4,6 @@ namespace CodeGenerator.Data.Structure
 {
     public class Server
     {
-        private readonly DatabaseStrategy strategy;
         private ICollection<Database> databases;
         private bool reload;
 
@@ -12,16 +11,20 @@ namespace CodeGenerator.Data.Structure
         {
             switch (ProviderType)
             {
-                case ProviderType.SqlServer: strategy = new SqlDatabaseStrategy(); break;
-                case ProviderType.MySql: strategy = new MySqlDatabaseStrategy(); break;
-                case ProviderType.PostgresSql: strategy = new PostgresDatabaseStrategy(); break;
-                case ProviderType.Oracle: strategy = new OracleDatabaseStrategy(); break;
+                case DataSource.SqlServer: DataSourceProvider = new SqlDataSourceProvider(); break;
+                case DataSource.MySql: DataSourceProvider = new MySqlDataSourceProvider(); break;
+                case DataSource.PostgresSql: DataSourceProvider = new NpgsqlDataSourceProvider(); break;
+                case DataSource.Oracle: DataSourceProvider = new OracleDataSourceProvider(); break;
             }
         }
 
         public static string ConnectionString { get; set; }
 
-        public static ProviderType ProviderType { get; set; }
+        public static IDataSourceProvider DataSourceProvider { get; private set; }
+
+        public static DataSource ProviderType { get; set; }
+
+        public static Database SelectedDatabase => DataSourceProvider.SelectedDatabase;
 
         public ICollection<Database> Databases
         {
@@ -29,13 +32,11 @@ namespace CodeGenerator.Data.Structure
             {
                 if (reload || databases == null)
                 {
-                    databases = strategy.GetDatabases();
+                    databases = DataSourceProvider.GetDatabases();
                 }
                 return databases;
             }
         }
-
-        public static Database SelectedDatabase => DatabaseStrategy.SelectedDatabase;
 
         public void Reload() => reload = true;
 

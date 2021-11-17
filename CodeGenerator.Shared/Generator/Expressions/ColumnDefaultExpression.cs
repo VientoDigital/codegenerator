@@ -5,10 +5,6 @@ namespace CodeGenerator.Generator
 {
     public class ColumnDefaultExpression : Expression
     {
-        public ColumnDefaultExpression()
-        {
-        }
-
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;

@@ -7,21 +7,9 @@ namespace CodeGenerator.Data.Structure
 
     public class Database
     {
-        private readonly TableStrategy strategy;
         private bool reload;
         private IEnumerable<Table> tables;
         private IEnumerable<Table> views;
-
-        public Database()
-        {
-            switch (Server.ProviderType)
-            {
-                case ProviderType.SqlServer: strategy = new SqlTableStrategy(); break;
-                case ProviderType.MySql: strategy = new MySqlTableStrategy(); break;
-                case ProviderType.PostgresSql: strategy = new PostgresTableStrategy(); break;
-                case ProviderType.Oracle: strategy = new OracleTableStrategy(); break;
-            }
-        }
 
         [Category("Database"), ReadOnly(true)]
         public string Name { get; set; }
@@ -33,7 +21,7 @@ namespace CodeGenerator.Data.Structure
             {
                 if (reload || tables == null)
                 {
-                    tables = strategy.GetTables(this);
+                    tables = Server.DataSourceProvider.GetTables(this);
                     reload = false;
                 }
                 return tables;
@@ -47,7 +35,7 @@ namespace CodeGenerator.Data.Structure
             {
                 if (reload || views == null)
                 {
-                    views = strategy.GetViews(this);
+                    views = Server.DataSourceProvider.GetViews(this);
                     reload = false;
                 }
                 return views;
@@ -56,6 +44,6 @@ namespace CodeGenerator.Data.Structure
 
         public void Reload() => reload = true;
 
-        public override string ToString() => $"{Name}";
+        public override string ToString() => Name;
     }
 }

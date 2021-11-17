@@ -5,21 +5,9 @@ namespace CodeGenerator.Data.Structure
 {
     public class Table
     {
-        private readonly ColumnStrategy columnStrategy;
         private ICollection<Column> columns;
         private ICollection<Key> keys;
         private bool reload;
-
-        public Table()
-        {
-            switch (Server.ProviderType)
-            {
-                case ProviderType.SqlServer: columnStrategy = new SqlColumnStrategy(); break;
-                case ProviderType.MySql: columnStrategy = new MySqlColumnStrategy(); break;
-                case ProviderType.PostgresSql: columnStrategy = new PostgresColumnStrategy(); break;
-                case ProviderType.Oracle: columnStrategy = new OracleColumnStrategy(); break;
-            }
-        }
 
         [Browsable(false), DefaultValue(false)]
         public Database ParentDatabase { get; set; }
@@ -41,7 +29,7 @@ namespace CodeGenerator.Data.Structure
                     {
                         keys.Clear();
                     }
-                    keys = columnStrategy.GetKeys(this);
+                    keys = Server.DataSourceProvider.GetKeys(this);
                 }
                 return keys;
             }
@@ -58,7 +46,7 @@ namespace CodeGenerator.Data.Structure
                     {
                         columns.Clear();
                     }
-                    columns = columnStrategy.GetColumns(this);
+                    columns = Server.DataSourceProvider.GetColumns(this);
                 }
                 return columns;
             }

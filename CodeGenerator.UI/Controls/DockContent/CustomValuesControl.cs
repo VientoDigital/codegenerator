@@ -15,7 +15,7 @@ namespace CodeGenerator.UI
             gridCustomValues.DataSource = ConfigFile.Instance.CustomValues.ToDataTable();
         }
 
-        public IDictionary<string, string> CustomValues => ConfigFile.Instance.CustomValues;
+        public static IDictionary<string, string> CustomValues => ConfigFile.Instance.CustomValues;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private void gridCustomValues_Leave(object sender, EventArgs e)

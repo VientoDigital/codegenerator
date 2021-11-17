@@ -26,7 +26,7 @@ namespace CodeGenerator.UI
         {
             InitializeComponent();
 
-            cmbProviderType.DataSource = Enum.GetValues(typeof(ProviderType));
+            cmbProviderType.DataSource = Enum.GetValues(typeof(DataSource));
             cmbProviderType.SelectedIndex = 0;
 
             cmbConnectionString.Items.Clear();
@@ -68,7 +68,7 @@ namespace CodeGenerator.UI
         {
             if (TestConnection())
             {
-                Server.ProviderType = ((ProviderType)cmbProviderType.SelectedItem);
+                Server.ProviderType = ((DataSource)cmbProviderType.SelectedItem);
                 bool isNewConnectionString = cmbConnectionString.SelectedIndex == -1;
                 string selectedConnectionString = cmbConnectionString.Text.Trim();
 
@@ -88,7 +88,7 @@ namespace CodeGenerator.UI
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                var providerFactory = new ProviderFactory(((ProviderType)cmbProviderType.SelectedItem));
+                var providerFactory = new ProviderFactory(((DataSource)cmbProviderType.SelectedItem));
 
                 try
                 {
@@ -124,7 +124,7 @@ namespace CodeGenerator.UI
         {
             if (cmbProviderType.SelectedIndex >= 0)
             {
-                var providerType = (ProviderType)cmbProviderType.SelectedItem;
+                var providerType = (DataSource)cmbProviderType.SelectedItem;
                 string connectionStringFormat = GetConnectionStringFormat(providerType);
                 lblConnectionStringHelp.Text = connectionStringFormat;
                 toolTip.SetToolTip(cmbConnectionString, connectionStringFormat);
@@ -132,12 +132,12 @@ namespace CodeGenerator.UI
             }
         }
 
-        private static string GetConnectionStringFormat(ProviderType providerType) => providerType switch
+        private static string GetConnectionStringFormat(DataSource providerType) => providerType switch
         {
-            ProviderType.SqlServer => "Server=<SERVER>;User Id=<USERNAME>;Password=<PASSWORD>;",
-            ProviderType.MySql => "Server=<SERVER>;Uid=<USERNAME>;Pwd=<PASSWORD>;",
-            ProviderType.PostgresSql => "Host=<SERVER>;Port=<PORT>;User Id=<USERNAME>;Password=<PASSWORD>;",
-            ProviderType.Oracle => "Data Source=<SERVER>;User Id=<USERNAME>;Password=<PASSWORD>;Integrated Security=no;",
+            DataSource.SqlServer => "Server=<SERVER>;User Id=<USERNAME>;Password=<PASSWORD>;",
+            DataSource.MySql => "Server=<SERVER>;Uid=<USERNAME>;Pwd=<PASSWORD>;",
+            DataSource.PostgresSql => "Host=<SERVER>;Port=<PORT>;User Id=<USERNAME>;Password=<PASSWORD>;",
+            DataSource.Oracle => "Data Source=<SERVER>;User Id=<USERNAME>;Password=<PASSWORD>;Integrated Security=no;",
             _ => null,
         };
 

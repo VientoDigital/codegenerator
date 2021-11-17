@@ -20,7 +20,7 @@ namespace CodeGenerator.Generator
 
         public override void Interpret(Context context)
         {
-            foreach (Expression expression in expressions)
+            foreach (var expression in expressions)
             {
                 expression.Parameter = table;
                 expression.Interpret(context);

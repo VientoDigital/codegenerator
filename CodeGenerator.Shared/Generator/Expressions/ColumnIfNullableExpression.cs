@@ -5,10 +5,6 @@ namespace CodeGenerator.Generator
 {
     public class ColumnIfNullableExpression : Expression
     {
-        public ColumnIfNullableExpression()
-        {
-        }
-
         private static string InputPattern
         {
             get
@@ -25,10 +21,10 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
-
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
-            string inputString = context.Input;
-            var matches = regex.Matches(inputString);
+            string result = context.Input;
+            var matches = regex.Matches(result);
+
             foreach (Match match in matches)
             {
                 if (match.Length == 0)
@@ -36,24 +32,24 @@ namespace CodeGenerator.Generator
                     continue;
                 }
                 string matchString = match.Value;
-                string contentString = match.Groups["content"].ToString();
-                string endString = match.Groups["end"].ToString();
+                string contentString = match.Groups["content"].Value;
+                string endString = match.Groups["end"].Value;
                 string replacementString = contentString + endString;
-                bool isIfNullable = !(match.Groups["not"].ToString().IndexOf("NOT") != -1);
+                bool isIfNullable = !(match.Groups["not"].Value.IndexOf("NOT") != -1);
                 bool isIfNotNullable = !isIfNullable;
                 if (isIfNotNullable && !column.Nullable)
                 {
-                    ReplaceContent(matchString, replacementString, ref inputString);
+                    ReplaceContent(matchString, replacementString, ref result);
                 }
                 else if (isIfNullable && column.Nullable)
                 {
-                    ReplaceContent(matchString, replacementString, ref inputString);
+                    ReplaceContent(matchString, replacementString, ref result);
                 }
                 else
                 {
-                    ReplaceContent(match.Value, string.Empty, ref inputString);
+                    ReplaceContent(match.Value, string.Empty, ref result);
                 }
-                context.Output = inputString;
+                context.Output = result;
                 context.Input = context.Output;
             }
         }

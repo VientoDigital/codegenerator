@@ -311,7 +311,7 @@ namespace CodeGenerator.UI
                 }
 
                 EnsureResultsFormExists();
-                var client = new Client { CustomValues = customValuesForm.CustomValues };
+                var client = new Client { CustomValues = CustomValuesControl.CustomValues };
                 resultForm.ContentText = client.Parse(selectedTable, templateForm.ContentText);
                 workspace.SelectPage(resultPage.UniqueName);
             }
@@ -334,7 +334,7 @@ namespace CodeGenerator.UI
                 {
                     var fileGenerator = new FileGenerator();
                     fileGenerator.OnComplete += fileGenerator_OnComplete;
-                    fileGenerator.CustomValues = customValuesForm.CustomValues;
+                    fileGenerator.CustomValues = CustomValuesControl.CustomValues;
                     fileGenerator.Generate(selectedTable, inputTemplateFolder, outputTemplateFolder);
                 }
                 catch (Exception x)

@@ -8,6 +8,7 @@ namespace CodeGenerator.Generator
     {
         private const string NOPRIMARY = "NOPRIMARY";
         private const string PRIMARY = "PRIMARY";
+
         private readonly ICollection<Expression> expressions;
 
         public ColumnsExpression()
@@ -20,7 +21,7 @@ namespace CodeGenerator.Generator
             get
             {
                 return
-                    @"TABLE.COLUMNS(?<selection> (ALL|PRIMARY|NOPRIMARY))?".DelimeterWrap() +
+                    $@"TABLE.COLUMNS(?<selection> (ALL|{PRIMARY}|{NOPRIMARY}))?".DelimeterWrap() +
                     "(?<column>.+?)" +
                     "/TABLE.COLUMNS".DelimeterWrap();
             }
@@ -69,7 +70,7 @@ namespace CodeGenerator.Generator
             expressions.Remove(expression);
         }
 
-        private bool IsValidColumn(Column column, string selectionString)
+        private static bool IsValidColumn(Column column, string selectionString)
         {
             if (selectionString == PRIMARY && !column.IsPrimaryKey)
             {

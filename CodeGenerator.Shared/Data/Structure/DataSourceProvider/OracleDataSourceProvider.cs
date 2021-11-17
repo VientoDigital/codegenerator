@@ -1,12 +1,52 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
+using Oracle.ManagedDataAccess.Client;
 
 namespace CodeGenerator.Data.Structure
 {
-    public class OracleColumnStrategy : ColumnStrategy
+    public class OracleDataSourceProvider : BaseDataSourceProvider<OracleConnection>
     {
-        protected override IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<string> GetDatabaseNames()
+        {
+            var set = new DataSet();
+            var command = connection.CreateCommand();
+            command.CommandText = "SELECT DISTINCT USERNAME FROM ALL_USERS";
+            command.CommandType = CommandType.Text;
+            var adapter = DbProviderFactories.GetFactory(connection).CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+
+            return set.Tables[0].Rows
+                .OfType<DataRow>()
+                .Select(x => x.Field<string>("USERNAME"))
+                .ToList();
+        }
+
+        protected override IEnumerable<Table> GetTableSchema(Database database, ProviderFactory providerFactory)
+        {
+            var set = new DataSet();
+            using var command = ProviderFactory.CreateCommand($"SELECT OWNER, TABLE_NAME FROM all_tables where OWNER = '{database.Name}' ORDER BY TABLE_NAME", connection);
+            command.CommandType = CommandType.Text;
+            var adapter = providerFactory.CreateDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(set);
+
+            return set.Tables[0].Rows.OfType<DataRow>().Select(x => new Table
+            {
+                ParentDatabase = database,
+                Schema = string.Empty,
+                Name = x.Field<string>("table_name")
+            });
+        }
+
+        protected override IEnumerable<Table> GetViewSchema(Database database, ProviderFactory providerFactory)
+        {
+            return Enumerable.Empty<Table>();
+        }
+
+        protected override IEnumerable<Column> GetColumnSchema(Table table, ProviderFactory providerFactory)
         {
             var set = new DataSet();
             string schemaQuery =
@@ -53,7 +93,7 @@ ORDER BY TABLE_NAME asc";
             });
         }
 
-        protected override IEnumerable<Key> KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Key> GetKeySchema(Table table, ProviderFactory providerFactory)
         {
             var set = new DataSet();
             string schemaQuery =

@@ -6,23 +6,23 @@ namespace CodeGenerator.Data
 {
     public class ProviderFactory
     {
-        private readonly ProviderType providerType;
+        private readonly DataSource providerType;
 
-        public ProviderFactory(ProviderType providerType)
+        public ProviderFactory(DataSource providerType)
         {
             this.providerType = providerType;
         }
 
-        public string DbProviderInvarianName => providerType switch
+        public string DbProviderInvariantName => providerType switch
         {
-            ProviderType.SqlServer => "System.Data.SqlClient",
-            ProviderType.MySql => "MySql.Data.MySqlClient",
-            ProviderType.PostgresSql => "Npgsql",
-            ProviderType.Oracle => "Oracle.ManagedDataAccess.Client",
+            DataSource.SqlServer => "System.Data.SqlClient",
+            DataSource.MySql => "MySql.Data.MySqlClient",
+            DataSource.PostgresSql => "Npgsql",
+            DataSource.Oracle => "Oracle.ManagedDataAccess.Client",
             _ => throw new ArgumentOutOfRangeException(nameof(providerType)),
         };
 
-        public DbProviderFactory DbProviderFactory => DbProviderFactories.GetFactory(DbProviderInvarianName);
+        public DbProviderFactory DbProviderFactory => DbProviderFactories.GetFactory(DbProviderInvariantName);
 
         public static IDbCommand CreateCommand(string cmdText, IDbConnection connection)
         {

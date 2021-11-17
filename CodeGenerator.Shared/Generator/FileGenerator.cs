@@ -25,14 +25,8 @@ namespace CodeGenerator.Generator
             }
 
             var directoryInfo = new DirectoryInfo(inputDir);
-            var originalSd = Context.StartDelimeter;
-            var originalEd = Context.EndingDelimiter;
-
             foreach (var fileInfo in directoryInfo.GetFiles())
             {
-                Context.StartDelimeter = "{";//originalSd;
-                Context.EndingDelimiter = "}";//originalEd;
-
                 string fileContent;
                 using (var streamReader = File.OpenText(fileInfo.FullName))
                 {
@@ -41,16 +35,12 @@ namespace CodeGenerator.Generator
                 }
 
                 string generatedCode = client.Parse(table, fileContent);
-                //Context.StartDelimeter = string.Empty;
-                //Context.EndingDelimiter = string.Empty;
                 string fileName = client.Parse(table, fileInfo.Name);
 
                 try
                 {
-                    using (var streamWriter = new StreamWriter($"{outputDir}{Path.DirectorySeparatorChar}{fileName}"))
-                    {
-                        streamWriter.Write(generatedCode);
-                    }
+                    using var streamWriter = new StreamWriter($"{outputDir}{Path.DirectorySeparatorChar}{fileName}");
+                    streamWriter.Write(generatedCode);
                 }
                 catch (Exception x)
                 {
@@ -58,8 +48,6 @@ namespace CodeGenerator.Generator
                 }
             }
 
-            Context.StartDelimeter = originalSd;
-            Context.EndingDelimiter = originalEd;
             OnComplete?.Invoke(this, new EventArgs());
         }
     }

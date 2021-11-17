@@ -39,7 +39,7 @@ namespace CodeGenerator.UI
             this.navigatorControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navigatorControl.Location = new System.Drawing.Point(0, 0);
             this.navigatorControl.Name = "navigatorControl";
-            this.navigatorControl.ProviderType = Data.ProviderType.SqlServer;
+            this.navigatorControl.ProviderType = Data.DataSource.SqlServer;
             this.navigatorControl.Size = new System.Drawing.Size(284, 262);
             this.navigatorControl.TabIndex = 0;
             this.navigatorControl.TableSelect += new NavigatorControl.TableEventHandler(this.navigatorControl_TableSelect);

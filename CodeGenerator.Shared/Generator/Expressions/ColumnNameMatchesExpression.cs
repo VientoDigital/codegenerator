@@ -25,8 +25,8 @@ namespace CodeGenerator.Generator
         {
             var column = (Column)Parameter;
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
-            string inputString = context.Input;
-            var matches = regex.Matches(inputString);
+            string result = context.Input;
+            var matches = regex.Matches(result);
 
             foreach (Match match in matches)
             {
@@ -35,32 +35,32 @@ namespace CodeGenerator.Generator
                     continue;
                 }
 
-                bool isEqual = (match.Groups["equality"].ToString().IndexOf("=~") != -1);
-                bool isNotEqual = (match.Groups["equality"].ToString().IndexOf("!~") != -1);
-                string contentString = match.Groups["content"].ToString();
-                string regularExp = match.Groups["regularExp"].ToString();
-                string endString = match.Groups["end"].ToString();
+                bool isEqual = (match.Groups["equality"].Value.IndexOf("=~") != -1);
+                bool isNotEqual = (match.Groups["equality"].Value.IndexOf("!~") != -1);
+                string contentString = match.Groups["content"].Value;
+                string regularExp = match.Groups["regularExp"].Value;
+                string endString = match.Groups["end"].Value;
                 string replacementString = contentString + endString;
                 bool isAMatch = false;
 
                 if (isEqual && Regex.IsMatch(column.Name, regularExp))
                 {
                     isAMatch = true;
-                    ReplaceContent(match.Value, replacementString, ref inputString);
+                    ReplaceContent(match.Value, replacementString, ref result);
                 }
                 else if (isNotEqual && !Regex.IsMatch(column.Name, regularExp))
                 {
                     isAMatch = true;
-                    ReplaceContent(match.Value, replacementString, ref inputString);
+                    ReplaceContent(match.Value, replacementString, ref result);
                 }
 
                 if (!isAMatch)
                 {
-                    ReplaceContent(match.Value, string.Empty, ref inputString);
+                    ReplaceContent(match.Value, string.Empty, ref result);
                 }
             }
 
-            context.Output = inputString;
+            context.Output = result;
             context.Input = context.Output;
         }
 

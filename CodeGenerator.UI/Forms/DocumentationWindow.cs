@@ -27,18 +27,18 @@ namespace CodeGenerator.UI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocumentationWindow));
             this.rtbDocumentation = new Krypton.Toolkit.KryptonRichTextBox();
             this.SuspendLayout();
-            // 
+            //
             // rtbDocumentation
-            // 
+            //
             this.rtbDocumentation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbDocumentation.Location = new System.Drawing.Point(0, 0);
             this.rtbDocumentation.Name = "rtbDocumentation";
             this.rtbDocumentation.Size = new System.Drawing.Size(1008, 681);
             this.rtbDocumentation.TabIndex = 0;
             this.rtbDocumentation.Text = "";
-            // 
+            //
             // DocumentationWindow
-            // 
+            //
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1024, 720);
@@ -49,7 +49,6 @@ namespace CodeGenerator.UI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Code Generator";
             this.ResumeLayout(false);
-
         }
 
         #endregion Windows Form Designer generated code

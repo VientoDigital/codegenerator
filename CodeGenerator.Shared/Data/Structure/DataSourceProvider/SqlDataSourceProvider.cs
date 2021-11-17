@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,9 +7,52 @@ using Extenso.Data.SqlClient;
 
 namespace CodeGenerator.Data.Structure
 {
-    public class SqlColumnStrategy : ColumnStrategy
+    public class SqlDataSourceProvider : BaseDataSourceProvider<SqlConnection>
     {
-        protected override IEnumerable<Column> ColumnSchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<string> GetDatabaseNames()
+        {
+            return connection.GetDatabaseNames();
+        }
+
+        protected override IEnumerable<Table> GetTableSchema(Database database, ProviderFactory providerFactory)
+        {
+            var schemas = connection.GetSchemaNames();
+
+            var tables = new List<Table>();
+            foreach (string schema in schemas)
+            {
+                var tableNames = connection.GetTableNames(includeViews: false, schema: schema);
+                tables.AddRange(tableNames.Select(x => new Table
+                {
+                    ParentDatabase = database,
+                    Schema = schema,
+                    Name = x
+                }));
+            }
+
+            return tables;
+        }
+
+        protected override IEnumerable<Table> GetViewSchema(Database database, ProviderFactory providerFactory)
+        {
+            var schemas = connection.GetSchemaNames();
+
+            var views = new List<Table>();
+            foreach (string schema in schemas)
+            {
+                var viewNames = connection.GetViewNames(schema: schema);
+                views.AddRange(viewNames.Select(x => new Table
+                {
+                    ParentDatabase = database,
+                    Schema = schema,
+                    Name = x
+                }));
+            }
+
+            return views;
+        }
+
+        protected override IEnumerable<Column> GetColumnSchema(Table table, ProviderFactory providerFactory)
         {
             var columnData = (connection as SqlConnection).GetColumnData(table.Name, table.Schema);
             return columnData.OfType<ColumnInfo>().Select(x => new Column
@@ -25,7 +68,7 @@ namespace CodeGenerator.Data.Structure
             });
         }
 
-        protected override IEnumerable<Key> KeySchema(Table table, ProviderFactory providerFactory, IDbConnection connection)
+        protected override IEnumerable<Key> GetKeySchema(Table table, ProviderFactory providerFactory)
         {
             // TODO:
             //var foreignKeyInfo = (connection as SqlConnection).GetForeignKeyData(table.Name, table.Schema);

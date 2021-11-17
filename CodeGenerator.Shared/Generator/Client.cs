@@ -22,7 +22,7 @@ namespace CodeGenerator.Generator
         public string Parse()
         {
             string result = Intrepret();
-            CompleteNotifier(new EventArgs());
+            OnComplete?.Invoke(this, new EventArgs());
             return result;
         }
 
@@ -31,13 +31,8 @@ namespace CodeGenerator.Generator
             Table = table;
             context.Input = inputString;
             string result = Intrepret();
-            CompleteNotifier(new EventArgs());
+            OnComplete?.Invoke(this, new EventArgs());
             return result;
-        }
-
-        protected void CompleteNotifier(EventArgs e)
-        {
-            OnComplete?.Invoke(this, e);
         }
 
         private string Intrepret()

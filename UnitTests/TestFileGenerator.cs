@@ -17,8 +17,8 @@ namespace CodeGenerator.UnitTests
         public void TestFilenameGenerator()
         {
             Server.ConnectionString = @"Server=.;Database=master;Integrated Security=SSPI;";
-            Server.ProviderType = ProviderType.SqlServer;
-            Server server = new Server();
+            Server.ProviderType = DataSource.SqlServer;
+            var server = new Server();
             var client = new Client();
             _ = Context.StartDelimeter;
             _ = Context.EndingDelimiter;

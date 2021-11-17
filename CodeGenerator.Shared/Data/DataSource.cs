@@ -1,6 +1,6 @@
 namespace CodeGenerator.Data
 {
-    public enum ProviderType
+    public enum DataSource
     {
         SqlServer,
         MySql,

@@ -12,14 +12,14 @@ namespace CodeGenerator.UnitTests
     [TestFixture]
     public class TestParser
     {
-        private readonly Context context = new Context();
+        private readonly Context context = new();
         private Parser parser;
 
         [SetUp]
         public void SetUp()
         {
             Server.ConnectionString = @"Server=.;Database=master;Integrated Security=SSPI;";
-            Server.ProviderType = ProviderType.SqlServer;
+            Server.ProviderType = DataSource.SqlServer;
             Context.StartDelimeter = "{";
             Context.EndingDelimiter = "}";
             parser = new Parser(new Server().Databases.First().Tables.First());
@@ -200,7 +200,7 @@ LAST{/IF}
             };
 
             Server.ConnectionString = ConfigFile.Instance.ConnectionStrings.First();
-            Server.ProviderType = ProviderType.SqlServer;
+            Server.ProviderType = DataSource.SqlServer;
             client.Parse(new Server().Databases.First().Tables.First(), "{NAMESPACE}");
         }
 

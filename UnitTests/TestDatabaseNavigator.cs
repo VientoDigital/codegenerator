@@ -16,7 +16,7 @@ namespace CodeGenerator.UnitTests
         public void SetUp()
         {
             Server.ConnectionString = @"Server=.;Database=master;Integrated Security=SSPI;";
-            Server.ProviderType = ProviderType.SqlServer;
+            Server.ProviderType = DataSource.SqlServer;
             server = new Server();
         }
 

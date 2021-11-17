@@ -22,8 +22,8 @@ namespace CodeGenerator.Generator
         {
             var column = (Column)Parameter;
             var regex = new Regex(InputPattern, RegexOptions.Singleline);
-            string inputString = context.Input;
-            var matches = regex.Matches(inputString);
+            string result = context.Input;
+            var matches = regex.Matches(result);
 
             foreach (Match match in matches)
             {
@@ -32,11 +32,11 @@ namespace CodeGenerator.Generator
                     continue;
                 }
 
-                bool isEqual = (match.Groups["equality"].ToString().IndexOf("EQ") != -1);
-                bool isNotEqual = (match.Groups["equality"].ToString().IndexOf("NE") != -1);
-                string contentString = match.Groups["content"].ToString();
-                string typeValueString = match.Groups["typeValue"].ToString();
-                string endString = match.Groups["end"].ToString();
+                bool isEqual = (match.Groups["equality"].Value.IndexOf("EQ") != -1);
+                bool isNotEqual = (match.Groups["equality"].Value.IndexOf("NE") != -1);
+                string contentString = match.Groups["content"].Value;
+                string typeValueString = match.Groups["typeValue"].Value;
+                string endString = match.Groups["end"].Value;
                 string replacementString = contentString + endString;
 
                 bool isAMatch = false;
@@ -47,24 +47,24 @@ namespace CodeGenerator.Generator
                     valueStrings[i] = valueStrings[i].Trim();
                     if (isEqual && (column.NativeType.ToLower() == valueStrings[i].ToLower()))
                     {
-                        ReplaceContent(match.Value, replacementString, ref inputString);
+                        ReplaceContent(match.Value, replacementString, ref result);
                         isAMatch = true;
                         break;
                     }
                     // TODO: Possible bug to fix (https://github.com/VientoDigital/codegenerator/issues/2)
                     else if (isNotEqual && (column.NativeType.ToLower() != valueStrings[i].ToLower()))
                     {
-                        ReplaceContent(match.Value, replacementString, ref inputString);
+                        ReplaceContent(match.Value, replacementString, ref result);
                         isAMatch = true;
                         break;
                     }
                 }
                 if (!isAMatch)
                 {
-                    ReplaceContent(match.Value, string.Empty, ref inputString);
+                    ReplaceContent(match.Value, string.Empty, ref result);
                 }
             }
-            context.Output = inputString;
+            context.Output = result;
             context.Input = context.Output;
         }
 
