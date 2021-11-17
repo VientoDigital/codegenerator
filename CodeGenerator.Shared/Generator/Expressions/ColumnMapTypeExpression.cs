@@ -3,6 +3,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
+using Extenso;
 using Extenso.Data;
 using Microsoft.CSharp;
 using Microsoft.VisualBasic;
@@ -14,7 +15,7 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
-            string value;
+            string typeName;
 
             if (Server.ProviderType != ProviderType.Oracle)
             {
@@ -22,52 +23,58 @@ namespace CodeGenerator.Generator
 
                 if (ConfigFile.Instance.SelectedLanguage.Name == ".NET")
                 {
-                    value = systemType.Name;
+                    typeName = systemType.Name;
                 }
                 else if (ConfigFile.Instance.SelectedLanguage.Name == "C#")
                 {
-                    using var provider = new CSharpCodeProvider();
+                    using var codeProvider = new CSharpCodeProvider();
                     var typeRef = new CodeTypeReference(systemType);
-                    value = provider.GetTypeOutput(typeRef);
+                    typeName = codeProvider.GetTypeOutput(typeRef);
                 }
                 else if (ConfigFile.Instance.SelectedLanguage.Name == "VB")
                 {
-                    using var provider = new VBCodeProvider();
+                    using var codeProvider = new VBCodeProvider();
                     var typeRef = new CodeTypeReference(systemType);
-                    value = provider.GetTypeOutput(typeRef);
+                    typeName = codeProvider.GetTypeOutput(typeRef);
                 }
                 else
                 {
-                    value = InterpretFromMappings(column);
+                    typeName = InterpretFromMappings(column);
                 }
             }
             else
             {
-                value = InterpretFromMappings(column);
+                typeName = InterpretFromMappings(column);
             }
 
-            if (column.Nullable && column.DbType != DbType.String)
+            if (column.Nullable &&
+                column.DbType != DbType.String &&
+                ConfigFile.Instance.SelectedLanguage.Name.In(".NET", "C#", "VB")) // Not sure about other nullable types in languages..
             {
-                value += "?";
+                typeName += "?";
             }
 
-            context.Output = Regex.Replace(context.Input, "MAP COLUMN.TYPE".DelimeterWrap(), value);
+            context.Output = Regex.Replace(context.Input, "MAP COLUMN.TYPE".DelimeterWrap(), typeName);
             context.Input = context.Output;
         }
 
-        private string InterpretFromMappings(Column column)
+        private static string InterpretFromMappings(Column column)
         {
-            string value;
-            if (ConfigFile.Instance.SelectedLanguage.Mappings.ContainsKey(column.NativeType.ToLower()))
+            var selectedLanguage = ConfigFile.Instance.SelectedLanguage;
+            string nativeType = column.NativeType.ToLower();
+            if (selectedLanguage.Mappings.ContainsKey(nativeType))
             {
-                value = ConfigFile.Instance.SelectedLanguage.Mappings[column.NativeType.ToLower()].ToString();
+                string mapping = selectedLanguage.Mappings[nativeType];
+                if (string.IsNullOrEmpty(mapping))
+                {
+                    return "object";
+                }
+                return mapping;
             }
             else
             {
-                value = "object";
+                return "object";
             }
-
-            return value;
         }
     }
 }

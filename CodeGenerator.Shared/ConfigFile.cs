@@ -21,45 +21,7 @@ namespace CodeGenerator
                 {
                     if (!File.Exists(filePath))
                     {
-                        instance = new ConfigFile
-                        {
-                            Languages = new List<Language>
-                            {
-                                new Language
-                                {
-                                    Name = ".NET",
-                                    Selected = true,
-                                    Mappings = new Dictionary<string, string>
-                                    {
-                                        //{ "bigint", "long" },
-                                        //{ "bit", "bool" },
-                                        //{ "char", "string" },
-                                        //{ "date", "DateTime" },
-                                        //{ "datetime", "DateTime" },
-                                        //{ "decimal", "decimal" },
-                                        //{ "double", "double" },
-                                        //{ "float", "double" },
-                                        //{ "image", "Image" },
-                                        //{ "int", "int" },
-                                        //{ "integer", "int" },
-                                        //{ "nchar", "string" },
-                                        //{ "ntext", "string" },
-                                        //{ "number", "int" },
-                                        //{ "numeric", "int" },
-                                        //{ "nvarchar", "string" },
-                                        //{ "real", "double" },
-                                        //{ "smallint", "short" },
-                                        //{ "text", "string" },
-                                        //{ "time", "DateTime" },
-                                        //{ "timestamp", "DateTime" },
-                                        //{ "tinyint", "short" },
-                                        //{ "uniqueidentifier", "Guid" },
-                                        //{ "varchar", "string" },
-                                        //{ "varchar2", "string" },
-                                    }
-                                }
-                            }
-                        };
+                        instance = new ConfigFile();
                         return instance;
                     }
 
@@ -75,8 +37,20 @@ namespace CodeGenerator
 
         public ICollection<Language> Languages { get; set; } = new List<Language>();
 
+        public string SelectedLanguageName { get; set; }
+
         [JsonIgnore]
-        public Language SelectedLanguage => Languages.FirstOrDefault(x => x.Selected) ?? Languages.First();
+        public Language SelectedLanguage
+        {
+            get
+            {
+                if (SelectedLanguageName.In(".NET", "C#", "VB"))
+                {
+                    return new Language { Name = SelectedLanguageName };
+                }
+                return Languages.FirstOrDefault(x => x.Name == SelectedLanguageName) ?? Languages.First();
+            }
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         public void Save() => Instance.JsonSerialize(new JsonSerializerSettings { Formatting = Formatting.Indented }).ToFile(filePath);
@@ -85,8 +59,6 @@ namespace CodeGenerator
     public class Language
     {
         public string Name { get; set; }
-
-        public bool Selected { get; set; }
 
         public IDictionary<string, string> Mappings { get; set; }
     }

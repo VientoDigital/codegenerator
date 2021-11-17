@@ -57,6 +57,9 @@
             this.kryptonPanel = new Krypton.Toolkit.KryptonPanel();
             this.dlgSaveFile = new System.Windows.Forms.SaveFileDialog();
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.mnuFileSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDockableWorkspace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel)).BeginInit();
@@ -91,6 +94,9 @@
             this.mnuFileSaveTemplate,
             this.mnuFileSaveAsTemplate,
             this.mnuFileSaveAsResult,
+            this.toolStripSeparator3,
+            this.mnuFileSettings,
+            this.toolStripSeparator2,
             this.mnuFileTemplateExit});
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new System.Drawing.Size(37, 20);
@@ -283,6 +289,23 @@
             this.dlgOpenFile.Filter = "All files (*.*)|*.*";
             this.dlgOpenFile.RestoreDirectory = true;
             // 
+            // mnuFileSettings
+            // 
+            this.mnuFileSettings.Name = "mnuFileSettings";
+            this.mnuFileSettings.Size = new System.Drawing.Size(184, 22);
+            this.mnuFileSettings.Text = "Settings";
+            this.mnuFileSettings.Click += new System.EventHandler(this.mnuFileSettings_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(181, 6);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -334,5 +357,8 @@
         private Krypton.Toolkit.KryptonPanel kryptonPanel;
         private System.Windows.Forms.SaveFileDialog dlgSaveFile;
         private System.Windows.Forms.OpenFileDialog dlgOpenFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem mnuFileSettings;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
