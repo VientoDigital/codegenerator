@@ -17,7 +17,8 @@ namespace CodeGenerator.Data.Structure
             {
                 ParentTable = table,
                 Name = x.ColumnName,
-                Type = x.DataTypeNative,
+                DbType = x.DataType,
+                NativeType = x.DataTypeNative,
                 Length = (int)x.MaximumLength,
                 Nullable = x.IsNullable,
                 Default = x.DefaultValue,

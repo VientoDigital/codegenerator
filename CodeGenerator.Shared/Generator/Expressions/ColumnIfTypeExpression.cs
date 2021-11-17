@@ -45,14 +45,14 @@ namespace CodeGenerator.Generator
                 for (int i = 0; i < valueStrings.Length; i++)
                 {
                     valueStrings[i] = valueStrings[i].Trim();
-                    if (isEqual && (column.Type.ToLower() == valueStrings[i].ToLower()))
+                    if (isEqual && (column.NativeType.ToLower() == valueStrings[i].ToLower()))
                     {
                         ReplaceContent(match.Value, replacementString, ref inputString);
                         isAMatch = true;
                         break;
                     }
                     // TODO: Possible bug to fix (https://github.com/VientoDigital/codegenerator/issues/2)
-                    else if (isNotEqual && (column.Type.ToLower() != valueStrings[i].ToLower()))
+                    else if (isNotEqual && (column.NativeType.ToLower() != valueStrings[i].ToLower()))
                     {
                         ReplaceContent(match.Value, replacementString, ref inputString);
                         isAMatch = true;

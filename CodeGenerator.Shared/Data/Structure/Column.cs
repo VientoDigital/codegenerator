@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Data;
 
 namespace CodeGenerator.Data.Structure
 {
@@ -11,7 +12,10 @@ namespace CodeGenerator.Data.Structure
         public string Name { get; set; }
 
         [Category("Column")]
-        public string Type { get; set; }
+        public string NativeType { get; set; }
+
+        [Category("Column")]
+        public DbType DbType { get; set; }
 
         [Category("Column"), ReadOnly(true)]
         public bool IsPrimaryKey { get; set; }

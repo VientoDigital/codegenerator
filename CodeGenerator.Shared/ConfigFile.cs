@@ -27,35 +27,35 @@ namespace CodeGenerator
                             {
                                 new Language
                                 {
-                                    Name = "CSharp",
+                                    Name = ".NET",
                                     Selected = true,
                                     Mappings = new Dictionary<string, string>
                                     {
-                                        { "bigint", "long" },
-                                        { "bit", "bool" },
-                                        { "char", "string" },
-                                        { "date", "DateTime" },
-                                        { "datetime", "DateTime" },
-                                        { "decimal", "decimal" },
-                                        { "double", "double" },
-                                        { "float", "double" },
-                                        { "image", "Image" },
-                                        { "int", "int" },
-                                        { "integer", "int" },
-                                        { "nchar", "string" },
-                                        { "ntext", "string" },
-                                        { "number", "int" },
-                                        { "numeric", "int" },
-                                        { "nvarchar", "string" },
-                                        { "real", "double" },
-                                        { "smallint", "short" },
-                                        { "text", "string" },
-                                        { "time", "DateTime" },
-                                        { "timestamp", "DateTime" },
-                                        { "tinyint", "short" },
-                                        { "uniqueidentifier", "Guid" },
-                                        { "varchar", "string" },
-                                        { "varchar2", "string" },
+                                        //{ "bigint", "long" },
+                                        //{ "bit", "bool" },
+                                        //{ "char", "string" },
+                                        //{ "date", "DateTime" },
+                                        //{ "datetime", "DateTime" },
+                                        //{ "decimal", "decimal" },
+                                        //{ "double", "double" },
+                                        //{ "float", "double" },
+                                        //{ "image", "Image" },
+                                        //{ "int", "int" },
+                                        //{ "integer", "int" },
+                                        //{ "nchar", "string" },
+                                        //{ "ntext", "string" },
+                                        //{ "number", "int" },
+                                        //{ "numeric", "int" },
+                                        //{ "nvarchar", "string" },
+                                        //{ "real", "double" },
+                                        //{ "smallint", "short" },
+                                        //{ "text", "string" },
+                                        //{ "time", "DateTime" },
+                                        //{ "timestamp", "DateTime" },
+                                        //{ "tinyint", "short" },
+                                        //{ "uniqueidentifier", "Guid" },
+                                        //{ "varchar", "string" },
+                                        //{ "varchar2", "string" },
                                     }
                                 }
                             }
@@ -75,8 +75,10 @@ namespace CodeGenerator
 
         public ICollection<Language> Languages { get; set; } = new List<Language>();
 
+        [JsonIgnore]
         public Language SelectedLanguage => Languages.FirstOrDefault(x => x.Selected) ?? Languages.First();
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         public void Save() => Instance.JsonSerialize(new JsonSerializerSettings { Formatting = Formatting.Indented }).ToFile(filePath);
     }
 

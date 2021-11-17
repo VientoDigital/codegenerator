@@ -12,7 +12,7 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
-            context.Output = Regex.Replace(context.Input, "COLUMN.TYPE".DelimeterWrap(), column.Type);
+            context.Output = Regex.Replace(context.Input, "COLUMN.TYPE".DelimeterWrap(), column.NativeType);
             context.Input = context.Output;
         }
     }

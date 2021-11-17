@@ -9,16 +9,16 @@ namespace CodeGenerator.UnitTests
         [Test]
         public void TestGetConnectionStrings()
         {
-            Assert.IsTrue(ConfigFile.Instance.ConnectionStrings.Count() >= 0);
+            Assert.IsTrue(ConfigFile.Instance.ConnectionStrings.Count >= 0);
         }
 
         [Test]
         public void TestAddConnection()
         {
-            int numConn = ConfigFile.Instance.ConnectionStrings.Count();
+            int numConn = ConfigFile.Instance.ConnectionStrings.Count;
             ConfigFile.Instance.ConnectionStrings.Add("Borrarme");
             ConfigFile.Instance.Save();
-            Assert.IsTrue(numConn == (ConfigFile.Instance.ConnectionStrings.Count() - 1));
+            Assert.IsTrue(numConn == (ConfigFile.Instance.ConnectionStrings.Count - 1));
         }
     }
 }

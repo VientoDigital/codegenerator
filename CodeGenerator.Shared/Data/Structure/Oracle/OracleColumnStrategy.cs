@@ -46,7 +46,7 @@ ORDER BY TABLE_NAME asc";
             {
                 ParentTable = table,
                 Name = x.Field<string>("COLUMN_NAME"),
-                Type = x.Field<string>("DATA_TYPE"),
+                NativeType = x.Field<string>("DATA_TYPE"),
                 Length = x.Field<int>("DATA_LENGTH"),
                 Nullable = x.Field<string>("NULLABLE") == "Y",
                 Default = string.Empty
