@@ -53,13 +53,11 @@ namespace CodeGenerator.Generator
 
             var tablesExpression = new TablesExpression();
             tablesExpression.AddExpression(new TableNameExpression());
-            tablesExpression.AddExpression(new TableNameReplaceExpression());
             tablesExpression.AddExpression(new TableSchemaExpression());
             tablesExpression.AddExpression(new DatabaseNameExpression());
             parser.AddExpression(tablesExpression);
 
             parser.AddExpression(new TableNameExpression());
-            parser.AddExpression(new TableNameReplaceExpression());
             parser.AddExpression(new TableSchemaExpression());
             parser.AddExpression(new DatabaseNameExpression());
 

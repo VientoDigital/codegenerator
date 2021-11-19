@@ -17,10 +17,15 @@ namespace CodeGenerator.Generator
             foreach (Match match in matches)
             {
                 string matchValue = match.Value;
+                string columnName = column.Name;
+
                 string casing = match.Groups["casing"].Value;
-                string replacement = column.Name;
-                replacement = CaseConversion(casing, replacement, column.Name);
-                result = Regex.Replace(result, matchValue, replacement);
+                if (!string.IsNullOrEmpty(casing))
+                {
+                    columnName = CaseConversion(casing, columnName);
+                }
+
+                result = Regex.Replace(result, Regex.Escape(matchValue), columnName);
             }
 
             context.Output = result;

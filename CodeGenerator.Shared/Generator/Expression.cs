@@ -6,25 +6,24 @@ namespace CodeGenerator.Generator
 {
     public abstract class Expression
     {
+        protected const string PLURALIZE = "PLURALIZE";
+        protected const string SINGULARIZE = "SINGULARIZE";
+
         internal object Parameter { get; set; }
 
-        public static string CaseConversion(string casing, string value, string name)
+        public static string CaseConversion(string casing, string name) => casing switch
         {
-            switch (casing)
-            {
-                case "CAMEL": value = name.ToCamelCase(); break;
-                case "PASCAL": value = name.ToPascalCase(); break;
-                case "LOWER": value = name.ToLower(); break;
-                case "UPPER": value = name.ToUpper(); break;
-                case "UNDERSCORE": value = Separate(value, "_", false); break;
-                case "HUMAN": value = value.ToTitleCase(); break;
-                case "HYPHEN": value = Separate(value, "-", false); break;
-                case "HYPHEN_LOWER": value = (Separate(value, "-", false)).ToLower(); break;
-                case "HYPHEN_UPPER": value = (Separate(value, "-", false)).ToUpper(); break;
-                default: break;
-            }
-            return value;
-        }
+            "CAMEL" => name.ToCamelCase(),
+            "PASCAL" => name.ToPascalCase(),
+            "LOWER" => name.ToLower(),
+            "UPPER" => name.ToUpper(),
+            "UNDERSCORE" => Separate(name, "_", false),
+            "HUMAN" => name.ToTitleCase(),
+            "HYPHEN" => Separate(name, "-", false),
+            "HYPHEN_LOWER" => (Separate(name, "-", false)).ToLower(),
+            "HYPHEN_UPPER" => (Separate(name, "-", false)).ToUpper(),
+            _ => name,
+        };
 
         public abstract void Interpret(Context context);
 

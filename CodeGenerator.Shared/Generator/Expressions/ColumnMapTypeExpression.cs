@@ -21,25 +21,26 @@ namespace CodeGenerator.Generator
             {
                 var systemType = DataTypeConvertor.GetSystemType(column.DbType);
 
-                if (ConfigFile.Instance.SelectedLanguage.Name == ".NET")
+                switch (ConfigFile.Instance.SelectedLanguage.Name)
                 {
-                    typeName = systemType.Name;
-                }
-                else if (ConfigFile.Instance.SelectedLanguage.Name == "C#")
-                {
-                    using var codeProvider = new CSharpCodeProvider();
-                    var typeRef = new CodeTypeReference(systemType);
-                    typeName = codeProvider.GetTypeOutput(typeRef);
-                }
-                else if (ConfigFile.Instance.SelectedLanguage.Name == "VB")
-                {
-                    using var codeProvider = new VBCodeProvider();
-                    var typeRef = new CodeTypeReference(systemType);
-                    typeName = codeProvider.GetTypeOutput(typeRef);
-                }
-                else
-                {
-                    typeName = InterpretFromMappings(column);
+                    case ".NET": typeName = systemType.Name; break;
+                    case "C#":
+                        {
+                            using var codeProvider = new CSharpCodeProvider();
+                            var typeRef = new CodeTypeReference(systemType);
+                            typeName = codeProvider.GetTypeOutput(typeRef);
+                        }
+                        break;
+
+                    case "VB":
+                        {
+                            using var codeProvider = new VBCodeProvider();
+                            var typeRef = new CodeTypeReference(systemType);
+                            typeName = codeProvider.GetTypeOutput(typeRef);
+                        }
+                        break;
+
+                    default: typeName = InterpretFromMappings(column); break;
                 }
             }
             else

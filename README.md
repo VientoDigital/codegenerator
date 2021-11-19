@@ -37,19 +37,35 @@ Placeholder for the column's default value.
 
 ### Conditional Statements
 
-- **{IF COLUMN.NAME =~ ‘Id’}{/IF}**
+- **{IF COLUMN.NAME =~ ‘Id’}…{/IF}**
 Condition to test if the name of the column contains a string.
-- **{IF COLUMN.TYPE EQ ‘int’}{/IF}**
+- **{IF COLUMN.TYPE EQ ‘int’}…{/IF}**
 Condition to test if the type of the column is the specified SQL type.
-- **{IF NOT COLUMN.NULLABLE}{/IF}**
+- **{IF NOT COLUMN.NULLABLE}…{/IF}**
 Condition to test if a column is nullable or not.
-- **{IF NOT LAST},{/IF}**
+- **{IF NOT LAST}…{/IF}**
 Condition to test if it is the last column being processed.
 
 ### Custom Values
 
 - **{NAME_OF_YOUR_TAG}**
 Custom Values are Key/Value Pairs that you can define to use in a template.
+
+### Options
+Some of the expressions allow for certain options to modify the output.
+- **{COLUMN.NAME}**, **{DATABASE.NAME}** and custom values let you specify a case conversion. You can choose from any of the following: CAMEL, PASCAL, HUMAN, UNDERSCORE, UPPER, LOWER, HYPHEN, HYPHEN_LOWER, HYPHEN_UPPER. Example:
+    {COLUMN.NAME PASCAL}
+
+- **{TABLE.NAME}** lets you specify multiple options. Here are some examples:
+
+`{TABLE.NAME}`: Simply outputs the name, as it appears in the database
+`{TABLE.NAME CASE=PASCAL}`: Converts the name to Pascal case
+`{TABLE.NAME CASE=UPPER}`: Converts the name to Upper case
+`{TABLE.NAME REPLACE(OldValue,NewValue)}`: An expression that allows you to replace a part of the table name with something. This can be useful if your table names tend to have a prefix. For example: `MyCompany_Sales`. To remove the prefix, use `{TABLE.NAME REPLACE(MyCompany_.,)}`
+`{TABLE.NAME SINGULARIZE}`: Will ensure the table's name is singularized. Likewise, using `PLURALIZE` instead will pluralize the name.
+
+Options can be combined, but must remain in the same order.. CASE, then REPLACE, then SINGULARIZE or PLURALIZE. Here's an example using all 3 options:
+`{TABLE.NAME CASE=PASCAL REPLACE(MyCompany_,) SINGULARIZE}`
 
 ### Examples
 
@@ -87,7 +103,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace {Namespace}.Data.Domain
 {
-    public class {TABLE.NAME PASCAL} : IEntity
+    public class {TABLE.NAME CASE=PASCAL REPLACE(ABC_,) SINGULARIZE} : IEntity
     {{TABLE.COLUMNS}
         public {MAP COLUMN.TYPE} {COLUMN.NAME} { get; set; }
 {/TABLE.COLUMNS}
@@ -101,13 +117,13 @@ namespace {Namespace}.Data.Domain
         #endregion IEntity Members
     }
 
-    public class {TABLE.NAME PASCAL}Map : IEntityTypeConfiguration<{TABLE.NAME PASCAL}>
+    public class {TABLE.NAME CASE=PASCAL}Map : IEntityTypeConfiguration<{TABLE.NAME CASE=PASCAL}>
     {
-        public void Configure(EntityTypeBuilder<{TABLE.NAME PASCAL}> builder)
+        public void Configure(EntityTypeBuilder<{TABLE.NAME CASE=PASCAL}> builder)
         {
             builder.ToTable("{TABLE.NAME}");
            {TABLE.COLUMNS PRIMARY} builder.HasKey(m => m.{COLUMN.NAME});{/TABLE.COLUMNS}{TABLE.COLUMNS NOPRIMARY}
-            builder.Property(m => m.{COLUMN.NAME}).HasColumnType("{COLUMN.TYPE}"){IF NOT COLUMN.NULLABLE}.IsRequired(){/IF}.HasMaxLength({COLUMN.LENGTH});{/TABLE.COLUMNS}
+            builder.Property(m => m.{COLUMN.NAME}).HasColumnType("{COLUMN.TYPE}"){IF NOT COLUMN.NULLABLE}.IsRequired(){/IF}.HasMaxLength({COLUMN.LENGTH}).IsUnicode(true);{/TABLE.COLUMNS}
         }
     }
 }
@@ -124,8 +140,5 @@ namespace {Namespace}.Data.Domain
 
 It would be good to have the following work done in future:
 
-- Option to singularize / pluralize table and column names
 - Separate the views from the tables.. example: {VIEW.COLUMNS…}, {VIEW.NAME…}, etc.
 - Support for foreign key info, so that we can generate things like EF Navigation Properties
-- Better type mapping for each db provider, without the user having to care about the configuration.
-- Column lengths don't seem to be right in some cases. Need to check the schema queries and make corrections where needed.

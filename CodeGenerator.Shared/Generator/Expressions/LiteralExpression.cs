@@ -27,9 +27,10 @@ namespace CodeGenerator.Generator
             foreach (Match match in matches)
             {
                 string matchValue = match.Value;
-                string casing = match.Groups["casing"].Value;
                 string replacement = value;
-                replacement = CaseConversion(casing, replacement, value);
+                string casing = match.Groups["casing"].Value;
+
+                replacement = CaseConversion(casing, replacement);
                 result = Regex.Replace(result, matchValue, replacement);
             }
 
