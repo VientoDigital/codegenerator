@@ -17,8 +17,6 @@ Placeholder for the tables. Only used for iterating tables. Attempting to furthe
 Placeholder for the table schema.
 - **{TABLE.NAME}**
 Placeholder for the table name.
-- **{TABLE.NAME.REPLACE(OldValue,NewValue)}**
-An expression that allows you to replace a part of the table name with something. This can be useful if your table names tend to have a prefix. For example: `MyCompany_Sales`. To remove the prefix, use `{TABLE.NAME.REPLACE(MyCompany_.,)}`
 - **{TABLE.COLUMNS}…{/TABLE.COLUMNS}**
 Placeholder for the columns. Posisble attributes are: PRIMARY, NOPRIMARY or ALL (default) to filter which columns to process.
 
