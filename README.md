@@ -27,7 +27,7 @@ Placeholder for the column's name.
 - **{COLUMN.TYPE}**
 Placeholder for the column's type.
 - **{MAP COLUMN.TYPE}**
-Placeholder for the .NET data type mapped from the source database type. Configurable in the Config.js file.
+Placeholder for the selected programming language's data type mapped from the source database type. Configurable in the Config.js file.
 - **{COLUMN.LENGTH}**
 Placeholder for the column's length.
 - **{COLUMN.DEFAULT}**
@@ -37,8 +37,14 @@ Placeholder for the column's default value.
 
 - **{IF COLUMN.NAME =~ ‘Id’}…{/IF}**
 Condition to test if the name of the column contains a string.
-- **{IF COLUMN.TYPE EQ ‘int’}…{/IF}**
-Condition to test if the type of the column is the specified SQL type.
+- **{IF COLUMN.TYPE EQ ‘date|datetime|datetime2’}…{/IF}**
+Condition to test if the type of the column is one of the specified database types.
+- **{IF COLUMN.TYPE NE ‘date|datetime|datetime2’}…{/IF}**
+Condition to test if the type of the column is NOT one of the specified database types.
+- **{IF MAP COLUMN.TYPE EQ ‘DateTime’}…{/IF}**
+Condition to test if the data type mapped from the source database type of the column is one of the specified types.
+- **{IF MAP COLUMN.TYPE NE ‘DateTime’}…{/IF}**
+Condition to test if the data type mapped from the source database type of the column is NOT one of the specified types.
 - **{IF NOT COLUMN.NULLABLE}…{/IF}**
 Condition to test if a column is nullable or not.
 - **{IF NOT LAST}…{/IF}**

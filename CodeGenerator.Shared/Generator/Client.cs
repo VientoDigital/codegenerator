@@ -41,6 +41,7 @@ namespace CodeGenerator.Generator
 
             var columnsExpression = new ColumnsExpression();
             columnsExpression.AddExpression(new ColumnIfTypeExpression());
+            columnsExpression.AddExpression(new ColumnIfMapTypeExpression());
             columnsExpression.AddExpression(new ColumnNameExpression());
             columnsExpression.AddExpression(new ColumnTypeExpression());
             columnsExpression.AddExpression(new ColumnLengthExpression());

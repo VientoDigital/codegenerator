@@ -26,7 +26,7 @@ namespace CodeGenerator.Generator
             bool isLastColumn = (columns.Count == (columns.IndexOf((Column)Parameter) + 1));
 
             string result = context.Input;
-            var regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             var matches = regex.Matches(result);
 
             foreach (Match match in matches)
@@ -37,7 +37,8 @@ namespace CodeGenerator.Generator
                 {
                     string content = match.Groups["content"].Value;
                     string endString = match.Groups["end"].Value;
-                    string replacementString = content + endString;
+                    string replacement = content + endString;
+
                     matchNotLast = (match.Groups["not"].Value.Length != 0);
 
                     if (matchNotLast && isLastColumn)
@@ -46,11 +47,11 @@ namespace CodeGenerator.Generator
                     }
                     else if (!matchNotLast && isLastColumn)
                     {
-                        ReplaceContent(matchValue, replacementString, ref result);
+                        ReplaceContent(matchValue, replacement, ref result);
                     }
                     else if (matchNotLast && !isLastColumn)
                     {
-                        ReplaceContent(matchValue, replacementString, ref result);
+                        ReplaceContent(matchValue, replacement, ref result);
                     }
                     else if (!matchNotLast && !isLastColumn)
                     {
@@ -62,9 +63,9 @@ namespace CodeGenerator.Generator
             context.Input = context.Output;
         }
 
-        private static void ReplaceContent(string matchString, string replacementString, ref string inputString)
+        private static void ReplaceContent(string matchValue, string replacement, ref string input)
         {
-            inputString = Regex.Replace(inputString, Regex.Escape(matchString), replacementString);
+            input = Regex.Replace(input, Regex.Escape(matchValue), replacement);
         }
     }
 }

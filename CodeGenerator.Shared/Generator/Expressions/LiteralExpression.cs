@@ -20,7 +20,7 @@ namespace CodeGenerator.Generator
 
             string inputPattern = $@"{key}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN_LOWER|HYPHEN_UPPER|HYPHEN))*".DelimeterWrap();
 
-            var regex = new Regex(inputPattern, RegexOptions.Singleline);
+            var regex = new Regex(inputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             string result = context.Input;
             var matches = regex.Matches(result);
 

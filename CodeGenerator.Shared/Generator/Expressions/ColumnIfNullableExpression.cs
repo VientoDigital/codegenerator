@@ -21,8 +21,8 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
-            var regex = new Regex(InputPattern, RegexOptions.Singleline);
             string result = context.Input;
+            var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             var matches = regex.Matches(result);
 
             foreach (Match match in matches)

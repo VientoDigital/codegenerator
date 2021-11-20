@@ -10,7 +10,7 @@ namespace CodeGenerator.Generator
             get
             {
                 return @"\s*" +
-                    @"IF COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+('|‘)(?<typeValue>[a-zA-Z0-9_)(|]+)('|’)".DelimeterWrap() +
+                    @"IF COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+('|‘)(?<types>[ a-zA-Z0-9_)(|]+)('|’)".DelimeterWrap() +
                     //Content between IF tags
                     "(?<content>.+?)" +
                     "/IF".DelimeterWrap() +
@@ -21,7 +21,7 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
-            var regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             string result = context.Input;
             var matches = regex.Matches(result);
 
@@ -32,34 +32,31 @@ namespace CodeGenerator.Generator
                     continue;
                 }
 
-                bool isEqual = (match.Groups["equality"].Value.IndexOf("EQ") != -1);
-                bool isNotEqual = (match.Groups["equality"].Value.IndexOf("NE") != -1);
-                string contentString = match.Groups["content"].Value;
-                string typeValueString = match.Groups["typeValue"].Value;
-                string endString = match.Groups["end"].Value;
-                string replacementString = contentString + endString;
+                bool hasEQ = (match.Groups["equality"].Value.IndexOf("EQ") != -1);
+                bool hasNE = (match.Groups["equality"].Value.IndexOf("NE") != -1);
+                string content = match.Groups["content"].Value;
+                string[] specifiedTypes = match.Groups["typeValue"].Value.Split('|');
+                string end = match.Groups["end"].Value;
+                string replacement = content + end;
 
-                bool isAMatch = false;
-                //				Console.WriteLine(typeValueString);
-                string[] valueStrings = typeValueString.Split('|');
-                for (int i = 0; i < valueStrings.Length; i++)
+                bool isMatch = false;
+                for (int i = 0; i < specifiedTypes.Length; i++)
                 {
-                    valueStrings[i] = valueStrings[i].Trim();
-                    if (isEqual && (column.NativeType.ToLower() == valueStrings[i].ToLower()))
+                    string type = specifiedTypes[i].ToLowerInvariant().Trim();
+                    if (hasEQ && (column.NativeType.ToLower() == type)) // if EQ && the column's type == that specified type
                     {
-                        ReplaceContent(match.Value, replacementString, ref result);
-                        isAMatch = true;
+                        ReplaceContent(match.Value, replacement, ref result);
+                        isMatch = true;
                         break;
                     }
-                    // TODO: Possible bug to fix (https://github.com/VientoDigital/codegenerator/issues/2)
-                    else if (isNotEqual && (column.NativeType.ToLower() != valueStrings[i].ToLower()))
+                    else if (hasNE && (column.NativeType.ToLower() != type)) // if NE && the column's type != that specified type
                     {
-                        ReplaceContent(match.Value, replacementString, ref result);
-                        isAMatch = true;
+                        ReplaceContent(match.Value, replacement, ref result);
+                        isMatch = true;
                         break;
                     }
                 }
-                if (!isAMatch)
+                if (!isMatch)
                 {
                     ReplaceContent(match.Value, string.Empty, ref result);
                 }

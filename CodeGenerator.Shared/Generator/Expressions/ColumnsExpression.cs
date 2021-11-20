@@ -34,7 +34,7 @@ namespace CodeGenerator.Generator
 
         public override void Interpret(Context context)
         {
-            var regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             var matches = regex.Matches(context.Input);
 
             foreach (Match match in matches)

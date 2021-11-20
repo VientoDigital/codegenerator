@@ -10,7 +10,7 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var database = ((Table)Parameter).ParentDatabase;
-            var regex = new Regex(InputPattern, RegexOptions.Singleline);
+            var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             string result = context.Input;
             var matches = regex.Matches(result);
 

@@ -55,7 +55,7 @@ namespace CodeGenerator.Generator
                 typeName += "?";
             }
 
-            context.Output = Regex.Replace(context.Input, "MAP COLUMN.TYPE".DelimeterWrap(), typeName);
+            context.Output = Regex.Replace(context.Input, "MAP COLUMN.TYPE".DelimeterWrap(), typeName, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             context.Input = context.Output;
         }
 

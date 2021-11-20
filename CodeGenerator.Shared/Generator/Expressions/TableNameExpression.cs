@@ -10,11 +10,11 @@ namespace CodeGenerator.Generator
     {
         private static readonly Regex tableNameRegex = new(
             @"TABLE.NAME(?<options>(?:(?!{).)*)".DelimeterWrap(),
-            RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
         private static readonly Regex optionsRegex = new(
             @"OPTIONS\s*(CASE=(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN_LOWER|HYPHEN_UPPER|HYPHEN)))?\s*(?<replace>REPLACE\((?<oldValue>(.*)),(?<newValue>(.*))\))?\s*(?<pluralization>(PLURALIZE|SINGULARIZE))?",
-            RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         public override void Interpret(Context context)
         {
