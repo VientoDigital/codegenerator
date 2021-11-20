@@ -29,6 +29,7 @@ namespace CodeGenerator.Generator
         public override void Interpret(Context context)
         {
             var column = (Column)Parameter;
+            var mappedTypes = GetMappedTypes(column);
             var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
             string result = context.Input;
             var matches = regex.Matches(result);
@@ -43,11 +44,10 @@ namespace CodeGenerator.Generator
                 bool hasEQ = (match.Groups["equality"].Value.IndexOf("EQ") != -1);
                 bool hasNE = (match.Groups["equality"].Value.IndexOf("NE") != -1);
                 string content = match.Groups["content"].Value;
-                string[] specifiedTypes = match.Groups["typeValue"].Value.Split('|');
+                string[] specifiedTypes = match.Groups["types"].Value.Split('|');
                 string end = match.Groups["end"].Value;
                 string replacement = content + end;
 
-                var mappedTypes = GetMappedTypes(column);
                 bool isMatch = false;
                 for (int i = 0; i < specifiedTypes.Length; i++)
                 {

@@ -35,7 +35,7 @@ namespace CodeGenerator.Generator
                 bool hasEQ = (match.Groups["equality"].Value.IndexOf("EQ") != -1);
                 bool hasNE = (match.Groups["equality"].Value.IndexOf("NE") != -1);
                 string content = match.Groups["content"].Value;
-                string[] specifiedTypes = match.Groups["typeValue"].Value.Split('|');
+                string[] specifiedTypes = match.Groups["types"].Value.Split('|');
                 string end = match.Groups["end"].Value;
                 string replacement = content + end;
 
