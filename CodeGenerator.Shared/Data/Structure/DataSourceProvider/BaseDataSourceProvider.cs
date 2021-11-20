@@ -105,6 +105,7 @@ namespace CodeGenerator.Data.Structure
                 connection.ChangeDatabase(table.ParentDatabase.Name);
             }
 
+            Columns.Clear();
             var columns = GetColumnSchema(table, providerFactory);
             foreach (var column in columns)
             {
