@@ -18,7 +18,7 @@ namespace CodeGenerator.Generator
             context.Output = Regex.Replace(context.Input, key.DelimeterWrap(), value);
             context.Input = context.Output;
 
-            string inputPattern = $@"{key}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
+            string inputPattern = $@"{key}\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN_LOWER|HYPHEN_UPPER|HYPHEN))*".DelimeterWrap();
 
             var regex = new Regex(inputPattern, RegexOptions.Singleline);
             string result = context.Input;

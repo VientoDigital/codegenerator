@@ -5,7 +5,7 @@ namespace CodeGenerator.Generator
 {
     public class DatabaseNameExpression : Expression
     {
-        private static string InputPattern => $@"DATABASE.NAME\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER))*".DelimeterWrap();
+        private static string InputPattern => $@"DATABASE.NAME\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN_LOWER|HYPHEN_UPPER|HYPHEN))*".DelimeterWrap();
 
         public override void Interpret(Context context)
         {

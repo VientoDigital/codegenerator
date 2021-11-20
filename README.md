@@ -57,13 +57,13 @@ Some of the expressions allow for certain options to modify the output.
 - **{TABLE.NAME}** lets you specify multiple options. Here are some examples:
 
 `{TABLE.NAME}`: Simply outputs the name, as it appears in the database
-`{TABLE.NAME CASE=PASCAL}`: Converts the name to Pascal case
-`{TABLE.NAME CASE=UPPER}`: Converts the name to Upper case
-`{TABLE.NAME REPLACE(OldValue,NewValue)}`: An expression that allows you to replace a part of the table name with something. This can be useful if your table names tend to have a prefix. For example: `MyCompany_Sales`. To remove the prefix, use `{TABLE.NAME REPLACE(MyCompany_.,)}`
-`{TABLE.NAME SINGULARIZE}`: Will ensure the table's name is singularized. Likewise, using `PLURALIZE` instead will pluralize the name.
+`{TABLE.NAME OPTIONS CASE=PASCAL}`: Converts the name to Pascal case
+`{TABLE.NAME OPTIONS CASE=UPPER}`: Converts the name to Upper case
+`{TABLE.NAME OPTIONS REPLACE(OldValue,NewValue)}`: An expression that allows you to replace a part of the table name with something. This can be useful if your table names tend to have a prefix. For example: `MyCompany_Sales`. To remove the prefix, use `{TABLE.NAME REPLACE(MyCompany_.,)}`
+`{TABLE.NAME OPTIONS SINGULARIZE}`: Will ensure the table's name is singularized. Likewise, using `PLURALIZE` instead will pluralize the name.
 
 Options can be combined, but must remain in the same order.. CASE, then REPLACE, then SINGULARIZE or PLURALIZE. Here's an example using all 3 options:
-`{TABLE.NAME CASE=PASCAL REPLACE(MyCompany_,) SINGULARIZE}`
+`{TABLE.NAME OPTIONS CASE=PASCAL REPLACE(MyCompany_,) SINGULARIZE}`
 
 ### Examples
 
@@ -81,13 +81,13 @@ namespace {Namespace}.Data
         {
         }
 {DATABASE.TABLES}
-        public DbSet<{TABLE.NAME PASCAL}> {TABLE.NAME PASCAL} { get; set; }
+        public DbSet<{TABLE.NAME OPTIONS CASE=PASCAL}> {TABLE.NAME OPTIONS CASE=PASCAL} { get; set; }
 {/DATABASE.TABLES}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 {DATABASE.TABLES}
-            builder.ApplyConfiguration(new {TABLE.NAME PASCAL}Map());{/DATABASE.TABLES}
+            builder.ApplyConfiguration(new {TABLE.NAME OPTIONS CASE=PASCAL}Map());{/DATABASE.TABLES}
         }
     }
 }
@@ -101,7 +101,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace {Namespace}.Data.Domain
 {
-    public class {TABLE.NAME CASE=PASCAL REPLACE(ABC_,) SINGULARIZE} : IEntity
+    public class {TABLE.NAME OPTIONS CASE=PASCAL REPLACE(ABC_,) SINGULARIZE} : IEntity
     {{TABLE.COLUMNS}
         public {MAP COLUMN.TYPE} {COLUMN.NAME} { get; set; }
 {/TABLE.COLUMNS}
@@ -115,9 +115,9 @@ namespace {Namespace}.Data.Domain
         #endregion IEntity Members
     }
 
-    public class {TABLE.NAME CASE=PASCAL}Map : IEntityTypeConfiguration<{TABLE.NAME CASE=PASCAL}>
+    public class {TABLE.NAME OPTIONS CASE=PASCAL}Map : IEntityTypeConfiguration<{TABLE.NAME OPTIONS CASE=PASCAL}>
     {
-        public void Configure(EntityTypeBuilder<{TABLE.NAME CASE=PASCAL}> builder)
+        public void Configure(EntityTypeBuilder<{TABLE.NAME OPTIONS CASE=PASCAL}> builder)
         {
             builder.ToTable("{TABLE.NAME}");
            {TABLE.COLUMNS PRIMARY} builder.HasKey(m => m.{COLUMN.NAME});{/TABLE.COLUMNS}{TABLE.COLUMNS NOPRIMARY}
@@ -130,8 +130,8 @@ namespace {Namespace}.Data.Domain
 ### Additional Notes:
 - If you name your templates using the `{TABLE.NAME…}` expression, it will automatically generate the correct file name for you as well. Examples:
 ```
-{TABLE.NAME PASCAL}.cs
-{TABLE.NAME PASCAL}Controller.cs
+{TABLE.NAME OPTIONS CASE=PASCAL}.cs
+{TABLE.NAME OPTIONS CASE=PASCAL}Controller.cs
 ```
 
 ### Future Work:

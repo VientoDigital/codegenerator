@@ -18,7 +18,7 @@ namespace CodeGenerator.Generator
             "LOWER" => name.ToLower(),
             "UPPER" => name.ToUpper(),
             "UNDERSCORE" => Separate(name, "_", false),
-            "HUMAN" => name.ToTitleCase(),
+            "HUMAN" => name.SplitPascal().ToTitleCase(),
             "HYPHEN" => Separate(name, "-", false),
             "HYPHEN_LOWER" => (Separate(name, "-", false)).ToLower(),
             "HYPHEN_UPPER" => (Separate(name, "-", false)).ToUpper(),

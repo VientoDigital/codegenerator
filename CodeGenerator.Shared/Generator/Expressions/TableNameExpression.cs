@@ -1,51 +1,70 @@
+using System.Linq;
 using System.Text.RegularExpressions;
 using CodeGenerator.Data.Structure;
+using Extenso.Collections;
 using Pluralize.NET;
 
 namespace CodeGenerator.Generator
 {
     public class TableNameExpression : Expression
     {
-        private static string InputPattern => $@"TABLE.NAME\s*(?<case>CASE=(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN|HYPHEN_LOWER|HYPHEN_UPPER)))?\s*(?<replace>REPLACE\((?<oldValue>(.*)),(?<newValue>(.*))\))?\s*(?<pluralization>({PLURALIZE}|{SINGULARIZE}))?".DelimeterWrap();
+        private static readonly Regex tableNameRegex = new(
+            @"TABLE.NAME(?<options>(?:(?!{).)*)".DelimeterWrap(),
+            RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static readonly Regex optionsRegex = new(
+            @"OPTIONS\s*(CASE=(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN_LOWER|HYPHEN_UPPER|HYPHEN)))?\s*(?<replace>REPLACE\((?<oldValue>(.*)),(?<newValue>(.*))\))?\s*(?<pluralization>(PLURALIZE|SINGULARIZE))?",
+            RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public override void Interpret(Context context)
         {
             var table = (Table)Parameter;
-            var regex = new Regex(InputPattern, RegexOptions.Singleline);
             string result = context.Input;
-            var matches = regex.Matches(result);
+            var matches = tableNameRegex.Matches(result).DistinctBy(x => x.Value); // No need to run Regex.Replace() on same instance more than once..
 
             foreach (Match match in matches)
             {
                 string matchValue = match.Value;
                 string tableName = table.Name;
 
-                string oldValue = match.Groups["oldValue"].Value;
-                string newValue = match.Groups["newValue"].Value;
-                if (!string.IsNullOrEmpty(oldValue))
+                var optionMatches = optionsRegex.Matches(matchValue);
+                if (optionMatches.IsNullOrEmpty())
                 {
-                    tableName = tableName.Replace(oldValue, newValue);
+                    // No options.. so just run table name replace only..
+                    result = Regex.Replace(result, Regex.Escape(matchValue), tableName);
+                    continue;
                 }
 
-                string casing = match.Groups["casing"].Value;
-                if (!string.IsNullOrEmpty(casing))
+                var optionsMatch = optionMatches.OfType<Match>().FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Value));
+                if (optionsMatch != null && optionsMatch.Success)
                 {
-                    tableName = CaseConversion(casing, tableName);
-                }
-
-                string pluralization = match.Groups["pluralization"].Value;
-                if (!string.IsNullOrEmpty(pluralization))
-                {
-                    var pluralizer = new Pluralizer();
-                    switch (pluralization)
+                    string oldValue = optionsMatch.Groups["oldValue"].Value;
+                    string newValue = optionsMatch.Groups["newValue"].Value;
+                    if (!string.IsNullOrEmpty(oldValue))
                     {
-                        case PLURALIZE: tableName = pluralizer.Pluralize(tableName); break;
-                        case SINGULARIZE: tableName = pluralizer.Singularize(tableName); break;
-                        default: break;
+                        tableName = tableName.Replace(oldValue, newValue);
                     }
-                }
 
-                result = Regex.Replace(result, Regex.Escape(matchValue), tableName);
+                    string casing = optionsMatch.Groups["casing"].Value;
+                    if (!string.IsNullOrEmpty(casing))
+                    {
+                        tableName = CaseConversion(casing, tableName);
+                    }
+
+                    string pluralization = optionsMatch.Groups["pluralization"].Value;
+                    if (!string.IsNullOrEmpty(pluralization))
+                    {
+                        var pluralizer = new Pluralizer();
+                        switch (pluralization)
+                        {
+                            case PLURALIZE: tableName = pluralizer.Pluralize(tableName); break;
+                            case SINGULARIZE: tableName = pluralizer.Singularize(tableName); break;
+                            default: break;
+                        }
+                    }
+
+                    result = Regex.Replace(result, Regex.Escape(matchValue), tableName);
+                }
             }
 
             context.Output = result;
