@@ -18,7 +18,7 @@ Placeholder for the table schema.
 - **{TABLE.NAME}**
 Placeholder for the table name.
 - **{TABLE.COLUMNS}…{/TABLE.COLUMNS}**
-Placeholder for the columns. Posisble attributes are: PRIMARY, NOPRIMARY or ALL (default) to filter which columns to process.
+Placeholder for the columns. Possible attributes are: PRIMARY, NOPRIMARY or ALL (default) to filter which columns to process.
 
 ### Columns
 
@@ -37,17 +37,17 @@ Placeholder for the column's default value.
 
 - **{IF COLUMN.NAME =~ ‘Id’}…{/IF}**
 Condition to test if the name of the column contains a string.
-- **{IF COLUMN.TYPE EQ ‘date|datetime|datetime2’}…{/IF}**
+- **{IF COLUMN.TYPE EQ ‘date|datetime|datetime2’}…{/IF COLUMN.TYPE}**
 Condition to test if the type of the column is one of the specified database types.
-- **{IF COLUMN.TYPE NE ‘date|datetime|datetime2’}…{/IF}**
+- **{IF COLUMN.TYPE NE ‘date|datetime|datetime2’}…{/IF COLUMN.TYPE}**
 Condition to test if the type of the column is NOT one of the specified database types.
-- **{IF MAP COLUMN.TYPE EQ ‘DateTime’}…{/IF}**
+- **{IF MAP COLUMN.TYPE EQ ‘DateTime’}…{/IF MAP COLUMN.TYPE}**
 Condition to test if the data type mapped from the source database type of the column is one of the specified types.
-- **{IF MAP COLUMN.TYPE NE ‘DateTime’}…{/IF}**
+- **{IF MAP COLUMN.TYPE NE ‘DateTime’}…{/IF MAP COLUMN.TYPE}**
 Condition to test if the data type mapped from the source database type of the column is NOT one of the specified types.
-- **{IF NOT COLUMN.NULLABLE}…{/IF}**
+- **{IF COLUMN.NULLCHECK NOT NULLABLE}…{/IF COLUMN.NULLCHECK}**
 Condition to test if a column is nullable or not.
-- **{IF NOT LAST}…{/IF}**
+- **{IF COLUMN.LASTCHECK NOT LAST}…{/IF COLUMN.LASTCHECK}**
 Condition to test if it is the last column being processed.
 
 ### Custom Values
@@ -127,7 +127,7 @@ namespace {Namespace}.Data.Domain
         {
             builder.ToTable("{TABLE.NAME}");
            {TABLE.COLUMNS PRIMARY} builder.HasKey(m => m.{COLUMN.NAME});{/TABLE.COLUMNS}{TABLE.COLUMNS NOPRIMARY}
-            builder.Property(m => m.{COLUMN.NAME}).HasColumnType("{COLUMN.TYPE}"){IF NOT COLUMN.NULLABLE}.IsRequired(){/IF}.HasMaxLength({COLUMN.LENGTH}).IsUnicode(true);{/TABLE.COLUMNS}
+            builder.Property(m => m.{COLUMN.NAME}).HasColumnType("{COLUMN.TYPE}"){IF COLUMN.NULLCHECK NOT NULLABLE}.IsRequired(){/IF COLUMN.NULLCHECK}.HasMaxLength({COLUMN.LENGTH}).IsUnicode(true);{/TABLE.COLUMNS}
         }
     }
 }
