@@ -11,11 +11,12 @@ namespace CodeGenerator.Generator
         {
             get
             {
+                // TODO: Consider supporting a "FIRST" check as well.. can check first or last
                 return @"\s*" +
-                    @"IF (?<not>NOT )?LAST".DelimeterWrap() +
+                    @"IF COLUMN.LASTCHECK (?<not>NOT )?LAST".DelimeterWrap() +
                     //Content between IF tags
                     "(?<content>.+?)" +
-                    "/IF".DelimeterWrap() +
+                    "/IF COLUMN.LASTCHECK".DelimeterWrap() +
                     @"(?<end>\s*)";
             }
         }

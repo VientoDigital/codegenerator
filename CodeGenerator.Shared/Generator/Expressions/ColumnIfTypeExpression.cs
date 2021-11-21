@@ -13,7 +13,7 @@ namespace CodeGenerator.Generator
                     @"IF COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+('|‘)(?<types>[ a-zA-Z0-9_)(|]+)('|’)".DelimeterWrap() +
                     //Content between IF tags
                     "(?<content>.+?)" +
-                    "/IF".DelimeterWrap() +
+                    "/IF COLUMN.TYPE".DelimeterWrap() +
                     @"(?<end>\s*)";
             }
         }

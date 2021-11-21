@@ -14,7 +14,7 @@ namespace CodeGenerator.Generator
         public static string CaseConversion(string casing, string name) => casing switch
         {
             "CAMEL" => name.ToCamelCase(),
-            "PASCAL" => name.ToPascalCase(),
+            "PASCAL" => name.SplitPascal().ToPascalCase(),
             "LOWER" => name.ToLower(),
             "UPPER" => name.ToUpper(),
             "UNDERSCORE" => Separate(name, "_", false),

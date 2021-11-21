@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using CodeGenerator.Data;
 using CodeGenerator.Data.Structure;
 using Extenso;
+using Extenso.Collections;
 using Extenso.Data;
 using Microsoft.CSharp;
 using Microsoft.VisualBasic;
@@ -21,7 +22,7 @@ namespace CodeGenerator.Generator
                     @"IF MAP COLUMN.TYPE\s+(?<equality>(NE|EQ))\s+('|‘)(?<types>[ a-zA-Z0-9_)(|]+)('|’)".DelimeterWrap() +
                     //Content between IF tags
                     "(?<content>.+?)" +
-                    "/IF".DelimeterWrap() +
+                    "/IF MAP COLUMN.TYPE".DelimeterWrap() +
                     @"(?<end>\s*)";
             }
         }
@@ -49,23 +50,18 @@ namespace CodeGenerator.Generator
                 string replacement = content + end;
 
                 bool isMatch = false;
-                for (int i = 0; i < specifiedTypes.Length; i++)
-                {
-                    string type = specifiedTypes[i].ToLowerInvariant().Trim();
 
-                    if (hasEQ && (mappedTypes.Any(x => x == type))) // if EQ && any of the column's mapped types == that specified type
-                    {
-                        ReplaceContent(match.Value, replacement, ref result);
-                        isMatch = true;
-                        break;
-                    }
-                    else if (hasNE && (!mappedTypes.Any(x => x == type))) // if NE && NONE of the column's mapped types == that specified type
-                    {
-                        ReplaceContent(match.Value, replacement, ref result);
-                        isMatch = true;
-                        break;
-                    }
+                if (hasEQ && (specifiedTypes.ContainsAny(mappedTypes)))
+                {
+                    ReplaceContent(match.Value, replacement, ref result);
+                    isMatch = true;
                 }
+                else if (hasNE && (!specifiedTypes.ContainsAny(mappedTypes)))
+                {
+                    ReplaceContent(match.Value, replacement, ref result);
+                    isMatch = true;
+                }
+
                 if (!isMatch)
                 {
                     ReplaceContent(match.Value, string.Empty, ref result);

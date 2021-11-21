@@ -10,10 +10,10 @@ namespace CodeGenerator.Generator
             get
             {
                 return @"\s*" +
-                    @"IF (?<not>NOT )?COLUMN.NULLABLE".DelimeterWrap() +
+                    @"IF COLUMN.NULLCHECK (?<not>NOT )?NULLABLE".DelimeterWrap() +
                     //Content between IF tags
                     "(?<content>.+?)" +
-                    "/IF".DelimeterWrap() +
+                    "/IF COLUMN.NULLCHECK".DelimeterWrap() +
                     @"(?<end>\s*)";
             }
         }
