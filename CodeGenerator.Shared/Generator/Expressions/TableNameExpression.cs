@@ -8,6 +8,9 @@ namespace CodeGenerator.Generator
 {
     public class TableNameExpression : Expression
     {
+        protected const string PLURALIZE = "PLURALIZE";
+        protected const string SINGULARIZE = "SINGULARIZE";
+
         private static readonly Regex tableNameRegex = new(
             @"TABLE.NAME(?<options>(?:(?!{).)*)".DelimeterWrap(),
             RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -45,12 +48,6 @@ namespace CodeGenerator.Generator
                         tableName = tableName.Replace(oldValue, newValue);
                     }
 
-                    string casing = optionsMatch.Groups["casing"].Value;
-                    if (!string.IsNullOrEmpty(casing))
-                    {
-                        tableName = CaseConversion(casing, tableName);
-                    }
-
                     string pluralization = optionsMatch.Groups["pluralization"].Value;
                     if (!string.IsNullOrEmpty(pluralization))
                     {
@@ -61,6 +58,12 @@ namespace CodeGenerator.Generator
                             case SINGULARIZE: tableName = pluralizer.Singularize(tableName); break;
                             default: break;
                         }
+                    }
+
+                    string casing = optionsMatch.Groups["casing"].Value;
+                    if (!string.IsNullOrEmpty(casing))
+                    {
+                        tableName = CaseConversion(casing, tableName);
                     }
 
                     result = Regex.Replace(result, Regex.Escape(matchValue), tableName);

@@ -13,6 +13,7 @@
     <PackageReference Include="Extenso.Data.MySql" Version="5.0.4" />
     <PackageReference Include="Extenso.Data.Npgsql" Version="5.0.4" />
     <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+    <PackageReference Include="Humanizer.Core" Version="2.13.14" />
     <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.15" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MySql.Data" Version="8.0.27" />

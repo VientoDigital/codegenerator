@@ -63,9 +63,13 @@ Some of the expressions allow for certain options to modify the output.
 - **{TABLE.NAME}** lets you specify multiple options. Here are some examples:
 
 `{TABLE.NAME}`: Simply outputs the name, as it appears in the database
+
 `{TABLE.NAME OPTIONS CASE=PASCAL}`: Converts the name to Pascal case
+
 `{TABLE.NAME OPTIONS CASE=UPPER}`: Converts the name to Upper case
+
 `{TABLE.NAME OPTIONS REPLACE(OldValue,NewValue)}`: An expression that allows you to replace a part of the table name with something. This can be useful if your table names tend to have a prefix. For example: `MyCompany_Sales`. To remove the prefix, use `{TABLE.NAME REPLACE(MyCompany_.,)}`
+
 `{TABLE.NAME OPTIONS SINGULARIZE}`: Will ensure the table's name is singularized. Likewise, using `PLURALIZE` instead will pluralize the name.
 
 Options can be combined, but must remain in the same order.. CASE, then REPLACE, then SINGULARIZE or PLURALIZE. Here's an example using all 3 options:

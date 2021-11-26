@@ -1,27 +1,24 @@
 using System;
-using System.Text.RegularExpressions;
-using Extenso;
+using CodeGenerator.Extensions;
+using Humanizer;
 
 namespace CodeGenerator.Generator
 {
     public abstract class Expression
     {
-        protected const string PLURALIZE = "PLURALIZE";
-        protected const string SINGULARIZE = "SINGULARIZE";
-
         internal object Parameter { get; set; }
 
         public static string CaseConversion(string casing, string name) => casing switch
         {
-            "CAMEL" => name.ToCamelCase(),
-            "PASCAL" => name.SplitPascal().ToPascalCase(),
+            "CAMEL" => name.Camelize(),
+            "PASCAL" => name.Pascalize(),
             "LOWER" => name.ToLower(),
             "UPPER" => name.ToUpper(),
-            "UNDERSCORE" => Separate(name, "_", false),
-            "HUMAN" => name.SplitPascal().ToTitleCase(),
-            "HYPHEN" => Separate(name, "-", false),
-            "HYPHEN_LOWER" => (Separate(name, "-", false)).ToLower(),
-            "HYPHEN_UPPER" => (Separate(name, "-", false)).ToUpper(),
+            "UNDERSCORE" => name.UnderscoreNoCaseChange(),
+            "HUMAN" => name.Humanize().Titleize(),
+            "HYPHEN" => name.KebaberizeNoCaseChange(),
+            "HYPHEN_LOWER" => name.Kebaberize(),
+            "HYPHEN_UPPER" => name.Kebaberize().ToUpper(),
             _ => name,
         };
 
@@ -35,32 +32,6 @@ namespace CodeGenerator.Generator
         public virtual void RemoveExpression(Expression expression)
         {
             throw new NotImplementedException();
-        }
-
-        private static string Separate(string value, string separator, bool capitalizeFirstChar)
-        {
-            if (!capitalizeFirstChar && Regex.IsMatch(value[1..], separator))
-            {
-                return value;
-            }
-
-            string firstChar = value[..1];
-            if (capitalizeFirstChar)
-            {
-                firstChar = firstChar.ToUpper();
-            }
-
-            value = firstChar + value[1..].Replace("_", string.Empty);
-            var matches = Regex.Matches(value, "(?<min>[a-z])(?<may>[A-Z])");
-
-            foreach (Match match in matches)
-            {
-                value = Regex.Replace(
-                    value,
-                    $"{match.Groups["min"].Value}{match.Groups["may"].Value}",
-                    $"{match.Groups["min"].Value}{separator}{match.Groups["may"].Value}");
-            }
-            return value;
         }
     }
 }
