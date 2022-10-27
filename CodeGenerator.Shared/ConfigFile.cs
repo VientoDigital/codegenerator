@@ -37,7 +37,7 @@ namespace CodeGenerator
 
         public ICollection<Language> Languages { get; set; } = new List<Language>();
 
-        public string SelectedLanguageName { get; set; }
+        public string SelectedLanguageName { get; set; } = "C#";
 
         [JsonIgnore]
         public Language SelectedLanguage
