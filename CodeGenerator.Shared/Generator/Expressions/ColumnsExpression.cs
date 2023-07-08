@@ -1,105 +1,100 @@
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using CodeGenerator.Data.Structure;
+namespace CodeGenerator.Generator;
 
-namespace CodeGenerator.Generator
+public class ColumnsExpression : Expression
 {
-    public class ColumnsExpression : Expression
+    private const string NOPRIMARY = "NOPRIMARY";
+    private const string PRIMARY = "PRIMARY";
+
+    private readonly ICollection<Expression> expressions;
+
+    public ColumnsExpression()
     {
-        private const string NOPRIMARY = "NOPRIMARY";
-        private const string PRIMARY = "PRIMARY";
+        expressions = new List<Expression>();
+    }
 
-        private readonly ICollection<Expression> expressions;
-
-        public ColumnsExpression()
+    private static string InputPattern
+    {
+        get
         {
-            expressions = new List<Expression>();
+            return
+                $@"TABLE.COLUMNS(?<selection> (ALL|{PRIMARY}|{NOPRIMARY}))?".DelimeterWrap() +
+                "(?<column>.+?)" +
+                "/TABLE.COLUMNS".DelimeterWrap();
         }
+    }
 
-        private static string InputPattern
+    public override void AddExpression(Expression expression)
+    {
+        expressions.Add(expression);
+    }
+
+    public override void Interpret(Context context)
+    {
+        var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        var matches = regex.Matches(context.Input);
+
+        foreach (Match match in matches)
         {
-            get
+            string columnOutput = string.Empty;
+            string columnInput = match.Groups["column"].Value;
+            var columns = ((Table)Parameter).Columns;
+            var filteredColumns = new List<Column>();
+
+            foreach (var column in columns)
             {
-                return
-                    $@"TABLE.COLUMNS(?<selection> (ALL|{PRIMARY}|{NOPRIMARY}))?".DelimeterWrap() +
-                    "(?<column>.+?)" +
-                    "/TABLE.COLUMNS".DelimeterWrap();
+                if (IsValidColumn(column, match.Groups["selection"].Value.Trim()))
+                {
+                    filteredColumns.Add(column);
+                }
             }
-        }
 
-        public override void AddExpression(Expression expression)
-        {
-            expressions.Add(expression);
-        }
-
-        public override void Interpret(Context context)
-        {
-            var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            var matches = regex.Matches(context.Input);
-
-            foreach (Match match in matches)
+            foreach (var column in filteredColumns)
             {
-                string columnOutput = string.Empty;
-                string columnInput = match.Groups["column"].Value;
-                var columns = ((Table)Parameter).Columns;
-                var filteredColumns = new List<Column>();
-
-                foreach (var column in columns)
-                {
-                    if (IsValidColumn(column, match.Groups["selection"].Value.Trim()))
-                    {
-                        filteredColumns.Add(column);
-                    }
-                }
-
-                foreach (var column in filteredColumns)
-                {
-                    string columnTemporaryText = columnInput;
-                    RunExpressionsReplace(column, filteredColumns, ref columnTemporaryText);
-                    columnOutput += columnTemporaryText;
-                }
-
-                string escapedString = Regex.Escape(match.Value);
-                context.Output = Regex.Replace(context.Input, escapedString, columnOutput);
-                context.Input = context.Output;
+                string columnTemporaryText = columnInput;
+                RunExpressionsReplace(column, filteredColumns, ref columnTemporaryText);
+                columnOutput += columnTemporaryText;
             }
-        }
 
-        public override void RemoveExpression(Expression expression)
-        {
-            expressions.Remove(expression);
+            string escapedString = Regex.Escape(match.Value);
+            context.Output = Regex.Replace(context.Input, escapedString, columnOutput);
+            context.Input = context.Output;
         }
+    }
 
-        private static bool IsValidColumn(Column column, string selectionString)
+    public override void RemoveExpression(Expression expression)
+    {
+        expressions.Remove(expression);
+    }
+
+    private static bool IsValidColumn(Column column, string selectionString)
+    {
+        if (selectionString == PRIMARY && !column.IsPrimaryKey)
         {
-            if (selectionString == PRIMARY && !column.IsPrimaryKey)
+            return false;
+        }
+        else
+        {
+            if (selectionString == NOPRIMARY && column.IsPrimaryKey)
             {
                 return false;
             }
-            else
-            {
-                if (selectionString == NOPRIMARY && column.IsPrimaryKey)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
+        return true;
+    }
 
-        private void RunExpressionsReplace(Column column, object columns, ref string columnInputText)
+    private void RunExpressionsReplace(Column column, object columns, ref string columnInputText)
+    {
+        var columnContext = new Context
         {
-            var columnContext = new Context
-            {
-                Extra = columns
-            };
+            Extra = columns
+        };
 
-            foreach (Expression expression in expressions)
-            {
-                columnContext.Input = columnInputText;
-                expression.Parameter = column;
-                expression.Interpret(columnContext);
-                columnInputText = columnContext.Output;
-            }
+        foreach (Expression expression in expressions)
+        {
+            columnContext.Input = columnInputText;
+            expression.Parameter = column;
+            expression.Interpret(columnContext);
+            columnInputText = columnContext.Output;
         }
     }
 }

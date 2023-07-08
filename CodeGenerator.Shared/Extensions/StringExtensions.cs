@@ -1,12 +1,11 @@
 ﻿using CodeGenerator.Generator;
 
-namespace CodeGenerator
+namespace CodeGenerator;
+
+public static class StringExtensions
 {
-    public static class StringExtensions
+    public static string DelimeterWrap(this string source)
     {
-        public static string DelimeterWrap(this string source)
-        {
-            return $"{Context.StartDelimeter}{source}{Context.EndingDelimiter}";
-        }
+        return $"{Context.StartDelimeter}{source}{Context.EndingDelimiter}";
     }
 }

@@ -1,0 +1,14 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.ComponentModel;
+global using System.Data;
+global using System.Data.Common;
+global using System.Linq;
+global using System.Text.RegularExpressions;
+global using CodeGenerator.Data;
+global using CodeGenerator.Data.Structure;
+global using Extenso;
+global using Extenso.Collections;
+global using Extenso.Data;
+global using Microsoft.CSharp;
+global using Microsoft.VisualBasic;

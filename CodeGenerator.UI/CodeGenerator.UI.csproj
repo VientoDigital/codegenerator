@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <ProjectType>Local</ProjectType>
     <ApplicationIcon>Resources\icode64.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
@@ -188,11 +188,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krypton.Docking" Version="6.2111.312" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.255803">
+    <PackageReference Include="FastColoredTextBox.Net6" Version="1.0.0" />
+    <PackageReference Include="Krypton.Docking" Version="70.22.11.312" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeGenerator.Shared\CodeGenerator.Shared.csproj" />

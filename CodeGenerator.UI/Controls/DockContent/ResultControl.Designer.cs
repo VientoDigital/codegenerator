@@ -28,33 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rtbResult = new System.Windows.Forms.RichTextBox();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(ResultControl));
+            fctResult = new FastColoredTextBoxNS.FastColoredTextBox();
+            ((System.ComponentModel.ISupportInitialize)fctResult).BeginInit();
+            SuspendLayout();
             // 
-            // rtbResult
+            // fctResult
             // 
-            this.rtbResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbResult.Location = new System.Drawing.Point(0, 0);
-            this.rtbResult.Name = "rtbResult";
-            this.rtbResult.Size = new System.Drawing.Size(284, 262);
-            this.rtbResult.TabIndex = 0;
-            this.rtbResult.Text = "";
+            fctResult.AutoCompleteBracketsList = new char[] { '(', ')', '{', '}', '[', ']', '"', '"', '\'', '\'' };
+            fctResult.AutoIndentCharsPatterns = "^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;=]+);\r\n^\\s*(case|default)\\s*[^:]*(?<range>:)\\s*(?<range>[^;]+);";
+            fctResult.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            fctResult.BackBrush = null;
+            fctResult.CharHeight = 14;
+            fctResult.CharWidth = 8;
+            fctResult.DefaultMarkerSize = 8;
+            fctResult.DisabledColor = System.Drawing.Color.FromArgb(100, 180, 180, 180);
+            fctResult.Dock = DockStyle.Fill;
+            fctResult.IsReplaceMode = false;
+            fctResult.Language = FastColoredTextBoxNS.Language.CSharp;
+            fctResult.Location = new System.Drawing.Point(0, 0);
+            fctResult.Name = "fctResult";
+            fctResult.Paddings = new Padding(0);
+            fctResult.SelectionColor = System.Drawing.Color.FromArgb(60, 0, 0, 255);
+            fctResult.ServiceColors = (FastColoredTextBoxNS.ServiceColors)resources.GetObject("fctResult.ServiceColors");
+            fctResult.Size = new System.Drawing.Size(284, 262);
+            fctResult.TabIndex = 0;
+            fctResult.Zoom = 100;
             // 
-            // ResultForm
+            // ResultControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.rtbResult);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "ResultForm";
-            this.Text = "ResultForm";
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(fctResult);
+            Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Name = "ResultControl";
+            Size = new System.Drawing.Size(284, 262);
+            ((System.ComponentModel.ISupportInitialize)fctResult).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox rtbResult;
+        private FastColoredTextBoxNS.FastColoredTextBox fctResult;
     }
 }

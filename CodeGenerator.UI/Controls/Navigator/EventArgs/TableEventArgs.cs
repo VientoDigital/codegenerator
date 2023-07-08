@@ -1,15 +1,11 @@
-using System;
-using CodeGenerator.Data.Structure;
+namespace CodeGenerator.UI;
 
-namespace CodeGenerator.UI
+public class TableEventArgs : EventArgs
 {
-    public class TableEventArgs : EventArgs
-    {
-        public Table Table { get; }
+    public Table Table { get; }
 
-        public TableEventArgs(Table table)
-        {
-            Table = table;
-        }
+    public TableEventArgs(Table table)
+    {
+        Table = table;
     }
 }

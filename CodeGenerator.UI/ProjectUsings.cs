@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Data;
+global using System.Linq;
+global using System.Windows.Forms;
+global using CodeGenerator.Data;
+global using CodeGenerator.Data.Structure;
+global using Extenso;
+global using Extenso.Collections;
+global using Krypton.Docking;
+global using Krypton.Navigator;
+global using Krypton.Toolkit;

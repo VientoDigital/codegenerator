@@ -1,49 +1,45 @@
-using System.Collections.Generic;
-using System.ComponentModel;
+namespace CodeGenerator.Data.Structure;
 
-namespace CodeGenerator.Data.Structure
+// TODO: Add schemas collection in here..
+
+public class Database
 {
-    // TODO: Add schemas collection in here..
+    private bool reload;
+    private IEnumerable<Table> tables;
+    private IEnumerable<Table> views;
 
-    public class Database
+    [Category("Database"), ReadOnly(true)]
+    public string Name { get; set; }
+
+    [Browsable(false), DefaultValue(false)]
+    public IEnumerable<Table> Tables
     {
-        private bool reload;
-        private IEnumerable<Table> tables;
-        private IEnumerable<Table> views;
-
-        [Category("Database"), ReadOnly(true)]
-        public string Name { get; set; }
-
-        [Browsable(false), DefaultValue(false)]
-        public IEnumerable<Table> Tables
+        get
         {
-            get
+            if (reload || tables == null)
             {
-                if (reload || tables == null)
-                {
-                    tables = Server.DataSourceProvider.GetTables(this);
-                    reload = false;
-                }
-                return tables;
+                tables = Server.DataSourceProvider.GetTables(this);
+                reload = false;
             }
+            return tables;
         }
-
-        [Browsable(false), DefaultValue(false)]
-        public IEnumerable<Table> Views
-        {
-            get
-            {
-                if (reload || views == null)
-                {
-                    views = Server.DataSourceProvider.GetViews(this);
-                    reload = false;
-                }
-                return views;
-            }
-        }
-
-        public void Reload() => reload = true;
-
-        public override string ToString() => Name;
     }
+
+    [Browsable(false), DefaultValue(false)]
+    public IEnumerable<Table> Views
+    {
+        get
+        {
+            if (reload || views == null)
+            {
+                views = Server.DataSourceProvider.GetViews(this);
+                reload = false;
+            }
+            return views;
+        }
+    }
+
+    public void Reload() => reload = true;
+
+    public override string ToString() => Name;
 }

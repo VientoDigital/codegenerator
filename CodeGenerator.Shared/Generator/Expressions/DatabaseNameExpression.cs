@@ -1,35 +1,31 @@
-using System.Text.RegularExpressions;
-using CodeGenerator.Data.Structure;
+namespace CodeGenerator.Generator;
 
-namespace CodeGenerator.Generator
+public class DatabaseNameExpression : Expression
 {
-    public class DatabaseNameExpression : Expression
+    private static string InputPattern => $@"DATABASE.NAME\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN_LOWER|HYPHEN_UPPER|HYPHEN))*".DelimeterWrap();
+
+    public override void Interpret(Context context)
     {
-        private static string InputPattern => $@"DATABASE.NAME\s*(?<casing>(CAMEL|PASCAL|HUMAN|UNDERSCORE|UPPER|LOWER|HYPHEN_LOWER|HYPHEN_UPPER|HYPHEN))*".DelimeterWrap();
+        var database = ((Table)Parameter).ParentDatabase;
+        var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        string result = context.Input;
+        var matches = regex.Matches(result);
 
-        public override void Interpret(Context context)
+        foreach (Match match in matches)
         {
-            var database = ((Table)Parameter).ParentDatabase;
-            var regex = new Regex(InputPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            string result = context.Input;
-            var matches = regex.Matches(result);
+            string matchValue = match.Value;
+            string databaseName = database.Name;
 
-            foreach (Match match in matches)
+            string casing = match.Groups["casing"].Value;
+            if (!string.IsNullOrEmpty(casing))
             {
-                string matchValue = match.Value;
-                string databaseName = database.Name;
-
-                string casing = match.Groups["casing"].Value;
-                if (!string.IsNullOrEmpty(casing))
-                {
-                    databaseName = CaseConversion(casing, databaseName);
-                }
-
-                result = Regex.Replace(result, Regex.Escape(matchValue), databaseName);
+                databaseName = CaseConversion(casing, databaseName);
             }
 
-            context.Output = result;
-            context.Input = context.Output;
+            result = Regex.Replace(result, Regex.Escape(matchValue), databaseName);
         }
+
+        context.Output = result;
+        context.Input = context.Output;
     }
 }

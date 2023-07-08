@@ -1,45 +1,73 @@
-using System.Collections.Generic;
+namespace CodeGenerator.Data.Structure;
 
-namespace CodeGenerator.Data.Structure
+public class Server : IDisposable
 {
-    public class Server
+    private ICollection<Database> databases;
+    private bool reload;
+    private bool disposedValue;
+
+    public Server()
     {
-        private ICollection<Database> databases;
-        private bool reload;
-
-        public Server()
+        switch (ProviderType)
         {
-            switch (ProviderType)
-            {
-                case DataSource.SqlServer: DataSourceProvider = new SqlDataSourceProvider(); break;
-                case DataSource.MySql: DataSourceProvider = new MySqlDataSourceProvider(); break;
-                case DataSource.PostgresSql: DataSourceProvider = new NpgsqlDataSourceProvider(); break;
-                case DataSource.Oracle: DataSourceProvider = new OracleDataSourceProvider(); break;
-            }
+            case DataSource.SqlServer: DataSourceProvider = new SqlDataSourceProvider(); break;
+            case DataSource.MySql: DataSourceProvider = new MySqlDataSourceProvider(); break;
+            case DataSource.PostgresSql: DataSourceProvider = new NpgsqlDataSourceProvider(); break;
+            case DataSource.Oracle: DataSourceProvider = new OracleDataSourceProvider(); break;
         }
+    }
 
-        public static string ConnectionString { get; set; }
+    public static string ConnectionString { get; set; }
 
-        public static IDataSourceProvider DataSourceProvider { get; private set; }
+    public static IDataSourceProvider DataSourceProvider { get; private set; }
 
-        public static DataSource ProviderType { get; set; }
+    public static DataSource ProviderType { get; set; }
 
-        public static Database SelectedDatabase => DataSourceProvider.SelectedDatabase;
+    public static Database SelectedDatabase => DataSourceProvider.SelectedDatabase;
 
-        public ICollection<Database> Databases
+    public ICollection<Database> Databases
+    {
+        get
         {
-            get
+            if (reload || databases == null)
             {
-                if (reload || databases == null)
-                {
-                    databases = DataSourceProvider.GetDatabases();
-                }
-                return databases;
+                databases = DataSourceProvider.GetDatabases();
             }
+            return databases;
         }
+    }
 
-        public void Reload() => reload = true;
+    public void Reload() => reload = true;
 
-        public override string ToString() => $"{ProviderType}:{ConnectionString}";
+    public override string ToString() => $"{ProviderType}:{ConnectionString}";
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                // TODO: dispose managed state (managed objects)
+                DataSourceProvider?.Dispose();
+            }
+
+            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+            // TODO: set large fields to null
+            disposedValue = true;
+        }
+    }
+
+    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+    // ~Server()
+    // {
+    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+    //     Dispose(disposing: false);
+    // }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

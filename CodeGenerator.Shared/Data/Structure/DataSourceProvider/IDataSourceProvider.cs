@@ -1,21 +1,18 @@
-﻿using System.Collections.Generic;
+﻿namespace CodeGenerator.Data.Structure;
 
-namespace CodeGenerator.Data.Structure
+public interface IDataSourceProvider
 {
-    public interface IDataSourceProvider
-    {
-        Database SelectedDatabase { get; }
+    Database SelectedDatabase { get; }
 
-        void Dispose();
+    void Dispose();
 
-        ICollection<Database> GetDatabases();
+    ICollection<Database> GetDatabases();
 
-        IEnumerable<Table> GetTables(Database database);
+    IEnumerable<Table> GetTables(Database database);
 
-        IEnumerable<Table> GetViews(Database database);
+    IEnumerable<Table> GetViews(Database database);
 
-        ICollection<Column> GetColumns(Table table);
+    ICollection<Column> GetColumns(Table table);
 
-        ICollection<Key> GetKeys(Table table);
-    }
+    ICollection<Key> GetKeys(Table table);
 }
