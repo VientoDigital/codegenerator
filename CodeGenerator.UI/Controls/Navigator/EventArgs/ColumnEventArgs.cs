@@ -1,15 +1,11 @@
-using System;
-using CodeGenerator.Data.Structure;
+namespace CodeGenerator.UI;
 
-namespace CodeGenerator.UI
+public class ColumnEventArgs : EventArgs
 {
-    public class ColumnEventArgs : EventArgs
-    {
-        public Column Column { get; }
+    public Column Column { get; }
 
-        public ColumnEventArgs(Column column)
-        {
-            Column = column;
-        }
+    public ColumnEventArgs(Column column)
+    {
+        Column = column;
     }
 }

@@ -1,15 +1,11 @@
-using System.Text.RegularExpressions;
-using CodeGenerator.Data.Structure;
+namespace CodeGenerator.Generator;
 
-namespace CodeGenerator.Generator
+public class ColumnTypeExpression : Expression
 {
-    public class ColumnTypeExpression : Expression
+    public override void Interpret(Context context)
     {
-        public override void Interpret(Context context)
-        {
-            var column = (Column)Parameter;
-            context.Output = Regex.Replace(context.Input, "COLUMN.TYPE".DelimeterWrap(), column.NativeType, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            context.Input = context.Output;
-        }
+        var column = (Column)Parameter;
+        context.Output = Regex.Replace(context.Input, "COLUMN.TYPE".DelimeterWrap(), column.NativeType, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        context.Input = context.Output;
     }
 }

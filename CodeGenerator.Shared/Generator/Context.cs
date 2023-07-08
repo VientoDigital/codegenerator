@@ -1,15 +1,14 @@
-namespace CodeGenerator.Generator
+namespace CodeGenerator.Generator;
+
+public class Context
 {
-    public class Context
-    {
-        public static string StartDelimeter { get; set; } = "{";
+    public static string StartDelimeter { get; set; } = "{";
 
-        public static string EndingDelimiter { get; set; } = "}";
+    public static string EndingDelimiter { get; set; } = "}";
 
-        public string Input { get; set; }
+    public string Input { get; set; }
 
-        public string Output { get; set; }
+    public string Output { get; set; }
 
-        internal object Extra { get; set; }
-    }
+    internal object Extra { get; set; }
 }

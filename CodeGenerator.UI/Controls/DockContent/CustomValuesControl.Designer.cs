@@ -1,6 +1,4 @@
-﻿using Krypton.Toolkit;
-
-namespace CodeGenerator.UI
+﻿namespace CodeGenerator.UI
 {
     partial class CustomValuesControl
     {

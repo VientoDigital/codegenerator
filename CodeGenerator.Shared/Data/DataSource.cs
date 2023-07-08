@@ -1,10 +1,9 @@
-namespace CodeGenerator.Data
+namespace CodeGenerator.Data;
+
+public enum DataSource
 {
-    public enum DataSource
-    {
-        SqlServer,
-        MySql,
-        PostgresSql,
-        Oracle
-    }
+    SqlServer,
+    MySql,
+    PostgresSql,
+    Oracle
 }

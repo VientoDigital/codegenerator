@@ -1,14 +1,11 @@
-﻿using System;
+﻿namespace CodeGenerator.UI;
 
-namespace CodeGenerator.UI
+public class SnippetEventArgs : EventArgs
 {
-    public class SnippetEventArgs : EventArgs
-    {
-        public string Snippet { get; set; }
+    public string Snippet { get; set; }
 
-        public SnippetEventArgs(string snippet)
-        {
-            Snippet = snippet;
-        }
+    public SnippetEventArgs(string snippet)
+    {
+        Snippet = snippet;
     }
 }
