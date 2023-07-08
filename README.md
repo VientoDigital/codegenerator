@@ -5,10 +5,10 @@ Code Generator is a database centric template based code generator for any text(
 
 ## Screenshots
 #### Simple Template:
-<img src="https://github.com/gordon-matt/codegenerator/blob/master/Misc/Screenshots/Simple.PNG" alt="Simple Template" />
+<img src="https://github.com/VientoDigital/codegenerator/blob/master/Misc/Screenshots/Simple.PNG" alt="Simple Template" />
 
 #### Results:
-<img src="https://github.com/gordon-matt/codegenerator/blob/master/Misc/Screenshots/Simple_Results.PNG" alt="Simple Template Results" />
+<img src="https://github.com/VientoDigital/codegenerator/blob/master/Misc/Screenshots/Simple_Results.PNG" alt="Simple Template Results" />
 
 ## Documentation
 ### Database
