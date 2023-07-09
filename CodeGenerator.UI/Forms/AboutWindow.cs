@@ -40,9 +40,9 @@ public class AboutWindow : KryptonForm
         lnkContributor = new LinkLabel();
         lblContributor = new Label();
         SuspendLayout();
-        //
+        // 
         // lblHeading
-        //
+        // 
         lblHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
         lblHeading.Location = new System.Drawing.Point(14, 10);
         lblHeading.Name = "lblHeading";
@@ -50,18 +50,18 @@ public class AboutWindow : KryptonForm
         lblHeading.TabIndex = 0;
         lblHeading.Text = "Code Generator";
         lblHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-        //
+        // 
         // lblYear
-        //
+        // 
         lblYear.Location = new System.Drawing.Point(18, 38);
         lblYear.Name = "lblYear";
         lblYear.Size = new System.Drawing.Size(318, 28);
         lblYear.TabIndex = 2;
         lblYear.Text = "2005 - ";
         lblYear.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-        //
+        // 
         // lnkUrl
-        //
+        // 
         lnkUrl.Location = new System.Drawing.Point(18, 66);
         lnkUrl.Name = "lnkUrl";
         lnkUrl.Size = new System.Drawing.Size(318, 29);
@@ -71,18 +71,18 @@ public class AboutWindow : KryptonForm
         lnkUrl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         lnkUrl.VisitedLinkColor = System.Drawing.Color.Red;
         lnkUrl.LinkClicked += lnkUrl_LinkClicked;
-        //
+        // 
         // lblAuthor
-        //
+        // 
         lblAuthor.Location = new System.Drawing.Point(18, 111);
         lblAuthor.Name = "lblAuthor";
         lblAuthor.Size = new System.Drawing.Size(318, 28);
         lblAuthor.TabIndex = 1;
         lblAuthor.Text = "Original Author: Victor Y. Dominguez";
         lblAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-        //
+        // 
         // lnkAuthor
-        //
+        // 
         lnkAuthor.Location = new System.Drawing.Point(18, 139);
         lnkAuthor.Name = "lnkAuthor";
         lnkAuthor.Size = new System.Drawing.Size(318, 28);
@@ -92,9 +92,9 @@ public class AboutWindow : KryptonForm
         lnkAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         lnkAuthor.VisitedLinkColor = System.Drawing.Color.Red;
         lnkAuthor.LinkClicked += lnkAuthor_LinkClicked;
-        //
+        // 
         // lnkContributor
-        //
+        // 
         lnkContributor.Location = new System.Drawing.Point(18, 196);
         lnkContributor.Name = "lnkContributor";
         lnkContributor.Size = new System.Drawing.Size(318, 28);
@@ -104,18 +104,18 @@ public class AboutWindow : KryptonForm
         lnkContributor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         lnkContributor.VisitedLinkColor = System.Drawing.Color.Red;
         lnkContributor.LinkClicked += lnkContributor_LinkClicked;
-        //
+        // 
         // lblContributor
-        //
+        // 
         lblContributor.Location = new System.Drawing.Point(18, 167);
         lblContributor.Name = "lblContributor";
         lblContributor.Size = new System.Drawing.Size(318, 29);
         lblContributor.TabIndex = 5;
         lblContributor.Text = "Contributor: Matt Gordon";
         lblContributor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-        //
+        // 
         // AboutWindow
-        //
+        // 
         AutoScaleBaseSize = new System.Drawing.Size(6, 16);
         BackColor = System.Drawing.SystemColors.Window;
         ClientSize = new System.Drawing.Size(364, 241);
@@ -127,7 +127,6 @@ public class AboutWindow : KryptonForm
         Controls.Add(lblAuthor);
         Controls.Add(lblHeading);
         FormBorderStyle = FormBorderStyle.FixedToolWindow;
-        Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
         Name = "AboutWindow";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "CodeGenerator";

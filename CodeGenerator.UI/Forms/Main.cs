@@ -26,16 +26,11 @@ public partial class Main : KryptonForm
 
     private DatabaseNavigationControl databaseNavigationForm;
 
-    private DocumentControl templateForm;
-
     private PropertiesControl propertiesForm;
-
     private ResultControl resultForm;
-
     private KryptonPage resultPage;
-
     private SnippetsControl snippetsForm;
-
+    private DocumentControl templateForm;
     private KryptonPage templatePage;
 
     #endregion Forms
@@ -45,6 +40,130 @@ public partial class Main : KryptonForm
         InitializeComponent();
         InitializeControls();
         //CheckForUpdates(); // Commented out, as no longer working
+    }
+
+    private static bool EnsureTableSelected()
+    {
+        if (selectedTable == null)
+        {
+            MessageBox.Show("Please selected a table first.", "Nothing Selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static Bitmap IconToBitMap(Icon icon)
+    {
+        using var bmp = icon.ToBitmap();
+        return new Bitmap(bmp, new Size(16, 16));
+    }
+
+    private static bool IsValidFolder(string folderPath) => !string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath);
+
+    private static KryptonPage NewPage(string name, Control content, Bitmap icon = null)
+    {
+        // Create new page with title and image
+        var page = new KryptonPage
+        {
+            Text = name,
+            TextTitle = name,
+            TextDescription = name
+        };
+
+        if (icon != null)
+        {
+            page.ImageSmall = icon;
+        }
+
+        page.ClearFlags(KryptonPageFlags.DockingAllowClose);
+
+        // Add the control for display inside the page
+        content.Dock = DockStyle.Fill;
+        page.Controls.Add(content);
+
+        return page;
+    }
+
+    private static string SaveFile(string fileName, string contentText)
+    {
+        using (var streamWriter = new StreamWriter(fileName))
+        {
+            streamWriter.Write(contentText);
+        }
+        return fileName;
+    }
+
+    private void EnsureResultsFormExists()
+    {
+        if (resultPage.IsDisposed)
+        {
+            if (resultForm.IsDisposed)
+            {
+                resultForm = new ResultControl { Text = "Results" };
+            }
+            resultPage = NewPage("Results", resultForm, icon: IconToBitMap(Resources.iresult));
+            _ = kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { resultPage });
+            kryptonDockingManager.HidePage(resultPage);
+            kryptonDockingManager.ShowPage(resultPage);
+        }
+    }
+
+    //private void CheckForUpdates()
+    //{
+    //    mnuHelpAbout.Text = $"{mnuHelpAbout.Text} {AppVersion.Version}";
+    //    if (AppVersion.HasNewUpdate)
+    //    {
+    //        mnuHelpAbout.BackColor = Color.LightCoral;
+    //        mnuHelpAbout.ForeColor = Color.White;
+    //        mnuHelpAbout.Text = $@"Download Code Generator (Version: {AppVersion.LatestVersion.Version})";
+    //    }
+    //}
+    private void GenerateCode()
+    {
+        try
+        {
+            if (!EnsureTableSelected())
+            {
+                return;
+            }
+
+            EnsureResultsFormExists();
+            var client = new Client { CustomValues = CustomValuesControl.CustomValues };
+            resultForm.ContentText = client.Parse(selectedTable, templateForm.ContentText);
+            workspace.SelectPage(resultPage.UniqueName);
+        }
+        catch (Exception x)
+        {
+            MessageBox.Show(this, x.Message, x.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+    }
+
+    private void GenerateFiles()
+    {
+        if (!EnsureTableSelected())
+        {
+            return;
+        }
+
+        if (IsValidFolder(inputTemplateFolder) && IsValidFolder(outputTemplateFolder))
+        {
+            try
+            {
+                var fileGenerator = new FileGenerator();
+                fileGenerator.OnComplete += fileGenerator_OnComplete;
+                fileGenerator.CustomValues = CustomValuesControl.CustomValues;
+                fileGenerator.Generate(selectedTable, inputTemplateFolder, outputTemplateFolder);
+            }
+            catch (Exception x)
+            {
+                MessageBox.Show(x.Message);
+            }
+        }
+        else
+        {
+            SelectTemplatesDirectory();
+        }
     }
 
     private void InitializeControls()
@@ -136,60 +255,22 @@ public partial class Main : KryptonForm
     private void mnuFileEditConfiguration_Click(object sender, EventArgs e) => databaseNavigationForm.ShowEditConnectionString();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuFileNewTemplate_Click(object sender, EventArgs e)
-    {
-        templateFile = null;
-        templateForm.ContentText = string.Empty;
-        workspace.SelectPage(templatePage.UniqueName);
-    }
+    private void mnuFileNewTemplate_Click(object sender, EventArgs e) => NewTemplate();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuFileOpenTemplate_Click(object sender, EventArgs e)
-    {
-        if (dlgOpenFile.ShowDialog(this) == DialogResult.OK)
-        {
-            try
-            {
-                templateFile = dlgOpenFile.FileName;
-                using (var stream = dlgOpenFile.OpenFile())
-                using (var streamReader = new StreamReader(stream))
-                {
-                    templateForm.ContentText = streamReader.ReadToEnd();
-                }
-                workspace.SelectPage(templatePage.UniqueName);
-            }
-            catch (Exception x)
-            {
-                MessageBox.Show(@"Error: Could not read file from disk. Original error: " + x.Message);
-            }
-        }
-    }
+    private void mnuFileOpenTemplate_Click(object sender, EventArgs e) => OpenTemplate();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
     private void mnuFileSaveAsResult_Click(object sender, EventArgs e) => SaveAsFile(null, resultForm.ContentText);
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuFileSaveAsTemplate_Click(object sender, EventArgs e) => templateFile = SaveAsFile(null, templateForm.ContentText);
+    private void mnuFileSaveAsTemplate_Click(object sender, EventArgs e) => SaveTemplateAs();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuFileSaveTemplate_Click(object sender, EventArgs e)
-    {
-        if (templateFile != null)
-        {
-            SaveFile(templateFile, templateForm.ContentText);
-        }
-        else
-        {
-            templateFile = SaveAsFile(templateFile, templateForm.ContentText);
-        }
-    }
+    private void mnuFileSaveTemplate_Click(object sender, EventArgs e) => SaveTemplate();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuFileSettings_Click(object sender, EventArgs e)
-    {
-        using var settingsForm = new SettingsForm();
-        settingsForm.ShowDialog();
-    }
+    private void mnuFileSettings_Click(object sender, EventArgs e) => ShowSettings();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
     private void mnuFileTemplateExit_Click(object sender, EventArgs e) => Close();
@@ -201,25 +282,13 @@ public partial class Main : KryptonForm
     private void mnuGenerateFiles_Click(object sender, EventArgs e) => GenerateFiles();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuHelpAbout_Click(object sender, EventArgs e)
-    {
-        using var form = new AboutWindow();
-        form.ShowDialog();
-    }
+    private void mnuHelpAbout_Click(object sender, EventArgs e) => ShowAboutWindow();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuHelpAboutVientoDigital_Click(object sender, EventArgs e)
-    {
-        var processStartInfo = new ProcessStartInfo("http://www.vientodigital.com/") { UseShellExecute = true };
-        _ = Process.Start(processStartInfo);
-    }
+    private void mnuHelpAboutVientoDigital_Click(object sender, EventArgs e) => ShowAboutVientoDigital();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuHelpDocumentation_Click(object sender, EventArgs e)
-    {
-        using var form = new DocumentationWindow();
-        form.ShowDialog();
-    }
+    private void mnuHelpDocumentation_Click(object sender, EventArgs e) => ShowDocoumentation();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
     private void mnuViewResults_Click(object sender, EventArgs e)
@@ -269,99 +338,68 @@ public partial class Main : KryptonForm
         templateForm.ContentText = templateForm.ContentText.Insert(templateForm.SelectionStart, SnippetsHelper.Snippets[args.Snippet].ToString());
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnAbout_Click(object sender, EventArgs e) => ShowAboutWindow();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnAboutViento_Click(object sender, EventArgs e) => ShowAboutVientoDigital();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnDatabaseConfig_Click(object sender, EventArgs e) => databaseNavigationForm.ShowEditConnectionString();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnGenerate_Click(object sender, EventArgs e) => GenerateCode();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnGenerateFiles_Click(object sender, EventArgs e) => GenerateFiles();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnHelp_Click(object sender, EventArgs e) => ShowDocoumentation();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnNewTemplate_Click(object sender, EventArgs e) => NewTemplate();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnOpenTemplate_Click(object sender, EventArgs e) => OpenTemplate();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnSaveTemplate_Click(object sender, EventArgs e) => SaveTemplate();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnSaveTemplateAs_Click(object sender, EventArgs e) => SaveTemplateAs();
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
+    private void tsBtnSettings_Click(object sender, EventArgs e) => ShowSettings();
+
     #endregion Event Handlers
 
-    //private void CheckForUpdates()
-    //{
-    //    mnuHelpAbout.Text = $"{mnuHelpAbout.Text} {AppVersion.Version}";
-    //    if (AppVersion.HasNewUpdate)
-    //    {
-    //        mnuHelpAbout.BackColor = Color.LightCoral;
-    //        mnuHelpAbout.ForeColor = Color.White;
-    //        mnuHelpAbout.Text = $@"Download Code Generator (Version: {AppVersion.LatestVersion.Version})";
-    //    }
-    //}
-
-    private void EnsureResultsFormExists()
+    private void NewTemplate()
     {
-        if (resultPage.IsDisposed)
-        {
-            if (resultForm.IsDisposed)
-            {
-                resultForm = new ResultControl { Text = "Results" };
-            }
-            resultPage = NewPage("Results", resultForm, icon: IconToBitMap(Resources.iresult));
-            _ = kryptonDockingManager.AddToWorkspace("Workspace", new KryptonPage[] { resultPage });
-            kryptonDockingManager.HidePage(resultPage);
-            kryptonDockingManager.ShowPage(resultPage);
-        }
+        templateFile = null;
+        templateForm.ContentText = string.Empty;
+        workspace.SelectPage(templatePage.UniqueName);
     }
 
-    private static bool EnsureTableSelected()
+    private void OpenTemplate()
     {
-        if (selectedTable == null)
-        {
-            MessageBox.Show("Please selected a table first.", "Nothing Selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            return false;
-        }
-
-        return true;
-    }
-
-    private void GenerateCode()
-    {
-        try
-        {
-            if (!EnsureTableSelected())
-            {
-                return;
-            }
-
-            EnsureResultsFormExists();
-            var client = new Client { CustomValues = CustomValuesControl.CustomValues };
-            resultForm.ContentText = client.Parse(selectedTable, templateForm.ContentText);
-            workspace.SelectPage(resultPage.UniqueName);
-        }
-        catch (Exception x)
-        {
-            MessageBox.Show(this, x.Message, x.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-    }
-
-    private void GenerateFiles()
-    {
-        if (!EnsureTableSelected())
-        {
-            return;
-        }
-
-        if (IsValidFolder(inputTemplateFolder) && IsValidFolder(outputTemplateFolder))
+        if (dlgOpenFile.ShowDialog(this) == DialogResult.OK)
         {
             try
             {
-                var fileGenerator = new FileGenerator();
-                fileGenerator.OnComplete += fileGenerator_OnComplete;
-                fileGenerator.CustomValues = CustomValuesControl.CustomValues;
-                fileGenerator.Generate(selectedTable, inputTemplateFolder, outputTemplateFolder);
+                templateFile = dlgOpenFile.FileName;
+                using (var stream = dlgOpenFile.OpenFile())
+                using (var streamReader = new StreamReader(stream))
+                {
+                    templateForm.ContentText = streamReader.ReadToEnd();
+                }
+                workspace.SelectPage(templatePage.UniqueName);
             }
             catch (Exception x)
             {
-                MessageBox.Show(x.Message);
+                MessageBox.Show(@"Error: Could not read file from disk. Original error: " + x.Message);
             }
         }
-        else
-        {
-            SelectTemplatesDirectory();
-        }
     }
-
-    private static Bitmap IconToBitMap(Icon icon)
-    {
-        using var bmp = icon.ToBitmap();
-        return new Bitmap(bmp, new Size(16, 16));
-    }
-
-    private static bool IsValidFolder(string folderPath) => !string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath);
 
     //private static KryptonPage NewDocument(string name, Control content, Bitmap icon = null)
     //{
@@ -369,31 +407,6 @@ public partial class Main : KryptonForm
     //    page.ClearFlags(KryptonPageFlags.DockingAllowClose);
     //    return page;
     //}
-
-    private static KryptonPage NewPage(string name, Control content, Bitmap icon = null)
-    {
-        // Create new page with title and image
-        var page = new KryptonPage
-        {
-            Text = name,
-            TextTitle = name,
-            TextDescription = name
-        };
-
-        if (icon != null)
-        {
-            page.ImageSmall = icon;
-        }
-
-        page.ClearFlags(KryptonPageFlags.DockingAllowClose);
-
-        // Add the control for display inside the page
-        content.Dock = DockStyle.Fill;
-        page.Controls.Add(content);
-
-        return page;
-    }
-
     private string SaveAsFile(string fileName, string contentText)
     {
         if (dlgSaveFile.ShowDialog() == DialogResult.OK)
@@ -404,14 +417,19 @@ public partial class Main : KryptonForm
         return fileName;
     }
 
-    private static string SaveFile(string fileName, string contentText)
+    private void SaveTemplate()
     {
-        using (var streamWriter = new StreamWriter(fileName))
+        if (templateFile != null)
         {
-            streamWriter.Write(contentText);
+            SaveFile(templateFile, templateForm.ContentText);
         }
-        return fileName;
+        else
+        {
+            templateFile = SaveAsFile(templateFile, templateForm.ContentText);
+        }
     }
+
+    private void SaveTemplateAs() => templateFile = SaveAsFile(null, templateForm.ContentText);
 
     private void SelectTemplatesDirectory()
     {
@@ -422,5 +440,29 @@ public partial class Main : KryptonForm
             directorySelectionWindow.OutputFolderSelected += directorySelectionWindow_OutputFolderSelected;
         }
         directorySelectionWindow.ShowDialog(this);
+    }
+
+    private static void ShowAboutVientoDigital()
+    {
+        var processStartInfo = new ProcessStartInfo("http://www.vientodigital.com/") { UseShellExecute = true };
+        _ = Process.Start(processStartInfo);
+    }
+
+    private static void ShowAboutWindow()
+    {
+        using var form = new AboutWindow();
+        form.ShowDialog();
+    }
+
+    private static void ShowDocoumentation()
+    {
+        using var form = new DocumentationWindow();
+        form.ShowDialog();
+    }
+
+    private static void ShowSettings()
+    {
+        using var settingsForm = new SettingsForm();
+        settingsForm.ShowDialog();
     }
 }

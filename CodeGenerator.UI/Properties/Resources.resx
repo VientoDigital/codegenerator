@@ -118,37 +118,88 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="About_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\About_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddFile_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\AddFile_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Add_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Add_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="App" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\app.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\App.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icode" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\icode.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Browse_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Browse_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icode64" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\icode64.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Cancel_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Cancel_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="iCodeLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\icodelogo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Check_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Check_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="iCodeLogo16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\icodelogo16.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Connect_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Connect_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DatabaseConfig_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\DatabaseConfig_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Design_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Design_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Help_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Help_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icustom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\icustom.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\icustom.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="idb" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\idb.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\idb.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="igen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\igen.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\igen.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="iresult" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\iresult.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\iresult.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="isnippet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\isnippet.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\isnippet.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="itemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\itemplate.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\itemplate.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Lightning_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Lightning_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OK_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\OK_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpenFolder_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\OpenFolder_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Remove_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Remove_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SaveAs_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\SaveAs_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Save_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Settings_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TestTube_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\TestTube_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Viento" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Viento.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Viento1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Viento.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Wand_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sticker Icons\Wand_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
