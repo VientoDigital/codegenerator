@@ -8,19 +8,24 @@ namespace CodeGenerator.UI;
 // Then we can iterate through the selected tables and generate the files from the selected templates.
 // NOTE: Not currently possible in KryptonTreeView. Have raised an issue here: https://github.com/Krypton-Suite/Standard-Toolkit/issues/468
 
-public class NavigatorControl : UserControl
+public partial class NavigatorControl : UserControl
 {
-    private ImageList imageList;
-
+    private readonly ContextMenuStrip columnMenu;
+    private readonly ContextMenuStrip databaseMenu;
+    private readonly ContextMenuStrip defaultMenu;
+    private readonly ContextMenuStrip tableMenu;
     private TreeNode rootNode;
-    private IContainer components;
-    private KryptonTreeView treeView;
 
     public NavigatorControl()
     {
         InitializeComponent();
-        InitializeMenu();
+        ContextMenuStrip = defaultMenu;
         InitializeTree();
+
+        defaultMenu = CreateDefaultMenu();
+        databaseMenu = CreateDatabaseMenu();
+        tableMenu = CreateTableMenu();
+        columnMenu = CreateColumnMenu();
     }
 
     private enum NavigatorIcon
@@ -89,14 +94,60 @@ public class NavigatorControl : UserControl
         }
     }
 
-    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData) => base.ProcessCmdKey(ref msg, keyData);
+
+    // Column Activate
+    private ContextMenuStrip CreateColumnMenu()
     {
-        return base.ProcessCmdKey(ref msg, keyData);
+        var contextMenu = new ContextMenuStrip();
+
+        var mnuProperties = new ToolStripMenuItem("Properties");
+        mnuProperties.Click += mnuProperties_Click;
+        contextMenu.Items.Add(mnuProperties);
+
+        return contextMenu;
     }
 
-    private void InitializeMenu()
+    // Database Activate
+    private ContextMenuStrip CreateDatabaseMenu()
     {
-        SetDefaultMenu();
+        var contextMenu = new ContextMenuStrip();
+        var openMenuItem = new ToolStripMenuItem("Open");
+        openMenuItem.Click += openMenuItem_Click;
+        contextMenu.Items.Add(openMenuItem);
+
+        return contextMenu;
+    }
+
+    // Server Activate
+    private ContextMenuStrip CreateDefaultMenu()
+    {
+        var contextMenu = new ContextMenuStrip();
+
+        var mnuConnect = new ToolStripMenuItem("Connect");
+        mnuConnect.Click += mnuConnect_Click;
+        contextMenu.Items.Add(mnuConnect);
+
+        var mnuDisconnect = new ToolStripMenuItem("Disconnect");
+        mnuDisconnect.Click += mnuDisconnect_Click;
+        contextMenu.Items.Add(mnuDisconnect);
+
+        var mnuEditConnection = new ToolStripMenuItem("Edit Connection");
+        mnuEditConnection.Click += mnuEditConnection_Click;
+        contextMenu.Items.Add(mnuEditConnection);
+
+        return contextMenu;
+    }
+
+    // Table Activate
+    private ContextMenuStrip CreateTableMenu()
+    {
+        var contextMenu = new ContextMenuStrip();
+        var mnuOpen = new ToolStripMenuItem("Open");
+        mnuOpen.Click += mnuOpen_Click;
+        contextMenu.Items.Add(mnuOpen);
+
+        return contextMenu;
     }
 
     private void InitializeTree()
@@ -111,28 +162,16 @@ public class NavigatorControl : UserControl
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuConnect_Click(object sender, EventArgs e)
-    {
-        Connect();
-    }
+    private void mnuConnect_Click(object sender, EventArgs e) => Connect();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuDisconnect_Click(object sender, EventArgs e)
-    {
-        Disconnect();
-    }
+    private void mnuDisconnect_Click(object sender, EventArgs e) => Disconnect();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuEditConnection_Click(object sender, EventArgs e)
-    {
-        ShowConnectionForm();
-    }
+    private void mnuEditConnection_Click(object sender, EventArgs e) => ShowConnectionForm();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuOpen_Click(object sender, EventArgs e)
-    {
-        OpenSelectedTable();
-    }
+    private void mnuOpen_Click(object sender, EventArgs e) => OpenSelectedTable();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
     private void mnuProperties_Click(object sender, EventArgs e)
@@ -142,19 +181,7 @@ public class NavigatorControl : UserControl
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void mnuRemove_Click(object sender, EventArgs e)
-    {
-        var node = treeView.SelectedNode;
-        var column = node.Tag as Column;
-        column.ParentTable.Columns.Remove(column);
-        node.Remove();
-    }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void openMenuItem_Click(object sender, EventArgs e)
-    {
-        OpenSelectedDatabase();
-    }
+    private void openMenuItem_Click(object sender, EventArgs e) => OpenSelectedDatabase();
 
     private void OpenSelectedDatabase()
     {
@@ -217,111 +244,6 @@ public class NavigatorControl : UserControl
         }
     }
 
-    // Column Activate
-    private void SetColumnMenu()
-    {
-        var contextMenu = new ContextMenuStrip();
-
-        var mnuProperties = new ToolStripMenuItem("Properties");
-        mnuProperties.Click += mnuProperties_Click;
-        contextMenu.Items.Add(mnuProperties);
-
-        var mnuRemove = new ToolStripMenuItem("Remove");
-        mnuRemove.Click += mnuRemove_Click;
-        contextMenu.Items.Add(mnuRemove);
-
-        ContextMenuStrip = contextMenu;
-    }
-
-    // Database Activate
-    private void SetDatabaseMenu()
-    {
-        var contextMenu = new ContextMenuStrip();
-        var openMenuItem = new ToolStripMenuItem("Open");
-        openMenuItem.Click += openMenuItem_Click;
-        contextMenu.Items.Add(openMenuItem);
-        ContextMenuStrip = contextMenu;
-    }
-
-    // Server Activate
-    private void SetDefaultMenu()
-    {
-        var contextMenu = new ContextMenuStrip();
-
-        var mnuConnect = new ToolStripMenuItem("Connect");
-        mnuConnect.Click += mnuConnect_Click;
-        contextMenu.Items.Add(mnuConnect);
-
-        var mnuDisconnect = new ToolStripMenuItem("Disconnect");
-        mnuDisconnect.Click += mnuDisconnect_Click;
-        contextMenu.Items.Add(mnuDisconnect);
-
-        var mnuEditConnection = new ToolStripMenuItem("Edit Connection");
-        mnuEditConnection.Click += mnuEditConnection_Click;
-        contextMenu.Items.Add(mnuEditConnection);
-
-        ContextMenuStrip = contextMenu;
-    }
-
-    // Table Activate
-    private void SetTableMenu()
-    {
-        var contextMenu = new ContextMenuStrip();
-        var mnuOpen = new ToolStripMenuItem("Open");
-        mnuOpen.Click += mnuOpen_Click;
-        contextMenu.Items.Add(mnuOpen);
-        ContextMenuStrip = contextMenu;
-    }
-
-    #region Component Designer generated code
-
-    /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
-    /// </summary>
-    private void InitializeComponent()
-    {
-        this.components = new System.ComponentModel.Container();
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NavigatorControl));
-        this.treeView = new Krypton.Toolkit.KryptonTreeView();
-        this.imageList = new System.Windows.Forms.ImageList(this.components);
-        this.SuspendLayout();
-        //
-        // treeView
-        //
-        this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.treeView.ImageIndex = 0;
-        this.treeView.ImageList = this.imageList;
-        this.treeView.Location = new System.Drawing.Point(0, 0);
-        this.treeView.Name = "treeView";
-        this.treeView.SelectedImageIndex = 0;
-        this.treeView.Size = new System.Drawing.Size(150, 150);
-        this.treeView.TabIndex = 0;
-        this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
-        this.treeView.Controls[0].DoubleClick += new System.EventHandler(this.treeView_DoubleClick);
-        this.treeView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
-        //
-        // imageList
-        //
-        this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-        this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-        this.imageList.Images.SetKeyName(0, "");
-        this.imageList.Images.SetKeyName(1, "");
-        this.imageList.Images.SetKeyName(2, "");
-        this.imageList.Images.SetKeyName(3, "");
-        this.imageList.Images.SetKeyName(4, "");
-        this.imageList.Images.SetKeyName(5, "");
-        //
-        // NavigatorControl
-        //
-        this.Controls.Add(this.treeView);
-        this.Name = "NavigatorControl";
-        this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyUp);
-        this.ResumeLayout(false);
-    }
-
-    #endregion Component Designer generated code
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
     private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
     {
@@ -329,30 +251,27 @@ public class NavigatorControl : UserControl
         if (obj == null) return;
         if (obj.GetType() == typeof(Server))
         {
-            SetDefaultMenu();
+            ContextMenuStrip = defaultMenu;
         }
         else if (obj.GetType() == typeof(Database))
         {
-            SetDatabaseMenu();
+            ContextMenuStrip = databaseMenu;
             OnDatabaseSelect(new DatabaseEventArgs((Database)treeView.SelectedNode.Tag));
         }
         else if (obj.GetType() == typeof(Table))
         {
-            SetTableMenu();
+            ContextMenuStrip = tableMenu;
             OnTableSelect(new TableEventArgs((Table)treeView.SelectedNode.Tag));
         }
         else if (obj.GetType() == typeof(Column))
         {
-            SetColumnMenu();
+            ContextMenuStrip = columnMenu;
             OnColumnSelect(new ColumnEventArgs((Column)treeView.SelectedNode.Tag));
         }
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
-    private void treeView_DoubleClick(object sender, EventArgs e)
-    {
-        OpenSelectedItem();
-    }
+    private void treeView_DoubleClick(object sender, EventArgs e) => OpenSelectedItem();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Acceptable for WinForms event handlers")]
     private void treeView_KeyUp(object sender, KeyEventArgs e)
@@ -383,25 +302,13 @@ public class NavigatorControl : UserControl
     [Browsable(true), Category("Navigator")]
     public event TableEventHandler TableSelect;
 
-    protected virtual void OnColumnSelect(ColumnEventArgs args)
-    {
-        ColumnSelect?.Invoke(this, args);
-    }
+    protected virtual void OnColumnSelect(ColumnEventArgs args) => ColumnSelect?.Invoke(this, args);
 
-    protected virtual void OnColumnShowProperties(ColumnEventArgs args)
-    {
-        ColumnShowProperties?.Invoke(this, args);
-    }
+    protected virtual void OnColumnShowProperties(ColumnEventArgs args) => ColumnShowProperties?.Invoke(this, args);
 
-    protected virtual void OnDatabaseSelect(DatabaseEventArgs args)
-    {
-        DatabaseSelect?.Invoke(this, args);
-    }
+    protected virtual void OnDatabaseSelect(DatabaseEventArgs args) => DatabaseSelect?.Invoke(this, args);
 
-    protected virtual void OnTableSelect(TableEventArgs args)
-    {
-        TableSelect?.Invoke(this, args);
-    }
+    protected virtual void OnTableSelect(TableEventArgs args) => TableSelect?.Invoke(this, args);
 
     #endregion Events & Delegates
 }

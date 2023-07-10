@@ -28,68 +28,74 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnOK = new Krypton.Toolkit.KryptonButton();
-            this.btnCancel = new Krypton.Toolkit.KryptonButton();
-            this.txtName = new Krypton.Toolkit.KryptonTextBox();
-            this.lblName = new Krypton.Toolkit.KryptonLabel();
-            this.SuspendLayout();
+            btnOK = new KryptonButton();
+            btnCancel = new KryptonButton();
+            txtName = new KryptonTextBox();
+            lblName = new KryptonLabel();
+            SuspendLayout();
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(238, 41);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(90, 25);
-            this.btnOK.TabIndex = 0;
-            this.btnOK.Values.Text = "OK";
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnOK.CornerRoundingRadius = -1F;
+            btnOK.Location = new System.Drawing.Point(492, 41);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new System.Drawing.Size(108, 36);
+            btnOK.TabIndex = 0;
+            btnOK.Values.Image = Properties.Resources.OK_32x32;
+            btnOK.Values.Text = "OK";
+            btnOK.Click += btnOK_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(142, 41);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(90, 25);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Values.Text = "Cancel";
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            btnCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnCancel.CornerRoundingRadius = -1F;
+            btnCancel.Location = new System.Drawing.Point(378, 41);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new System.Drawing.Size(108, 36);
+            btnCancel.TabIndex = 1;
+            btnCancel.Values.Image = Properties.Resources.Cancel_32x32;
+            btnCancel.Values.Text = "Cancel";
+            btnCancel.Click += btnCancel_Click;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(64, 12);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(264, 23);
-            this.txtName.TabIndex = 2;
+            txtName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtName.Location = new System.Drawing.Point(64, 12);
+            txtName.Name = "txtName";
+            txtName.Size = new System.Drawing.Size(536, 23);
+            txtName.TabIndex = 2;
             // 
             // lblName
             // 
-            this.lblName.Location = new System.Drawing.Point(12, 12);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(46, 20);
-            this.lblName.TabIndex = 3;
-            this.lblName.Values.Text = "Name:";
+            lblName.Location = new System.Drawing.Point(12, 12);
+            lblName.Name = "lblName";
+            lblName.Size = new System.Drawing.Size(46, 20);
+            lblName.TabIndex = 3;
+            lblName.Values.Text = "Name:";
             // 
             // AddNewLanguageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 73);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "AddNewLanguageForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "AddNewLanguageForm";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(609, 86);
+            Controls.Add(lblName);
+            Controls.Add(txtName);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Name = "AddNewLanguageForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Add New Language";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Krypton.Toolkit.KryptonButton btnOK;
-        private Krypton.Toolkit.KryptonButton btnCancel;
-        private Krypton.Toolkit.KryptonTextBox txtName;
-        private Krypton.Toolkit.KryptonLabel lblName;
+        private KryptonButton btnOK;
+        private KryptonButton btnCancel;
+        private KryptonTextBox txtName;
+        private KryptonLabel lblName;
     }
 }

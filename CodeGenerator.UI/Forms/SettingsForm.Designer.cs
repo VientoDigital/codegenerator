@@ -28,158 +28,164 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabs = new System.Windows.Forms.TabControl();
-            this.tabDataTypeMapping = new System.Windows.Forms.TabPage();
-            this.btnRemove = new Krypton.Toolkit.KryptonButton();
-            this.btnAdd = new Krypton.Toolkit.KryptonButton();
-            this.lblLanguage = new Krypton.Toolkit.KryptonLabel();
-            this.cmbLanguage = new Krypton.Toolkit.KryptonComboBox();
-            this.dgvMappings = new Krypton.Toolkit.KryptonDataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnCancel = new Krypton.Toolkit.KryptonButton();
-            this.btnSave = new Krypton.Toolkit.KryptonButton();
-            this.tabs.SuspendLayout();
-            this.tabDataTypeMapping.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbLanguage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMappings)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+            tabs = new TabControl();
+            tabDataTypeMapping = new TabPage();
+            btnRemove = new KryptonButton();
+            btnAdd = new KryptonButton();
+            lblLanguage = new KryptonLabel();
+            cmbLanguage = new KryptonComboBox();
+            dgvMappings = new KryptonDataGridView();
+            panel1 = new Panel();
+            btnCancel = new KryptonButton();
+            btnSave = new KryptonButton();
+            tabs.SuspendLayout();
+            tabDataTypeMapping.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)cmbLanguage).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvMappings).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // tabs
             // 
-            this.tabs.Controls.Add(this.tabDataTypeMapping);
-            this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabs.Location = new System.Drawing.Point(0, 0);
-            this.tabs.Name = "tabs";
-            this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(937, 490);
-            this.tabs.TabIndex = 3;
+            tabs.Controls.Add(tabDataTypeMapping);
+            tabs.Dock = DockStyle.Fill;
+            tabs.Location = new System.Drawing.Point(0, 0);
+            tabs.Name = "tabs";
+            tabs.SelectedIndex = 0;
+            tabs.Size = new System.Drawing.Size(937, 547);
+            tabs.TabIndex = 3;
             // 
             // tabDataTypeMapping
             // 
-            this.tabDataTypeMapping.Controls.Add(this.btnRemove);
-            this.tabDataTypeMapping.Controls.Add(this.btnAdd);
-            this.tabDataTypeMapping.Controls.Add(this.lblLanguage);
-            this.tabDataTypeMapping.Controls.Add(this.cmbLanguage);
-            this.tabDataTypeMapping.Controls.Add(this.dgvMappings);
-            this.tabDataTypeMapping.Location = new System.Drawing.Point(4, 24);
-            this.tabDataTypeMapping.Name = "tabDataTypeMapping";
-            this.tabDataTypeMapping.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDataTypeMapping.Size = new System.Drawing.Size(929, 462);
-            this.tabDataTypeMapping.TabIndex = 0;
-            this.tabDataTypeMapping.Text = "Data Type Mapping";
-            this.tabDataTypeMapping.UseVisualStyleBackColor = true;
+            tabDataTypeMapping.Controls.Add(btnRemove);
+            tabDataTypeMapping.Controls.Add(btnAdd);
+            tabDataTypeMapping.Controls.Add(lblLanguage);
+            tabDataTypeMapping.Controls.Add(cmbLanguage);
+            tabDataTypeMapping.Controls.Add(dgvMappings);
+            tabDataTypeMapping.Location = new System.Drawing.Point(4, 24);
+            tabDataTypeMapping.Name = "tabDataTypeMapping";
+            tabDataTypeMapping.Padding = new Padding(3);
+            tabDataTypeMapping.Size = new System.Drawing.Size(929, 519);
+            tabDataTypeMapping.TabIndex = 0;
+            tabDataTypeMapping.Text = "Data Type Mapping";
+            tabDataTypeMapping.UseVisualStyleBackColor = true;
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(501, 6);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(57, 25);
-            this.btnRemove.TabIndex = 4;
-            this.btnRemove.Values.Text = "Remove";
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            btnRemove.CornerRoundingRadius = -1F;
+            btnRemove.Location = new System.Drawing.Point(532, 8);
+            btnRemove.Name = "btnRemove";
+            btnRemove.Size = new System.Drawing.Size(88, 40);
+            btnRemove.TabIndex = 4;
+            btnRemove.Values.Image = Properties.Resources.Remove_32x32;
+            btnRemove.Values.Text = "Remove";
+            btnRemove.Click += btnRemove_Click;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(438, 6);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(57, 25);
-            this.btnAdd.TabIndex = 3;
-            this.btnAdd.Values.Text = "Add";
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            btnAdd.CornerRoundingRadius = -1F;
+            btnAdd.Location = new System.Drawing.Point(438, 8);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new System.Drawing.Size(88, 40);
+            btnAdd.TabIndex = 3;
+            btnAdd.Values.Image = Properties.Resources.Add_32x32;
+            btnAdd.Values.Text = "Add";
+            btnAdd.Click += btnAdd_Click;
             // 
             // lblLanguage
             // 
-            this.lblLanguage.Location = new System.Drawing.Point(8, 6);
-            this.lblLanguage.Name = "lblLanguage";
-            this.lblLanguage.Size = new System.Drawing.Size(64, 20);
-            this.lblLanguage.TabIndex = 1;
-            this.lblLanguage.Values.Text = "Language";
+            lblLanguage.Location = new System.Drawing.Point(8, 16);
+            lblLanguage.Name = "lblLanguage";
+            lblLanguage.Size = new System.Drawing.Size(64, 20);
+            lblLanguage.TabIndex = 1;
+            lblLanguage.Values.Text = "Language";
             // 
             // cmbLanguage
             // 
-            this.cmbLanguage.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cmbLanguage.DropDownWidth = 354;
-            this.cmbLanguage.IntegralHeight = false;
-            this.cmbLanguage.Location = new System.Drawing.Point(78, 6);
-            this.cmbLanguage.Name = "cmbLanguage";
-            this.cmbLanguage.Size = new System.Drawing.Size(354, 21);
-            this.cmbLanguage.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.cmbLanguage.TabIndex = 2;
-            this.cmbLanguage.SelectedIndexChanged += new System.EventHandler(this.cmbLanguage_SelectedIndexChanged);
+            cmbLanguage.CornerRoundingRadius = -1F;
+            cmbLanguage.DropDownWidth = 354;
+            cmbLanguage.IntegralHeight = false;
+            cmbLanguage.Location = new System.Drawing.Point(78, 16);
+            cmbLanguage.Name = "cmbLanguage";
+            cmbLanguage.Size = new System.Drawing.Size(354, 21);
+            cmbLanguage.StateCommon.ComboBox.Content.TextH = PaletteRelativeAlign.Near;
+            cmbLanguage.TabIndex = 2;
+            cmbLanguage.SelectedIndexChanged += cmbLanguage_SelectedIndexChanged;
             // 
             // dgvMappings
             // 
-            this.dgvMappings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvMappings.Location = new System.Drawing.Point(8, 37);
-            this.dgvMappings.Name = "dgvMappings";
-            this.dgvMappings.RowTemplate.Height = 25;
-            this.dgvMappings.Size = new System.Drawing.Size(913, 376);
-            this.dgvMappings.TabIndex = 0;
+            dgvMappings.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvMappings.Location = new System.Drawing.Point(8, 54);
+            dgvMappings.Name = "dgvMappings";
+            dgvMappings.RowTemplate.Height = 25;
+            dgvMappings.Size = new System.Drawing.Size(913, 398);
+            dgvMappings.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btnCancel);
-            this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 443);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(937, 47);
-            this.panel1.TabIndex = 4;
+            panel1.Controls.Add(btnCancel);
+            panel1.Controls.Add(btnSave);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new System.Drawing.Point(0, 482);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(937, 65);
+            panel1.TabIndex = 4;
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(739, 10);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(90, 25);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Values.Text = "Cancel";
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCancel.CornerRoundingRadius = -1F;
+            btnCancel.Location = new System.Drawing.Point(679, 11);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new System.Drawing.Size(120, 42);
+            btnCancel.TabIndex = 1;
+            btnCancel.Values.Image = Properties.Resources.Cancel_32x32;
+            btnCancel.Values.Text = "Cancel";
+            btnCancel.Click += btnCancel_Click;
             // 
             // btnSave
             // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(835, 10);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(90, 25);
-            this.btnSave.TabIndex = 0;
-            this.btnSave.Values.Text = "Save";
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnSave.CornerRoundingRadius = -1F;
+            btnSave.Location = new System.Drawing.Point(805, 11);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new System.Drawing.Size(120, 42);
+            btnSave.TabIndex = 0;
+            btnSave.Values.Image = Properties.Resources.Save_32x32;
+            btnSave.Values.Text = "Save";
+            btnSave.Click += btnSave_Click;
             // 
             // SettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(937, 490);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.tabs);
-            this.Name = "SettingsForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Settings";
-            this.Load += new System.EventHandler(this.SettingsForm_Load);
-            this.tabs.ResumeLayout(false);
-            this.tabDataTypeMapping.ResumeLayout(false);
-            this.tabDataTypeMapping.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbLanguage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMappings)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(937, 547);
+            Controls.Add(panel1);
+            Controls.Add(tabs);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Name = "SettingsForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Settings";
+            Load += SettingsForm_Load;
+            tabs.ResumeLayout(false);
+            tabDataTypeMapping.ResumeLayout(false);
+            tabDataTypeMapping.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)cmbLanguage).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvMappings).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
-        private System.Windows.Forms.TabControl tabs;
-        private System.Windows.Forms.TabPage tabDataTypeMapping;
-        private Krypton.Toolkit.KryptonButton btnAdd;
-        private Krypton.Toolkit.KryptonLabel lblLanguage;
-        private Krypton.Toolkit.KryptonComboBox cmbLanguage;
-        private Krypton.Toolkit.KryptonDataGridView dgvMappings;
-        private System.Windows.Forms.Panel panel1;
-        private Krypton.Toolkit.KryptonButton btnCancel;
-        private Krypton.Toolkit.KryptonButton btnSave;
-        private Krypton.Toolkit.KryptonButton btnRemove;
+        private TabControl tabs;
+        private TabPage tabDataTypeMapping;
+        private KryptonButton btnAdd;
+        private KryptonLabel lblLanguage;
+        private KryptonComboBox cmbLanguage;
+        private KryptonDataGridView dgvMappings;
+        private Panel panel1;
+        private KryptonButton btnCancel;
+        private KryptonButton btnSave;
+        private KryptonButton btnRemove;
     }
 }

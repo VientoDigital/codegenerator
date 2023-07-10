@@ -32,107 +32,120 @@ public class DirectorySelectionWindow : KryptonForm
     /// </summary>
     private void InitializeComponent()
     {
-        this.dlgFolderBrowserInput = new System.Windows.Forms.FolderBrowserDialog();
-        this.dlgFolderBrowserOutput = new System.Windows.Forms.FolderBrowserDialog();
-        this.txtTemplatesDirectory = new Krypton.Toolkit.KryptonTextBox();
-        this.txtOutputDirectory = new Krypton.Toolkit.KryptonTextBox();
-        this.btnBrowseTemplatesDirectory = new Krypton.Toolkit.KryptonButton();
-        this.btnBrowseOutputDirectory = new Krypton.Toolkit.KryptonButton();
-        this.lblTemplatesDirectory = new Krypton.Toolkit.KryptonLabel();
-        this.lblOutputDirectory = new Krypton.Toolkit.KryptonLabel();
-        this.btnOK = new Krypton.Toolkit.KryptonButton();
-        this.btnCancel = new Krypton.Toolkit.KryptonButton();
-        this.SuspendLayout();
-        //
+        dlgFolderBrowserInput = new FolderBrowserDialog();
+        dlgFolderBrowserOutput = new FolderBrowserDialog();
+        txtTemplatesDirectory = new KryptonTextBox();
+        txtOutputDirectory = new KryptonTextBox();
+        btnBrowseTemplatesDirectory = new KryptonButton();
+        btnBrowseOutputDirectory = new KryptonButton();
+        lblTemplatesDirectory = new KryptonLabel();
+        lblOutputDirectory = new KryptonLabel();
+        btnOK = new KryptonButton();
+        btnCancel = new KryptonButton();
+        SuspendLayout();
+        // 
         // txtTemplatesDirectory
-        //
-        this.txtTemplatesDirectory.Location = new System.Drawing.Point(163, 30);
-        this.txtTemplatesDirectory.Name = "txtTemplatesDirectory";
-        this.txtTemplatesDirectory.Size = new System.Drawing.Size(336, 23);
-        this.txtTemplatesDirectory.TabIndex = 5;
-        //
+        // 
+        txtTemplatesDirectory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        txtTemplatesDirectory.Location = new System.Drawing.Point(163, 30);
+        txtTemplatesDirectory.Name = "txtTemplatesDirectory";
+        txtTemplatesDirectory.Size = new System.Drawing.Size(390, 23);
+        txtTemplatesDirectory.TabIndex = 5;
+        // 
         // txtOutputDirectory
-        //
-        this.txtOutputDirectory.Location = new System.Drawing.Point(163, 89);
-        this.txtOutputDirectory.Name = "txtOutputDirectory";
-        this.txtOutputDirectory.Size = new System.Drawing.Size(336, 23);
-        this.txtOutputDirectory.TabIndex = 15;
-        //
+        // 
+        txtOutputDirectory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        txtOutputDirectory.Location = new System.Drawing.Point(163, 89);
+        txtOutputDirectory.Name = "txtOutputDirectory";
+        txtOutputDirectory.Size = new System.Drawing.Size(390, 23);
+        txtOutputDirectory.TabIndex = 15;
+        // 
         // btnBrowseTemplatesDirectory
-        //
-        this.btnBrowseTemplatesDirectory.Location = new System.Drawing.Point(509, 30);
-        this.btnBrowseTemplatesDirectory.Name = "btnBrowseTemplatesDirectory";
-        this.btnBrowseTemplatesDirectory.Size = new System.Drawing.Size(38, 29);
-        this.btnBrowseTemplatesDirectory.TabIndex = 10;
-        this.btnBrowseTemplatesDirectory.Values.Text = "…";
-        this.btnBrowseTemplatesDirectory.Click += new System.EventHandler(this.btnBrowseTemplatesDirectory_Click);
-        //
+        // 
+        btnBrowseTemplatesDirectory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnBrowseTemplatesDirectory.CornerRoundingRadius = -1F;
+        btnBrowseTemplatesDirectory.Location = new System.Drawing.Point(563, 25);
+        btnBrowseTemplatesDirectory.Name = "btnBrowseTemplatesDirectory";
+        btnBrowseTemplatesDirectory.Size = new System.Drawing.Size(34, 34);
+        btnBrowseTemplatesDirectory.TabIndex = 10;
+        btnBrowseTemplatesDirectory.Values.Image = Properties.Resources.Browse_32x32;
+        btnBrowseTemplatesDirectory.Values.Text = "";
+        btnBrowseTemplatesDirectory.Click += btnBrowseTemplatesDirectory_Click;
+        // 
         // btnBrowseOutputDirectory
-        //
-        this.btnBrowseOutputDirectory.Location = new System.Drawing.Point(509, 89);
-        this.btnBrowseOutputDirectory.Name = "btnBrowseOutputDirectory";
-        this.btnBrowseOutputDirectory.Size = new System.Drawing.Size(38, 29);
-        this.btnBrowseOutputDirectory.TabIndex = 20;
-        this.btnBrowseOutputDirectory.Values.Text = "…";
-        this.btnBrowseOutputDirectory.Click += new System.EventHandler(this.btnBrowseOutputDirectory_Click);
-        //
+        // 
+        btnBrowseOutputDirectory.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnBrowseOutputDirectory.CornerRoundingRadius = -1F;
+        btnBrowseOutputDirectory.Location = new System.Drawing.Point(563, 84);
+        btnBrowseOutputDirectory.Name = "btnBrowseOutputDirectory";
+        btnBrowseOutputDirectory.Size = new System.Drawing.Size(34, 34);
+        btnBrowseOutputDirectory.TabIndex = 20;
+        btnBrowseOutputDirectory.Values.Image = Properties.Resources.Browse_32x32;
+        btnBrowseOutputDirectory.Values.Text = "";
+        btnBrowseOutputDirectory.Click += btnBrowseOutputDirectory_Click;
+        // 
         // lblTemplatesDirectory
-        //
-        this.lblTemplatesDirectory.Location = new System.Drawing.Point(19, 30);
-        this.lblTemplatesDirectory.Name = "lblTemplatesDirectory";
-        this.lblTemplatesDirectory.Size = new System.Drawing.Size(120, 20);
-        this.lblTemplatesDirectory.TabIndex = 4;
-        this.lblTemplatesDirectory.Values.Text = "Templates Directory";
-        //
+        // 
+        lblTemplatesDirectory.Location = new System.Drawing.Point(19, 30);
+        lblTemplatesDirectory.Name = "lblTemplatesDirectory";
+        lblTemplatesDirectory.Size = new System.Drawing.Size(120, 20);
+        lblTemplatesDirectory.TabIndex = 4;
+        lblTemplatesDirectory.Values.Text = "Templates Directory";
+        // 
         // lblOutputDirectory
-        //
-        this.lblOutputDirectory.Location = new System.Drawing.Point(19, 89);
-        this.lblOutputDirectory.Name = "lblOutputDirectory";
-        this.lblOutputDirectory.Size = new System.Drawing.Size(103, 20);
-        this.lblOutputDirectory.TabIndex = 5;
-        this.lblOutputDirectory.Values.Text = "Output Directory";
-        //
+        // 
+        lblOutputDirectory.Location = new System.Drawing.Point(19, 89);
+        lblOutputDirectory.Name = "lblOutputDirectory";
+        lblOutputDirectory.Size = new System.Drawing.Size(103, 20);
+        lblOutputDirectory.TabIndex = 5;
+        lblOutputDirectory.Values.Text = "Output Directory";
+        // 
         // btnOK
-        //
-        this.btnOK.Location = new System.Drawing.Point(163, 135);
-        this.btnOK.Name = "btnOK";
-        this.btnOK.Size = new System.Drawing.Size(108, 31);
-        this.btnOK.TabIndex = 25;
-        this.btnOK.Values.Text = "OK";
-        this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-        //
+        // 
+        btnOK.CornerRoundingRadius = -1F;
+        btnOK.Location = new System.Drawing.Point(163, 135);
+        btnOK.Name = "btnOK";
+        btnOK.Size = new System.Drawing.Size(108, 42);
+        btnOK.TabIndex = 25;
+        btnOK.Values.Image = Properties.Resources.OK_32x32;
+        btnOK.Values.Text = "OK";
+        btnOK.Click += btnOK_Click;
+        // 
         // btnCancel
-        //
-        this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        this.btnCancel.Location = new System.Drawing.Point(391, 135);
-        this.btnCancel.Name = "btnCancel";
-        this.btnCancel.Size = new System.Drawing.Size(108, 31);
-        this.btnCancel.TabIndex = 30;
-        this.btnCancel.Values.Text = "Cancel";
-        this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-        //
+        // 
+        btnCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnCancel.CornerRoundingRadius = -1F;
+        btnCancel.DialogResult = DialogResult.Cancel;
+        btnCancel.Location = new System.Drawing.Point(445, 135);
+        btnCancel.Name = "btnCancel";
+        btnCancel.Size = new System.Drawing.Size(108, 42);
+        btnCancel.TabIndex = 30;
+        btnCancel.Values.Image = Properties.Resources.Cancel_32x32;
+        btnCancel.Values.Text = "Cancel";
+        btnCancel.Click += btnCancel_Click;
+        // 
         // DirectorySelectionWindow
-        //
-        this.AcceptButton = this.btnOK;
-        this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
-        this.CancelButton = this.btnCancel;
-        this.ClientSize = new System.Drawing.Size(559, 176);
-        this.Controls.Add(this.btnCancel);
-        this.Controls.Add(this.btnOK);
-        this.Controls.Add(this.lblOutputDirectory);
-        this.Controls.Add(this.lblTemplatesDirectory);
-        this.Controls.Add(this.btnBrowseOutputDirectory);
-        this.Controls.Add(this.btnBrowseTemplatesDirectory);
-        this.Controls.Add(this.txtOutputDirectory);
-        this.Controls.Add(this.txtTemplatesDirectory);
-        this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-        this.Name = "DirectorySelectionWindow";
-        this.ShowInTaskbar = false;
-        this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-        this.Text = "File Generation Configuration";
-        this.TopMost = true;
-        this.ResumeLayout(false);
-        this.PerformLayout();
+        // 
+        AcceptButton = btnOK;
+        AutoScaleBaseSize = new System.Drawing.Size(6, 16);
+        CancelButton = btnCancel;
+        ClientSize = new System.Drawing.Size(613, 186);
+        Controls.Add(btnCancel);
+        Controls.Add(btnOK);
+        Controls.Add(lblOutputDirectory);
+        Controls.Add(lblTemplatesDirectory);
+        Controls.Add(btnBrowseOutputDirectory);
+        Controls.Add(btnBrowseTemplatesDirectory);
+        Controls.Add(txtOutputDirectory);
+        Controls.Add(txtTemplatesDirectory);
+        FormBorderStyle = FormBorderStyle.SizableToolWindow;
+        Name = "DirectorySelectionWindow";
+        ShowInTaskbar = false;
+        StartPosition = FormStartPosition.CenterParent;
+        Text = "File Generation Configuration";
+        TopMost = true;
+        ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion Windows Form Designer generated code
