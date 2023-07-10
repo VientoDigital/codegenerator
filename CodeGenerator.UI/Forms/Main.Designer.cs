@@ -42,9 +42,9 @@
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             menuStrip = new MenuStrip();
             mnuFile = new ToolStripMenuItem();
+            mnuFileEditConfiguration = new ToolStripMenuItem();
             mnuFileDatabaseConnect = new ToolStripMenuItem();
             mnuFileDatabaseDisconnect = new ToolStripMenuItem();
-            mnuFileEditConfiguration = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             mnuFileNewTemplate = new ToolStripMenuItem();
             mnuFileOpenTemplate = new ToolStripMenuItem();
@@ -59,7 +59,8 @@
             mnuViewTemplate = new ToolStripMenuItem();
             mnuViewResults = new ToolStripMenuItem();
             mnuGenerate = new ToolStripMenuItem();
-            mnuGenerateFiles = new ToolStripMenuItem();
+            mnuGenerateFromTemplateTab = new ToolStripMenuItem();
+            mnuGenerateFromTemplateFiles = new ToolStripMenuItem();
             mnuHelp = new ToolStripMenuItem();
             mnuHelpDocumentation = new ToolStripMenuItem();
             mnuHelpAbout = new ToolStripMenuItem();
@@ -72,11 +73,14 @@
             dlgOpenFile = new OpenFileDialog();
             kryptonToolStrip1 = new KryptonToolStrip();
             tsBtnDatabaseConfig = new ToolStripButton();
+            tsBtnDatabaseConnect = new ToolStripButton();
+            tsBtnDatabaseDisconnect = new ToolStripButton();
             toolStripSeparator4 = new ToolStripSeparator();
             tsBtnOpenTemplate = new ToolStripButton();
             tsBtnNewTemplate = new ToolStripButton();
             tsBtnSaveTemplate = new ToolStripButton();
             tsBtnSaveTemplateAs = new ToolStripButton();
+            tsBtnSaveResultAs = new ToolStripButton();
             toolStripSeparator5 = new ToolStripSeparator();
             tsBtnSettings = new ToolStripButton();
             tsBtnGenerate = new ToolStripButton();
@@ -95,7 +99,7 @@
             // menuStrip
             // 
             menuStrip.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            menuStrip.Items.AddRange(new ToolStripItem[] { mnuFile, mnuView, mnuGenerate, mnuGenerateFiles, mnuHelp });
+            menuStrip.Items.AddRange(new ToolStripItem[] { mnuFile, mnuView, mnuGenerate, mnuHelp });
             menuStrip.Location = new System.Drawing.Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Padding = new Padding(7, 2, 0, 2);
@@ -105,13 +109,22 @@
             // 
             // mnuFile
             // 
-            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuFileDatabaseConnect, mnuFileDatabaseDisconnect, mnuFileEditConfiguration, toolStripSeparator1, mnuFileNewTemplate, mnuFileOpenTemplate, mnuFileSaveTemplate, mnuFileSaveAsTemplate, mnuFileSaveAsResult, toolStripSeparator3, mnuFileSettings, toolStripSeparator2, mnuFileTemplateExit });
+            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuFileEditConfiguration, mnuFileDatabaseConnect, mnuFileDatabaseDisconnect, toolStripSeparator1, mnuFileNewTemplate, mnuFileOpenTemplate, mnuFileSaveTemplate, mnuFileSaveAsTemplate, mnuFileSaveAsResult, toolStripSeparator3, mnuFileSettings, toolStripSeparator2, mnuFileTemplateExit });
             mnuFile.Name = "mnuFile";
             mnuFile.Size = new System.Drawing.Size(37, 20);
             mnuFile.Text = "&File";
             // 
+            // mnuFileEditConfiguration
+            // 
+            mnuFileEditConfiguration.Image = Properties.Resources.DatabaseConfig_32x32;
+            mnuFileEditConfiguration.Name = "mnuFileEditConfiguration";
+            mnuFileEditConfiguration.Size = new System.Drawing.Size(184, 22);
+            mnuFileEditConfiguration.Text = "Edit Configuration";
+            mnuFileEditConfiguration.Click += mnuFileEditConfiguration_Click;
+            // 
             // mnuFileDatabaseConnect
             // 
+            mnuFileDatabaseConnect.Image = Properties.Resources.Connect_32x32;
             mnuFileDatabaseConnect.Name = "mnuFileDatabaseConnect";
             mnuFileDatabaseConnect.Size = new System.Drawing.Size(184, 22);
             mnuFileDatabaseConnect.Text = "Database &Connect";
@@ -119,17 +132,11 @@
             // 
             // mnuFileDatabaseDisconnect
             // 
+            mnuFileDatabaseDisconnect.Image = Properties.Resources.Disconnect_32x32;
             mnuFileDatabaseDisconnect.Name = "mnuFileDatabaseDisconnect";
             mnuFileDatabaseDisconnect.Size = new System.Drawing.Size(184, 22);
             mnuFileDatabaseDisconnect.Text = "Database &Disconnect";
             mnuFileDatabaseDisconnect.Click += mnuFileDatabaseDisconnect_Click;
-            // 
-            // mnuFileEditConfiguration
-            // 
-            mnuFileEditConfiguration.Name = "mnuFileEditConfiguration";
-            mnuFileEditConfiguration.Size = new System.Drawing.Size(184, 22);
-            mnuFileEditConfiguration.Text = "Edit Configuration";
-            mnuFileEditConfiguration.Click += mnuFileEditConfiguration_Click;
             // 
             // toolStripSeparator1
             // 
@@ -138,6 +145,7 @@
             // 
             // mnuFileNewTemplate
             // 
+            mnuFileNewTemplate.Image = Properties.Resources.AddFile_32x32;
             mnuFileNewTemplate.Name = "mnuFileNewTemplate";
             mnuFileNewTemplate.Size = new System.Drawing.Size(184, 22);
             mnuFileNewTemplate.Text = "New Template";
@@ -145,6 +153,7 @@
             // 
             // mnuFileOpenTemplate
             // 
+            mnuFileOpenTemplate.Image = Properties.Resources.OpenFolder_32x32;
             mnuFileOpenTemplate.Name = "mnuFileOpenTemplate";
             mnuFileOpenTemplate.Size = new System.Drawing.Size(184, 22);
             mnuFileOpenTemplate.Text = "&Open Template";
@@ -152,6 +161,7 @@
             // 
             // mnuFileSaveTemplate
             // 
+            mnuFileSaveTemplate.Image = Properties.Resources.Save_32x32;
             mnuFileSaveTemplate.Name = "mnuFileSaveTemplate";
             mnuFileSaveTemplate.Size = new System.Drawing.Size(184, 22);
             mnuFileSaveTemplate.Text = "&Save Template";
@@ -160,17 +170,19 @@
             // mnuFileSaveAsTemplate
             // 
             mnuFileSaveAsTemplate.AccessibleDescription = "";
+            mnuFileSaveAsTemplate.Image = Properties.Resources.SaveAs_32x32;
             mnuFileSaveAsTemplate.Name = "mnuFileSaveAsTemplate";
             mnuFileSaveAsTemplate.Size = new System.Drawing.Size(184, 22);
-            mnuFileSaveAsTemplate.Text = "Save &As Template";
+            mnuFileSaveAsTemplate.Text = "Save Template &As";
             mnuFileSaveAsTemplate.Click += mnuFileSaveAsTemplate_Click;
             // 
             // mnuFileSaveAsResult
             // 
             mnuFileSaveAsResult.AccessibleDescription = "";
+            mnuFileSaveAsResult.Image = Properties.Resources.SaveResult_32x32;
             mnuFileSaveAsResult.Name = "mnuFileSaveAsResult";
             mnuFileSaveAsResult.Size = new System.Drawing.Size(184, 22);
-            mnuFileSaveAsResult.Text = "Save As Result";
+            mnuFileSaveAsResult.Text = "Save Result As";
             mnuFileSaveAsResult.Click += mnuFileSaveAsResult_Click;
             // 
             // toolStripSeparator3
@@ -180,6 +192,7 @@
             // 
             // mnuFileSettings
             // 
+            mnuFileSettings.Image = Properties.Resources.Settings_32x32;
             mnuFileSettings.Name = "mnuFileSettings";
             mnuFileSettings.Size = new System.Drawing.Size(184, 22);
             mnuFileSettings.Text = "Settings";
@@ -206,31 +219,42 @@
             // 
             // mnuViewTemplate
             // 
+            mnuViewTemplate.Image = Properties.Resources.Design_32x32;
             mnuViewTemplate.Name = "mnuViewTemplate";
-            mnuViewTemplate.Size = new System.Drawing.Size(122, 22);
+            mnuViewTemplate.Size = new System.Drawing.Size(180, 22);
             mnuViewTemplate.Text = "Template";
             mnuViewTemplate.Click += mnuViewTemplate_Click;
             // 
             // mnuViewResults
             // 
+            mnuViewResults.Image = Properties.Resources.Code_32x32;
             mnuViewResults.Name = "mnuViewResults";
-            mnuViewResults.Size = new System.Drawing.Size(122, 22);
+            mnuViewResults.Size = new System.Drawing.Size(180, 22);
             mnuViewResults.Text = "Results";
             mnuViewResults.Click += mnuViewResults_Click;
             // 
             // mnuGenerate
             // 
+            mnuGenerate.DropDownItems.AddRange(new ToolStripItem[] { mnuGenerateFromTemplateTab, mnuGenerateFromTemplateFiles });
             mnuGenerate.Name = "mnuGenerate";
             mnuGenerate.Size = new System.Drawing.Size(66, 20);
             mnuGenerate.Text = "&Generate";
-            mnuGenerate.Click += mnuGenerate_Click;
             // 
-            // mnuGenerateFiles
+            // mnuGenerateFromTemplateTab
             // 
-            mnuGenerateFiles.Name = "mnuGenerateFiles";
-            mnuGenerateFiles.Size = new System.Drawing.Size(92, 20);
-            mnuGenerateFiles.Text = "Generate Files";
-            mnuGenerateFiles.Click += mnuGenerateFiles_Click;
+            mnuGenerateFromTemplateTab.Image = Properties.Resources.Lightning_32x32;
+            mnuGenerateFromTemplateTab.Name = "mnuGenerateFromTemplateTab";
+            mnuGenerateFromTemplateTab.Size = new System.Drawing.Size(187, 22);
+            mnuGenerateFromTemplateTab.Text = "From Template Tab";
+            mnuGenerateFromTemplateTab.Click += mnuGenerateFromTemplateTab_Click;
+            // 
+            // mnuGenerateFromTemplateFiles
+            // 
+            mnuGenerateFromTemplateFiles.Image = Properties.Resources.Wand_32x32;
+            mnuGenerateFromTemplateFiles.Name = "mnuGenerateFromTemplateFiles";
+            mnuGenerateFromTemplateFiles.Size = new System.Drawing.Size(187, 22);
+            mnuGenerateFromTemplateFiles.Text = "From Template File(s)";
+            mnuGenerateFromTemplateFiles.Click += mnuGenerateFromTemplateFiles_Click;
             // 
             // mnuHelp
             // 
@@ -241,6 +265,7 @@
             // 
             // mnuHelpDocumentation
             // 
+            mnuHelpDocumentation.Image = Properties.Resources.Help_32x32;
             mnuHelpDocumentation.Name = "mnuHelpDocumentation";
             mnuHelpDocumentation.Size = new System.Drawing.Size(193, 22);
             mnuHelpDocumentation.Text = "Documentation";
@@ -248,7 +273,7 @@
             // 
             // mnuHelpAbout
             // 
-            mnuHelpAbout.Image = (System.Drawing.Image)resources.GetObject("mnuHelpAbout.Image");
+            mnuHelpAbout.Image = Properties.Resources.About_32x32;
             mnuHelpAbout.Name = "mnuHelpAbout";
             mnuHelpAbout.Size = new System.Drawing.Size(193, 22);
             mnuHelpAbout.Text = "About Code Generator";
@@ -257,7 +282,7 @@
             // mnuHelpAboutVientoDigital
             // 
             mnuHelpAboutVientoDigital.BackColor = System.Drawing.SystemColors.Control;
-            mnuHelpAboutVientoDigital.Image = (System.Drawing.Image)resources.GetObject("mnuHelpAboutVientoDigital.Image");
+            mnuHelpAboutVientoDigital.Image = Properties.Resources.Viento1;
             mnuHelpAboutVientoDigital.Name = "mnuHelpAboutVientoDigital";
             mnuHelpAboutVientoDigital.Size = new System.Drawing.Size(193, 22);
             mnuHelpAboutVientoDigital.Text = "About Viento Digital";
@@ -312,7 +337,7 @@
             // 
             kryptonToolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             kryptonToolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            kryptonToolStrip1.Items.AddRange(new ToolStripItem[] { tsBtnDatabaseConfig, toolStripSeparator4, tsBtnOpenTemplate, tsBtnNewTemplate, tsBtnSaveTemplate, tsBtnSaveTemplateAs, toolStripSeparator5, tsBtnSettings, tsBtnGenerate, tsBtnGenerateFiles, toolStripSeparator6, tsBtnHelp, tsBtnAbout, tsBtnAboutViento });
+            kryptonToolStrip1.Items.AddRange(new ToolStripItem[] { tsBtnDatabaseConfig, tsBtnDatabaseConnect, tsBtnDatabaseDisconnect, toolStripSeparator4, tsBtnOpenTemplate, tsBtnNewTemplate, tsBtnSaveTemplate, tsBtnSaveTemplateAs, tsBtnSaveResultAs, toolStripSeparator5, tsBtnSettings, tsBtnGenerate, tsBtnGenerateFiles, toolStripSeparator6, tsBtnHelp, tsBtnAbout, tsBtnAboutViento });
             kryptonToolStrip1.Location = new System.Drawing.Point(0, 24);
             kryptonToolStrip1.Name = "kryptonToolStrip1";
             kryptonToolStrip1.Size = new System.Drawing.Size(1264, 39);
@@ -328,6 +353,26 @@
             tsBtnDatabaseConfig.Size = new System.Drawing.Size(36, 36);
             tsBtnDatabaseConfig.Text = "Database Config";
             tsBtnDatabaseConfig.Click += tsBtnDatabaseConfig_Click;
+            // 
+            // tsBtnDatabaseConnect
+            // 
+            tsBtnDatabaseConnect.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsBtnDatabaseConnect.Image = Properties.Resources.Connect_32x32;
+            tsBtnDatabaseConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsBtnDatabaseConnect.Name = "tsBtnDatabaseConnect";
+            tsBtnDatabaseConnect.Size = new System.Drawing.Size(36, 36);
+            tsBtnDatabaseConnect.Text = "Database Connect";
+            tsBtnDatabaseConnect.Click += tsBtnDatabaseConnect_Click;
+            // 
+            // tsBtnDatabaseDisconnect
+            // 
+            tsBtnDatabaseDisconnect.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsBtnDatabaseDisconnect.Image = Properties.Resources.Disconnect_32x32;
+            tsBtnDatabaseDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsBtnDatabaseDisconnect.Name = "tsBtnDatabaseDisconnect";
+            tsBtnDatabaseDisconnect.Size = new System.Drawing.Size(36, 36);
+            tsBtnDatabaseDisconnect.Text = "Database Disconnect";
+            tsBtnDatabaseDisconnect.Click += tsBtnDatabaseDisconnect_Click;
             // 
             // toolStripSeparator4
             // 
@@ -373,6 +418,16 @@
             tsBtnSaveTemplateAs.Size = new System.Drawing.Size(36, 36);
             tsBtnSaveTemplateAs.Text = "Save Template As..";
             tsBtnSaveTemplateAs.Click += tsBtnSaveTemplateAs_Click;
+            // 
+            // tsBtnSaveResultAs
+            // 
+            tsBtnSaveResultAs.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsBtnSaveResultAs.Image = Properties.Resources.SaveResult_32x32;
+            tsBtnSaveResultAs.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsBtnSaveResultAs.Name = "tsBtnSaveResultAs";
+            tsBtnSaveResultAs.Size = new System.Drawing.Size(36, 36);
+            tsBtnSaveResultAs.Text = "Save Result As..";
+            tsBtnSaveResultAs.Click += tsBtnSaveResultAs_Click;
             // 
             // toolStripSeparator5
             // 
@@ -484,7 +539,6 @@
         private ToolStripMenuItem mnuFileSaveAsTemplate;
         private ToolStripMenuItem mnuFileSaveAsResult;
         private ToolStripMenuItem mnuFileTemplateExit;
-        private ToolStripMenuItem mnuGenerateFiles;
         private ToolStripMenuItem mnuHelpDocumentation;
         private ToolStripMenuItem mnuHelpAbout;
         private ToolStripMenuItem mnuHelpAboutVientoDigital;
@@ -515,5 +569,10 @@
         private ToolStripButton tsBtnAboutViento;
         private ToolStripButton tsBtnGenerate;
         private ToolStripButton tsBtnGenerateFiles;
+        private ToolStripButton tsBtnDatabaseConnect;
+        private ToolStripButton tsBtnDatabaseDisconnect;
+        private ToolStripMenuItem mnuGenerateFromTemplateTab;
+        private ToolStripMenuItem mnuGenerateFromTemplateFiles;
+        private ToolStripButton tsBtnSaveResultAs;
     }
 }

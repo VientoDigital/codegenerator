@@ -103,6 +103,16 @@ namespace CodeGenerator.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Braces_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Braces_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Browse_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Browse_32x32", resourceCulture);
@@ -133,9 +143,29 @@ namespace CodeGenerator.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Code_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Code_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Connect_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Connect_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Database_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Database_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -156,6 +186,26 @@ namespace CodeGenerator.UI.Properties {
         internal static System.Drawing.Bitmap Design_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Design_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Details_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Details_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Disconnect_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Disconnect_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -293,9 +343,29 @@ namespace CodeGenerator.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SaveResult_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("SaveResult_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Settings_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Settings_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Snip_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Snip_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

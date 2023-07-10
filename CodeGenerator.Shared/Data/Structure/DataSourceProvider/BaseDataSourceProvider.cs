@@ -7,8 +7,6 @@ public abstract class BaseDataSourceProvider<TDbConnection> : IDataSourceProvide
 {
     protected readonly TDbConnection connection;
     private readonly ProviderFactory providerFactory;
-    private readonly ICollection<Column> columns = new List<Column>();
-    private readonly ICollection<Key> keys = new List<Key>();
     private bool isDisposed;
 
     protected BaseDataSourceProvider()
@@ -83,10 +81,6 @@ public abstract class BaseDataSourceProvider<TDbConnection> : IDataSourceProvide
 
     #region Columns / Keys
 
-    protected ICollection<Column> Columns => columns;
-
-    protected ICollection<Key> Keys => keys;
-
     public ICollection<Column> GetColumns(Table table)
     {
         if (connection.State == ConnectionState.Closed)
@@ -99,8 +93,7 @@ public abstract class BaseDataSourceProvider<TDbConnection> : IDataSourceProvide
             connection.ChangeDatabase(table.ParentDatabase.Name);
         }
 
-        Columns.Clear();
-        var columns = GetColumnSchema(table, providerFactory);
+        var columns = GetColumnSchema(table, providerFactory).ToList();
         foreach (var column in columns)
         {
             if (connection is OracleConnection)
@@ -108,11 +101,9 @@ public abstract class BaseDataSourceProvider<TDbConnection> : IDataSourceProvide
                 // Only needed for Oracle (for now), because the other providers take care of this..
                 column.IsPrimaryKey = table.Keys.OfType<Key>().FirstOrDefault(x => x.IsPrimary && x.ColumnName == column.Name) != null;
             }
-
-            Columns.Add(column);
         }
         connection.Close();
-        return Columns;
+        return columns;
     }
 
     protected abstract IEnumerable<Column> GetColumnSchema(Table table, ProviderFactory providerFactory);
@@ -128,13 +119,9 @@ public abstract class BaseDataSourceProvider<TDbConnection> : IDataSourceProvide
             connection.ChangeDatabase(table.ParentDatabase.Name);
         }
 
-        var keys = GetKeySchema(table, providerFactory);
-        foreach (var key in keys)
-        {
-            Keys.Add(key);
-        }
+        var keys = GetKeySchema(table, providerFactory).ToList();
         connection.Close();
-        return Keys;
+        return keys;
     }
 
     protected abstract IEnumerable<Key> GetKeySchema(Table table, ProviderFactory providerFactory);

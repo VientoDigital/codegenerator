@@ -55,7 +55,7 @@ public class SqlDataSourceProvider : BaseDataSourceProvider<SqlConnection>
 
     protected override IEnumerable<Column> GetColumnSchema(Table table, ProviderFactory providerFactory)
     {
-        var columnData = (connection as SqlConnection).GetColumnData(table.Name, table.Schema);
+        var columnData = connection.GetColumnData(table.Name, table.Schema);
         return columnData.OfType<ColumnInfo>().Select(x => new Column
         {
             ParentTable = table,
@@ -72,7 +72,7 @@ public class SqlDataSourceProvider : BaseDataSourceProvider<SqlConnection>
     protected override IEnumerable<Key> GetKeySchema(Table table, ProviderFactory providerFactory)
     {
         // TODO:
-        //var foreignKeyInfo = (connection as SqlConnection).GetForeignKeyData(table.Name, table.Schema);
+        //var foreignKeyInfo = connection.GetForeignKeyData(table.Name, table.Schema);
         //return foreignKeyInfo.OfType<ForeignKeyInfo>().Select(x => new Key
         //{
         //    Name = x.PrimaryKeyName,
@@ -105,15 +105,16 @@ public class SqlDataSourceProvider : BaseDataSourceProvider<SqlConnection>
             adapter.SelectCommand = command;
             adapter.Fill(keysSet);
 
-            foreach (DataRow row in keysSet.Tables[0].Rows)
-            {
-                Keys.Add(new Key
-                {
-                    Name = row.Field<string>("PK_NAME"),
-                    ColumnName = row.Field<string>("COLUMN_NAME"),
-                    IsPrimary = true
-                });
-            }
+            //var keys = new List<Key>();
+            //foreach (DataRow row in keysSet.Tables[0].Rows)
+            //{
+            //    keys.Add(new Key
+            //    {
+            //        Name = row.Field<string>("PK_NAME"),
+            //        ColumnName = row.Field<string>("COLUMN_NAME"),
+            //        IsPrimary = true
+            //    });
+            //}
         }
 
         using (var command = ProviderFactory.CreateCommand("sp_fkeys", connection))
